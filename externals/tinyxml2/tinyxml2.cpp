@@ -2467,9 +2467,12 @@ XMLError XMLDocument::LoadFile( const char* filename )
 {
 	printf("MEE %s\r\n", __FILE__);
 	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+    printf("\t \x1b[4mfilename = %s\x1b[0m\r\n", filename);
 	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if ( !filename ) {
         TIXMLASSERT( false );
+	    printf("\t \x1b[31mERROR \x1b[0m \r\n");
+	    printf("\n");
         SetError( XML_ERROR_FILE_COULD_NOT_BE_OPENED, 0, "filename=<null>" );
         return _errorID;
     }
@@ -2477,9 +2480,13 @@ XMLError XMLDocument::LoadFile( const char* filename )
     Clear();
     FILE* fp = callfopen( filename, "rb" );
     if ( !fp ) {
+	    printf("\t \x1b[31mERROR \x1b[0m \r\n");
+	    printf("\n");
         SetError( XML_ERROR_FILE_NOT_FOUND, 0, "filename=%s", filename );
         return _errorID;
     }
+    printf("\t \x1b[32mSUCCESS \x1b[0m \r\n");
+    printf("\n");
     LoadFile( fp );
     fclose( fp );
     return _errorID;
