@@ -1,3 +1,5 @@
+#include <stdio.h>
+#include <pthread.h>
 /*
  * Cppcheck - A tool for static C/C++ code analysis
  * Copyright (C) 2007-2023 Cppcheck team.
@@ -30,6 +32,9 @@ public:
 private:
 
     void run() override {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         TEST_CASE(removeQuotationMarks);
         TEST_CASE(acceptFile);
         TEST_CASE(getCurrentPath);
@@ -47,6 +52,9 @@ private:
     }
 
     void removeQuotationMarks() const {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         // Path::removeQuotationMarks()
         ASSERT_EQUALS("index.cpp", Path::removeQuotationMarks("index.cpp"));
         ASSERT_EQUALS("index.cpp", Path::removeQuotationMarks("\"index.cpp"));
@@ -59,6 +67,9 @@ private:
     }
 
     void acceptFile() const {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         ASSERT(Path::acceptFile("index.cpp"));
         ASSERT(Path::acceptFile("index.invalid.cpp"));
         ASSERT(Path::acceptFile("index.invalid.Cpp"));
@@ -75,14 +86,23 @@ private:
     }
 
     void getCurrentPath() const {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         ASSERT_EQUALS(true, Path::isAbsolute(Path::getCurrentPath()));
     }
 
     void getCurrentExecutablePath() const {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         ASSERT_EQUALS(false, Path::getCurrentExecutablePath("").empty());
     }
 
     void isAbsolute() const {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
 #ifdef _WIN32
         ASSERT_EQUALS(true, Path::isAbsolute("C:\\foo\\bar"));
         ASSERT_EQUALS(true, Path::isAbsolute("C:/foo/bar"));
@@ -103,6 +123,9 @@ private:
     }
 
     void getRelative() const {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const std::vector<std::string> basePaths = {
             "", // Don't crash with empty paths
             "C:/foo",
@@ -118,6 +141,9 @@ private:
     }
 
     void is_c() const {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         ASSERT(Path::isC("index.cpp")==false);
         ASSERT(Path::isC("")==false);
         ASSERT(Path::isC("c")==false);
@@ -133,6 +159,9 @@ private:
     }
 
     void is_cpp() const {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         ASSERT(Path::isCPP("index.c")==false);
 
         // In unix .C is considered C++
@@ -147,6 +176,9 @@ private:
     }
 
     void get_path_from_filename() const {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         ASSERT_EQUALS("", Path::getPathFromFilename("index.h"));
         ASSERT_EQUALS("/tmp/", Path::getPathFromFilename("/tmp/index.h"));
         ASSERT_EQUALS("a/b/c/", Path::getPathFromFilename("a/b/c/index.h"));
@@ -154,6 +186,9 @@ private:
     }
 
     void join() const {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         ASSERT_EQUALS("a", Path::join("a", ""));
         ASSERT_EQUALS("a", Path::join("", "a"));
         ASSERT_EQUALS("a/b", Path::join("a", "b"));
@@ -162,6 +197,9 @@ private:
     }
 
     void isDirectory() const {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         ScopedFile file("testpath.txt", "", "testpath");
         ScopedFile file2("testpath2.txt", "");
         ASSERT_EQUALS(false, Path::isDirectory("testpath.txt"));
@@ -171,6 +209,9 @@ private:
     }
 
     void isFile() const {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         ScopedFile file("testpath.txt", "", "testpath");
         ScopedFile file2("testpath2.txt", "");
         ASSERT_EQUALS(false, Path::isFile("testpath"));
@@ -180,6 +221,9 @@ private:
     }
 
     void sameFileName() const {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         ASSERT(Path::sameFileName("test", "test"));
 
         // case sensitivity cases
@@ -199,6 +243,9 @@ private:
     }
 
     void getFilenameExtension() const {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         ASSERT_EQUALS("", Path::getFilenameExtension("test"));
         ASSERT_EQUALS("", Path::getFilenameExtension("Test"));
         ASSERT_EQUALS(".h", Path::getFilenameExtension("test.h"));

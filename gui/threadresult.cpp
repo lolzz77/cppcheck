@@ -1,3 +1,5 @@
+#include <stdio.h>
+#include <pthread.h>
 /*
  * Cppcheck - A tool for static C/C++ code analysis
  * Copyright (C) 2007-2023 Cppcheck team.
@@ -36,6 +38,9 @@ void ThreadResult::reportOut(const std::string &outmsg, Color /*c*/)
 
 void ThreadResult::fileChecked(const QString &file)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     std::lock_guard<std::mutex> locker(mutex);
 
     mProgress += QFile(file).size();
@@ -51,6 +56,9 @@ void ThreadResult::fileChecked(const QString &file)
 
 void ThreadResult::reportErr(const ErrorMessage &msg)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     std::lock_guard<std::mutex> locker(mutex);
     const ErrorItem item(msg);
     if (msg.severity != Severity::debug)
@@ -61,6 +69,9 @@ void ThreadResult::reportErr(const ErrorMessage &msg)
 
 QString ThreadResult::getNextFile()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     std::lock_guard<std::mutex> locker(mutex);
     if (mFiles.isEmpty()) {
         return QString();
@@ -71,6 +82,9 @@ QString ThreadResult::getNextFile()
 
 FileSettings ThreadResult::getNextFileSettings()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     std::lock_guard<std::mutex> locker(mutex);
     if (mFileSettings.empty()) {
         return FileSettings();
@@ -82,6 +96,9 @@ FileSettings ThreadResult::getNextFileSettings()
 
 void ThreadResult::setFiles(const QStringList &files)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     std::lock_guard<std::mutex> locker(mutex);
     mFiles = files;
     mProgress = 0;
@@ -98,6 +115,9 @@ void ThreadResult::setFiles(const QStringList &files)
 
 void ThreadResult::setProject(const ImportProject &prj)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     std::lock_guard<std::mutex> locker(mutex);
     mFiles.clear();
     mFileSettings = prj.fileSettings;
@@ -114,6 +134,9 @@ void ThreadResult::setProject(const ImportProject &prj)
 
 void ThreadResult::clearFiles()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     std::lock_guard<std::mutex> locker(mutex);
     mFiles.clear();
     mFileSettings.clear();
@@ -123,6 +146,9 @@ void ThreadResult::clearFiles()
 
 int ThreadResult::getFileCount() const
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     std::lock_guard<std::mutex> locker(mutex);
     return mFiles.size() + mFileSettings.size();
 }

@@ -1,3 +1,5 @@
+#include <stdio.h>
+#include <pthread.h>
 /*
  * Cppcheck - A tool for static C/C++ code analysis
  * Copyright (C) 2007-2023 Cppcheck team.
@@ -41,6 +43,9 @@ private:
     const Settings settings = settingsBuilder().severity(Severity::portability).build();
 
     void run() override {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         TEST_CASE(template1);
         TEST_CASE(template2);
         TEST_CASE(template3);
@@ -321,6 +326,9 @@ private:
     }
 
     void template1() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char code[] = "template <class T> T f(T val) { T a; }\n"
                             "f<int>(10);";
 
@@ -332,6 +340,9 @@ private:
     }
 
     void template2() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char code[] = "template <class T> class Fred { T a; };\n"
                             "Fred<int> fred;";
 
@@ -343,6 +354,9 @@ private:
     }
 
     void template3() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char code[] = "template <class T, int sz> class Fred { T data[sz]; };\n"
                             "Fred<float,4> fred;";
 
@@ -354,6 +368,9 @@ private:
     }
 
     void template4() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char code[] = "template <class T> class Fred { Fred(); };\n"
                             "Fred<float> fred;";
 
@@ -365,6 +382,9 @@ private:
     }
 
     void template5() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char code[] = "template <class T> class Fred { };\n"
                             "template <class T> Fred<T>::Fred() { }\n"
                             "Fred<float> fred;";
@@ -378,6 +398,9 @@ private:
     }
 
     void template6() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char code[] = "template <class T> class Fred { };\n"
                             "Fred<float> fred1;\n"
                             "Fred<float> fred2;";
@@ -391,6 +414,9 @@ private:
     }
 
     void template7() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         // A template class that is not used => no simplification
         {
             const char code[] = "template <class T>\n"
@@ -459,6 +485,9 @@ private:
 
     // Template definitions but no usage => no expansion
     void template8() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char code[] = "template<typename T> class A;\n"
                             "template<typename T> class B;\n"
                             "\n"
@@ -485,6 +514,9 @@ private:
     }
 
     void template9() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char code[] = "template < typename T > class A { } ;\n"
                             "\n"
                             "void f ( ) {\n"
@@ -508,6 +540,9 @@ private:
     }
 
     void template10() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char code[] = "template <int ui, typename T> T * foo()\n"
                             "{ return new T[ui]; }\n"
                             "\n"
@@ -527,6 +562,9 @@ private:
     }
 
     void template11() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char code[] = "template <int ui, typename T> T * foo()\n"
                             "{ return new T[ui]; }\n"
                             "\n"
@@ -546,6 +584,9 @@ private:
     }
 
     void template12() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char code[] = "template <int x, int y, int z>\n"
                             "class A : public B<x, y, (x - y) ? ((y < z) ? 1 : -1) : 0>\n"
                             "{ };\n"
@@ -565,6 +606,9 @@ private:
     }
 
     void template13() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char code[] = "class BB {};\n"
                             "\n"
                             "template <class T>\n"
@@ -614,6 +658,9 @@ private:
     }
 
     void template14() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char code[] = "template <> void foo<int *>()\n"
                             "{ x(); }\n"
                             "\n"
@@ -674,6 +721,9 @@ private:
     }
 
     void template16() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char code[] = "template <unsigned int i> void a()\n"
                             "{ }\n"
                             "\n"
@@ -696,6 +746,9 @@ private:
     }
 
     void template17() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char code[] = "template<class T>\n"
                             "class Fred\n"
                             "{\n"
@@ -719,6 +772,9 @@ private:
     }
 
     void template18() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char code[] = "template <class T> class foo { T a; };\n"
                             "foo<int> *f;";
 
@@ -730,6 +786,9 @@ private:
     }
 
     void template19() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char code[] = "template <typename T> T & foo()\n"
                             "{ static T temp; return temp; }\n"
                             "\n"
@@ -749,6 +808,9 @@ private:
     }
 
     void template20() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         // Ticket #1788 - the destructor implementation is lost
         const char code[] = "template <class T> class A { public:  ~A(); };\n"
                             "template <class T> A<T>::~A() {}\n"
@@ -763,6 +825,9 @@ private:
     }
 
     void template21() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         {
             const char code[] = "template <class T> struct Fred { T a; };\n"
                                 "Fred<int> fred;";
@@ -811,6 +876,9 @@ private:
     }
 
     void template22() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char code[] = "template <class T> struct Fred { T a; };\n"
                             "Fred<std::string> fred;";
 
@@ -822,6 +890,9 @@ private:
     }
 
     void template23() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char code[] = "template <class T> void foo() { }\n"
                             "void bar() {\n"
                             "    std::cout << (foo<double>());\n"
@@ -837,6 +908,9 @@ private:
     }
 
     void template24() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         // #2648
         const char code[] = "template<int n> struct B\n"
                             "{\n"
@@ -856,6 +930,9 @@ private:
     }
 
     void template25() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char code[] = "template<int n> struct B\n"
                             "{\n"
                             "  int a[n];\n"
@@ -874,6 +951,9 @@ private:
     }
 
     void template26() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         // #2721
         const char code[] = "template<class T>\n"
                             "class A { public: T x; };\n"
@@ -886,12 +966,18 @@ private:
     }
 
     void template27() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         // #3350 - template inside macro call
         const char code[] = "X(template<class T> class Fred);";
         ASSERT_THROW(tok(code), InternalError);
     }
 
     void template28() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         // #3226 - inner template
         const char code[] = "template<class A, class B> class Fred {};\n"
                             "Fred<int,Fred<int,int> > x;\n";
@@ -903,12 +989,18 @@ private:
     }
 
     void template30() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         // #3529 - template < template < ..
         const char code[] = "template<template<class> class A, class B> void f(){}";
         ASSERT_EQUALS("template < template < class > class A , class B > void f ( ) { }", tok(code));
     }
 
     void template31() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         // #4010 - template reference type
         const char code[] = "template<class T> struct A{}; A<int&> a;";
         ASSERT_EQUALS("struct A<int&> ; "
@@ -923,6 +1015,9 @@ private:
     }
 
     void template32() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         // #3818 - mismatching template not handled well
         const char code[] = "template <class T1, class T2, class T3, class T4 > struct A { };\n"
                             "\n"
@@ -941,6 +1036,9 @@ private:
     }
 
     void template33() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         {
             // #3818 - inner templates in template instantiation not handled well
             const char code[] = "template<class T> struct A { };\n"
@@ -972,6 +1070,9 @@ private:
     }
 
     void template34() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         // #3706 - namespace => hang
         const char code[] = "namespace abc {\n"
                             "template <typename T> struct X { void f(X<T> &x) {} };\n"
@@ -1028,6 +1129,9 @@ private:
     }
 
     void template_unhandled() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         // An unhandled template usage should not be simplified..
         ASSERT_EQUALS("x < int > ( ) ;", tok("x<int>();"));
     }
@@ -1637,6 +1741,9 @@ private:
     }
 
     void template68() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char code[] = "template <class T> union Fred {\n"
                             "    char dummy[sizeof(T)];\n"
                             "    T value;\n"
@@ -1716,6 +1823,9 @@ private:
     }
 
     void template72() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char code[] = "template <typename N, typename P> class Tokenizer;\n"
                             "const Tokenizer<Node, Path> *tokenizer() const;\n"
                             "template <typename N, typename P>\n"
@@ -1728,6 +1838,9 @@ private:
     }
 
     void template73() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char code[] = "template<typename T>\n"
                             "void keep_range(T& value, const T mini, const T maxi){}\n"
                             "template void keep_range<float>(float& v, const float l, const float u);\n"
@@ -1740,6 +1853,9 @@ private:
     }
 
     void template74() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char code[] = "template <class T> class BTlist { };\n"
                             "class PushBackStreamBuf {\n"
                             "public:\n"
@@ -1755,6 +1871,9 @@ private:
     }
 
     void template75() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char code[] = "template<typename T>\n"
                             "T foo(T& value){ return value; }\n"
                             "template std::vector<std::vector<int>> foo<std::vector<std::vector<int>>>(std::vector<std::vector<int>>& v);";
@@ -1764,6 +1883,9 @@ private:
     }
 
     void template76() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char code[] = "namespace NS {\n"
                             "    template<typename T> T foo(T& value) { return value; }\n"
                             "    template std::vector<std::vector<int>> foo<std::vector<std::vector<int>>>(std::vector<std::vector<int>>& v);\n"
@@ -1780,6 +1902,9 @@ private:
     }
 
     void template77() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char code[] = "template<typename T>\n"
                             "struct is_void : std::false_type { };\n"
                             "template<>\n"
@@ -1800,6 +1925,9 @@ private:
     }
 
     void template78() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char code[] = "template <typename>\n"
                             "struct Base { };\n"
                             "struct S : Base <void>::Type { };";
@@ -1838,6 +1966,9 @@ private:
     }
 
     void template80() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char code[] = "class Fred {\n"
                             "    template <typename T> T foo(T t) const { return t; }\n"
                             "};\n"
@@ -1851,6 +1982,9 @@ private:
     }
 
     void template81() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char code[] = "template <typename Type>\n"
                             "struct SortWith {\n"
                             "    SortWith(Type);\n"
@@ -1995,6 +2129,9 @@ private:
     }
 
     void template87() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char code[] = "template<typename T>\n"
                             "T f1(T t) { return t; }\n"
                             "template const char * f1<const char *>(const char *);\n"
@@ -2083,6 +2220,9 @@ private:
     }
 
     void template91() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         {
             const char code[] = "template<typename T> T foo(T t) { return t; }\n"
                                 "template<> char foo<char>(char a) { return a; }\n"
@@ -2188,6 +2328,9 @@ private:
     }
 
     void template92() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char code[] = "template<class T> void foo(T const& t) { }\n"
                             "template<> void foo<double>(double const& d) { }\n"
                             "template void foo<float>(float const& f);\n"
@@ -2332,6 +2475,9 @@ private:
     }
 
     void template97() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char code[] ="namespace NS1 {\n"
                             "    namespace NS2 {\n"
                             "        namespace NS3 {\n"
@@ -2522,6 +2668,9 @@ private:
     }
 
     void template103() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char code[] = "namespace sample {\n"
                             "  template <typename T>\n"
                             "  class Sample {\n"
@@ -2587,6 +2736,9 @@ private:
     }
 
     void template106() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char code[] = "template<class T, class U> class A {\n"
                             "public:\n"
                             "   int x;\n"
@@ -2781,6 +2933,9 @@ private:
     }
 
     void template110() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char code[] = "template<typename T> using A = int;\n"
                             "template<typename T> using A<T*> = char;\n"
                             "template<> using A<char> = char;\n"
@@ -2815,6 +2970,9 @@ private:
     }
 
     void template113() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         {
             const char code[] = "template <class> class A { void f(); };\n"
                                 "A<int> a;";
@@ -2911,6 +3069,9 @@ private:
     }
 
     void template117() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char code[] = "template<typename T = void> struct X {};\n"
                             "X<X<>> x;";
         const char exp[] = "struct X<void> ; "
@@ -2922,6 +3083,9 @@ private:
     }
 
     void template118() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char code[] = "template<int> struct S { void f(int i); };\n"
                             "S<1> s;";
         const char exp[] = "struct S<1> ; "
@@ -2963,6 +3127,9 @@ private:
     }
 
     void template120() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char code[] = "template<typename Tuple>\n"
                             "struct lambda_context {\n"
                             "    template<typename Sig> struct result;\n"
@@ -3060,6 +3227,9 @@ private:
     }
 
     void template125() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         ASSERT_THROW(tok("template<int M, int N>\n"
                          "class GCD {\n"
                          "public:\n"
@@ -3180,6 +3350,9 @@ private:
     }
 
     void template129() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char code[] = "class LuaContext {\n"
                             "public:\n"
                             "  template <typename TFunctionType, typename TType>\n"
@@ -3291,6 +3464,9 @@ private:
     }
 
     void template133() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char code[] = "template <typename a> struct bar {\n"
                             "  template <typename b> static bar foo(const bar<b> &c) {\n"
                             "    return bar();\n"
@@ -3338,6 +3514,9 @@ private:
     }
 
     void template134() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char code[] = "template <int a> class e { };\n"
                             "template <int a> class b { e<(c > a ? 1 : 0)> d; };\n"
                             "b<0> b0;\n"
@@ -3352,6 +3531,9 @@ private:
     }
 
     void template135() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char code[] = "template <int> struct a { template <int b> void c(a<b>); };\n"
                             "a<2> d;";
         const char exp[] = "struct a<2> ; "
@@ -3403,6 +3585,9 @@ private:
     }
 
     void template138() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         {
             const char code[] = "struct inferior {\n"
                                 "  using visitor = int;\n"
@@ -3492,6 +3677,9 @@ private:
     }
 
     void template139() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         {
             const char code[] = "template<typename T>\n"
                                 "struct Foo {\n"
@@ -3519,6 +3707,9 @@ private:
     }
 
     void template140() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         {
             const char code[] = "template <typename> struct a { };\n"
                                 "template <typename b> struct d {\n"
@@ -3580,6 +3771,9 @@ private:
     }
 
     void template143() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char code[] = "template<int N>\n"
                             "using A1 = struct B1 { static auto constexpr value = N; };\n"
                             "A1<0> a1;\n"
@@ -3798,6 +3992,9 @@ private:
     }
 
     void template156() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char code[] = "template <int a> struct c { static constexpr int d = a; };\n"
                             "template <bool b> using e = c<b>;\n"
                             "using f = e<false>;\n"
@@ -4092,6 +4289,9 @@ private:
     }
 
     void template160() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char code[] = "struct Fred {\n"
                             "    template <typename T> static void foo() { }\n"
                             "    template <typename T> static void foo(T) { }\n"
@@ -4114,6 +4314,9 @@ private:
     }
 
     void template161() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char code[] = "struct JobEntry { };\n"
                             "template<class T>\n"
                             "struct adapter : public T {\n"
@@ -4137,6 +4340,9 @@ private:
     }
 
     void template162() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char code[] = "template <std::size_t N>\n"
                             "struct CountryCode {\n"
                             "    CountryCode(std::string cc);\n"
@@ -4229,6 +4435,9 @@ private:
     }
 
     void template167() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char code[] = "struct MathLib {\n"
                             "    template<class T> static std::string toString(T value) {\n"
                             "        return std::string{};\n"
@@ -4257,6 +4466,9 @@ private:
     }
 
     void template168() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char code[] = "template < typename T, typename U > struct type { };\n"
                             "template < > struct type < bool, bool > {};\n"
                             "template < > struct type < unsigned char, unsigned char > {};\n"
@@ -4302,6 +4514,9 @@ private:
     }
 
     void template169() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char code[] = "template < typename T> struct last { T t; };\n"
                             "template < typename T > struct CImgList { T t; };\n"
                             "CImgList < last < bool > > c1;\n"
@@ -4480,6 +4695,9 @@ private:
 
     void template175() // #10908
     {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char code[] = "template <typename T, int value> T Get() {return value;}\n"
                             "char f() { Get<int,10>(); }\n";
         const char exp[] = "int Get<int,10> ( ) ; "
@@ -4510,6 +4728,9 @@ private:
     }
 
     void template177() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char code[] = "template <typename Encoding, typename Allocator>\n"
                             "class C { xyz<Encoding, Allocator> x; };\n"
                             "C<UTF8<>, MemoryPoolAllocator<>> c;";
@@ -4520,6 +4741,9 @@ private:
     }
 
     void template178() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char code[] = "template<typename T>\n" // #11893
                             "void g() {\n"
                             "    for (T i = 0; i < T{ 3 }; ++i) {}\n"
@@ -4566,6 +4790,9 @@ private:
     }
 
     void template_enum() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char code1[] = "template <class T>\n"
                              "struct Unconst {\n"
                              "    typedef T type;\n"
@@ -4606,6 +4833,9 @@ private:
     }
 
     void template_default_parameter() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         {
             const char code[] = "template <class T, int n=3>\n"
                                 "class A\n"
@@ -4754,6 +4984,9 @@ private:
     }
 
     void template_forward_declared_default_parameter() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         {
             const char code[] = "template <class T, int n=3> class A;\n"
                                 "template <class T, int n>\n"
@@ -4846,6 +5079,9 @@ private:
     }
 
     void template_default_type() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char code[] = "template <typename T, typename U=T>\n"
                             "class A\n"
                             "{\n"
@@ -4875,6 +5111,9 @@ private:
     }
 
     void template_typename() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         {
             const char code[] = "template <class T>\n"
                                 "void foo(typename T::t *)\n"
@@ -4896,6 +5135,9 @@ private:
     }
 
     void template_constructor() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         // #3152 - if template constructor is removed then there might be
         //         "no constructor" false positives
         const char code[] = "class Fred {\n"
@@ -4911,6 +5153,9 @@ private:
     }
 
     void syntax_error_templates_1() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         // ok code.. using ">" for a comparison
         tok("x<y>z> xyz;");
         ASSERT_EQUALS("", errout.str());
@@ -4998,6 +5243,9 @@ private:
     }
 
     void template_namespace_1() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         // #6570
         const char code[] = "namespace {\n"
                             "  template<class T> void Fred(T value) { }\n"
@@ -5011,6 +5259,9 @@ private:
     }
 
     void template_namespace_2() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         // #8283
         const char code[] = "namespace X {\n"
                             "  template<class T> struct S { };\n"
@@ -5024,6 +5275,9 @@ private:
     }
 
     void template_namespace_3() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char code[] = "namespace test16 {\n"
                             "  template <class T> struct foo {\n"
                             "    static void *bar();\n"
@@ -5042,6 +5296,9 @@ private:
     }
 
     void template_namespace_4() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char code[] = "namespace foo {\n"
                             "  template<class T> class A { void dostuff() {} };\n"
                             "  struct S : public A<int> {\n"
@@ -5062,6 +5319,9 @@ private:
     }
 
     void template_namespace_5() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char code[] = "template<class C> struct S {};\n"
                             "namespace X { S<int> s; }";
         ASSERT_EQUALS("struct S<int> ; "
@@ -5070,6 +5330,9 @@ private:
     }
 
     void template_namespace_6() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char code[] = "namespace NS {\n"
                             "template <typename T> union C {\n"
                             "  char dummy[sizeof(T)];\n"
@@ -5168,6 +5431,9 @@ private:
     }
 
     void template_namespace_9() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char code[] = "namespace NS {\n"
                             "template<int type> struct Barney;\n"
                             "template<> struct Barney<1> { };\n"
@@ -5195,6 +5461,9 @@ private:
     }
 
     void template_namespace_10() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char code[] = "namespace NS1 {\n"
                             "namespace NS2 {\n"
                             "template<class T>\n"
@@ -5248,6 +5517,9 @@ private:
     }
 
     void template_pointer_type() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char code[] = "template<class T> void foo(const T x) {}\n"
                             "void bar() { foo<int*>(0); }";
         ASSERT_EQUALS("void foo<int*> ( int * const x ) ; "
@@ -5256,6 +5528,9 @@ private:
     }
 
     void template_array_type() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         ASSERT_EQUALS("void foo<int[]> ( int [ ] x ) ; "
                       "void bar ( ) { int [ 3 ] y ; foo<int[]> ( y ) ; } "
                       "void foo<int[]> ( int [ ] x ) { }",
@@ -5286,6 +5561,9 @@ private:
     }
 
     unsigned int templateParameters(const char code[]) {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         Tokenizer tokenizer(&settings, this);
 
         std::istringstream istr(code);
@@ -5302,6 +5580,9 @@ private:
     }
 
     void templateParameters() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         // Test that the function TemplateSimplifier::templateParameters works
         ASSERT_EQUALS(1U, templateParameters("X<struct C> x;"));
         ASSERT_EQUALS(1U, templateParameters("X<union C> x;"));
@@ -5367,6 +5648,9 @@ private:
     }
 
     void templateNamePosition() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         // Template class
         ASSERT_EQUALS(2, templateNamePositionHelper("template<class T> class A {};", 4));
         ASSERT_EQUALS(2, templateNamePositionHelper("template<class T> struct A {};", 4));
@@ -5440,6 +5724,9 @@ private:
     }
 
     void findTemplateDeclarationEnd() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         ASSERT(findTemplateDeclarationEndHelper("template <typename T> class Fred { }; int x;", "; int x ;"));
         ASSERT(findTemplateDeclarationEndHelper("template <typename T> void Fred() { } int x;", "} int x ;"));
         ASSERT(findTemplateDeclarationEndHelper("template <typename T> int Fred = 0; int x;", "; int x ;"));
@@ -5452,6 +5739,9 @@ private:
 
     // Helper function to unit test TemplateSimplifier::getTemplateParametersInDeclaration
     bool getTemplateParametersInDeclarationHelper(const char code[], const std::vector<std::string> & params) {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         Tokenizer tokenizer(&settings, this);
 
         std::istringstream istr(code);
@@ -5473,6 +5763,9 @@ private:
     }
 
     void getTemplateParametersInDeclaration() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         ASSERT(getTemplateParametersInDeclarationHelper("template<typename T> class Fred {};", std::vector<std::string> {"T"}));
         ASSERT(getTemplateParametersInDeclarationHelper("template<typename T=int> class Fred {};", std::vector<std::string> {"T"}));
         ASSERT(getTemplateParametersInDeclarationHelper("template<typename T,typename U> class Fred {};", std::vector<std::string> {"T","U"}));
@@ -5481,6 +5774,9 @@ private:
     }
 
     void expandSpecialized1() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         ASSERT_EQUALS("class A<int> { } ;", tok("template<> class A<int> {};"));
         ASSERT_EQUALS("class A<int> : public B { } ;", tok("template<> class A<int> : public B {};"));
         ASSERT_EQUALS("class A<int> { A<int> ( ) ; ~ A<int> ( ) ; } ;", tok("template<> class A<int> { A(); ~A(); };"));
@@ -5492,6 +5788,9 @@ private:
     }
 
     void expandSpecialized2() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         {
             const char code[] = "template <>\n"
                                 "class C<float> {\n"
@@ -5603,6 +5902,9 @@ private:
     }
 
     void expandSpecialized4() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         {
             const char code[] = "template<> class C<char> { };\n"
                                 "map<int> m;";
@@ -5678,6 +5980,9 @@ private:
     }
 
     void expandSpecialized5() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char code[] = "template<typename T> class hash;\n" // #10494
                             "template<> class hash<int> {};\n"
                             "int f(int i) {\n"
@@ -5699,6 +6004,9 @@ private:
     }
 
     void templateAlias1() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char code[] = "template<class T, int N> struct Foo {};\n"
                             "template<class T> using Bar = Foo<T,3>;\n"
                             "Bar<int> b;\n";
@@ -5711,6 +6019,9 @@ private:
     }
 
     void templateAlias2() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char code[] = "namespace A { template<class T, int N> struct Foo {}; }\n"
                             "template<class T> using Bar = A::Foo<T,3>;\n"
                             "Bar<int> b;\n";
@@ -5744,6 +6055,9 @@ private:
     }
 
     void templateAlias5() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char code[] = "template<typename T> using A = int;\n"
                             "template<typename T> using B = T;\n"
                             "A<char> a;\n"
@@ -5755,6 +6069,9 @@ private:
 
 #define instantiateMatch(code, numberOfArguments, patternAfter) instantiateMatch_(code, numberOfArguments, patternAfter, __FILE__, __LINE__)
     bool instantiateMatch_(const char code[], const std::size_t numberOfArguments, const char patternAfter[], const char* file, int line) {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         Tokenizer tokenizer(&settings, this);
 
         std::istringstream istr(code);
@@ -5764,6 +6081,9 @@ private:
     }
 
     void instantiateMatchTest() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         // Ticket #8175
         ASSERT_EQUALS(false,
                       instantiateMatch("ConvertHelper < From, To > c ;",
@@ -5780,6 +6100,9 @@ private:
     }
 
     void templateParameterWithoutName() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         ASSERT_EQUALS(1U, templateParameters("template<typename = void> struct s;"));
         ASSERT_EQUALS(1U, templateParameters("template<template<typename = float> typename T> struct A {\n"
                                              "    void f();\n"
@@ -5872,6 +6195,9 @@ private:
     }
 
     void templateTypeDeduction2() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char code[] = "template<typename T, typename U>\n"
                             "void f(T t, U u) { }\n"
                             "static void func() {\n"
@@ -6006,6 +6332,9 @@ private:
     }
 
     void templateTypeDeduction5() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         {
             const char code[] = "class Fred {\n"
                                 "public:\n"
@@ -6073,6 +6402,9 @@ private:
     }
 
     void simplifyTemplateArgs1() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         ASSERT_EQUALS("foo<2> = 2 ; foo<2> ;", tok("template<int N> foo = N; foo < ( 2 ) >;"));
         ASSERT_EQUALS("foo<2> = 2 ; foo<2> ;", tok("template<int N> foo = N; foo < 1 + 1 >;"));
         ASSERT_EQUALS("foo<2> = 2 ; foo<2> ;", tok("template<int N> foo = N; foo < ( 1 + 1 ) >;"));
@@ -6090,6 +6422,9 @@ private:
     }
 
     void simplifyTemplateArgs2() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char code[] = "template<bool T> struct a_t { static const bool t = T; };\n"
                             "typedef a_t<sizeof(void*) == sizeof(char)> a;\n"
                             "void foo() { bool b = a::t; }";
@@ -6185,6 +6520,9 @@ private:
     }
 
     void template_variable_1() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         {
             const char code[] = "template <int N> const int foo = N*N;\n"
                                 "int x = foo<7>;";
@@ -6216,6 +6554,9 @@ private:
     }
 
     void template_variable_2() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         {
             const char code[] = "template<class T> constexpr T pi = T(3.1415926535897932385L);\n"
                                 "float x = pi<float>;";
@@ -6247,6 +6588,9 @@ private:
     }
 
     void template_variable_3() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         {
             const char code[] = "template<class T, int N> constexpr T foo = T(N*N);\n"
                                 "float x = foo<float,7>;";
@@ -6285,6 +6629,9 @@ private:
     }
 
     void template_variable_4() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char code[] = "template<typename T> void test() { }\n"
                             "template<typename T> decltype(test<T>)* foo = &(test<T>);\n"
                             "void bar() { foo<int>(); }";
@@ -6296,6 +6643,9 @@ private:
     }
 
     void simplifyDecltype() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char code[] = "template<typename T> class type { };\n"
                             "type<decltype(true)> b;\n"
                             "type<decltype(0)> i;\n"
@@ -6341,6 +6691,9 @@ private:
     }
 
     void castInExpansion() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char code[] = "template <int N> class C { };\n"
                             "template <typename TC> class Base {};\n"
                             "template <typename TC> class Derived : private Base<TC> {};\n"
@@ -6356,6 +6709,9 @@ private:
     }
 
     void fold_expression_1() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char code[] = "template<typename... Args> bool all(Args... args) { return (... && args); }\n"
                             "x=all(true,false,true,true);";
         const char expected[] = "template < typename ... Args > bool all ( Args ... args ) { return ( __cppcheck_fold_&&__ ( args ... ) ) ; } x = all ( true , false , true , true ) ;";
@@ -6363,6 +6719,9 @@ private:
     }
 
     void fold_expression_2() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char code[] = "template<typename... Args> bool all(Args... args) { return (args && ...); }\n"
                             "x=all(true,false,true,true);";
         const char expected[] = "template < typename ... Args > bool all ( Args ... args ) { return ( __cppcheck_fold_&&__ ( args ... ) ) ; } x = all ( true , false , true , true ) ;";
@@ -6370,6 +6729,9 @@ private:
     }
 
     void fold_expression_3() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char code[] = "template<typename... Args> int foo(Args... args) { return (12 * ... * args); }\n"
                             "x=foo(1,2);";
         const char expected[] = "template < typename ... Args > int foo ( Args ... args ) { return ( __cppcheck_fold_*__ ( args ... ) ) ; } x = foo ( 1 , 2 ) ;";
@@ -6377,6 +6739,9 @@ private:
     }
 
     void fold_expression_4() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char code[] = "template<typename... Args> int foo(Args... args) { return (args * ... * 123); }\n"
                             "x=foo(1,2);";
         const char expected[] = "template < typename ... Args > int foo ( Args ... args ) { return ( __cppcheck_fold_*__ ( args ... ) ) ; } x = foo ( 1 , 2 ) ;";
@@ -6384,6 +6749,9 @@ private:
     }
 
     void concepts1() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char code[] = "template <my_concept T> void f(T v) {}\n"
                             "f<int>(123);";
         const char expected[] = "void f<int> ( int v ) ; f<int> ( 123 ) ; void f<int> ( int v ) { }";
@@ -6391,6 +6759,9 @@ private:
     }
 
     void requires1() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char code[] = "template <class T> requires my_concept<T> void f(T v) {}\n"
                             "f<int>(123);";
         const char expected[] = "void f<int> ( int v ) ; f<int> ( 123 ) ; void f<int> ( int v ) { }";
@@ -6398,6 +6769,9 @@ private:
     }
 
     void requires2() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char code[] = "template<class T> requires (sizeof(T) > 1 && get_value<T>()) void f(T v){}\n"
                             "f<int>(123);";
         const char expected[] = "void f<int> ( int v ) ; f<int> ( 123 ) ; void f<int> ( int v ) { }";
@@ -6405,6 +6779,9 @@ private:
     }
 
     void requires3() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char code[] = "template<class T> requires c1<T> && c2<T> void f(T v){}\n"
                             "f<int>(123);";
         const char expected[] = "void f<int> ( int v ) ; f<int> ( 123 ) ; void f<int> ( int v ) { }";
@@ -6412,6 +6789,9 @@ private:
     }
 
     void requires4() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char code[] = "template <class T> void f(T v) requires my_concept<T> {}\n"
                             "f<int>(123);";
         const char expected[] = "void f<int> ( int v ) ; f<int> ( 123 ) ; void f<int> ( int v ) { }";
@@ -6419,6 +6799,9 @@ private:
     }
 
     void requires5() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char code[] = "template <class T>\n"
                             "  requires requires (T x) { x + x; }\n"
                             "  T add(T a, T b) { return a + b; }\n"
@@ -6428,11 +6811,17 @@ private:
     }
 
     void explicitBool1() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char code[] = "class Fred { explicit(true) Fred(int); };";
         ASSERT_EQUALS("class Fred { explicit Fred ( int ) ; } ;", tok(code));
     }
 
     void explicitBool2() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char code[] = "class Fred { explicit(false) Fred(int); };";
         ASSERT_EQUALS("class Fred { Fred ( int ) ; } ;", tok(code));
     }

@@ -1,3 +1,5 @@
+#include <stdio.h>
+#include <pthread.h>
 
 // Test library configuration for python.cfg
 //
@@ -13,6 +15,9 @@
 
 void validCode(PyObject * pPyObjArg)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     PyObject * pPyObjNULL = NULL;
     Py_Initialize();
     Py_INCREF(pPyObjArg);
@@ -35,6 +40,9 @@ void validCode(PyObject * pPyObjArg)
 
 void nullPointer()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     // cppcheck-suppress nullPointer
     Py_INCREF(NULL);
     // cppcheck-suppress nullPointer
@@ -43,6 +51,9 @@ void nullPointer()
 
 void PyMem_Malloc_memleak()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     const char * pBuf1 = PyMem_Malloc(1);
     printf("%p", pBuf1);
     // cppcheck-suppress memleak
@@ -50,6 +61,9 @@ void PyMem_Malloc_memleak()
 
 void PyMem_Malloc_mismatchAllocDealloc()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     // cppcheck-suppress unusedAllocatedMemory
     char * pBuf1 = PyMem_Malloc(10);
     // cppcheck-suppress mismatchAllocDealloc
@@ -58,6 +72,9 @@ void PyMem_Malloc_mismatchAllocDealloc()
 
 void PyMem_New_memleak()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     const char * pBuf1 = PyMem_New(char, 5);
     printf("%p", pBuf1);
     // cppcheck-suppress memleak

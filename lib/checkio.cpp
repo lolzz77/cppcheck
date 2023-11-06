@@ -1,3 +1,5 @@
+#include <stdio.h>
+#include <pthread.h>
 /*
  * Cppcheck - A tool for static C/C++ code analysis
  * Copyright (C) 2007-2023 Cppcheck team.
@@ -64,6 +66,9 @@ static const CWE CWE910(910U);  // Use of Expired File Descriptor
 //---------------------------------------------------------------------------
 void CheckIO::checkCoutCerrMisusage()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (mTokenizer->isC())
         return;
 
@@ -86,6 +91,9 @@ void CheckIO::checkCoutCerrMisusage()
 
 void CheckIO::coutCerrMisusageError(const Token* tok, const std::string& streamName)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     reportError(tok, Severity::error, "coutCerrMisusage", "Invalid usage of output stream: '<< std::" + streamName + "'.", CWE398, Certainty::normal);
 }
 
@@ -98,6 +106,9 @@ void CheckIO::coutCerrMisusageError(const Token* tok, const std::string& streamN
 enum class OpenMode { CLOSED, READ_MODE, WRITE_MODE, RW_MODE, UNKNOWN_OM };
 static OpenMode getMode(const std::string& str)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (str.find('+', 1) != std::string::npos)
         return OpenMode::RW_MODE;
     if (str.find('w') != std::string::npos || str.find('a') != std::string::npos)
@@ -125,6 +136,9 @@ namespace {
 
 void CheckIO::checkFileUsage()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     const bool windows = mSettings->platform.isWindows();
     const bool printPortability = mSettings->severity.isEnabled(Severity::portability);
     const bool printWarnings = mSettings->severity.isEnabled(Severity::warning);
@@ -360,42 +374,63 @@ void CheckIO::checkFileUsage()
 
 void CheckIO::fflushOnInputStreamError(const Token *tok, const std::string &varname)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     reportError(tok, Severity::portability,
                 "fflushOnInputStream", "fflush() called on input stream '" + varname + "' may result in undefined behaviour on non-linux systems.", CWE398, Certainty::normal);
 }
 
 void CheckIO::ioWithoutPositioningError(const Token *tok)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     reportError(tok, Severity::error,
                 "IOWithoutPositioning", "Read and write operations without a call to a positioning function (fseek, fsetpos or rewind) or fflush in between result in undefined behaviour.", CWE664, Certainty::normal);
 }
 
 void CheckIO::readWriteOnlyFileError(const Token *tok)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     reportError(tok, Severity::error,
                 "readWriteOnlyFile", "Read operation on a file that was opened only for writing.", CWE664, Certainty::normal);
 }
 
 void CheckIO::writeReadOnlyFileError(const Token *tok)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     reportError(tok, Severity::error,
                 "writeReadOnlyFile", "Write operation on a file that was opened only for reading.", CWE664, Certainty::normal);
 }
 
 void CheckIO::useClosedFileError(const Token *tok)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     reportError(tok, Severity::error,
                 "useClosedFile", "Used file that is not opened.", CWE910, Certainty::normal);
 }
 
 void CheckIO::seekOnAppendedFileError(const Token *tok)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     reportError(tok, Severity::warning,
                 "seekOnAppendedFile", "Repositioning operation performed on a file opened in append mode has no effect.", CWE398, Certainty::normal);
 }
 
 void CheckIO::incompatibleFileOpenError(const Token *tok, const std::string &filename)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     reportError(tok, Severity::warning,
                 "incompatibleFileOpen", "The file '" + filename + "' is opened for read and write access at the same time on different streams", CWE664, Certainty::normal);
 }
@@ -406,6 +441,9 @@ void CheckIO::incompatibleFileOpenError(const Token *tok, const std::string &fil
 //---------------------------------------------------------------------------
 void CheckIO::invalidScanf()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (!mSettings->severity.isEnabled(Severity::warning))
         return;
 
@@ -451,6 +489,9 @@ void CheckIO::invalidScanf()
 
 void CheckIO::invalidScanfError(const Token *tok)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     const std::string fname = (tok ? tok->str() : std::string("scanf"));
     reportError(tok, Severity::warning,
                 "invalidscanf", fname + "() without field width limits can crash with huge input data.\n" +
@@ -484,6 +525,9 @@ void CheckIO::invalidScanfError(const Token *tok)
 static bool findFormat(nonneg int arg, const Token *firstArg,
                        const Token **formatStringTok, const Token **formatArgTok)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     const Token* argTok = firstArg;
 
     for (int i = 0; i < arg && argTok; ++i)
@@ -523,6 +567,9 @@ static inline bool typesMatch(const std::string& iToTest, const std::string& iTy
 
 void CheckIO::checkWrongPrintfScanfArguments()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     const SymbolDatabase *symbolDatabase = mTokenizer->getSymbolDatabase();
     const bool isWindows = mSettings->platform.isWindows();
 
@@ -599,6 +646,9 @@ void CheckIO::checkFormatString(const Token * const tok,
                                 const bool scan,
                                 const bool scanf_s)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     const bool isWindows = mSettings->platform.isWindows();
     const bool printWarning = mSettings->severity.isEnabled(Severity::warning);
     const std::string &formatString = formatStringTok->str();
@@ -990,6 +1040,9 @@ void CheckIO::checkFormatString(const Token * const tok,
                             case 's':
                                 if (argListTok->tokType() != Token::eString &&
                                     argInfo.isKnownType() && !argInfo.isArrayOrPointer()) {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
                                     if (!Token::Match(argInfo.typeToken, "char|wchar_t")) {
                                         if (!argInfo.element)
                                             invalidPrintfArgTypeError_s(tok, numFormat, &argInfo);
@@ -1340,6 +1393,9 @@ void CheckIO::checkFormatString(const Token * const tok,
 CheckIO::ArgumentInfo::ArgumentInfo(const Token * arg, const Settings *settings, bool _isCPP)
     : isCPP(_isCPP)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (!arg)
         return;
 
@@ -1716,6 +1772,9 @@ void CheckIO::wrongPrintfScanfArgumentsError(const Token* tok,
                                              nonneg int numFormat,
                                              nonneg int numFunction)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     const Severity severity = numFormat > numFunction ? Severity::error : Severity::warning;
     if (severity != Severity::error && !mSettings->severity.isEnabled(Severity::warning))
         return;
@@ -1736,6 +1795,9 @@ void CheckIO::wrongPrintfScanfArgumentsError(const Token* tok,
 void CheckIO::wrongPrintfScanfPosixParameterPositionError(const Token* tok, const std::string& functionName,
                                                           nonneg int index, nonneg int numFunction)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (!mSettings->severity.isEnabled(Severity::warning))
         return;
     std::ostringstream errmsg;
@@ -1750,6 +1812,9 @@ void CheckIO::wrongPrintfScanfPosixParameterPositionError(const Token* tok, cons
 
 void CheckIO::invalidScanfArgTypeError_s(const Token* tok, nonneg int numFormat, const std::string& specifier, const ArgumentInfo* argInfo)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     const Severity severity = getSeverity(argInfo);
     if (!mSettings->severity.isEnabled(severity))
         return;
@@ -1766,6 +1831,9 @@ void CheckIO::invalidScanfArgTypeError_s(const Token* tok, nonneg int numFormat,
 }
 void CheckIO::invalidScanfArgTypeError_int(const Token* tok, nonneg int numFormat, const std::string& specifier, const ArgumentInfo* argInfo, bool isUnsigned)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     const Severity severity = getSeverity(argInfo);
     if (!mSettings->severity.isEnabled(severity))
         return;
@@ -1811,6 +1879,9 @@ void CheckIO::invalidScanfArgTypeError_int(const Token* tok, nonneg int numForma
 }
 void CheckIO::invalidScanfArgTypeError_float(const Token* tok, nonneg int numFormat, const std::string& specifier, const ArgumentInfo* argInfo)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     const Severity severity = getSeverity(argInfo);
     if (!mSettings->severity.isEnabled(severity))
         return;
@@ -1830,6 +1901,9 @@ void CheckIO::invalidScanfArgTypeError_float(const Token* tok, nonneg int numFor
 
 void CheckIO::invalidPrintfArgTypeError_s(const Token* tok, nonneg int numFormat, const ArgumentInfo* argInfo)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     const Severity severity = getSeverity(argInfo);
     if (!mSettings->severity.isEnabled(severity))
         return;
@@ -1841,6 +1915,9 @@ void CheckIO::invalidPrintfArgTypeError_s(const Token* tok, nonneg int numFormat
 }
 void CheckIO::invalidPrintfArgTypeError_n(const Token* tok, nonneg int numFormat, const ArgumentInfo* argInfo)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     const Severity severity = getSeverity(argInfo);
     if (!mSettings->severity.isEnabled(severity))
         return;
@@ -1852,6 +1929,9 @@ void CheckIO::invalidPrintfArgTypeError_n(const Token* tok, nonneg int numFormat
 }
 void CheckIO::invalidPrintfArgTypeError_p(const Token* tok, nonneg int numFormat, const ArgumentInfo* argInfo)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     const Severity severity = getSeverity(argInfo);
     if (!mSettings->severity.isEnabled(severity))
         return;
@@ -1863,6 +1943,9 @@ void CheckIO::invalidPrintfArgTypeError_p(const Token* tok, nonneg int numFormat
 }
 static void printfFormatType(std::ostream& os, const std::string& specifier, bool isUnsigned)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     os << "\'";
     if (specifier[0] == 'l') {
         if (specifier[1] == 'l')
@@ -1902,6 +1985,9 @@ static void printfFormatType(std::ostream& os, const std::string& specifier, boo
 
 void CheckIO::invalidPrintfArgTypeError_uint(const Token* tok, nonneg int numFormat, const std::string& specifier, const ArgumentInfo* argInfo)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     const Severity severity = getSeverity(argInfo);
     if (!mSettings->severity.isEnabled(severity))
         return;
@@ -1916,6 +2002,9 @@ void CheckIO::invalidPrintfArgTypeError_uint(const Token* tok, nonneg int numFor
 
 void CheckIO::invalidPrintfArgTypeError_sint(const Token* tok, nonneg int numFormat, const std::string& specifier, const ArgumentInfo* argInfo)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     const Severity severity = getSeverity(argInfo);
     if (!mSettings->severity.isEnabled(severity))
         return;
@@ -1929,6 +2018,9 @@ void CheckIO::invalidPrintfArgTypeError_sint(const Token* tok, nonneg int numFor
 }
 void CheckIO::invalidPrintfArgTypeError_float(const Token* tok, nonneg int numFormat, const std::string& specifier, const ArgumentInfo* argInfo)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     const Severity severity = getSeverity(argInfo);
     if (!mSettings->severity.isEnabled(severity))
         return;
@@ -1944,11 +2036,17 @@ void CheckIO::invalidPrintfArgTypeError_float(const Token* tok, nonneg int numFo
 
 Severity CheckIO::getSeverity(const CheckIO::ArgumentInfo *argInfo)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     return (argInfo && argInfo->typeToken && !argInfo->typeToken->originalName().empty()) ? Severity::portability : Severity::warning;
 }
 
 void CheckIO::argumentType(std::ostream& os, const ArgumentInfo * argInfo)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (argInfo) {
         os << "\'";
         const Token *type = argInfo->typeToken;
@@ -1999,6 +2097,9 @@ void CheckIO::argumentType(std::ostream& os, const ArgumentInfo * argInfo)
 
 void CheckIO::invalidLengthModifierError(const Token* tok, nonneg int numFormat, const std::string& modifier)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (!mSettings->severity.isEnabled(Severity::warning))
         return;
     std::ostringstream errmsg;
@@ -2008,6 +2109,9 @@ void CheckIO::invalidLengthModifierError(const Token* tok, nonneg int numFormat,
 
 void CheckIO::invalidScanfFormatWidthError(const Token* tok, nonneg int numFormat, int width, const Variable *var, const std::string& specifier)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     MathLib::bigint arrlen = 0;
     std::string varname;
 

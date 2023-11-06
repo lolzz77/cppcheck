@@ -1,3 +1,5 @@
+#include <stdio.h>
+#include <pthread.h>
 /*
  * Cppcheck - A tool for static C/C++ code analysis
  * Copyright (C) 2007-2023 Cppcheck team.
@@ -34,6 +36,9 @@ private:
     const PathMatch srcFooCppMatcher{std::vector<std::string>(1, "src/foo.cpp")};
 
     void run() override {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         TEST_CASE(emptymaskemptyfile);
         TEST_CASE(emptymaskpath1);
         TEST_CASE(emptymaskpath2);
@@ -66,41 +71,68 @@ private:
 
     // Test empty PathMatch
     void emptymaskemptyfile() const {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         ASSERT(!emptyMatcher.match(""));
     }
 
     void emptymaskpath1() const {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         ASSERT(!emptyMatcher.match("src/"));
     }
 
     void emptymaskpath2() const {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         ASSERT(!emptyMatcher.match("../src/"));
     }
 
     void emptymaskpath3() const {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         ASSERT(!emptyMatcher.match("/home/user/code/src/"));
     }
 
     // Test PathMatch containing "src/"
     void onemaskemptypath() const {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         ASSERT(!srcMatcher.match(""));
     }
 
     void onemasksamepath() const {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         ASSERT(srcMatcher.match("src/"));
     }
 
     void onemasksamepathdifferentcase() const {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         std::vector<std::string> masks(1, "sRc/");
         PathMatch match(masks, false);
         ASSERT(match.match("srC/"));
     }
 
     void onemasksamepathwithfile() const {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         ASSERT(srcMatcher.match("src/file.txt"));
     }
 
     void onemaskshorterpath() const {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const std::string longerExclude("longersrc/");
         const std::string shorterToMatch("src/");
         ASSERT(shorterToMatch.length() < longerExclude.length());
@@ -110,52 +142,85 @@ private:
     }
 
     void onemaskdifferentdir1() const {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         ASSERT(!srcMatcher.match("srcfiles/file.txt"));
     }
 
     void onemaskdifferentdir2() const {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         ASSERT(!srcMatcher.match("proj/srcfiles/file.txt"));
     }
 
     void onemaskdifferentdir3() const {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         ASSERT(!srcMatcher.match("proj/mysrc/file.txt"));
     }
 
     void onemaskdifferentdir4() const {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         ASSERT(!srcMatcher.match("proj/mysrcfiles/file.txt"));
     }
 
     void onemasklongerpath1() const {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         ASSERT(srcMatcher.match("/tmp/src/"));
     }
 
     void onemasklongerpath2() const {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         ASSERT(srcMatcher.match("src/module/"));
     }
 
     void onemasklongerpath3() const {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         ASSERT(srcMatcher.match("project/src/module/"));
     }
 
     void twomasklongerpath1() const {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         std::vector<std::string> masks = { "src/", "module/" };
         PathMatch match(masks);
         ASSERT(!match.match("project/"));
     }
 
     void twomasklongerpath2() const {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         std::vector<std::string> masks = { "src/", "module/" };
         PathMatch match(masks);
         ASSERT(match.match("project/src/"));
     }
 
     void twomasklongerpath3() const {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         std::vector<std::string> masks = { "src/", "module/" };
         PathMatch match(masks);
         ASSERT(match.match("project/module/"));
     }
 
     void twomasklongerpath4() const {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         std::vector<std::string> masks = { "src/", "module/" };
         PathMatch match(masks);
         ASSERT(match.match("project/src/module/"));
@@ -163,37 +228,61 @@ private:
 
     // Test PathMatch containing "foo.cpp"
     void filemask1() const {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         ASSERT(fooCppMatcher.match("foo.cpp"));
     }
 
     void filemaskdifferentcase() const {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         std::vector<std::string> masks(1, "foo.cPp");
         PathMatch match(masks, false);
         ASSERT(match.match("fOo.cpp"));
     }
 
     void filemask2() const {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         ASSERT(fooCppMatcher.match("../foo.cpp"));
     }
 
     void filemask3() const {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         ASSERT(fooCppMatcher.match("src/foo.cpp"));
     }
 
     // Test PathMatch containing "src/foo.cpp"
     void filemaskpath1() const {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         ASSERT(srcFooCppMatcher.match("src/foo.cpp"));
     }
 
     void filemaskpath2() const {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         ASSERT(srcFooCppMatcher.match("proj/src/foo.cpp"));
     }
 
     void filemaskpath3() const {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         ASSERT(!srcFooCppMatcher.match("foo.cpp"));
     }
 
     void filemaskpath4() const {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         ASSERT(!srcFooCppMatcher.match("bar/foo.cpp"));
     }
 };

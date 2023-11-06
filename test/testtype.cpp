@@ -1,3 +1,5 @@
+#include <stdio.h>
+#include <pthread.h>
 /*
  * Cppcheck - A tool for static C/C++ code analysis
  * Copyright (C) 2007-2023 Cppcheck team.
@@ -41,6 +43,9 @@ private:
 
 
     void run() override {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         TEST_CASE(checkTooBigShift_Unix32);
         TEST_CASE(checkIntegerOverflow);
         TEST_CASE(signConversion);
@@ -86,6 +91,9 @@ private:
     }
 
     void checkTooBigShift_Unix32() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const Settings settings0;
         const Settings settings = settingsBuilder().platform(Platform::Type::Unix32).build();
 
@@ -260,6 +268,9 @@ private:
     }
 
     void checkIntegerOverflow() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const Settings settings = settingsBuilder().severity(Severity::warning).platform(Platform::Type::Unix32).build();
 
         check("x = (int)0x10000 * (int)0x10000;", settings);
@@ -305,6 +316,9 @@ private:
     }
 
     void signConversion() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const Settings settings0;
         const Settings settings = settingsBuilder().platform(Platform::Type::Unix64).build();
         check("x = -4 * (unsigned)y;", settings0);
@@ -355,6 +369,9 @@ private:
     }
 
     void longCastAssign() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const Settings settings = settingsBuilder().severity(Severity::style).platform(Platform::Type::Unix64).build();
         const Settings settingsWin = settingsBuilder().severity(Severity::style).platform(Platform::Type::Win64).build();
 
@@ -406,6 +423,9 @@ private:
     }
 
     void longCastReturn() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const Settings settings = settingsBuilder().severity(Severity::style).platform(Platform::Type::Unix64).build();
         const Settings settingsWin = settingsBuilder().severity(Severity::style).platform(Platform::Type::Win64).build();
 
@@ -443,6 +463,9 @@ private:
     }
 
     void checkFloatToIntegerOverflow() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const Settings settings;
         check("x = (int)1E100;", settings);
         ASSERT_EQUALS("[test.cpp:1]: (error) Undefined behaviour: float () to integer conversion overflow.\n", removeFloat(errout.str()));

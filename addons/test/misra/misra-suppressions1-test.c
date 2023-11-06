@@ -1,3 +1,5 @@
+#include <stdio.h>
+#include <pthread.h>
 // To test:
 // ../../cppcheck --suppressions-list=suppressions.txt --dump misra-suppressions*-test.c && python ../misra.py misra-suppressions*-test.c.dump
 // There should be no violations reported
@@ -12,6 +14,9 @@ static int misra_5_2_function_hides_var_31x;
 static void misra_5_2_function_hides_var_31y(void) {}//5.2
 static void foo(void)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
   int i;
   switch(misra_5_2_func1()) //16.4 16.6
   {

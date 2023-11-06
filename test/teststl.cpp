@@ -1,3 +1,5 @@
+#include <stdio.h>
+#include <pthread.h>
 /*
  * Cppcheck - A tool for static C/C++ code analysis
  * Copyright (C) 2007-2023 Cppcheck team.
@@ -37,6 +39,9 @@ private:
     Settings settings = settingsBuilder().severity(Severity::warning).severity(Severity::style).severity(Severity::performance).library("std.cfg").build();
 
     void run() override {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         TEST_CASE(outOfBounds);
         TEST_CASE(outOfBoundsSymbolic);
         TEST_CASE(outOfBoundsIndexExpression);
@@ -197,6 +202,9 @@ private:
 
 #define checkNormal(code) checkNormal_(code, __FILE__, __LINE__)
     void checkNormal_(const char code[], const char* file, int line) {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         // Clear the error buffer..
         errout.str("");
 
@@ -210,6 +218,9 @@ private:
     }
 
     void outOfBounds() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         setMultiline();
 
         checkNormal("bool f(const int a, const int b)\n" // #8648
@@ -926,6 +937,9 @@ private:
 
     void outOfBoundsSymbolic()
     {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("void foo(std::string textline, int col) {\n"
               "    if(col > textline.size())\n"
               "        return false;\n"
@@ -937,6 +951,9 @@ private:
     }
 
     void outOfBoundsIndexExpression() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         setMultiline();
 
         checkNormal("void f(std::string s) {\n"
@@ -965,6 +982,9 @@ private:
         ASSERT_EQUALS("test.cpp:2:error:Out of bounds access of sv, index 'sv.size()' is out of bounds.\n", errout.str());
     }
     void outOfBoundsIterator() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("int f() {\n"
               "    std::vector<int> v;\n"
               "    auto it = v.begin();\n"
@@ -1026,6 +1046,9 @@ private:
     }
 
     void iterator1() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("void f()\n"
               "{\n"
               "    std::list<int> l1;\n"
@@ -1068,6 +1091,9 @@ private:
     }
 
     void iterator2() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("void foo()\n"
               "{\n"
               "    std::list<int> l1;\n"
@@ -1096,6 +1122,9 @@ private:
     }
 
     void iterator3() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("void foo()\n"
               "{\n"
               "    std::list<int> l1;\n"
@@ -1143,6 +1172,9 @@ private:
     }
 
     void iterator4() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("void foo(std::vector<std::string> &test)\n"
               "{\n"
               "    std::set<int> result;\n"
@@ -1157,6 +1189,9 @@ private:
     }
 
     void iterator5() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("void foo(std::vector<int> ints1, std::vector<int> ints2)\n"
               "{\n"
               "    std::vector<int>::iterator it = std::find(ints1.begin(), ints2.end(), 22);\n"
@@ -1166,6 +1201,9 @@ private:
     }
 
     void iterator6() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         // Ticket #1357
         check("void foo(const std::set<int> &ints1)\n"
               "{\n"
@@ -1187,6 +1225,9 @@ private:
     }
 
     void iterator7() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("void foo(std::vector<int> ints1, std::vector<int> ints2)\n"
               "{\n"
               "    std::vector<int>::iterator it = std::inplace_merge(ints1.begin(), std::advance(ints1.rbegin(), 5), ints2.end());\n"
@@ -1202,6 +1243,9 @@ private:
     }
 
     void iterator8() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("void foo(std::vector<int> ints1, std::vector<int> ints2)\n"
               "{\n"
               "    std::vector<int>::iterator it = std::find_first_of(ints1.begin(), ints2.end(), ints1.begin(), ints1.end());\n"
@@ -1246,6 +1290,9 @@ private:
     }
 
     void iterator9() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         // Ticket #1600
         check("void foo(std::vector<int> &r)\n"
               "{\n"
@@ -1299,6 +1346,9 @@ private:
     }
 
     void iterator10() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         // Ticket #1679
         check("void foo()\n"
               "{\n"
@@ -1315,6 +1365,9 @@ private:
     }
 
     void iterator11() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         // Ticket #3433
         check("int main() {\n"
               "    map<int, int> myMap;\n"
@@ -1326,6 +1379,9 @@ private:
     }
 
     void iterator12() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         // Ticket #3201
         check("void f() {\n"
               "    std::map<int, int> map1;\n"
@@ -1354,6 +1410,9 @@ private:
     }
 
     void iterator13() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("void f() {\n"
               "    std::vector<int> a;\n"
               "    std::vector<int> t;\n"
@@ -1399,6 +1458,9 @@ private:
     }
 
     void iterator14() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("void f() {\n"
               "    std::map<int,Foo> x;\n"
               "    std::map<int,Foo>::const_iterator it;\n"
@@ -1408,6 +1470,9 @@ private:
     }
 
     void iterator15() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("void f(C1* x, std::list<int> a) {\n"
               "  std::list<int>::iterator pos = a.begin();\n"
               "  for(pos = x[0]->plist.begin(); pos != x[0]->plist.end(); ++pos) {}\n"
@@ -1416,6 +1481,9 @@ private:
     }
 
     void iterator16() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("void foo()\n"
               "{\n"
               "    std::list<int> l1;\n"
@@ -1474,6 +1542,9 @@ private:
     }
 
     void iterator17() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("void foo()\n"
               "{\n"
               "    std::list<int> l1;\n"
@@ -1537,6 +1608,9 @@ private:
     }
 
     void iterator18() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("void foo(std::list<int> l1, std::list<int> l2)\n"
               "{\n"
               "    std::list<int>::iterator it1 = l1.begin();\n"
@@ -1569,6 +1643,9 @@ private:
     }
 
     void iterator19() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("void foo()\n"
               "{\n"
               "    std::list<int> l1;\n"
@@ -1656,6 +1733,9 @@ private:
     }
 
     void iterator20() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("void foo()\n"
               "{\n"
               "    std::list<int> l1;\n"
@@ -1693,6 +1773,9 @@ private:
     }
 
     void iterator21() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("void foo()\n"
               "{\n"
               "    std::list<int> l1;\n"
@@ -1749,6 +1832,9 @@ private:
     }
 
     void iterator24() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         // #9556
         check("void f(int a, int b) {\n"
               "  if (&a == &b) {}\n"
@@ -1779,6 +1865,9 @@ private:
     }
 
     void iterator25() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         // #9742
         check("struct S {\n"
               "  std::vector<int>& v;\n"
@@ -1806,6 +1895,9 @@ private:
     }
 
     void iterator27() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         // #10378
         check("struct A {\n"
               "    int a;\n"
@@ -1822,6 +1914,9 @@ private:
 
     void iterator28()
     {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         // #10450
         check("struct S {\n"
               "    struct Private {\n"
@@ -1843,6 +1938,9 @@ private:
     }
 
     void iteratorExpression() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("std::vector<int>& f();\n"
               "std::vector<int>& g();\n"
               "void foo() {\n"
@@ -1992,6 +2090,9 @@ private:
     }
 
     void iteratorSameExpression() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("void f(std::vector<int> v) {\n"
               "    std::for_each(v.begin(), v.begin(), [](int){});\n"
               "}");
@@ -2027,6 +2128,9 @@ private:
     }
 
     void mismatchingContainerIterator() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("std::vector<int> to_vector(int value) {\n"
               "    std::vector<int> a, b;\n"
               "    a.insert(b.end(), value);\n"
@@ -2086,6 +2190,9 @@ private:
 
     // Dereferencing invalid pointer
     void dereference() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("void f()\n"
               "{\n"
               "    std::vector<int> ints{1,2,3,4,5};\n"
@@ -2135,6 +2242,9 @@ private:
     }
 
     void dereference_member() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("void f()\n"
               "{\n"
               "    std::map<int, int> ints;\n"
@@ -2158,6 +2268,9 @@ private:
     }
 
     void dereference_auto() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("void f()\n"
               "{\n"
               "    std::vector<int> ints{1,2,3,4,5};\n"
@@ -2184,6 +2297,9 @@ private:
     }
 
     void STLSize() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("void foo()\n"
               "{\n"
               "    std::vector<int> foo;\n"
@@ -2259,6 +2375,9 @@ private:
     }
 
     void STLSizeNoErr() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         {
             check("void foo()\n"
                   "{\n"
@@ -2322,6 +2441,9 @@ private:
     }
 
     void negativeIndex() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("void f(const std::vector<int> &v) {\n"
               "  v[-11] = 123;\n"
               "}");
@@ -2373,6 +2495,9 @@ private:
     }
 
     void negativeIndexMultiline() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         setMultiline();
         const auto oldSettings = settings;
         settings.verbose = true;
@@ -2397,6 +2522,9 @@ private:
     }
 
     void erase1() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("void f()\n"
               "{\n"
               "    std::list<int>::iterator it;\n"
@@ -2439,6 +2567,9 @@ private:
     }
 
     void erase2() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("static void f()\n"
               "{\n"
               "    for (iterator it = foo.begin(); it != foo.end(); it = next)\n"
@@ -2452,6 +2583,9 @@ private:
     }
 
     void erase3() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("static void f(std::list<abc> &foo)\n"
               "{\n"
               "    std::list<abc>::iterator it = foo.begin();\n"
@@ -2462,6 +2596,9 @@ private:
     }
 
     void erase4() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("void f()\n"
               "{\n"
               "    std::list<int>::iterator it, it2;\n"
@@ -2504,6 +2641,9 @@ private:
     }
 
     void erase5() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("void f()\n"
               "{\n"
               "    std::list<int> foo;\n"
@@ -2518,6 +2658,9 @@ private:
     }
 
     void erase6() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("void f() {\n"
               "    std::vector<int> vec(3);\n"
               "    std::vector<int>::iterator it;\n"
@@ -2531,6 +2674,9 @@ private:
     }
 
     void eraseBreak() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("void f()\n"
               "{\n"
               "    for (std::vector<int>::iterator it = foo.begin(); it != foo.end(); ++it)\n"
@@ -2568,6 +2714,9 @@ private:
     }
 
     void eraseContinue() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("void f(std::vector<int> &ints)\n"
               "{\n"
               "    std::vector<int>::iterator it;\n"
@@ -2597,6 +2746,9 @@ private:
     }
 
     void eraseReturn1() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("void f()\n"
               "{\n"
               "    std::vector<int> foo;\n"
@@ -2611,6 +2763,9 @@ private:
     }
 
     void eraseReturn2() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("void f()\n"
               "{\n"
               "    std::vector<int> foo;\n"
@@ -2631,6 +2786,9 @@ private:
     }
 
     void eraseReturn3() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("void f()\n"
               "{\n"
               "    std::vector<int> foo;\n"
@@ -2669,6 +2827,9 @@ private:
     }
 
     void eraseGoto() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("void f()\n"
               "{\n"
               "    for (std::vector<int>::iterator it = foo.begin(); it != foo.end(); ++it)\n"
@@ -2682,6 +2843,9 @@ private:
     }
 
     void eraseAssign1() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("void f()\n"
               "{\n"
               "    for (std::vector<int>::iterator it = foo.begin(); it != foo.end(); ++it)\n"
@@ -2694,6 +2858,9 @@ private:
     }
 
     void eraseAssign2() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("void f(std::list<int> &ints)\n"
               "{\n"
               "    for (std::list<int>::iterator it = ints.begin(); it != ints.end();) {\n"
@@ -2712,6 +2879,9 @@ private:
     }
 
     void eraseAssign3() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("void f(std::list<list<int> >& l) {\n"
               "    std::list<std::list<int> >::const_iterator i = l.begin();\n"
               "    std::list<int>::const_iterator j = (*i).begin();\n"
@@ -2721,6 +2891,9 @@ private:
     }
 
     void eraseAssign4() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("void f(std::list<int> data) {\n"
               "  std::list<int>::const_iterator it = data.begin();\n"
               "  it = data.erase(it);\n"
@@ -2737,6 +2910,9 @@ private:
     }
 
     void eraseAssignByFunctionCall() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("void f(std::list<list<int> >& l) {\n"
               "    std::list<foo>::const_iterator i;\n"
               "    bar(i);\n"
@@ -2746,6 +2922,9 @@ private:
     }
 
     void eraseErase() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("void f(std::vector<ints> &ints)\n"
               "{\n"
               "    std::vector<int>::iterator iter;\n"
@@ -2757,6 +2936,9 @@ private:
     }
 
     void eraseByValue() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("void f()\n"
               "{\n"
               "    std::set<int> foo;\n"
@@ -2806,6 +2988,9 @@ private:
     }
 
     void eraseIf() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         // #4816
         check("void func(std::list<std::string> strlist) {\n"
               "    for (std::list<std::string>::iterator str = strlist.begin(); str != strlist.end(); str++) {\n"
@@ -2820,6 +3005,9 @@ private:
     }
 
     void eraseOnVector() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("void f(std::vector<int>& v) {\n"
               "    std::vector<int>::iterator aIt = v.begin();\n"
               "    v.erase(something(unknown));\n" // All iterators become invalidated when erasing from std::vector
@@ -2837,6 +3025,9 @@ private:
     }
 
     void pushback1() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("void f(const std::vector<int> &foo)\n"
               "{\n"
               "    std::vector<int>::const_iterator it = foo.begin();\n"
@@ -2847,6 +3038,9 @@ private:
     }
 
     void pushback2() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("void f()\n"
               "{\n"
               "    std::vector<int>::const_iterator it = foo.begin();\n"
@@ -2860,6 +3054,9 @@ private:
     }
 
     void pushback3() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("void f()\n"
               "{\n"
               "    std::vector<int> foo;\n"
@@ -2874,6 +3071,9 @@ private:
     }
 
     void pushback4() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("void f()\n"
               "{\n"
               "    std::vector<int> ints;\n"
@@ -2886,6 +3086,9 @@ private:
     }
 
     void pushback5() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("void f()\n"
               "{\n"
               "    std::vector<int>::const_iterator i;\n"
@@ -2903,6 +3106,9 @@ private:
     }
 
     void pushback6() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         // ticket #735
         check("void f()\n"
               "{\n"
@@ -2932,6 +3138,9 @@ private:
     }
 
     void pushback7() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("void f()\n"
               "{\n"
               "    std::vector<int> foo;\n"
@@ -2946,6 +3155,9 @@ private:
     }
 
     void pushback8() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("void f()\n"
               "{\n"
               "    std::vector<int> ints;\n"
@@ -2964,6 +3176,9 @@ private:
     }
 
     void pushback9() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("struct A {\n"
               "    std::vector<int> ints;\n"
               "};\n"
@@ -2984,6 +3199,9 @@ private:
     }
 
     void pushback10() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("void f(std::vector<int> &foo)\n"
               "{\n"
               "    std::vector<int>::const_iterator it = foo.begin();\n"
@@ -3007,6 +3225,9 @@ private:
     }
 
     void pushback11() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         // #2798
         check("void f() {\n"
               "    std::vector<int> ints;\n"
@@ -3021,6 +3242,9 @@ private:
     }
 
     void pushback12() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         // #4197
         check("void foo(double s)\n"
               "{\n"
@@ -3039,6 +3263,9 @@ private:
     }
 
     void pushback13() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("bool Preprocessor::ConcatenateIncludeName(SmallString<128> &FilenameBuffer, SourceLocation &End) {\n"
               "    unsigned PreAppendSize = FilenameBuffer.size();\n"
               "    FilenameBuffer.resize(PreAppendSize + CurTok.getLength());\n"
@@ -3049,6 +3276,9 @@ private:
     }
 
     void insert1() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("void f(std::vector<int> &ints)\n"
               "{\n"
               "    std::vector<int>::iterator iter = ints.begin() + 5;\n"
@@ -3117,6 +3347,9 @@ private:
     }
 
     void insert2() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         // Ticket: #2169
         check("void f(std::vector<int> &vec) {\n"
               "    for(std::vector<int>::iterator iter = vec.begin(); iter != vec.end(); ++iter)\n"
@@ -3165,6 +3398,9 @@ private:
     }
 
     void stlBoundaries1() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const std::string stlCont[] = {
             "list", "set", "multiset", "map", "multimap"
         };
@@ -3195,6 +3431,9 @@ private:
     }
 
     void stlBoundaries2() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("void f()\n"
               "{\n"
               "    std::vector<std::string> files;\n"
@@ -3207,6 +3446,9 @@ private:
     }
 
     void stlBoundaries3() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("void f()\n"
               "{\n"
               "    set<int> files;\n"
@@ -3227,6 +3469,9 @@ private:
     }
 
     void stlBoundaries4() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
 
         check("void f() {\n"
               "    std::forward_list<std::vector<std::vector<int>>>::iterator it;\n"
@@ -3250,6 +3495,9 @@ private:
     }
 
     void stlBoundaries5() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("class iterator { int foo(); };\n"
               "int foo() {\n"
               "    iterator i;\n"
@@ -3282,6 +3530,9 @@ private:
 
 
     void if_find() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         // ---------------------------
         // set::find
         // ---------------------------
@@ -3434,6 +3685,9 @@ private:
     }
 
     void if_str_find() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         // error (simple)
         check("void f(const std::string &s)\n"
               "{\n"
@@ -3505,6 +3759,9 @@ private:
 
 
     void size1() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char* code = "struct Fred {\n"
                            "    void foo();\n"
                            "    std::list<int> x;\n"
@@ -3695,6 +3952,9 @@ private:
     }
 
     void size2() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char* code = "struct Fred {\n"
                            "    std::list<int> x;\n"
                            "};\n"
@@ -3713,6 +3973,9 @@ private:
     }
 
     void size3() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char* code = "namespace N {\n"
                            "    class Zzz {\n"
                            "    public:\n"
@@ -3762,6 +4025,9 @@ private:
     }
 
     void redundantCondition1() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("void f(string haystack)\n"
               "{\n"
               "    if (haystack.find(needle) != haystack.end())\n"
@@ -3771,6 +4037,9 @@ private:
     }
 
     void missingInnerComparison1() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("void f(std::set<int> &ints) {\n"
               "    for (std::set<int>::iterator it = ints.begin(); it != ints.end(); ++it) {\n"
               "        if (a) {\n"
@@ -3800,6 +4069,9 @@ private:
     }
 
     void missingInnerComparison2() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("void f(std::set<int> &ints) {\n"
               "    for (std::set<int>::iterator it = ints.begin(); it != ints.end(); ++it) {\n"
               "        if (a) {\n"
@@ -3813,6 +4085,9 @@ private:
     }
 
     void missingInnerComparison3() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("void f(std::set<int> &ints) {\n"
               "    for (std::set<int>::iterator it = ints.begin(); it != ints.end(); ++it) {\n"
               "        for (std::set<int>::iterator it = ints2.begin(); it != ints2.end(); ++it)\n"
@@ -3823,6 +4098,9 @@ private:
     }
 
     void missingInnerComparison4() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("function f1(std::list<int> &l1) {\n"
               "    for(std::list<int>::iterator i = l1.begin(); i != l1.end(); i++) {\n"
               "        if (*i == 44) {\n"
@@ -3845,6 +4123,9 @@ private:
     }
 
     void missingInnerComparison5() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("void f() {\n"
               "    for(it = map1.begin(); it != map1.end(); it++) {\n"
               "        str[i++] = (*it).first;\n"
@@ -3854,6 +4135,9 @@ private:
     }
 
     void missingInnerComparison6() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("void f(std::string &s) {\n"
               "    for(string::iterator it = s.begin(); it != s.end(); it++) {\n"
               "        it = s.insert(++it, 0);\n"
@@ -3863,6 +4147,9 @@ private:
     }
 
     void cstr() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("void f() {\n"
               "    std::string errmsg;\n"
               "    throw errmsg.c_str();\n"
@@ -4294,6 +4581,9 @@ private:
     }
 
     void uselessCalls() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("void f()\n"
               "{\n"
               "    string s1, s2;\n"
@@ -4462,6 +4752,9 @@ private:
     }
 
     void stabilityOfChecks() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         // Stability test: 4684 cppcheck crash in template function call.
         check("template<class T>\n"
               "class EffectivityRangeData {};\n"
@@ -4477,6 +4770,9 @@ private:
     }
 
     void dereferenceInvalidIterator() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         // Test simplest "if" with && case
         check("void foo(std::string::iterator& i) {\n"
               "    if (std::isalpha(*i) && i != str.end()) {\n"
@@ -4851,6 +5147,9 @@ private:
     }
 
     void dereferenceInvalidIterator2() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         // Self-implemented iterator class
         check("class iterator {\n"
               "public:\n"
@@ -4876,6 +5175,9 @@ private:
     }
 
     void loopAlgoElementAssign() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("void foo() {\n"
               "    for(int& x:v)\n"
               "        x = 1;\n"
@@ -4948,6 +5250,9 @@ private:
     }
 
     void loopAlgoAccumulateAssign() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("void foo() {\n"
               "    int n = 0;\n"
               "    for(int x:v)\n"
@@ -5083,6 +5388,9 @@ private:
     }
 
     void loopAlgoContainerInsert() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("void foo() {\n"
               "    std::vector<int> c;\n"
               "    for(int x:v)\n"
@@ -5149,6 +5457,9 @@ private:
     }
 
     void loopAlgoIncrement() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("void foo() {\n"
               "    int n = 0;\n"
               "    for(int x:v)\n"
@@ -5181,6 +5492,9 @@ private:
     }
 
     void loopAlgoConditional() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("bool pred(int x);\n"
               "void foo() {\n"
               "    for(int& x:v) {\n"
@@ -5447,6 +5761,9 @@ private:
     }
 
     void loopAlgoMinMax() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("void foo() {\n"
               "    int n = 0;\n"
               "    for(int x:v)\n"
@@ -5490,6 +5807,9 @@ private:
 
     void loopAlgoMultipleReturn()
     {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("bool f(const std::vector<int>& v) {\n"
               "    for (auto i : v) {\n"
               "        if (i < 0)\n"
@@ -5611,6 +5931,9 @@ private:
     }
 
     void invalidContainer() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("void f(std::vector<int> &v) {\n"
               "    auto v0 = v.begin();\n"
               "    v.push_back(123);\n"
@@ -5990,6 +6313,9 @@ private:
     }
 
     void invalidContainerLoop() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         // #9435
         check("void f(std::vector<int> v) {\n"
               "    for (auto i : v) {\n"
@@ -6030,6 +6356,9 @@ private:
     }
 
     void findInsert() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("void f1(std::set<unsigned>& s, unsigned x) {\n"
               "    if (s.find(x) == s.end()) {\n"
               "        s.insert(x);\n"
@@ -6302,6 +6631,9 @@ private:
     }
 
     void checkKnownEmptyContainer() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("void f() {\n"
               "    std::vector<int> v;\n"
               "    for(auto x:v) {}\n"
@@ -6432,6 +6764,9 @@ private:
     }
 
     void checkMutexes() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("void f() {\n"
               "    static std::mutex m;\n"
               "    static std::lock_guard<std::mutex> g(m);\n"

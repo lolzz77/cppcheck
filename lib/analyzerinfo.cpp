@@ -1,3 +1,5 @@
+#include <stdio.h>
+#include <pthread.h>
 /*
  * Cppcheck - A tool for static C/C++ code analysis
  * Copyright (C) 2007-2023 Cppcheck team.
@@ -47,6 +49,9 @@ static std::string getFilename(const std::string &fullpath)
 
 void AnalyzerInformation::writeFilesTxt(const std::string &buildDir, const std::list<std::string> &sourcefiles, const std::string &userDefines, const std::list<FileSettings> &fileSettings)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     std::map<std::string, unsigned int> fileCount;
 
     const std::string filesTxt(buildDir + "/files.txt");
@@ -66,6 +71,9 @@ void AnalyzerInformation::writeFilesTxt(const std::string &buildDir, const std::
 
 void AnalyzerInformation::close()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     mAnalyzerInfoFile.clear();
     if (mOutputStream.is_open()) {
         mOutputStream << "</analyzerinfo>\n";
@@ -75,6 +83,9 @@ void AnalyzerInformation::close()
 
 static bool skipAnalysis(const std::string &analyzerInfoFile, std::size_t hash, std::list<ErrorMessage> &errors)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     tinyxml2::XMLDocument doc;
     const tinyxml2::XMLError error = doc.LoadFile(analyzerInfoFile.c_str());
     if (error != tinyxml2::XML_SUCCESS)
@@ -130,6 +141,9 @@ std::string AnalyzerInformation::getAnalyzerInfoFile(const std::string &buildDir
 
 bool AnalyzerInformation::analyzeFile(const std::string &buildDir, const std::string &sourcefile, const std::string &cfg, std::size_t hash, std::list<ErrorMessage> &errors)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (buildDir.empty() || sourcefile.empty())
         return true;
     close();
@@ -152,12 +166,18 @@ bool AnalyzerInformation::analyzeFile(const std::string &buildDir, const std::st
 
 void AnalyzerInformation::reportErr(const ErrorMessage &msg)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (mOutputStream.is_open())
         mOutputStream << msg.toXML() << '\n';
 }
 
 void AnalyzerInformation::setFileInfo(const std::string &check, const std::string &fileInfo)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (mOutputStream.is_open() && !fileInfo.empty())
         mOutputStream << "  <FileInfo check=\"" << check << "\">\n" << fileInfo << "  </FileInfo>\n";
 }

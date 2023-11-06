@@ -1,3 +1,5 @@
+#include <stdio.h>
+#include <pthread.h>
 /*
  * Cppcheck - A tool for static C/C++ code analysis
  * Copyright (C) 2007-2023 Cppcheck team.
@@ -72,6 +74,9 @@ static const ValueFlow::Value *getBufferSizeValue(const Token *tok)
 
 static int getMinFormatStringOutputLength(const std::vector<const Token*> &parameters, nonneg int formatStringArgNr)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (formatStringArgNr <= 0 || formatStringArgNr > parameters.size())
         return 0;
     if (parameters[formatStringArgNr - 1]->tokType() != Token::eString)
@@ -187,6 +192,9 @@ static int getMinFormatStringOutputLength(const std::vector<const Token*> &param
 
 static bool getDimensionsEtc(const Token * const arrayToken, const Settings *settings, std::vector<Dimension> &dimensions, ErrorPath &errorPath, bool &mightBeLarger, MathLib::bigint &path)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     const Token *array = arrayToken;
     while (Token::Match(array, ".|::"))
         array = array->astOperand2();
@@ -280,6 +288,9 @@ static std::vector<ValueFlow::Value> getOverrunIndexValues(const Token* tok,
 
 void CheckBufferOverrun::arrayIndex()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     logChecker("CheckBufferOverrun::arrayIndex");
 
     for (const Token *tok = mTokenizer->tokens(); tok; tok = tok->next()) {
@@ -403,6 +414,9 @@ void CheckBufferOverrun::arrayIndexError(const Token* tok,
                                          const std::vector<Dimension>& dimensions,
                                          const std::vector<ValueFlow::Value>& indexes)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (!tok) {
         reportError(tok, Severity::error, "arrayIndexOutOfBounds", "Array 'arr[16]' accessed at index 16, which is out of bounds.", CWE_BUFFER_OVERRUN, Certainty::normal);
         reportError(tok, Severity::warning, "arrayIndexOutOfBoundsCond", "Array 'arr[16]' accessed at index 16, which is out of bounds.", CWE_BUFFER_OVERRUN, Certainty::normal);
@@ -432,6 +446,9 @@ void CheckBufferOverrun::negativeIndexError(const Token* tok,
                                             const std::vector<Dimension>& dimensions,
                                             const std::vector<ValueFlow::Value>& indexes)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (!tok) {
         reportError(tok, Severity::error, "negativeIndex", "Negative array index", CWE_BUFFER_UNDERRUN, Certainty::normal);
         return;
@@ -460,6 +477,9 @@ void CheckBufferOverrun::negativeIndexError(const Token* tok,
 
 void CheckBufferOverrun::pointerArithmetic()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (!mSettings->severity.isEnabled(Severity::portability))
         return;
 
@@ -524,6 +544,9 @@ void CheckBufferOverrun::pointerArithmetic()
 
 void CheckBufferOverrun::pointerArithmeticError(const Token *tok, const Token *indexToken, const ValueFlow::Value *indexValue)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (!tok) {
         reportError(tok, Severity::portability, "pointerOutOfBounds", "Pointer arithmetic overflow.", CWE_POINTER_ARITHMETIC_OVERFLOW, Certainty::normal);
         reportError(tok, Severity::portability, "pointerOutOfBoundsCond", "Pointer arithmetic overflow.", CWE_POINTER_ARITHMETIC_OVERFLOW, Certainty::normal);
@@ -584,6 +607,9 @@ ValueFlow::Value CheckBufferOverrun::getBufferSize(const Token *bufTok) const
 
 static bool checkBufferSize(const Token *ftok, const Library::ArgumentChecks::MinSize &minsize, const std::vector<const Token *> &args, const MathLib::bigint bufferSize, const Settings *settings, const Tokenizer* tokenizer)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     const Token * const arg = (minsize.arg > 0 && minsize.arg - 1 < args.size()) ? args[minsize.arg - 1] : nullptr;
     const Token * const arg2 = (minsize.arg2 > 0 && minsize.arg2 - 1 < args.size()) ? args[minsize.arg2 - 1] : nullptr;
 
@@ -630,6 +656,9 @@ static bool checkBufferSize(const Token *ftok, const Library::ArgumentChecks::Mi
 
 void CheckBufferOverrun::bufferOverflow()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     logChecker("CheckBufferOverrun::bufferOverflow");
 
     const SymbolDatabase *symbolDatabase = mTokenizer->getSymbolDatabase();
@@ -687,6 +716,9 @@ void CheckBufferOverrun::bufferOverflow()
 
 void CheckBufferOverrun::bufferOverflowError(const Token *tok, const ValueFlow::Value *value, Certainty certainty)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     reportError(getErrorPath(tok, value, "Buffer overrun"), Severity::error, "bufferAccessOutOfBounds", "Buffer is accessed out of bounds: " + (tok ? tok->expressionString() : "buf"), CWE_BUFFER_OVERRUN, certainty);
 }
 
@@ -694,6 +726,9 @@ void CheckBufferOverrun::bufferOverflowError(const Token *tok, const ValueFlow::
 
 void CheckBufferOverrun::arrayIndexThenCheck()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (!mSettings->severity.isEnabled(Severity::portability))
         return;
 
@@ -738,6 +773,9 @@ void CheckBufferOverrun::arrayIndexThenCheck()
 
 void CheckBufferOverrun::arrayIndexThenCheckError(const Token *tok, const std::string &indexName)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     reportError(tok, Severity::style, "arrayIndexThenCheck",
                 "$symbol:" + indexName + "\n"
                 "Array index '$symbol' is used before limits check.\n"
@@ -751,6 +789,9 @@ void CheckBufferOverrun::arrayIndexThenCheckError(const Token *tok, const std::s
 
 void CheckBufferOverrun::stringNotZeroTerminated()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     // this is currently 'inconclusive'. See TestBufferOverrun::terminateStrncpy3
     if (!mSettings->severity.isEnabled(Severity::warning) || !mSettings->certainty.isEnabled(Certainty::inconclusive))
         return;
@@ -804,6 +845,9 @@ void CheckBufferOverrun::stringNotZeroTerminated()
 
 void CheckBufferOverrun::terminateStrncpyError(const Token *tok, const std::string &varname)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     const std::string shortMessage = "The buffer '$symbol' may not be null-terminated after the call to strncpy().";
     reportError(tok, Severity::warning, "terminateStrncpy",
                 "$symbol:" + varname + '\n' +
@@ -817,6 +861,9 @@ void CheckBufferOverrun::terminateStrncpyError(const Token *tok, const std::stri
 
 void CheckBufferOverrun::argumentSize()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     // Check '%type% x[10]' arguments
     if (!mSettings->severity.isEnabled(Severity::warning))
         return;
@@ -865,6 +912,9 @@ void CheckBufferOverrun::argumentSize()
 
 void CheckBufferOverrun::argumentSizeError(const Token *tok, const std::string &functionName, nonneg int paramIndex, const std::string &paramExpression, const Variable *paramVar, const Variable *functionArg)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     const std::string strParamNum = std::to_string(paramIndex + 1) + getOrdinalText(paramIndex + 1);
     ErrorPath errorPath;
     errorPath.emplace_back(tok, "Function '" + functionName + "' is called");
@@ -908,6 +958,9 @@ namespace {
 
 bool CheckBufferOverrun::isCtuUnsafeBufferUsage(const Check *check, const Token *argtok, MathLib::bigint *offset, int type)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (!offset)
         return false;
     const CheckBufferOverrun *c = dynamic_cast<const CheckBufferOverrun *>(check);
@@ -932,11 +985,17 @@ bool CheckBufferOverrun::isCtuUnsafeBufferUsage(const Check *check, const Token 
 
 bool CheckBufferOverrun::isCtuUnsafeArrayIndex(const Check *check, const Token *argtok, MathLib::bigint *offset)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     return CheckBufferOverrun::isCtuUnsafeBufferUsage(check, argtok, offset, 1);
 }
 
 bool CheckBufferOverrun::isCtuUnsafePointerArith(const Check *check, const Token *argtok, MathLib::bigint *offset)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     return CheckBufferOverrun::isCtuUnsafeBufferUsage(check, argtok, offset, 2);
 }
 
@@ -978,6 +1037,9 @@ Check::FileInfo * CheckBufferOverrun::loadFileInfoFromXml(const tinyxml2::XMLEle
 /** @brief Analyse all file infos for all TU */
 bool CheckBufferOverrun::analyseWholeProgram(const CTU::FileInfo *ctu, const std::list<Check::FileInfo*> &fileInfo, const Settings& settings, ErrorLogger &errorLogger)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (!ctu)
         return false;
     bool foundErrors = false;
@@ -1003,6 +1065,9 @@ bool CheckBufferOverrun::analyseWholeProgram(const CTU::FileInfo *ctu, const std
 
 bool CheckBufferOverrun::analyseWholeProgram1(const std::map<std::string, std::list<const CTU::FileInfo::CallBase *>> &callsMap, const CTU::FileInfo::UnsafeUsage &unsafeUsage, int type, ErrorLogger &errorLogger)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     const CTU::FileInfo::FunctionCall *functionCall = nullptr;
 
     const std::list<ErrorMessage::FileLocation> &locationList =
@@ -1045,6 +1110,9 @@ bool CheckBufferOverrun::analyseWholeProgram1(const std::map<std::string, std::l
 
 void CheckBufferOverrun::objectIndex()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     logChecker("CheckBufferOverrun::objectIndex");
     const SymbolDatabase *symbolDatabase = mTokenizer->getSymbolDatabase();
     for (const Scope *functionScope : symbolDatabase->functionScopes) {
@@ -1119,6 +1187,9 @@ void CheckBufferOverrun::objectIndex()
 
 void CheckBufferOverrun::objectIndexError(const Token *tok, const ValueFlow::Value *v, bool known)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     ErrorPath errorPath;
     std::string name;
     if (v) {
@@ -1137,6 +1208,9 @@ void CheckBufferOverrun::objectIndexError(const Token *tok, const ValueFlow::Val
 
 static bool isVLAIndex(const Token* tok)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (!tok)
         return false;
     if (tok->varId() != 0U)
@@ -1153,6 +1227,9 @@ static bool isVLAIndex(const Token* tok)
 
 void CheckBufferOverrun::negativeArraySize()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     logChecker("CheckBufferOverrun::negativeArraySize");
     const SymbolDatabase* symbolDatabase = mTokenizer->getSymbolDatabase();
     for (const Variable* var : symbolDatabase->variableList()) {
@@ -1183,6 +1260,9 @@ void CheckBufferOverrun::negativeArraySize()
 
 void CheckBufferOverrun::negativeArraySizeError(const Token* tok)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     const std::string arrayName = tok ? tok->expressionString() : std::string();
     const std::string line1 = arrayName.empty() ? std::string() : ("$symbol:" + arrayName + '\n');
     reportError(tok, Severity::error, "negativeArraySize",
@@ -1192,6 +1272,9 @@ void CheckBufferOverrun::negativeArraySizeError(const Token* tok)
 
 void CheckBufferOverrun::negativeMemoryAllocationSizeError(const Token* tok, const ValueFlow::Value* value)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     const std::string msg = "Memory allocation size is negative.";
     const ErrorPath errorPath = getErrorPath(tok, value, msg);
     const bool inconclusive = value != nullptr && !value->isKnown();

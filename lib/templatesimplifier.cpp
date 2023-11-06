@@ -1,3 +1,5 @@
+#include <stdio.h>
+#include <pthread.h>
 /*
  * Cppcheck - A tool for static C/C++ code analysis
  * Copyright (C) 2007-2023 Cppcheck team.
@@ -38,6 +40,9 @@
 
 static Token *skipRequires(Token *tok)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (!Token::simpleMatch(tok, "requires"))
         return tok;
 
@@ -67,6 +72,9 @@ namespace {
     public:
         explicit FindToken(const Token *token) : mToken(token) {}
         bool operator()(const TemplateSimplifier::TokenAndName &tokenAndName) const {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
             return tokenAndName.token() == mToken;
         }
     private:
@@ -77,6 +85,9 @@ namespace {
     public:
         explicit FindName(std::string name) : mName(std::move(name)) {}
         bool operator()(const TemplateSimplifier::TokenAndName &tokenAndName) const {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
             return tokenAndName.name() == mName;
         }
     private:
@@ -87,6 +98,9 @@ namespace {
     public:
         explicit FindFullName(std::string fullName) : mFullName(std::move(fullName)) {}
         bool operator()(const TemplateSimplifier::TokenAndName &tokenAndName) const {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
             return tokenAndName.fullName() == mFullName;
         }
     private:
@@ -279,6 +293,9 @@ TemplateSimplifier::TemplateSimplifier(Tokenizer &tokenizer)
 
 void TemplateSimplifier::checkComplicatedSyntaxErrorsInTemplates()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     // check for more complicated syntax errors when using templates..
     for (const Token *tok = mTokenList.front(); tok; tok = tok->next()) {
         // skip executing scopes (ticket #3183)..
@@ -561,6 +578,9 @@ const Token *TemplateSimplifier::findTemplateDeclarationEnd(const Token *tok)
 
 Token *TemplateSimplifier::findTemplateDeclarationEnd(Token *tok)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (Token::simpleMatch(tok, "template <")) {
         tok = tok->next()->findClosingBracket();
         if (tok)
@@ -601,6 +621,9 @@ Token *TemplateSimplifier::findTemplateDeclarationEnd(Token *tok)
 
 void TemplateSimplifier::eraseTokens(Token *begin, const Token *end)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (!begin || begin == end)
         return;
 
@@ -611,6 +634,9 @@ void TemplateSimplifier::eraseTokens(Token *begin, const Token *end)
 
 void TemplateSimplifier::deleteToken(Token *tok)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (tok->next())
         tok->next()->deletePrevious();
     else
@@ -618,6 +644,9 @@ void TemplateSimplifier::deleteToken(Token *tok)
 }
 
 static void invalidateForwardDecls(const Token* beg, const Token* end, std::map<Token*, Token*>* forwardDecls) {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (!forwardDecls)
         return;
     for (auto& fwd : *forwardDecls) {
@@ -631,6 +660,9 @@ static void invalidateForwardDecls(const Token* beg, const Token* end, std::map<
 
 bool TemplateSimplifier::removeTemplate(Token *tok, std::map<Token*, Token*>* forwardDecls)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (!Token::simpleMatch(tok, "template <"))
         return false;
 
@@ -647,6 +679,9 @@ bool TemplateSimplifier::removeTemplate(Token *tok, std::map<Token*, Token*>* fo
 
 bool TemplateSimplifier::getTemplateDeclarations()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     bool codeWithTemplates = false;
     for (Token *tok = mTokenList.front(); tok; tok = tok->next()) {
         if (!Token::simpleMatch(tok, "template <"))
@@ -704,6 +739,9 @@ bool TemplateSimplifier::getTemplateDeclarations()
 
 void TemplateSimplifier::addInstantiation(Token *token, const std::string &scope)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     simplifyTemplateArgs(token->tokAt(2), token->next()->findClosingBracket());
 
     TokenAndName instantiation(token, scope);
@@ -719,6 +757,9 @@ void TemplateSimplifier::addInstantiation(Token *token, const std::string &scope
 
 static const Token* getFunctionToken(const Token* nameToken)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (Token::Match(nameToken, "%name% ("))
         return nameToken->next();
 
@@ -733,6 +774,9 @@ static const Token* getFunctionToken(const Token* nameToken)
 
 static void getFunctionArguments(const Token* nameToken, std::vector<const Token*>& args)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     const Token* functionToken = getFunctionToken(nameToken);
     if (!functionToken)
         return;
@@ -750,6 +794,9 @@ static void getFunctionArguments(const Token* nameToken, std::vector<const Token
 
 static bool isConstMethod(const Token* nameToken)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     const Token* functionToken = getFunctionToken(nameToken);
     if (!functionToken)
         return false;
@@ -759,6 +806,9 @@ static bool isConstMethod(const Token* nameToken)
 
 static bool areAllParamsTypes(const std::vector<const Token *> &params)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (params.empty())
         return false;
 
@@ -769,6 +819,9 @@ static bool areAllParamsTypes(const std::vector<const Token *> &params)
 
 void TemplateSimplifier::getTemplateInstantiations()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     std::multimap<std::string, const TokenAndName *> functionNameMap;
 
     for (const auto & decl : mTemplateDeclarations) {
@@ -1024,6 +1077,9 @@ void TemplateSimplifier::getTemplateInstantiations()
 
 void TemplateSimplifier::useDefaultArgumentValues()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     for (TokenAndName &declaration : mTemplateDeclarations)
         useDefaultArgumentValues(declaration);
 
@@ -1033,6 +1089,9 @@ void TemplateSimplifier::useDefaultArgumentValues()
 
 void TemplateSimplifier::useDefaultArgumentValues(TokenAndName &declaration)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     // Ticket #5762: Skip specialization tokens
     if (declaration.isSpecialization() || declaration.isAlias() || declaration.isFriend())
         return;
@@ -1263,6 +1322,9 @@ void TemplateSimplifier::useDefaultArgumentValues(TokenAndName &declaration)
 
 void TemplateSimplifier::simplifyTemplateAliases()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     for (std::list<TokenAndName>::iterator it1 = mTemplateDeclarations.begin(); it1 != mTemplateDeclarations.end();) {
         const TokenAndName &aliasDeclaration = *it1;
 
@@ -1389,6 +1451,9 @@ void TemplateSimplifier::simplifyTemplateAliases()
 
 bool TemplateSimplifier::instantiateMatch(const Token *instance, const std::size_t numberOfArguments, bool variadic, const char patternAfter[])
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     assert(instance->strAt(1) == "<");
 
     auto n = templateParameters(instance->next());
@@ -1408,6 +1473,9 @@ bool TemplateSimplifier::instantiateMatch(const Token *instance, const std::size
 // Utility function for TemplateSimplifier::getTemplateNamePosition, that works on template functions
 bool TemplateSimplifier::getTemplateNamePositionTemplateFunction(const Token *tok, int &namepos)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     namepos = 1;
     while (tok && tok->next()) {
         if (Token::Match(tok->next(), ";|{"))
@@ -1440,6 +1508,9 @@ bool TemplateSimplifier::getTemplateNamePositionTemplateFunction(const Token *to
 
 bool TemplateSimplifier::getTemplateNamePositionTemplateVariable(const Token *tok, int &namepos)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     namepos = 1;
     while (tok && tok->next()) {
         if (Token::Match(tok->next(), ";|{|(|using"))
@@ -1472,6 +1543,9 @@ bool TemplateSimplifier::getTemplateNamePositionTemplateVariable(const Token *to
 
 bool TemplateSimplifier::getTemplateNamePositionTemplateClass(const Token *tok, int &namepos)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (Token::Match(tok, "> friend| class|struct|union %type% :|<|;|{|::")) {
         namepos = tok->strAt(1) == "friend" ? 3 : 2;
         tok = tok->tokAt(namepos);
@@ -1501,6 +1575,9 @@ bool TemplateSimplifier::getTemplateNamePositionTemplateClass(const Token *tok, 
 
 int TemplateSimplifier::getTemplateNamePosition(const Token *tok)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     assert(tok && tok->str() == ">");
 
     auto it = mTemplateNamePos.find(tok);
@@ -1525,6 +1602,9 @@ int TemplateSimplifier::getTemplateNamePosition(const Token *tok)
 
 void TemplateSimplifier::addNamespace(const TokenAndName &templateDeclaration, const Token *tok)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     // find start of qualification
     const Token * tokStart = tok;
     int offset = 0;
@@ -1587,6 +1667,9 @@ void TemplateSimplifier::addNamespace(const TokenAndName &templateDeclaration, c
 
 bool TemplateSimplifier::alreadyHasNamespace(const TokenAndName &templateDeclaration, const Token *tok)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     const std::string& scope = templateDeclaration.scope();
 
     // get the length in tokens of the namespace
@@ -1614,6 +1697,9 @@ void TemplateSimplifier::expandTemplate(
     const std::string &newName,
     bool copy)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     bool inTemplateDefinition = false;
     const Token *startOfTemplateDeclaration = nullptr;
     const Token *endOfTemplateDefinition = nullptr;
@@ -2286,40 +2372,67 @@ void TemplateSimplifier::expandTemplate(
 
 static bool isLowerThanLogicalAnd(const Token *lower)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     return lower->isAssignmentOp() || Token::Match(lower, "}|;|(|[|]|)|,|?|:|%oror%|return|throw|case");
 }
 static bool isLowerThanOr(const Token* lower)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     return isLowerThanLogicalAnd(lower) || lower->str() == "&&";
 }
 static bool isLowerThanXor(const Token* lower)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     return isLowerThanOr(lower) || lower->str() == "|";
 }
 static bool isLowerThanAnd(const Token* lower)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     return isLowerThanXor(lower) || lower->str() == "^";
 }
 static bool isLowerThanShift(const Token* lower)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     return isLowerThanAnd(lower) || lower->str() == "&";
 }
 static bool isLowerThanPlusMinus(const Token* lower)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     return isLowerThanShift(lower) || Token::Match(lower, "%comp%|<<|>>");
 }
 static bool isLowerThanMulDiv(const Token* lower)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     return isLowerThanPlusMinus(lower) || Token::Match(lower, "+|-");
 }
 static bool isLowerEqualThanMulDiv(const Token* lower)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     return isLowerThanMulDiv(lower) || Token::Match(lower, "[*/%]");
 }
 
 
 bool TemplateSimplifier::simplifyNumericCalculations(Token *tok, bool isTemplate)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     bool ret = false;
     // (1-2)
     while (tok->tokAt(3) && tok->isNumber() && tok->tokAt(2)->isNumber()) { // %any% %num% %any% %num% %any%
@@ -2414,6 +2527,9 @@ bool TemplateSimplifier::simplifyNumericCalculations(Token *tok, bool isTemplate
 
 static Token *skipTernaryOp(Token *tok, const Token *backToken)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     unsigned int colonLevel = 1;
     while (nullptr != (tok = tok->next())) {
         if (tok->str() == "?") {
@@ -2436,6 +2552,9 @@ static Token *skipTernaryOp(Token *tok, const Token *backToken)
 }
 
 static void invalidateInst(const Token* beg, const Token* end, std::vector<newInstantiation>* newInst) {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (!newInst)
         return;
     for (auto& inst : *newInst) {
@@ -2449,6 +2568,9 @@ static void invalidateInst(const Token* beg, const Token* end, std::vector<newIn
 
 void TemplateSimplifier::simplifyTemplateArgs(Token *start, const Token *end, std::vector<newInstantiation>* newInst)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     // start could be erased so use the token before start if available
     Token * first = (start && start->previous()) ? start->previous() : mTokenList.front();
     bool again = true;
@@ -2606,6 +2728,9 @@ void TemplateSimplifier::simplifyTemplateArgs(Token *start, const Token *end, st
 
 static bool validTokenStart(bool bounded, const Token *tok, const Token *frontToken, int offset)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (!bounded)
         return true;
 
@@ -2624,6 +2749,9 @@ static bool validTokenStart(bool bounded, const Token *tok, const Token *frontTo
 
 static bool validTokenEnd(bool bounded, const Token *tok, const Token *backToken, int offset)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (!bounded)
         return true;
 
@@ -2641,6 +2769,9 @@ static bool validTokenEnd(bool bounded, const Token *tok, const Token *backToken
 // should be moved away.
 bool TemplateSimplifier::simplifyCalculations(Token* frontToken, const Token *backToken, bool isTemplate)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     bool ret = false;
     const bool bounded = frontToken || backToken;
     if (!frontToken) {
@@ -2735,6 +2866,9 @@ bool TemplateSimplifier::simplifyCalculations(Token* frontToken, const Token *ba
                 Token *prev = tok->tokAt(-2);
                 while (validTokenStart(bounded, tok, frontToken, -2) &&
                        prev && simplifyNumericCalculations(prev, isTemplate)) {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
                     tok = prev;
                     prev = prev->tokAt(-2);
                 }
@@ -2902,6 +3036,9 @@ void TemplateSimplifier::getTemplateParametersInDeclaration(
     const Token * tok,
     std::vector<const Token *> & typeParametersInDeclaration)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     assert(tok->strAt(-1) == "<");
 
     typeParametersInDeclaration.clear();
@@ -2937,6 +3074,9 @@ bool TemplateSimplifier::matchSpecialization(
     const Token *templateInstantiationNameToken,
     const std::list<const Token *> & specializations)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     // Is there a matching specialization?
     for (std::list<const Token *>::const_iterator it = specializations.cbegin(); it != specializations.cend(); ++it) {
         if (!Token::Match(*it, "%name% <"))
@@ -3043,6 +3183,9 @@ bool TemplateSimplifier::simplifyTemplateInstantiations(
     const std::time_t maxtime,
     std::set<std::string> &expandedtemplates)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     // this variable is not used at the moment. The intention was to
     // allow continuous instantiations until all templates has been expanded
     //bool done = false;
@@ -3193,6 +3336,9 @@ bool TemplateSimplifier::simplifyTemplateInstantiations(
 
         if ((typeForNewName.empty() && !templateDeclaration.isVariadic()) ||
             (!typeParametersInDeclaration.empty() && !instantiateMatch(tok2, typeParametersInDeclaration.size(), templateDeclaration.isVariadic(), nullptr))) {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
             if (printDebug && mErrorLogger) {
                 std::list<const Token *> callstack(1, tok2);
                 mErrorLogger->reportErr(ErrorMessage(callstack, &mTokenList, Severity::debug, "templateInstantiation",
@@ -3299,6 +3445,9 @@ bool TemplateSimplifier::simplifyTemplateInstantiations(
 
 static bool matchTemplateParameters(const Token *nameTok, const std::list<std::string> &strings)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     std::list<std::string>::const_iterator it = strings.cbegin();
     const Token *tok = nameTok->tokAt(2);
     const Token *end = nameTok->next()->findClosingBracket();
@@ -3341,6 +3490,9 @@ void TemplateSimplifier::replaceTemplateUsage(
     const std::list<std::string> &typeStringsUsedInTemplateInstantiation,
     const std::string &newName)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     std::list<std::pair<Token *, Token *>> removeTokens;
     for (Token *nameTok = mTokenList.front(); nameTok; nameTok = nameTok->next()) {
         if (!Token::Match(nameTok, "%name% <") ||
@@ -3407,6 +3559,9 @@ static bool specMatch(
     const TemplateSimplifier::TokenAndName &spec,
     const TemplateSimplifier::TokenAndName &decl)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     // make sure decl is really a declaration
     if (decl.isPartialSpecialization() || decl.isSpecialization() || decl.isAlias() || decl.isFriend())
         return false;
@@ -3435,6 +3590,9 @@ static bool specMatch(
 
 void TemplateSimplifier::getSpecializations()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     // try to locate a matching declaration for each user defined specialization
     for (const auto& spec : mTemplateDeclarations) {
         if (spec.isSpecialization()) {
@@ -3456,6 +3614,9 @@ void TemplateSimplifier::getSpecializations()
 
 void TemplateSimplifier::getPartialSpecializations()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     // try to locate a matching declaration for each user defined partial specialization
     for (const auto& spec : mTemplateDeclarations) {
         if (spec.isPartialSpecialization()) {
@@ -3477,6 +3638,9 @@ void TemplateSimplifier::getPartialSpecializations()
 
 void TemplateSimplifier::fixForwardDeclaredDefaultArgumentValues()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     // try to locate a matching declaration for each forward declaration
     for (const auto & forwardDecl : mTemplateForwardDeclarations) {
         std::vector<const Token *> params1;
@@ -3529,6 +3693,9 @@ void TemplateSimplifier::fixForwardDeclaredDefaultArgumentValues()
 
 void TemplateSimplifier::printOut(const TokenAndName &tokenAndName, const std::string &indent) const
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     std::cout << indent << "token: ";
     if (tokenAndName.token())
         std::cout << "\"" << tokenAndName.token()->str() << "\" " << mTokenList.fileLine(tokenAndName.token());
@@ -3601,6 +3768,9 @@ void TemplateSimplifier::printOut(const TokenAndName &tokenAndName, const std::s
 
 void TemplateSimplifier::printOut(const std::string & text) const
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     std::cout << std::endl;
     std::cout << text << std::endl;
     std::cout << std::endl;
@@ -3718,6 +3888,9 @@ void TemplateSimplifier::printOut(const std::string & text) const
 
 void TemplateSimplifier::simplifyTemplates(const std::time_t maxtime)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     // convert "sizeof ..." to "sizeof..."
     for (Token *tok = mTokenList.front(); tok; tok = tok->next()) {
         if (Token::simpleMatch(tok, "sizeof ...")) {
@@ -4022,5 +4195,8 @@ void TemplateSimplifier::simplifyTemplates(const std::time_t maxtime)
 
 void TemplateSimplifier::syntaxError(const Token *tok)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     throw InternalError(tok, "syntax error", InternalError::SYNTAX);
 }

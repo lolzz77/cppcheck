@@ -1,3 +1,5 @@
+#include <stdio.h>
+#include <pthread.h>
 /*
  * Cppcheck - A tool for static C/C++ code analysis
  * Copyright (C) 2007-2023 Cppcheck team.
@@ -36,11 +38,17 @@ class QWidget;
 
 void HelpBrowser::setHelpEngine(QHelpEngine *helpEngine)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     mHelpEngine = helpEngine;
 }
 
 QVariant HelpBrowser::loadResource(int type, const QUrl &name)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (name.scheme() == "qthelp") {
         QString url(name.toString());
         while (url.indexOf("/./") > 0)
@@ -52,6 +60,9 @@ QVariant HelpBrowser::loadResource(int type, const QUrl &name)
 
 static QString getHelpFile()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     const QString datadir = getDataDir();
 
     QStringList paths;
@@ -115,6 +126,9 @@ HelpDialog::HelpDialog(QWidget *parent) :
 
 HelpDialog::~HelpDialog()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     delete mUi;
     delete mHelpEngine;
 }

@@ -1,3 +1,5 @@
+#include <stdio.h>
+#include <pthread.h>
 
 // Test library configuration for openmp.cfg
 //
@@ -12,6 +14,9 @@
 
 void validCode()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     int arr[20] = { 0 };
     #pragma omp parallel for
     for (int i = 0; i < 20; ++i) {
@@ -26,6 +31,9 @@ void validCode()
 
 void memleak_omp_target_alloc()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     const char * pChars = (char *) omp_target_alloc(2, 0);
     printf("pChars: %p", pChars);
     // cppcheck-suppress memleak

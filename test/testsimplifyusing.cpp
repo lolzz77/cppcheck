@@ -1,3 +1,5 @@
+#include <stdio.h>
+#include <pthread.h>
 /*
  * Cppcheck - A tool for static C/C++ code analysis
  * Copyright (C) 2007-2023 Cppcheck team.
@@ -39,6 +41,9 @@ private:
     const Settings settings0 = settingsBuilder().severity(Severity::style).build();
 
     void run() override {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         TEST_CASE(simplifyUsing1);
         TEST_CASE(simplifyUsing2);
         TEST_CASE(simplifyUsing3);
@@ -113,6 +118,9 @@ private:
     }
 
     void simplifyUsing1() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char code[] = "class A\n"
                             "{\n"
                             "public:\n"
@@ -144,6 +152,9 @@ private:
     }
 
     void simplifyUsing2() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char code[] = "class A;\n"
                             "using duplicate = A;\n"
                             "class A\n"
@@ -165,6 +176,9 @@ private:
     }
 
     void simplifyUsing3() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char code[] = "class A {};\n"
                             "using duplicate = A;\n"
                             "wchar_t foo()\n"
@@ -194,6 +208,9 @@ private:
     }
 
     void simplifyUsing4() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char code[] = "using s32 = int;\n"
                             "using u32 = unsigned int;\n"
                             "void f()\n"
@@ -214,6 +231,9 @@ private:
     }
 
     void simplifyUsing5() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char code[] =
             "using YY_BUFFER_STATE = struct yy_buffer_state *;\n"
             "void f()\n"
@@ -231,6 +251,9 @@ private:
     }
 
     void simplifyUsing6() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char code[] =
             "namespace VL {\n"
             "    using float_t = float;\n"
@@ -247,6 +270,9 @@ private:
     }
 
     void simplifyUsing7() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char code[] = "using abc = int; "
                             "Fred :: abc f ;";
         const char expected[] = "Fred :: abc f ;";
@@ -254,6 +280,9 @@ private:
     }
 
     void simplifyUsing8() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char code[] = "using INT = int;\n"
                             "using UINT = unsigned int;\n"
                             "using PINT = int *;\n"
@@ -285,6 +314,9 @@ private:
     }
 
     void simplifyUsing9() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char code[] = "using S = struct s;\n"
                             "using PS = S *;\n"
                             "using T = struct t { int a; };\n"
@@ -316,6 +348,9 @@ private:
     }
 
     void simplifyUsing10() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char code[] = "using S = union s;\n"
                             "using PS = S *;\n"
                             "using T = union t { int a; float b ; };\n"
@@ -347,6 +382,9 @@ private:
     }
 
     void simplifyUsing11() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char code[] = "using abc = enum { a = 0 , b = 1 , c = 2 };\n"
                             "using XYZ = enum xyz { x = 0 , y = 1 , z = 2 };\n"
                             "abc e1;\n"
@@ -361,6 +399,9 @@ private:
     }
 
     void simplifyUsing12() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char code[] = "using V1 = vector<int>;\n"
                             "using V2 = std::vector<int>;\n"
                             "using V3 = std::vector<std::vector<int> >;\n"
@@ -379,6 +420,9 @@ private:
     }
 
     void simplifyUsing13() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char code[] = "using Func = std::pair<int(*)(void*), void*>;\n"
                             "using CallQueue = std::vector<Func>;\n"
                             "int main() {\n"
@@ -394,6 +438,9 @@ private:
     }
 
     void simplifyUsing14() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char code[] = "template <typename F, unsigned int N> struct E"
                             "{"
                             "    using v = E<F,(N>0)?(N-1):0>;"
@@ -411,6 +458,9 @@ private:
     }
 
     void simplifyUsing15() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         {
             const char code[] = "using frame = char [10];\n"
                                 "frame f;";
@@ -431,6 +481,9 @@ private:
     }
 
     void simplifyUsing16() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char code[] = "using MOT8 = char;\n"
                             "using CHFOO = MOT8 [4096];\n"
                             "using STRFOO = struct {\n"
@@ -448,6 +501,9 @@ private:
     }
 
     void simplifyUsing17() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char code[] = "class C1 {};\n"
                             "using S1 = class S1 {};\n"
                             "using S2 = class S2 : public C1 {};\n"
@@ -472,11 +528,17 @@ private:
     }
 
     void simplifyUsing18() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char code[] = "{ { { using a = a; using a; } } }";
         tok(code); // don't crash
     }
 
     void simplifyUsing19() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char code[] = "namespace a {\n"
                             "using b = int;\n"
                             "void foo::c() { }\n"
@@ -489,6 +551,9 @@ private:
     }
 
     void simplifyUsing20() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char code[] = "namespace a {\n"
                             "namespace b {\n"
                             "namespace c {\n"
@@ -533,12 +598,18 @@ private:
     }
 
     void simplifyUsing21() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char code[] = "using a = b;\n"
                             "enum {}";
         tok(code); // don't crash
     }
 
     void simplifyUsing22() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char code[] = "namespace aa { namespace bb { namespace cc { namespace dd { namespace ee {\n"
                             "class fff {\n"
                             "public:\n"
@@ -564,6 +635,9 @@ private:
     }
 
     void simplifyUsing23() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char code[] = "class cmcch {\n"
                             "public:\n"
                             "   cmcch(icmsp const& icm, Rtnf&& rtnf = {});\n"
@@ -594,6 +668,9 @@ private:
     }
 
     void simplifyUsing24() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char code[] = "using value_type = const ValueFlow::Value;\n"
                             "value_type vt;";
         const char expected[] = "const ValueFlow :: Value vt ;";
@@ -601,6 +678,9 @@ private:
     }
 
     void simplifyUsing25() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char code[] = "struct UnusualType {\n"
                             "  using T = vtkm::Id;\n"
                             "  T X;\n"
@@ -683,6 +763,9 @@ private:
     }
 
     void simplifyUsing8970() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char code[] = "using V = std::vector<int>;\n"
                             "struct A {\n"
                             "    V p;\n"
@@ -696,6 +779,9 @@ private:
     }
 
     void simplifyUsing8971() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char code[] = "class A {\n"
                             "public:\n"
                             "    using V = std::vector<double>;\n"
@@ -720,6 +806,9 @@ private:
     }
 
     void simplifyUsing8976() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char code[] = "using mystring = std::string;";
 
         const char exp[] = ";";
@@ -728,6 +817,9 @@ private:
     }
 
     void simplifyUsing9040() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char code[] = "using BOOL = unsigned; int i;";
 
         const char exp[] = "int i ;";
@@ -740,6 +832,9 @@ private:
     }
 
     void simplifyUsing9042() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char code[] = "template <class T>\n"
                             "class c {\n"
                             "    int i = 0;\n"
@@ -760,6 +855,9 @@ private:
     }
 
     void simplifyUsing9191() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char code[] = "namespace NS1 {\n"
                             "  namespace NS2 {\n"
                             "    using _LONG = signed long long;\n"
@@ -787,6 +885,9 @@ private:
     }
 
     void simplifyUsing9381() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char code[] = "namespace ns {\n"
                             "    class Result;\n"
                             "    using UniqueResultPtr = std::unique_ptr<Result>;\n"
@@ -811,6 +912,9 @@ private:
     }
 
     void simplifyUsing9385() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         {
             const char code[] = "class A {\n"
                                 "public:\n"
@@ -862,6 +966,9 @@ private:
     }
 
     void simplifyUsing9388() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char code[] = "class A {\n"
                             "public:\n"
                             "    using Type = int;\n"
@@ -879,6 +986,9 @@ private:
     }
 
     void simplifyUsing9518() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char code[] = "namespace a {\n"
                             "using a = enum {};\n"
                             "}";
@@ -889,6 +999,9 @@ private:
     }
 
     void simplifyUsing9757() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char code[] = "enum class Type_t { Nil = 0 };\n"
                             "template<Type_t type> class MappedType { };\n"
                             "template<> class MappedType<Type_t::Nil> { using type = void; };\n"
@@ -905,6 +1018,9 @@ private:
     }
 
     void simplifyUsing10008() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char code[] = "namespace ns {\n"
                             "    using ArrayType = std::vector<int>;\n"
                             "}\n"
@@ -1119,6 +1235,9 @@ private:
     }
 
     void simplifyUsing10136() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         {
             const char code[] = "class B {\n"
                                 "public:\n"
@@ -1231,6 +1350,9 @@ private:
     }
 
     void simplifyUsing10171() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char code[] = "namespace ns {\n"
                             "    class A {\n"
                             "    public:\n"
@@ -1263,6 +1385,9 @@ private:
     }
 
     void simplifyUsing10172() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         {
             const char code[] = "namespace ns {\n"
                                 "    class A {\n"
@@ -1328,6 +1453,9 @@ private:
     }
 
     void simplifyUsing10173() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         {
             const char code[] = "std::ostream & operator<<(std::ostream &s, const Pr<st> p) {\n"
                                 "    return s;\n"
@@ -1376,6 +1504,9 @@ private:
     }
 
     void simplifyUsing10335() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char code[] = "using uint8_t = unsigned char;\n"
                             "enum E : uint8_t { E0 };";
         const char exp[]  = "enum E : unsigned char { E0 } ;";
@@ -1383,6 +1514,9 @@ private:
     }
 
     void simplifyUsing10720() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char code[] = "template <typename... Ts>\n"
                             "struct S {};\n"
                             "#define STAMP(thiz, prev) using thiz = S<prev, prev, prev, prev, prev, prev, prev, prev, prev, prev>;\n"
@@ -1394,6 +1528,9 @@ private:
     }
 
     void scopeInfo1() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char code[] = "struct A {\n"
                             "    enum class Mode { UNKNOWN, ENABLED, NONE, };\n"
                             "};\n"
@@ -1405,6 +1542,9 @@ private:
     }
 
     void scopeInfo2() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char code[] = "struct A {\n"
                             "    using Map = std::map<int, int>;\n"
                             "    Map values;\n"

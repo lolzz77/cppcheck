@@ -1,3 +1,5 @@
+#include <stdio.h>
+#include <pthread.h>
 /*
  * Cppcheck - A tool for static C/C++ code analysis
  * Copyright (C) 2007-2023 Cppcheck team.
@@ -40,6 +42,9 @@ private:
     const Settings settings_windows = settingsBuilder().library("windows.cfg").severity(Severity::portability).build();
 
     void run() override {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         TEST_CASE(combine_strings);
         TEST_CASE(combine_wstrings);
         TEST_CASE(combine_ustrings);
@@ -234,6 +239,9 @@ private:
 
 
     void combine_strings() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char code1[] =  "void foo()\n"
                              "{\n"
                              "const char *a =\n"
@@ -260,6 +268,9 @@ private:
     }
 
     void combine_wstrings() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char code[] =  "a = L\"hello \"  L\"world\" ;\n";
 
         const char expected[] =  "a = L\"hello world\" ;";
@@ -272,6 +283,9 @@ private:
     }
 
     void combine_ustrings() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char code[] =  "abcd = u\"ab\" u\"cd\";";
 
         const char expected[] =  "abcd = u\"abcd\" ;";
@@ -284,6 +298,9 @@ private:
     }
 
     void combine_Ustrings() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char code[] =  "abcd = U\"ab\" U\"cd\";";
 
         const char expected[] =  "abcd = U\"abcd\" ;";
@@ -296,6 +313,9 @@ private:
     }
 
     void combine_u8strings() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char code[] =  "abcd = u8\"ab\" u8\"cd\";";
 
         const char expected[] =  "abcd = u8\"abcd\" ;";
@@ -308,6 +328,9 @@ private:
     }
 
     void combine_mixedstrings() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char code[] = "abcdef = \"ab\" L\"cd\" \"ef\";";
 
         const char expected[] =  "abcdef = L\"abcdef\" ;";
@@ -320,6 +343,9 @@ private:
     }
 
     void double_plus() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         {
             const char code1[] =  "void foo( int a )\n"
                                  "{\n"
@@ -382,6 +408,9 @@ private:
     }
 
     void redundant_plus() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         {
             const char code1[] =  "void foo( int a, int b )\n"
                                  "{\n"
@@ -434,6 +463,9 @@ private:
     }
 
     void redundant_plus_numbers() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         {
             const char code1[] =  "void foo( int a )\n"
                                  "{\n"
@@ -487,11 +519,17 @@ private:
 
 
     void declareVar() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char code[] = "void f ( ) { char str [ 100 ] = \"100\" ; }";
         ASSERT_EQUALS(code, tok(code));
     }
 
     void declareArray() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char code1[] = "void f ( ) { char str [ ] = \"100\" ; }";
         const char expected1[] = "void f ( ) { char str [ 4 ] = \"100\" ; }";
         ASSERT_EQUALS(expected1, tok(code1));
@@ -510,6 +548,9 @@ private:
     }
 
     void dontRemoveIncrement() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         {
             const char code[] = "void f(int a)\n"
                                 "{\n"
@@ -537,6 +578,9 @@ private:
 
 
     void elseif1() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char code[] = "void f(){ if(x) {} else if(ab) { cd } else { ef }gh; }";
         ASSERT_EQUALS("\n\n##file 0\n1: void f ( ) { if ( x ) { } else { if ( ab ) { cd } else { ef } } gh ; }\n", tokenizeDebugListing(code));
 
@@ -593,6 +637,9 @@ private:
 
 
     void namespaces() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         {
             const char code[] = "namespace std { }";
 
@@ -631,6 +678,9 @@ private:
     }
 
     void not1() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         ASSERT_EQUALS("void f ( ) { if ( ! p ) { ; } }", tok("void f() { if (not p); }", "test.c"));
         ASSERT_EQUALS("void f ( ) { if ( p && ! q ) { ; } }", tok("void f() { if (p && not q); }", "test.c"));
         ASSERT_EQUALS("void f ( ) { a = ! ( p && q ) ; }", tok("void f() { a = not(p && q); }", "test.c"));
@@ -643,6 +693,9 @@ private:
     }
 
     void and1() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         ASSERT_EQUALS("void f ( ) { if ( p && q ) { ; } }",
                       tok("void f() { if (p and q) ; }", "test.c"));
 
@@ -669,6 +722,9 @@ private:
     }
 
     void or1() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         ASSERT_EQUALS("void f ( ) { if ( p || q ) { ; } }",
                       tok("void f() { if (p or q) ; }", "test.c"));
 
@@ -692,6 +748,9 @@ private:
     }
 
     void cAlternativeTokens() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         ASSERT_EQUALS("void f ( ) { err |= ( ( r & s ) && ! t ) ; }",
                       tok("void f() { err or_eq ((r bitand s) and not t); }", "test.c"));
         ASSERT_EQUALS("void f ( ) const { r = f ( a [ 4 ] | 0x0F , ~ c , ! d ) ; }",
@@ -700,6 +759,9 @@ private:
     }
 
     void comma_keyword() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         {
             const char code[] = "void foo()\n"
                                 "{\n"
@@ -822,6 +884,9 @@ private:
     }
 
     void simplifyOperator1() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         // #3237 - error merging namespaces with operators
         const char code[] = "class c {\n"
                             "public:\n"
@@ -837,6 +902,9 @@ private:
     }
 
     void simplifyOperator2() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         // #6576
         ASSERT_EQUALS("template < class T > class SharedPtr { "
                       "SharedPtr & operator= ( const SharedPtr < Y > & r ) ; "
@@ -859,12 +927,18 @@ private:
     }
 
     void simplifyArrayAccessSyntax() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         ASSERT_EQUALS("\n\n##file 0\n"
                       "1: int a@1 ; a@1 [ 13 ] ;\n", tokenizeDebugListing("int a; 13[a];"));
     }
 
 
     void pointeralias1() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         {
             const char code[] = "void f(char *p1)\n"
                                 "{\n"
@@ -901,6 +975,9 @@ private:
     }
 
     void pointeralias3() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char code[] = "void f()\n"
                             "{\n"
                             "    int i, j, *p;\n"
@@ -919,6 +996,9 @@ private:
     }
 
     void simplifyStructDecl1() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         {
             const char code[] = "struct ABC { } abc;";
             const char expected[] = "struct ABC { } ; struct ABC abc ;";
@@ -1086,6 +1166,9 @@ private:
     }
 
     void simplifyStructDecl3() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         {
             const char code[] = "class ABC { } abc;";
             const char expected[] = "class ABC { } ; ABC abc ;";
@@ -1202,6 +1285,9 @@ private:
     }
 
     void simplifyStructDecl4() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char code[] = "class ABC {\n"
                             "    void foo() {\n"
                             "        union {\n"
@@ -1229,6 +1315,9 @@ private:
     }
 
     void simplifyStructDecl6() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         ASSERT_EQUALS("struct A { "
                       "char integers [ X ] ; "
                       "} ; struct A arrays ; arrays = { { 0 } } ;",
@@ -1238,6 +1327,9 @@ private:
     }
 
     void simplifyStructDecl7() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         ASSERT_EQUALS("struct Anonymous0 { char x ; } ; struct Anonymous0 a [ 2 ] ;",
                       tok("struct { char x; } a[2];"));
         ASSERT_EQUALS("struct Anonymous0 { char x ; } ; static struct Anonymous0 a [ 2 ] ;",
@@ -1245,6 +1337,9 @@ private:
     }
 
     void simplifyStructDecl8() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         ASSERT_EQUALS("enum A { x , y , z } ; enum A a ; a = x ;", tok("enum A { x, y, z } a(x);"));
         ASSERT_EQUALS("enum B { x , y , z } ; enum B b ; b = x ;", tok("enum B { x , y, z } b{x};"));
         ASSERT_EQUALS("struct C { int i ; } ; struct C c ; c = C { 0 } ;", tok("struct C { int i; } c{0};"));
@@ -1259,6 +1354,9 @@ private:
     }
 
     void removeUnwantedKeywords() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         ASSERT_EQUALS("int var ;", tok("register int var ;"));
         ASSERT_EQUALS("short var ;", tok("register short int var ;"));
         ASSERT_EQUALS("int foo ( ) { }", tok("inline int foo ( ) { }"));
@@ -1285,6 +1383,9 @@ private:
     }
 
     void simplifyCallingConvention() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         ASSERT_EQUALS("int f ( ) ;", tok("int __cdecl f();"));
         ASSERT_EQUALS("int f ( ) ;", tok("int __stdcall f();"));
         ASSERT_EQUALS("int f ( ) ;", tok("int __fastcall f();"));
@@ -1310,6 +1411,9 @@ private:
     }
 
     void simplifyAttribute() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         ASSERT_EQUALS("int f ( ) ;", tok("__attribute__ ((visibility(\"default\"))) int f();"));
         ASSERT_EQUALS("int f ( ) ;", tok("__attribute__((visibility(\"default\"))) int f();"));
         ASSERT_EQUALS("int f ( ) ;", tok("__attribute ((visibility(\"default\"))) int f();"));
@@ -1321,15 +1425,24 @@ private:
     }
 
     void simplifyFunctorCall() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         ASSERT_EQUALS("IncrementFunctor ( ) ( a ) ;", tok("IncrementFunctor()(a);"));
     }
 
     // #ticket #5339 (simplify function pointer after comma)
     void simplifyFunctionPointer() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         ASSERT_EQUALS("f ( double x , double ( * y ) ( ) ) ;", tok("f (double x, double (*y) ());"));
     }
 
     void simplifyFunctionReturn() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         {
             const char code[] = "typedef void (*testfp)();\n"
                                 "struct Fred\n"
@@ -1388,6 +1501,9 @@ private:
     }
 
     void consecutiveBraces() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         ASSERT_EQUALS("void f ( ) { }", tok("void f(){{}}"));
         ASSERT_EQUALS("void f ( ) { }", tok("void f(){{{}}}"));
         ASSERT_EQUALS("void f ( ) { for ( ; ; ) { } }", tok("void f () { for(;;){} }"));
@@ -1404,10 +1520,16 @@ private:
     }
 
     void simplifyNestedNamespace() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         ASSERT_EQUALS("namespace A { namespace B { namespace C { int i ; } } }", tok("namespace A::B::C { int i; }"));
     }
 
     void simplifyNamespaceAliases1() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         ASSERT_EQUALS(";",
                       tok("namespace ios = boost::iostreams;"));
         ASSERT_EQUALS("boost :: iostreams :: istream foo ( \"foo\" ) ;",
@@ -1477,6 +1599,9 @@ private:
     }
 
     void simplifyNamespaceAliases2() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         ASSERT_EQUALS("void foo ( ) "
                       "{ "
                       "int maxResults ; maxResults = :: a :: b :: c :: d :: ef :: MAX ; "
@@ -1500,6 +1625,9 @@ private:
     }
 
     void simplifyKnownVariables2() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char code[] = "void f()\n"
                             "{\n"
                             "    int a = 10;\n"
@@ -1513,6 +1641,9 @@ private:
     }
 
     void simplifyKnownVariables3() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char code[] = "void f()\n"
                             "{\n"
                             "    int a = 4;\n"
@@ -1529,6 +1660,9 @@ private:
     }
 
     void simplifyKnownVariables4() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char code[] = "void f()\n"
                             "{\n"
                             "    int a = 4;\n"
@@ -1542,6 +1676,9 @@ private:
     }
 
     void simplifyKnownVariables5() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char code[] = "void f()\n"
                             "{\n"
                             "    int a = 4;\n"
@@ -1554,6 +1691,9 @@ private:
     }
 
     void simplifyKnownVariables13() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char code[] = "void f()\n"
                             "{\n"
                             "    int i = 10;\n"
@@ -1566,18 +1706,27 @@ private:
     }
 
     void simplifyKnownVariables14() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         // ticket #753
         const char code[] = "void f ( ) { int n ; n = 1 ; do { ++ n ; } while ( n < 10 ) ; }";
         ASSERT_EQUALS(code, simplifyKnownVariables(code));
     }
 
     void simplifyKnownVariables16() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         // ticket #807 - segmentation fault when macro isn't found
         const char code[] = "void f ( ) { int n = 1; DISPATCH(while); }";
         ASSERT_THROW(simplifyKnownVariables(code), InternalError);
     }
 
     void simplifyKnownVariables17() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         // ticket #807 - segmentation fault when macro isn't found
         const char code[] = "void f ( ) { char *s = malloc(100);mp_ptr p = s; p++; }";
         ASSERT_EQUALS(
@@ -1586,6 +1735,9 @@ private:
     }
 
     void simplifyKnownVariables18() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char code[] = "void f ( ) { char *s = malloc(100);mp_ptr p = s; ++p; }";
         ASSERT_EQUALS(
             "void f ( ) { char * s ; s = malloc ( 100 ) ; mp_ptr p ; p = s ; ++ p ; }",
@@ -1593,6 +1745,9 @@ private:
     }
 
     void simplifyKnownVariables19() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char code[] = "void f ( ) { int i=0; do { if (i>0) { a(); } i=b(); } while (i != 12); }";
         ASSERT_EQUALS(
             "void f ( ) { int i ; i = 0 ; do { if ( i > 0 ) { a ( ) ; } i = b ( ) ; } while ( i != 12 ) ; }",
@@ -1600,12 +1755,18 @@ private:
     }
 
     void simplifyKnownVariables21() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         ASSERT_EQUALS(
             "void foo ( int i ) { int n ; n = i ; for ( i = 0 ; i < n ; ++ i ) { } }",
             simplifyKnownVariables("void foo(int i) { int n = i; for (i = 0; i < n; ++i) { } }"));
     }
 
     void simplifyKnownVariables25() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         {
             // This testcase is related to ticket #1646
             const char code[] = "void foo(char *str)\n"
@@ -1985,6 +2146,9 @@ private:
     }
 
     void simplifyKnownVariables30() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char code[] = "int foo() {\n"
                             "  iterator it1 = ints.begin();\n"
                             "  iterator it2 = it1;\n"
@@ -1999,6 +2163,9 @@ private:
     }
 
     void simplifyKnownVariables34() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char code[] = "void f() {\n"
                             "    int x = 10;\n"
                             "    do { cin >> x; } while (x > 5);\n"
@@ -2013,6 +2180,9 @@ private:
     }
 
     void simplifyKnownVariables36() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
 
         // Ticket #5972
         const char code2[] = "void f() {"
@@ -2024,6 +2194,9 @@ private:
     }
 
     void simplifyKnownVariables42() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         {
             const char code[] = "void f() {\n"
                                 "   char a[10];\n"
@@ -2081,6 +2254,9 @@ private:
     }
 
     void simplifyKnownVariables43() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         {
             const char code[] = "void f() {\n"
                                 "    int a, *p; p = &a;\n"
@@ -2107,6 +2283,9 @@ private:
     }
 
     void simplifyKnownVariables44() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char code[] = "void a() {\n"
                             "    static int i = 10;\n"
                             "    b(i++);\n"
@@ -2119,6 +2298,9 @@ private:
     }
 
     void simplifyKnownVariables46() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char code[] = "void f() {\n"
                             "    int x = 0;\n"
                             "    cin >> x;\n"
@@ -2136,6 +2318,9 @@ private:
     }
 
     void simplifyKnownVariables47() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         // #3621
         const char code[] = "void f() {\n"
                             "    int x = 0;\n"
@@ -2149,6 +2334,9 @@ private:
     }
 
     void simplifyKnownVariables48() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         // #3754
         const char code[] = "void f(int sz) {\n"
                             "    int i;\n"
@@ -2304,6 +2492,9 @@ private:
     }
 
     void simplifyKnownVariablesBailOutAssign1() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char code[] = "int foo() {\n"
                             "    int i; i = 0;\n"
                             "    if (x) { i = 10; }\n"
@@ -2318,6 +2509,9 @@ private:
     }
 
     void simplifyKnownVariablesBailOutAssign2() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         // ticket #3032 - assignment in condition
         const char code[] = "void f(struct ABC *list) {\n"
                             "    struct ABC *last = NULL;\n"
@@ -2331,6 +2525,9 @@ private:
     }
 
     void simplifyKnownVariablesBailOutFor1() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char code[] = "void foo() {\n"
                             "    for (int i = 0; i < 10; ++i) { }\n"
                             "}\n";
@@ -2342,6 +2539,9 @@ private:
     }
 
     void simplifyKnownVariablesBailOutFor2() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char code[] = "void foo() {\n"
                             "    int i = 0;\n"
                             "    while (i < 10) { ++i; }\n"
@@ -2355,6 +2555,9 @@ private:
     }
 
     void simplifyKnownVariablesBailOutFor3() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char code[] = "void foo() {\n"
                             "    for (std::string::size_type pos = 0; pos < 10; ++pos)\n"
                             "    { }\n"
@@ -2368,6 +2571,9 @@ private:
     }
 
     void simplifyKnownVariablesBailOutMemberFunction() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char code[] = "void foo(obj a) {\n"
                             "    obj b = a;\n"
                             "    b.f();\n"
@@ -2380,6 +2586,9 @@ private:
     }
 
     void simplifyKnownVariablesBailOutConditionalIncrement() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char code[] = "int f() {\n"
                             "    int a = 0;\n"
                             "    if (x) {\n"
@@ -2392,6 +2601,9 @@ private:
     }
 
     void simplifyKnownVariablesBailOutSwitchBreak() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         // Ticket #2324
         const char code[] = "int f(char *x) {\n"
                             "    char *p;\n"
@@ -2431,6 +2643,9 @@ private:
     }
 
     void simplifyKnownVariablesFunctionCalls() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         {
             const char code[] = "void a(int &x);" // <- x is passed by reference
                                 "void b() {"
@@ -2443,6 +2658,9 @@ private:
     }
 
     void simplifyKnownVariablesGlobalVars() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         // #8054
         const char code[] = "static int x;"
                             "void f() {"
@@ -2453,6 +2671,9 @@ private:
     }
 
     void simplifyKnownVariablesNamespace() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         { // #10059
             const char code[] = "namespace N {\n"
                                 "    const int n = 0;\n"
@@ -2516,6 +2737,9 @@ private:
     }
 
     void simplifyKnownVariablesClassMember() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         // Ticket #2815
         {
             const char code[] = "char *a;\n"
@@ -2565,6 +2789,9 @@ private:
 
     void simplifyVarDeclInitLists()
     {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         {
             const char code[] = "std::vector<int> v{a * b, 1};";
             const char exp[] = "std :: vector < int > v { a * b , 1 } ;";

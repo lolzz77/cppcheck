@@ -1,3 +1,5 @@
+#include <stdio.h>
+#include <pthread.h>
 // #8441
 class C {
     int a;
@@ -20,6 +22,9 @@ C2::C2(void) : f(NULL) {}
 
 static void test_misra_21_1_crash(void)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     auto misra_21_1_C a, b; // 12.3
     a = b;
 }

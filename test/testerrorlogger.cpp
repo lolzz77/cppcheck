@@ -1,3 +1,5 @@
+#include <stdio.h>
+#include <pthread.h>
 /*
  * Cppcheck - A tool for static C/C++ code analysis
  * Copyright (C) 2007-2023 Cppcheck team.
@@ -36,6 +38,9 @@ private:
     const ErrorMessage::FileLocation barCpp8{"bar.cpp", 8, 1};
 
     void run() override {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         TEST_CASE(PatternSearchReplace);
         TEST_CASE(FileLocationDefaults);
         TEST_CASE(FileLocationSetFile);
@@ -66,6 +71,9 @@ private:
     }
 
     void TestPatternSearchReplace(const std::string& idPlaceholder, const std::string& id) const {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const std::string plainText = "text";
 
         ErrorMessage message;
@@ -82,6 +90,9 @@ private:
     }
 
     void PatternSearchReplace() const {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const std::string idPlaceholder = "{id}";
 
         const std::string empty;
@@ -101,12 +112,18 @@ private:
     }
 
     void FileLocationDefaults() const {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         ErrorMessage::FileLocation loc;
         ASSERT_EQUALS("", loc.getfile());
         ASSERT_EQUALS(0, loc.line);
     }
 
     void FileLocationSetFile() const {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         ErrorMessage::FileLocation loc;
         loc.setfile("foo.cpp");
         ASSERT_EQUALS("foo.cpp", loc.getfile());
@@ -114,6 +131,9 @@ private:
     }
 
     void ErrorMessageConstruct() const {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         std::list<ErrorMessage::FileLocation> locs(1, fooCpp5);
         ErrorMessage msg(locs, emptyString, Severity::error, "Programming error.", "errorId", Certainty::normal);
         ASSERT_EQUALS(1, msg.callStack.size());
@@ -124,6 +144,9 @@ private:
     }
 
     void ErrorMessageConstructLocations() const {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         std::list<ErrorMessage::FileLocation> locs = { fooCpp5, barCpp8 };
         ErrorMessage msg(locs, emptyString, Severity::error, "Programming error.", "errorId", Certainty::normal);
         ASSERT_EQUALS(2, msg.callStack.size());
@@ -134,6 +157,9 @@ private:
     }
 
     void ErrorMessageVerbose() const {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         std::list<ErrorMessage::FileLocation> locs(1, fooCpp5);
         ErrorMessage msg(locs, emptyString, Severity::error, "Programming error.\nVerbose error", "errorId", Certainty::normal);
         ASSERT_EQUALS(1, msg.callStack.size());
@@ -144,6 +170,9 @@ private:
     }
 
     void ErrorMessageVerboseLocations() const {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         std::list<ErrorMessage::FileLocation> locs = { fooCpp5, barCpp8 };
         ErrorMessage msg(locs, emptyString, Severity::error, "Programming error.\nVerbose error", "errorId", Certainty::normal);
         ASSERT_EQUALS(2, msg.callStack.size());
@@ -154,6 +183,9 @@ private:
     }
 
     void ErrorMessageFromInternalError() const {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         // TODO: test with token
         {
             InternalError internalError(nullptr, "message", InternalError::INTERNAL);
@@ -184,6 +216,9 @@ private:
     }
 
     void CustomFormat() const {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         std::list<ErrorMessage::FileLocation> locs(1, fooCpp5);
         ErrorMessage msg(locs, emptyString, Severity::error, "Programming error.\nVerbose error", "errorId", Certainty::normal);
         ASSERT_EQUALS(1, msg.callStack.size());
@@ -194,6 +229,9 @@ private:
     }
 
     void CustomFormat2() const {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         std::list<ErrorMessage::FileLocation> locs(1, fooCpp5);
         ErrorMessage msg(locs, emptyString, Severity::error, "Programming error.\nVerbose error", "errorId", Certainty::normal);
         ASSERT_EQUALS(1, msg.callStack.size());
@@ -204,6 +242,9 @@ private:
     }
 
     void CustomFormatLocations() const {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         // Check that first location from location stack is used in template
         std::list<ErrorMessage::FileLocation> locs = { fooCpp5, barCpp8 };
         ErrorMessage msg(locs, emptyString, Severity::error, "Programming error.\nVerbose error", "errorId", Certainty::normal);
@@ -215,6 +256,9 @@ private:
     }
 
     void ToXmlV2() const {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         std::list<ErrorMessage::FileLocation> locs(1, fooCpp5);
         ErrorMessage msg(locs, emptyString, Severity::error, "Programming error.\nVerbose error", "errorId", Certainty::normal);
         std::string header("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<results version=\"2\">\n");
@@ -230,6 +274,9 @@ private:
     }
 
     void ToXmlV2Locations() const {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         std::list<ErrorMessage::FileLocation> locs = { fooCpp5, barCpp8 };
         locs.back().setinfo("ä");
         ErrorMessage msg(locs, emptyString, Severity::error, "Programming error.\nVerbose error", "errorId", Certainty::normal);
@@ -247,6 +294,9 @@ private:
     }
 
     void ToXmlV2Encoding() const {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         {
             std::list<ErrorMessage::FileLocation> locs;
             ErrorMessage msg(locs, emptyString, Severity::error, "Programming error.\nComparing \"\203\" with \"\003\"", "errorId", Certainty::normal);
@@ -265,6 +315,9 @@ private:
     }
 
     void FromXmlV2() const {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char xmldata[] = "<?xml version=\"1.0\"?>\n"
                                "<error id=\"errorId\""
                                " severity=\"error\""
@@ -297,6 +350,9 @@ private:
     }
 
     void InconclusiveXml() const {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         // Location
         std::list<ErrorMessage::FileLocation> locs(1, fooCpp5);
 
@@ -311,6 +367,9 @@ private:
     }
 
     void SerializeInconclusiveMessage() const {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         // Inconclusive error message
         std::list<ErrorMessage::FileLocation> locs;
         ErrorMessage msg(locs, emptyString, Severity::error, "Programming error", "errorId", Certainty::inconclusive);
@@ -338,6 +397,9 @@ private:
     }
 
     void DeserializeInvalidInput() const {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         {
             // missing/invalid length
             // missing separator
@@ -401,6 +463,9 @@ private:
     }
 
     void SerializeSanitize() const {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         std::list<ErrorMessage::FileLocation> locs;
         ErrorMessage msg(locs, emptyString, Severity::error, std::string("Illegal character in \"foo\001bar\""), "errorId", Certainty::normal);
         msg.file0 = "1.c";
@@ -425,6 +490,9 @@ private:
     }
 
     void SerializeFileLocation() const {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         ErrorMessage::FileLocation loc1(":/,;", 654, 33);
         loc1.setfile("[]:;,()");
         loc1.setinfo("abcd:/,");
@@ -456,6 +524,9 @@ private:
 
     void substituteTemplateFormatStatic() const
     {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         {
             std::string s;
             ::substituteTemplateFormatStatic(s);
@@ -485,6 +556,9 @@ private:
 
     void substituteTemplateLocationStatic() const
     {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         {
             std::string s;
             ::substituteTemplateLocationStatic(s);

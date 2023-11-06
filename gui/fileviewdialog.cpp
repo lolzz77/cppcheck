@@ -1,3 +1,5 @@
+#include <stdio.h>
+#include <pthread.h>
 /*
  * Cppcheck - A tool for static C/C++ code analysis
  * Copyright (C) 2007-2023 Cppcheck team.
@@ -48,6 +50,9 @@ FileViewDialog::~FileViewDialog()
 
 void FileViewDialog::loadTextFile(const QString &filename, QTextEdit *edit)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     QFile file(filename);
     if (!file.exists()) {
         QString msg(tr("Could not find the file: %1"));

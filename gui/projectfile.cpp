@@ -1,3 +1,5 @@
+#include <stdio.h>
+#include <pthread.h>
 /*
  * Cppcheck - A tool for static C/C++ code analysis
  * Copyright (C) 2007-2023 Cppcheck team.
@@ -56,6 +58,9 @@ ProjectFile::ProjectFile(QString filename, QObject *parent) :
 
 void ProjectFile::clear()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     const Settings settings;
     clangParser = false;
     mCheckLevel = CheckLevel::normal;
@@ -92,6 +97,9 @@ void ProjectFile::clear()
 
 bool ProjectFile::read(const QString &filename)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (!filename.isEmpty())
         mFilename = filename;
 
@@ -250,6 +258,9 @@ bool ProjectFile::read(const QString &filename)
 
 void ProjectFile::readRootPath(const QXmlStreamReader &reader)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     QXmlStreamAttributes attribs = reader.attributes();
     QString name = attribs.value(QString(), CppcheckXml::RootPathNameAttrib).toString();
     if (!name.isEmpty())
@@ -258,6 +269,9 @@ void ProjectFile::readRootPath(const QXmlStreamReader &reader)
 
 void ProjectFile::readBuildDir(QXmlStreamReader &reader)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     mBuildDir.clear();
     do {
         const QXmlStreamReader::TokenType type = reader.readNext();
@@ -284,6 +298,9 @@ void ProjectFile::readBuildDir(QXmlStreamReader &reader)
 
 void ProjectFile::readImportProject(QXmlStreamReader &reader)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     mImportProject.clear();
     do {
         const QXmlStreamReader::TokenType type = reader.readNext();
@@ -310,6 +327,9 @@ void ProjectFile::readImportProject(QXmlStreamReader &reader)
 
 bool ProjectFile::readBool(QXmlStreamReader &reader)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     bool ret = false;
     do {
         const QXmlStreamReader::TokenType type = reader.readNext();
@@ -336,6 +356,9 @@ bool ProjectFile::readBool(QXmlStreamReader &reader)
 
 int ProjectFile::readInt(QXmlStreamReader &reader, int defaultValue)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     int ret = defaultValue;
     do {
         const QXmlStreamReader::TokenType type = reader.readNext();
@@ -362,6 +385,9 @@ int ProjectFile::readInt(QXmlStreamReader &reader, int defaultValue)
 
 QString ProjectFile::readString(QXmlStreamReader &reader)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     QString ret;
     do {
         const QXmlStreamReader::TokenType type = reader.readNext();
@@ -388,6 +414,9 @@ QString ProjectFile::readString(QXmlStreamReader &reader)
 
 void ProjectFile::readIncludeDirs(QXmlStreamReader &reader)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     bool allRead = false;
     do {
         QXmlStreamReader::TokenType type = reader.readNext();
@@ -425,6 +454,9 @@ void ProjectFile::readIncludeDirs(QXmlStreamReader &reader)
 
 void ProjectFile::readDefines(QXmlStreamReader &reader)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     bool allRead = false;
     do {
         QXmlStreamReader::TokenType type = reader.readNext();
@@ -461,6 +493,9 @@ void ProjectFile::readDefines(QXmlStreamReader &reader)
 
 void ProjectFile::readCheckPaths(QXmlStreamReader &reader)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     bool allRead = false;
     do {
         QXmlStreamReader::TokenType type = reader.readNext();
@@ -498,6 +533,9 @@ void ProjectFile::readCheckPaths(QXmlStreamReader &reader)
 
 void ProjectFile::readExcludes(QXmlStreamReader &reader)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     bool allRead = false;
     do {
         QXmlStreamReader::TokenType type = reader.readNext();
@@ -543,6 +581,9 @@ void ProjectFile::readExcludes(QXmlStreamReader &reader)
 
 void ProjectFile::readVsConfigurations(QXmlStreamReader &reader)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     do {
         QXmlStreamReader::TokenType type = reader.readNext();
         switch (type) {
@@ -580,6 +621,9 @@ void ProjectFile::readVsConfigurations(QXmlStreamReader &reader)
 
 void ProjectFile::readPlatform(QXmlStreamReader &reader)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     do {
         const QXmlStreamReader::TokenType type = reader.readNext();
         switch (type) {
@@ -606,6 +650,9 @@ void ProjectFile::readPlatform(QXmlStreamReader &reader)
 
 void ProjectFile::readSuppressions(QXmlStreamReader &reader)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     do {
         QXmlStreamReader::TokenType type = reader.readNext();
         switch (type) {
@@ -652,6 +699,9 @@ void ProjectFile::readSuppressions(QXmlStreamReader &reader)
 
 void ProjectFile::readTagWarnings(QXmlStreamReader &reader, const QString &tag)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     do {
         QXmlStreamReader::TokenType type = reader.readNext();
         switch (type) {
@@ -686,6 +736,9 @@ void ProjectFile::readTagWarnings(QXmlStreamReader &reader, const QString &tag)
 
 void ProjectFile::readStringList(QStringList &stringlist, QXmlStreamReader &reader, const char elementname[])
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     bool allRead = false;
     do {
         QXmlStreamReader::TokenType type = reader.readNext();
@@ -723,71 +776,113 @@ void ProjectFile::readStringList(QStringList &stringlist, QXmlStreamReader &read
 
 void ProjectFile::setIncludes(const QStringList &includes)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     mIncludeDirs = includes;
 }
 
 void ProjectFile::setDefines(const QStringList &defines)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     mDefines = defines;
 }
 
 void ProjectFile::setUndefines(const QStringList &undefines)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     mUndefines = undefines;
 }
 
 void ProjectFile::setCheckPaths(const QStringList &paths)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     mPaths = paths;
 }
 
 void ProjectFile::setExcludedPaths(const QStringList &paths)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     mExcludedPaths = paths;
 }
 
 void ProjectFile::setLibraries(const QStringList &libraries)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     mLibraries = libraries;
 }
 
 void ProjectFile::setPlatform(const QString &platform)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     mPlatform = platform;
 }
 
 void ProjectFile::setSuppressions(const QList<Suppressions::Suppression> &suppressions)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     mSuppressions = suppressions;
 }
 
 void ProjectFile::addSuppression(const Suppressions::Suppression &suppression)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     mSuppressions.append(suppression);
 }
 
 void ProjectFile::setAddons(const QStringList &addons)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     mAddons = addons;
 }
 
 void ProjectFile::setVSConfigurations(const QStringList &vsConfigs)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     mVsConfigurations = vsConfigs;
 }
 
 void ProjectFile::setCheckLevel(ProjectFile::CheckLevel checkLevel)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     mCheckLevel = checkLevel;
 }
 
 bool ProjectFile::isCheckLevelExhaustive() const
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     return mCheckLevel == CheckLevel::exhaustive;
 }
 
 void ProjectFile::setWarningTags(std::size_t hash, const QString& tags)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (tags.isEmpty())
         mWarningTags.erase(hash);
     else if (hash > 0)
@@ -796,12 +891,18 @@ void ProjectFile::setWarningTags(std::size_t hash, const QString& tags)
 
 QString ProjectFile::getWarningTags(std::size_t hash) const
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     auto it = mWarningTags.find(hash);
     return (it != mWarningTags.end()) ? it->second : QString();
 }
 
 bool ProjectFile::write(const QString &filename)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (!filename.isEmpty())
         mFilename = filename;
 
@@ -1019,6 +1120,9 @@ bool ProjectFile::write(const QString &filename)
 
 void ProjectFile::writeStringList(QXmlStreamWriter &xmlWriter, const QStringList &stringlist, const char startelementname[], const char stringelementname[])
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (stringlist.isEmpty())
         return;
 
@@ -1033,6 +1137,9 @@ void ProjectFile::writeStringList(QXmlStreamWriter &xmlWriter, const QStringList
 
 QStringList ProjectFile::fromNativeSeparators(const QStringList &paths)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     QStringList ret;
     for (const QString &path : paths)
         ret << QDir::fromNativeSeparators(path);
@@ -1041,6 +1148,9 @@ QStringList ProjectFile::fromNativeSeparators(const QStringList &paths)
 
 QStringList ProjectFile::getAddonsAndTools() const
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     QStringList ret(mAddons);
     if (mClangAnalyzer)
         ret << CLANG_ANALYZER;
@@ -1115,6 +1225,9 @@ void ProjectFile::SafeChecks::saveToXml(QXmlStreamWriter &xmlWriter) const
 
 QString ProjectFile::getAddonFilePath(QString filesDir, const QString &addon)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (!filesDir.endsWith("/"))
         filesDir += "/";
 

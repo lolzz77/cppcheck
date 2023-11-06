@@ -1,3 +1,5 @@
+#include <stdio.h>
+#include <pthread.h>
 // Cppcheck - A tool for static C/C++ code analysis
 // Copyright (C) 2007-2023 Cppcheck team.
 //
@@ -37,6 +39,9 @@ public:
 
 private:
     void run() override {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         TEST_CASE(breakStmt);
         TEST_CASE(callExpr);
         TEST_CASE(caseStmt1);
@@ -150,6 +155,9 @@ private:
     }
 
     void breakStmt() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char clang[] = "`-FunctionDecl 0x2c31b18 <1.c:1:1, col:34> col:6 foo 'void ()'\n"
                              "  `-CompoundStmt 0x2c31c40 <col:12, col:34>\n"
                              "    `-WhileStmt 0x2c31c20 <col:14, col:24>\n"
@@ -160,6 +168,9 @@ private:
     }
 
     void callExpr() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char clang[] = "`-FunctionDecl 0x2444b60 <1.c:1:1, line:8:1> line:1:6 foo 'void (int)'\n"
                              "  |-ParmVarDecl 0x2444aa0 <col:10, col:14> col:14 used x 'int'\n"
                              "  `-CompoundStmt 0x2444e00 <col:17, line:8:1>\n"
@@ -176,6 +187,9 @@ private:
     }
 
     void caseStmt1() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char clang[] = "`-FunctionDecl 0x2444b60 <1.c:1:1, line:8:1> line:1:6 foo 'void (int)'\n"
                              "  |-ParmVarDecl 0x2444aa0 <col:10, col:14> col:14 used x 'int'\n"
                              "  `-CompoundStmt 0x2444e00 <col:17, line:8:1>\n"
@@ -199,12 +213,18 @@ private:
     }
 
     void characterLiteral() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char clang[] = "`-VarDecl 0x3df8608 <a.cpp:1:1, col:10> col:6 c 'char' cinit\n"
                              "  `-CharacterLiteral 0x3df86a8 <col:10> 'char' 120";
         ASSERT_EQUALS("char c@1 = 'x' ;", parse(clang));
     }
 
     void class1() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char clang[] = "`-CXXRecordDecl 0x274c638 <a.cpp:1:1, col:25> col:7 class C definition\n"
                              "  |-DefinitionData pass_in_registers empty aggregate standard_layout trivially_copyable pod trivial literal has_constexpr_non_copy_move_ctor can_const_default_init\n"
                              "  | |-DefaultConstructor exists trivial constexpr needs_implicit defaulted_is_constexpr\n"
@@ -220,6 +240,9 @@ private:
     }
 
     void classTemplateDecl1() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char clang[] = "`-ClassTemplateDecl 0x29d1748 <a.cpp:1:1, col:59> col:25 C\n"
                              "  |-TemplateTypeParmDecl 0x29d15f8 <col:10, col:16> col:16 referenced class depth 0 index 0 T\n"
                              "  `-CXXRecordDecl 0x29d16b0 <col:19, col:59> col:25 class C definition\n"
@@ -240,6 +263,9 @@ private:
     }
 
     void classTemplateDecl2() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char clang[] = "|-ClassTemplateDecl 0x244e748 <a.cpp:1:1, col:59> col:25 C\n"
                              "| |-TemplateTypeParmDecl 0x244e5f8 <col:10, col:16> col:16 referenced class depth 0 index 0 T\n"
                              "| |-CXXRecordDecl 0x244e6b0 <col:19, col:59> col:25 class C definition\n"
@@ -281,6 +307,9 @@ private:
     }
 
     void conditionalExpr() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char clang[] = "`-VarDecl 0x257cc88 <line:4:1, col:13> col:5 x 'int' cinit\n"
                              "  `-ConditionalOperator 0x257cda8 <col:9, col:13> 'int'\n"
                              "    |-ImplicitCastExpr 0x257cd60 <col:9> 'int' <LValueToRValue>\n"
@@ -293,6 +322,9 @@ private:
     }
 
     void compoundAssignOperator() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char clang[] = "`-FunctionDecl 0x3570690 <1.cpp:2:1, col:25> col:6 f 'void ()'\n"
                              "  `-CompoundStmt 0x3570880 <col:10, col:25>\n"
                              "    `-CompoundAssignOperator 0x3570848 <col:19, col:22> 'int' lvalue '+=' ComputeLHSTy='int' ComputeResultTy='int'\n"
@@ -302,6 +334,9 @@ private:
     }
 
     void continueStmt() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char clang[] = "`-FunctionDecl 0x2c31b18 <1.c:1:1, col:34> col:6 foo 'void ()'\n"
                              "  `-CompoundStmt 0x2c31c40 <col:12, col:34>\n"
                              "    `-WhileStmt 0x2c31c20 <col:14, col:24>\n"
@@ -312,6 +347,9 @@ private:
     }
 
     void cstyleCastExpr() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char clang[] = "`-VarDecl 0x2336aa0 <1.c:1:1, col:14> col:5 x 'int' cinit\n"
                              "  `-CStyleCastExpr 0x2336b70 <col:9, col:14> 'int' <NoOp>\n"
                              "    `-CharacterLiteral 0x2336b40 <col:14> 'int' 97";
@@ -319,12 +357,18 @@ private:
     }
 
     void cxxBoolLiteralExpr() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char clang[] = "`-VarDecl 0x3940608 <a.cpp:1:1, col:10> col:6 x 'bool' cinit\n"
                              "  `-CXXBoolLiteralExpr 0x39406a8 <col:10> 'bool' true";
         ASSERT_EQUALS("bool x@1 = true ;", parse(clang));
     }
 
     void cxxConstructorDecl1() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char clang[] = "|-CXXConstructorDecl 0x428e890 <col:11, col:24> col:11 C 'void ()'\n"
                              "| `-CompoundStmt 0x428ea58 <col:15, col:24>\n"
                              "|   `-BinaryOperator 0x428ea30 <col:17, col:21> 'int' lvalue '='\n"
@@ -336,12 +380,18 @@ private:
     }
 
     void cxxConstructorDecl2() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char clang[] = "`-CXXConstructorDecl 0x1c208c0 <col:11> col:11 implicit constexpr basic_string 'void (std::basic_string<char> &&)' inline default trivial noexcept-unevaluated 0x1c208c0\n"
                              "  `-ParmVarDecl 0x1c209f0 <col:11> col:11 'std::basic_string<char> &&'";
         ASSERT_EQUALS("basic_string ( std::basic_string<char> && ) = default ;", parse(clang));
     }
 
     void cxxConstructExpr1() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char clang[] = "`-FunctionDecl 0x2dd7940 <line:2:1, col:30> col:5 f 'Foo (Foo)'\n"
                              "  |-ParmVarDecl 0x2dd7880 <col:7, col:11> col:11 used foo 'Foo'\n"
                              "  `-CompoundStmt 0x2dd80c0 <col:16, col:30>\n"
@@ -353,6 +403,9 @@ private:
     }
 
     void cxxConstructExpr2() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char clang[] = "`-FunctionDecl 0x3e44180 <1.cpp:2:1, col:30> col:13 f 'std::string ()'\n"
                              "  `-CompoundStmt 0x3e4cb80 <col:17, col:30>\n"
                              "    `-ReturnStmt 0x3e4cb68 <col:19, col:27>\n"
@@ -361,6 +414,9 @@ private:
     }
 
     void cxxConstructExpr3() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char clang[] = "`-FunctionDecl 0x2c585b8 <1.cpp:4:1, col:39> col:6 f 'void ()'\n"
                              "  `-CompoundStmt 0x2c589d0 <col:10, col:39>\n"
                              "    |-DeclStmt 0x2c586d0 <col:12, col:19>\n"
@@ -377,6 +433,9 @@ private:
     }
 
     void cxxDeleteExpr() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char clang[] = "|-FunctionDecl 0x2e0e740 <1.cpp:1:1, col:28> col:6 f 'void (int *)'\n"
                              "| |-ParmVarDecl 0x2e0e680 <col:8, col:13> col:13 used p 'int *'\n"
                              "| `-CompoundStmt 0x2e0ee70 <col:16, col:28>\n"
@@ -387,6 +446,9 @@ private:
     }
 
     void cxxDestructorDecl() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char clang[] = "`-CXXRecordDecl 0x8ecd60 <1.cpp:1:1, line:4:1> line:1:8 struct S definition\n"
                              "  `-CXXDestructorDecl 0x8ed088 <line:3:3, col:9> col:3 ~S 'void () noexcept'\n"
                              "    `-CompoundStmt 0x8ed1a8 <col:8, col:9>";
@@ -394,6 +456,9 @@ private:
     }
 
     void cxxForRangeStmt1() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char clang[] = "`-FunctionDecl 0x4280820 <line:4:1, line:8:1> line:4:6 foo 'void ()'\n"
                              "  `-CompoundStmt 0x42810f0 <col:12, line:8:1>\n"
                              "    `-CXXForRangeStmt 0x4281090 <line:5:3, line:7:3>\n"
@@ -429,6 +494,9 @@ private:
     }
 
     void cxxForRangeStmt2() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         // clang 9
         const char clang[] = "`-FunctionDecl 0xc15d98 <line:3:1, col:36> col:6 foo 'void ()'\n"
                              "  `-CompoundStmt 0xc16668 <col:12, col:36>\n"
@@ -466,6 +534,9 @@ private:
     }
 
     void cxxFunctionalCastExpr() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char clang[] = "`-FunctionDecl 0x156fe98 <line:1:1, line:3:1> line:1:5 main 'int (int, char **)'\n"
                              "  |-ParmVarDecl 0x156fd00 <col:10, col:14> col:14 argc 'int'\n"
                              "  |-ParmVarDecl 0x156fdb8 <col:20, col:27> col:27 argv 'char **'\n"
@@ -483,6 +554,9 @@ private:
     }
 
     void cxxMemberCall() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char clang[] = "`-FunctionDecl 0x320dc80 <line:2:1, col:33> col:6 bar 'void ()'\n"
                              "  `-CompoundStmt 0x323bb08 <col:12, col:33>\n"
                              "    |-DeclStmt 0x323ba40 <col:14, col:22>\n"
@@ -495,6 +569,9 @@ private:
     }
 
     void cxxMethodDecl1() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char clang[] = "|-CXXMethodDecl 0x55c786f5ad60 <line:56:5, col:179> col:10 analyzeFile '_Bool (const std::string &, const std::string &, const std::string &, unsigned long long, std::list<ErrorLogger::ErrorMessage> *)'\n"
                              "| |-ParmVarDecl 0x55c786f5a4c8 <col:22, col:41> col:41 buildDir 'const std::string &'\n"
                              "| |-ParmVarDecl 0x55c786f5a580 <col:51, col:70> col:70 sourcefile 'const std::string &'\n"
@@ -514,6 +591,9 @@ private:
     }
 
     void cxxMethodDecl3() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char clang[] = "|-CXXRecordDecl 0x21cca40 <2.cpp:2:1, line:4:1> line:2:7 class Fred definition\n"
                              "| |-DefinitionData pass_in_registers empty aggregate standard_layout trivially_copyable pod trivial literal has_constexpr_non_copy_move_ctor can_const_default_init\n"
                              "| | |-DefaultConstructor exists trivial constexpr needs_implicit defaulted_is_constexpr\n"
@@ -530,6 +610,9 @@ private:
     }
 
     void cxxMethodDecl4() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char clang[] = "|-ClassTemplateSpecializationDecl 0x15d82f8 <line:7:3, line:18:3> line:8:12 struct char_traits definition\n"
                              "| |-TemplateArgument type 'char'\n"
                              "| | `-BuiltinType 0x15984c0 'char'\n"
@@ -542,6 +625,9 @@ private:
     }
 
     void cxxNewExpr1() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char clang[] = "|-VarDecl 0x3a97680 <1.cpp:2:1, col:14> col:6 i 'int *' cinit\n"
                              "| `-CXXNewExpr 0x3a97d18 <col:10, col:14> 'int *' Function 0x3a97778 'operator new' 'void *(unsigned long)'\n"
                              "`-VarDecl 0x3a97d80 <line:3:1, col:21> col:6 j 'int *' cinit\n"
@@ -553,6 +639,9 @@ private:
     }
 
     void cxxNewExpr2() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char clang[] = "|-FunctionDecl 0x59a188 <line:7:1, line:9:1> line:7:11 f 'struct S *()'\n"
                              "| `-CompoundStmt 0x5c4318 <col:15, line:9:1>\n"
                              "|   `-ReturnStmt 0x5c4308 <line:8:3, col:14>\n"
@@ -563,6 +652,9 @@ private:
     }
 
     void cxxNullPtrLiteralExpr() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char clang[] = "`-VarDecl 0x2a7d650 <1.cpp:1:1, col:17> col:13 p 'const char *' cinit\n"
                              "  `-ImplicitCastExpr 0x2a7d708 <col:17> 'const char *' <NullToPointer>\n"
                              "    `-CXXNullPtrLiteralExpr 0x2a7d6f0 <col:17> 'nullptr_t'";
@@ -570,6 +662,9 @@ private:
     }
 
     void cxxOperatorCallExpr() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char clang[] = "`-FunctionDecl 0x3c099f0 <line:2:1, col:24> col:6 foo 'void ()'\n"
                              "  `-CompoundStmt 0x3c37308 <col:12, col:24>\n"
                              "    |-DeclStmt 0x3c0a060 <col:14, col:17>\n"
@@ -584,6 +679,9 @@ private:
     }
 
     void cxxRecordDecl1() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char* clang = "`-CXXRecordDecl 0x34cc5f8 <1.cpp:2:1, col:7> col:7 class Foo";
         ASSERT_EQUALS("class Foo ;", parse(clang));
 
@@ -592,11 +690,17 @@ private:
     }
 
     void cxxRecordDecl2() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char clang[] = "`-CXXRecordDecl 0x34cc5f8 <1.cpp:2:1, col:7> col:7 struct Foo definition";
         ASSERT_EQUALS("struct Foo { } ;", parse(clang));
     }
 
     void cxxRecordDeclDerived() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char clang[] = "|-CXXRecordDecl 0x19ccd38 <e.cpp:4:1, line:6:1> line:4:8 referenced struct base definition\n"
                              "| `-VarDecl 0x19ccf00 <line:5:5, col:35> col:27 value 'const bool' static constexpr cinit\n"
                              "|   |-value: Int 0\n"
@@ -609,6 +713,9 @@ private:
     }
 
     void cxxStaticCastExpr1() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char clang[] = "`-VarDecl 0x2e0e650 <a.cpp:2:1, col:27> col:5 a 'int' cinit\n"
                              "  `-CXXStaticCastExpr 0x2e0e728 <col:9, col:27> 'int' static_cast<int> <NoOp>\n"
                              "    `-IntegerLiteral 0x2e0e6f0 <col:26> 'int' 0";
@@ -616,6 +723,9 @@ private:
     }
 
     void cxxStaticCastExpr2() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char clang[] = "`-VarDecl 0x2e0e650 <a.cpp:2:1, col:27> col:5 a 'int' cinit\n"
                              "  `-CXXStaticCastExpr 0x3e453e8 <col:12> 'std::_Rb_tree_iterator<std::pair<const std::__cxx11::basic_string<char>, Library::AllocFunc> >' xvalue static_cast<struct std::_Rb_tree_iterator<struct std::pair<const class std::__cxx11::basic_string<char>, struct Library::AllocFunc> > &&> <NoOp>\n"
                              "    `-DeclRefExpr 0x3e453b0 <col:12> 'std::_Rb_tree_iterator<std::pair<const std::__cxx11::basic_string<char>, Library::AllocFunc> >' lvalue ParmVar 0x3e45250 '' 'std::_Rb_tree_iterator<std::pair<const std::__cxx11::basic_string<char>, Library::AllocFunc> > &&'";
@@ -623,6 +733,9 @@ private:
     }
 
     void cxxStaticCastExpr3() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char clang[] = "`-ClassTemplateSpecializationDecl 0xd842d8 <line:4:3, line:7:3> line:4:21 struct char_traits definition\n"
                              "  |-TemplateArgument type 'char'\n"
                              "  | `-BuiltinType 0xd444c0 'char'\n"
@@ -641,6 +754,9 @@ private:
     }
 
     void cxxStdInitializerListExpr() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char clang[] = "`-VarDecl 0x2f92060 <1.cpp:3:1, col:25> col:18 x 'std::vector<int>':'std::vector<int, std::allocator<int> >' listinit\n"
                              "  `-ExprWithCleanups 0x2fb0b40 <col:18, col:25> 'std::vector<int>':'std::vector<int, std::allocator<int> >'\n"
                              "    `-CXXConstructExpr 0x2fb0b00 <col:18, col:25> 'std::vector<int>':'std::vector<int, std::allocator<int> >' 'void (initializer_list<std::vector<int, std::allocator<int> >::value_type>, const std::vector<int, std::allocator<int> >::allocator_type &)' list std::initializer_list\n"
@@ -655,6 +771,9 @@ private:
     }
 
     void cxxThrowExpr() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char clang[] = "`-FunctionDecl 0x3701690 <1.cpp:2:1, col:23> col:6 foo 'void ()'\n"
                              "  `-CompoundStmt 0x37017b0 <col:12, col:23>\n"
                              "    `-CXXThrowExpr 0x3701790 <col:14, col:20> 'void'\n"
@@ -663,6 +782,9 @@ private:
     }
 
     void defaultStmt() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char clang[] = "`-FunctionDecl 0x18476b8 <1.c:3:1, line:9:1> line:3:5 foo 'int (int)'\n"
                              "  |-ParmVarDecl 0x18475e0 <col:9, col:13> col:13 used rc 'int'\n"
                              "  `-CompoundStmt 0x1847868 <line:4:1, line:9:1>\n"
@@ -677,6 +799,9 @@ private:
     }
 
     void doStmt() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char clang[] = "`-FunctionDecl 0x27fbbc8 <line:2:1, col:34> col:6 foo 'void ()'\n"
                              "  `-CompoundStmt 0x27fbd08 <col:12, col:34>\n"
                              "    `-DoStmt 0x27fbce8 <col:14, col:31>\n"
@@ -688,6 +813,9 @@ private:
     }
 
     void enumDecl1() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char clang[] = "`-EnumDecl 0x2660660 <line:3:1, col:16> col:6 referenced abc\n"
                              "  |-EnumConstantDecl 0x2660720 <col:11> col:11 referenced a 'abc'\n"
                              "  |-EnumConstantDecl 0x2660768 <col:13> col:13 b 'abc'\n"
@@ -696,11 +824,17 @@ private:
     }
 
     void enumDecl2() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char clang[] = "`-EnumDecl 0xb55d50 <2.cpp:4:3, col:44> col:8 syntax_option_type 'unsigned int'";
         ASSERT_EQUALS("enum syntax_option_type : unsigned int { }", parse(clang));
     }
 
     void enumDecl3() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char clang[] = "|-EnumDecl 0x1586e48 <2.cpp:1:3, line:5:3> line:1:8 __syntax_option\n"
                              "| |-EnumConstantDecl 0x1586f18 <line:3:5> col:5 referenced _S_polynomial '__syntax_option'\n"
                              "| `-EnumConstantDecl 0x1586f68 <line:4:5> col:5 _S_syntax_last '__syntax_option'";
@@ -708,6 +842,9 @@ private:
     }
 
     void enumDecl4() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char clang[] = "|-EnumDecl 0xace1f8 <e1.cpp:3:1, col:51> col:1\n"
                              "| |-EnumConstantDecl 0xace2c8 <col:7> col:7 A '(anonymous enum at e1.cpp:3:1)'\n"
                              "| |-EnumConstantDecl 0xace318 <col:16> col:16 B '(anonymous enum at e1.cpp:3:1)'\n"
@@ -718,6 +855,9 @@ private:
     }
 
     void forStmt() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char clang[] = "`-FunctionDecl 0x2f93ae0 <1.c:1:1, col:56> col:5 main 'int ()'\n"
                              "  `-CompoundStmt 0x2f93dc0 <col:12, col:56>\n"
                              "    |-ForStmt 0x2f93d50 <col:14, col:44>\n"
@@ -738,6 +878,9 @@ private:
     }
 
     void funcdecl1() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char clang[] = "`-FunctionDecl 0x3122c30 <1.c:1:1, col:22> col:6 foo 'void (int, int)'\n"
                              "  |-ParmVarDecl 0x3122ae0 <col:10, col:14> col:14 x 'int'\n"
                              "  `-ParmVarDecl 0x3122b58 <col:17, col:21> col:21 y 'int'";
@@ -745,6 +888,9 @@ private:
     }
 
     void funcdecl2() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char clang[] = "`-FunctionDecl 0x24b2c38 <1.c:1:1, line:4:1> line:1:5 foo 'int (int, int)'\n"
                              "  |-ParmVarDecl 0x24b2ae0 <col:9, col:13> col:13 used x 'int'\n"
                              "  |-ParmVarDecl 0x24b2b58 <col:16, col:20> col:20 used y 'int'\n"
@@ -759,6 +905,9 @@ private:
     }
 
     void funcdecl3() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char clang[] = "|-FunctionDecl 0x27cb6b8 <line:865:1, col:35> col:12 __overflow 'int (FILE *, int)' extern\n"
                              "| |-ParmVarDecl 0x27cb528 <col:24, col:29> col:30 'FILE *'\n"
                              "| `-ParmVarDecl 0x27cb5a0 <col:32> col:35 'int'";
@@ -766,6 +915,9 @@ private:
     }
 
     void funcdecl4() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char clang[] = "|-FunctionDecl 0x272bb60 <line:658:15> col:15 implicit fwrite 'unsigned long (const void *, unsigned long, unsigned long, FILE *)' extern\n"
                              "| |-ParmVarDecl 0x272cc40 <<invalid sloc>> <invalid sloc> 'const void *'\n"
                              "| |-ParmVarDecl 0x272cca0 <<invalid sloc>> <invalid sloc> 'unsigned long'\n"
@@ -775,22 +927,34 @@ private:
     }
 
     void funcdecl5() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char clang[] = "`-FunctionDecl 0x59d670 <1.c:1:1, col:28> col:20 foo 'void (void)' static inline";
         ASSERT_EQUALS("static inline void foo ( ) ;", parse(clang));
     }
 
     void funcdecl6() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char clang[] = "`-FunctionDecl 0x196eea8 <1.cpp:3:5, col:27> col:12 foo 'void **(int)'\n"
                              "  `-ParmVarDecl 0x196eda0 <col:17, col:21> col:21 count 'int'";
         ASSERT_EQUALS("void * * foo ( int count@1 ) ;", parse(clang));
     }
 
     void functionTemplateDecl1() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char clang[] = "`-FunctionTemplateDecl 0x3242860 <a.cpp:1:1, col:46> col:21 foo";
         ASSERT_EQUALS("", parse(clang));
     }
 
     void functionTemplateDecl2() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char clang[] = "|-FunctionTemplateDecl 0x333a860 <a.cpp:1:1, col:46> col:21 foo\n"
                              "| |-TemplateTypeParmDecl 0x333a5f8 <col:10, col:16> col:16 referenced class depth 0 index 0 T\n"
                              "| |-FunctionDecl 0x333a7c0 <col:19, col:46> col:21 foo 'T (T)'\n"
@@ -819,6 +983,9 @@ private:
     }
 
     void ifelse() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char clang[] = "`-FunctionDecl 0x2637ba8 <1.c:1:1, line:4:1> line:1:5 foo 'int (int)'\n"
                              "  |-ParmVarDecl 0x2637ae0 <col:9, col:13> col:13 used x 'int'\n"
                              "  `-CompoundStmt 0x2637d70 <col:16, line:4:1>\n"
@@ -835,6 +1002,9 @@ private:
     }
 
     void ifStmt() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         // Clang 8 in cygwin
         const char clang[] = "`-FunctionDecl 0x41d0690 <2.cpp:1:1, col:24> col:6 foo 'void ()'\n"
                              "  `-CompoundStmt 0x41d07f0 <col:12, col:24>\n"
@@ -846,6 +1016,9 @@ private:
     }
 
     void initListExpr() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char clang[] = "|-VarDecl 0x397c680 <1.cpp:2:1, col:26> col:11 used ints 'const int [3]' cinit\n"
                              "| `-InitListExpr 0x397c7d8 <col:20, col:26> 'const int [3]'\n"
                              "|   |-IntegerLiteral 0x397c720 <col:21> 'int' 1\n"
@@ -855,6 +1028,9 @@ private:
     }
 
     void labelStmt() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char clang[] = "`-FunctionDecl 0x2ed1ba0 <1.c:1:1, col:36> col:6 foo 'void (int)'\n"
                              "  `-CompoundStmt 0x2ed1d00 <col:17, col:36>\n"
                              "    `-LabelStmt 0x2ed1ce8 <col:19, col:30> 'loop'\n"
@@ -863,6 +1039,9 @@ private:
     }
 
     void memberExpr() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         // C code:
         // struct S { int x };
         // int foo(struct S s) { return s.x; }
@@ -880,6 +1059,9 @@ private:
     }
 
     void namespaceDecl1() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char clang[] = "`-NamespaceDecl 0x2e5f658 <hello.cpp:1:1, col:24> col:11 x\n"
                              "  `-VarDecl 0x2e5f6d8 <col:15, col:19> col:19 var 'int'";
         ASSERT_EQUALS("namespace x { int var@1 ; }",
@@ -887,6 +1069,9 @@ private:
     }
 
     void namespaceDecl2() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char clang[] = "`-NamespaceDecl 0x1753e60 <1.cpp:1:1, line:4:1> line:1:11 std\n"
                              "  |-VisibilityAttr 0x1753ed0 <col:31, col:56> Default\n"
                              "  `-VarDecl 0x1753f40 <line:3:5, col:9> col:9 x 'int'";
@@ -895,6 +1080,9 @@ private:
     }
 
     void recordDecl1() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char clang[] = "`-RecordDecl 0x354eac8 <1.c:1:1, line:4:1> line:1:8 struct S definition\n"
                              "  |-FieldDecl 0x354eb88 <line:2:3, col:7> col:7 x 'int'\n"
                              "  `-FieldDecl 0x354ebe8 <line:3:3, col:7> col:7 y 'int'";
@@ -903,6 +1091,9 @@ private:
     }
 
     void recordDecl2() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char clang[] = "`-RecordDecl 0x3befac8 <2.c:2:1, col:22> col:1 struct definition\n"
                              "  `-FieldDecl 0x3befbf0 <col:10, col:19> col:14 val 'int'";
         ASSERT_EQUALS("struct { int val@1 ; } ;",
@@ -910,6 +1101,9 @@ private:
     }
 
     void switchStmt() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char clang[] = "`-FunctionDecl 0x2796ba0 <1.c:1:1, col:35> col:6 foo 'void (int)'\n"
                              "  |-ParmVarDecl 0x2796ae0 <col:10, col:14> col:14 used x 'int'\n"
                              "  `-CompoundStmt 0x2796d18 <col:17, col:35>\n"
@@ -925,12 +1119,18 @@ private:
     }
 
     void typedefDecl1() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char clang[] = "|-TypedefDecl 0x2d60180 <<invalid sloc>> <invalid sloc> implicit __int128_t '__int128'\n"
                              "| `-BuiltinType 0x2d5fe80 '__int128'";
         ASSERT_EQUALS("typedef __int128 __int128_t ;", parse(clang));
     }
 
     void typedefDecl2() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char clang[] = "|-TypedefDecl 0x2d604a8 <<invalid sloc>> <invalid sloc> implicit __NSConstantString 'struct __NSConstantString_tag'\n"
                              "| `-RecordType 0x2d602c0 'struct __NSConstantString_tag'\n"
                              "|   `-Record 0x2d60238 '__NSConstantString_tag'";
@@ -938,6 +1138,9 @@ private:
     }
 
     void typedefDecl3() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char clang[] = "|-TypedefDecl 0x2d60540 <<invalid sloc>> <invalid sloc> implicit __builtin_ms_va_list 'char *'\n"
                              "| `-PointerType 0x2d60500 'char *'\n"
                              "|   `-BuiltinType 0x2d5f980 'char'";
@@ -945,6 +1148,9 @@ private:
     }
 
     void unaryExprOrTypeTraitExpr1() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char clang[] = "`-VarDecl 0x24cc610 <a.cpp:1:1, col:19> col:5 x 'int' cinit\n"
                              "  `-ImplicitCastExpr 0x24cc6e8 <col:9, col:19> 'int' <IntegralCast>\n"
                              "    `-UnaryExprOrTypeTraitExpr 0x24cc6c8 <col:9, col:19> 'unsigned long' sizeof 'int'\n";
@@ -952,6 +1158,9 @@ private:
     }
 
     void unaryExprOrTypeTraitExpr2() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char clang[] = "`-VarDecl 0x27c6c00 <line:3:5, col:23> col:9 x 'int' cinit\n"
                              "  `-ImplicitCastExpr 0x27c6cc8 <col:13, col:23> 'int' <IntegralCast>\n"
                              "    `-UnaryExprOrTypeTraitExpr 0x27c6ca8 <col:13, col:23> 'unsigned long' sizeof\n"
@@ -961,6 +1170,9 @@ private:
     }
 
     void unaryOperator() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char clang[] = "`-FunctionDecl 0x2dd9748 <1.cpp:2:1, col:44> col:5 foo 'int (int *)'\n"
                              "  |-ParmVarDecl 0x2dd9680 <col:14, col:19> col:19 used p 'int *'\n"
                              "  `-CompoundStmt 0x2dd9908 <col:22, col:44>\n"
@@ -975,6 +1187,9 @@ private:
     }
 
     void vardecl1() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char clang[] = "|-VarDecl 0x32b8aa0 <1.c:1:1, col:9> col:5 used a 'int' cinit\n"
                              "| `-IntegerLiteral 0x32b8b40 <col:9> 'int' 1\n"
                              "`-VarDecl 0x32b8b78 <line:2:1, col:9> col:5 b 'int' cinit\n"
@@ -986,6 +1201,9 @@ private:
     }
 
     void vardecl2() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char clang[] = "|-VarDecl 0x3873b50 <1.c:1:1, col:9> col:5 used a 'int [10]'\n"
                              "`-FunctionDecl 0x3873c38 <line:3:1, line:6:1> line:3:6 foo 'void ()'\n"
                              "  `-CompoundStmt 0x3873dd0 <line:4:1, line:6:1>\n"
@@ -1001,32 +1219,50 @@ private:
     }
 
     void vardecl3() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char clang[] = "`-VarDecl 0x25a8aa0 <1.c:1:1, col:12> col:12 p 'const int *'";
         ASSERT_EQUALS("const int * p@1 ;", parse(clang));
     }
 
     void vardecl4() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char clang[] = "|-VarDecl 0x23d6c78 <line:137:1, col:14> col:14 stdin 'FILE *' extern";
         ASSERT_EQUALS("FILE * stdin@1 ;", parse(clang));
     }
 
     void vardecl5() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char clang[] = "|-VarDecl 0x2e31fc0 <line:27:1, col:38> col:26 sys_errlist 'const char *const []' extern";
         ASSERT_EQUALS("const char * const [] sys_errlist@1 ;", parse(clang));
     }
 
     void vardecl6() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char clang[] = "`-VarDecl 0x278e170 <1.c:1:1, col:16> col:12 x 'int' static cinit\n"
                              "  `-IntegerLiteral 0x278e220 <col:16> 'int' 3";
         ASSERT_EQUALS("static int x@1 = 3 ;", parse(clang));
     }
 
     void vardecl7() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char clang[] = "`-VarDecl 0x2071f20 <1.cpp:2:1, col:23> col:9 start 'void *(*)(void *)'";
         ASSERT_EQUALS("void * * start@1 ;", parse(clang));
     }
 
     void whileStmt1() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char clang[] = "`-FunctionDecl 0x3d45b18 <1.c:1:1, line:3:1> line:1:6 foo 'void ()'\n"
                              "  `-CompoundStmt 0x3d45c48 <col:12, line:3:1>\n"
                              "    `-WhileStmt 0x3d45c28 <line:2:5, col:14>\n"
@@ -1038,6 +1274,9 @@ private:
     }
 
     void whileStmt2() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         // clang 9
         const char clang[] = "`-FunctionDecl 0x1c99ac8 <1.cpp:1:1, col:27> col:6 foo 'void ()'\n"
                              "  `-CompoundStmt 0x1c99c10 <col:12, col:27>\n"
@@ -1060,6 +1299,9 @@ private:
     ASSERT(db)
 
     void tokenIndex() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char clang[] = "`-FunctionDecl 0x1e07dd0 <67.cpp:1:1, col:13> col:6 foo 'void ()'\n"
                              "  `-CompoundStmt 0x1e07eb8 <col:12, col:13>";
         ASSERT_EQUALS("void foo ( ) { }", parse(clang));
@@ -1070,6 +1312,9 @@ private:
     }
 
     void symbolDatabaseEnum1() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char clang[] = "|-NamespaceDecl 0x29ad5f8 <1.cpp:1:1, line:3:1> line:1:11 ns\n"
                              "| `-EnumDecl 0x29ad660 <line:2:1, col:16> col:6 referenced abc\n"
                              "|   |-EnumConstantDecl 0x29ad720 <col:11> col:11 a 'ns::abc'\n"
@@ -1099,6 +1344,9 @@ private:
     }
 
     void symbolDatabaseFunction1() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char clang[] = "|-FunctionDecl 0x3aea7a0 <1.cpp:2:1, col:22> col:6 used foo 'void (int, int)'\n"
                              "  |-ParmVarDecl 0x3aea650 <col:10, col:14> col:14 x 'int'\n"
                              "  |-ParmVarDecl 0x3aea6c8 <col:17, col:21> col:21 y 'int'\n"
@@ -1118,6 +1366,9 @@ private:
     }
 
     void symbolDatabaseFunction2() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char clang[] = "|-FunctionDecl 0x3aea7a0 <1.cpp:2:1, col:22> col:6 used foo 'void (int, int)'\n"
                              "| |-ParmVarDecl 0x3aea650 <col:10, col:14> col:14 'int'\n"
                              "| |-ParmVarDecl 0x3aea6c8 <col:17, col:21> col:21 'int'\n"
@@ -1152,6 +1403,9 @@ private:
     }
 
     void symbolDatabaseFunctionConst() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char clang[] = "`-CXXRecordDecl 0x7e2d98 <1.cpp:2:1, line:5:1> line:2:7 class foo definition\n"
                              "  `-CXXMethodDecl 0x7e3000 <line:4:3, col:12> col:8 f 'void () const'";
 
@@ -1165,6 +1419,9 @@ private:
     }
 
     void symbolDatabaseVariableRef() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char clang[] = "`-FunctionDecl 0x1593df0 <3.cpp:1:1, line:4:1> line:1:6 foo 'void ()'\n"
                              "  `-CompoundStmt 0x15940b0 <col:12, line:4:1>\n"
                              "    |-DeclStmt 0x1593f58 <line:2:3, col:8>\n"
@@ -1178,6 +1435,9 @@ private:
     }
 
     void symbolDatabaseVariableRRef() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char clang[] = "`-FunctionDecl 0x1a40df0 <3.cpp:1:1, line:4:1> line:1:6 foo 'void ()'\n"
                              "  `-CompoundStmt 0x1a41180 <col:12, line:4:1>\n"
                              "    |-DeclStmt 0x1a40f58 <line:2:3, col:8>\n"
@@ -1200,6 +1460,9 @@ private:
     }
 
     void symbolDatabaseVariablePointerRef() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char clang[] = "`-FunctionDecl 0x9b4f10 <3.cpp:1:1, col:17> col:6 used foo 'void (int *&)'\n"
                              "  `-ParmVarDecl 0x9b4e40 <col:10, col:16> col:16 p 'int *&'\n";
 
@@ -1212,6 +1475,9 @@ private:
     }
 
     void symbolDatabaseNodeType1() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char clang[] = "`-FunctionDecl 0x32438c0 <line:5:1, line:7:1> line:5:6 foo 'a::b (a::b)'\n"
                              "  |-ParmVarDecl 0x32437b0 <col:10, col:15> col:15 used i 'a::b':'long'\n"
                              "  `-CompoundStmt 0x3243a60 <col:18, line:7:1>\n"
@@ -1231,6 +1497,9 @@ private:
     }
 
     void symbolDatabaseForVariable() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char clang[] = "`-FunctionDecl 0x38f8bb0 <10100.c:2:1, line:4:1> line:2:6 f 'void (void)'\n"
                              "  `-CompoundStmt 0x38f8d88 <col:14, line:4:1>\n"
                              "    `-ForStmt 0x38f8d50 <line:3:5, col:26>\n"
@@ -1253,6 +1522,9 @@ private:
     }
 
     void valueFlow1() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         // struct S { int x; int buf[10]; } ; int sz = sizeof(struct S);
         const char clang[] = "|-RecordDecl 0x2fc5a88 <1.c:1:1, line:4:1> line:1:8 struct S definition\n"
                              "| |-FieldDecl 0x2fc5b48 <line:2:3, col:7> col:7 x 'int'\n"
@@ -1270,6 +1542,9 @@ private:
     }
 
     void valueFlow2() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         // int buf[42];
         // int x = sizeof(buf);
         const char clang[] = "|-VarDecl 0x10f6de8 <66.cpp:3:1, col:11> col:5 referenced buf 'int [42]'\n"
@@ -1288,6 +1563,9 @@ private:
     }
 
     void valueType1() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char clang[] = "`-FunctionDecl 0x32438c0 <line:5:1, line:7:1> line:5:6 foo 'a::b (a::b)'\n"
                              "  |-ParmVarDecl 0x32437b0 <col:10, col:15> col:15 used i 'a::b':'long'\n"
                              "  `-CompoundStmt 0x3243a60 <col:18, line:7:1>\n"
@@ -1305,6 +1583,9 @@ private:
     }
 
     void valueType2() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char clang[] = "`-VarDecl 0xc9eda0 <1.cpp:2:1, col:17> col:13 s 'const char *' cinit\n"
                              "  `-ImplicitCastExpr 0xc9eef0 <col:17> 'const char *' <ArrayToPointerDecay>\n"
                              "    `-StringLiteral 0xc9eed0 <col:17> 'const char [6]' lvalue \"hello\"\n";
@@ -1318,6 +1599,9 @@ private:
     }
 
     void crash() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char* clang = "TranslationUnitDecl 0x56037914f998 <<invalid sloc>> <invalid sloc>\n"
                             "|-TypedefDecl 0x560379150200 <<invalid sloc>> <invalid sloc> implicit __int128_t '__int128'\n"
                             "| `-BuiltinType 0x56037914ff60 '__int128'\n"

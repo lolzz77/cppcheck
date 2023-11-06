@@ -1,3 +1,5 @@
+#include <stdio.h>
+#include <pthread.h>
 /*
  * Cppcheck - A tool for static C/C++ code analysis
  * Copyright (C) 2007-2023 Cppcheck team.
@@ -30,6 +32,9 @@ bool gDisableColors = false;
 #ifndef _WIN32
 static bool isStreamATty(const std::ostream & os)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     static const bool stdout_tty = isatty(STDOUT_FILENO);
     static const bool stderr_tty = isatty(STDERR_FILENO);
     if (&os == &std::cout)

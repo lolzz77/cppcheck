@@ -1,3 +1,5 @@
+#include <stdio.h>
+#include <pthread.h>
 /*
  * Cppcheck - A tool for static C/C++ code analysis
  * Copyright (C) 2007-2023 Cppcheck team.
@@ -35,6 +37,9 @@ private:
     const Settings settings = settingsBuilder().severity(Severity::warning).severity(Severity::portability).certainty(Certainty::inconclusive).library("std.cfg").build();
 
     void run() override {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         TEST_CASE(sizeofsizeof);
         TEST_CASE(sizeofCalculation);
         TEST_CASE(sizeofFunction);
@@ -50,6 +55,9 @@ private:
 
 #define check(code) check_(code, __FILE__, __LINE__)
     void check_(const char code[], const char* file, int line) {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         // Clear the error buffer..
         errout.str("");
 
@@ -64,6 +72,9 @@ private:
 
 #define checkP(...) checkP_(__FILE__, __LINE__, __VA_ARGS__)
     void checkP_(const char* file, int line, const char code[]) {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         // Clear the error buffer..
         errout.str("");
 
@@ -79,6 +90,9 @@ private:
     }
 
     void sizeofsizeof() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("void foo()\n"
               "{\n"
               "    int i = sizeof sizeof char;\n"
@@ -99,6 +113,9 @@ private:
     }
 
     void sizeofCalculation() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("int a, b; int a,sizeof(a+b)");
         ASSERT_EQUALS("[test.cpp:1]: (warning) Found calculation inside sizeof().\n", errout.str());
 
@@ -156,6 +173,9 @@ private:
     }
 
     void sizeofFunction() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("class Foo\n"
               "{\n"
               "    int bar() { return 1; };\n"
@@ -217,6 +237,9 @@ private:
     }
 
     void sizeofForArrayParameter() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("void f() {\n"
               "    int a[10];\n"
               "    std::cout << sizeof(a) / sizeof(int) << std::endl;\n"
@@ -340,6 +363,9 @@ private:
     }
 
     void sizeofForNumericParameter() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("void f() {\n"
               "    std::cout << sizeof(10) << std::endl;\n"
               "}");
@@ -362,6 +388,9 @@ private:
     }
 
     void suspiciousSizeofCalculation() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("void f() {\n"
               "  int* p;\n"
               "  return sizeof(p)/5;\n"
@@ -463,6 +492,9 @@ private:
     }
 
     void checkPointerSizeof() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("void f() {\n"
               "    char *x = malloc(10);\n"
               "    free(x);\n"
@@ -728,6 +760,9 @@ private:
     }
 
     void checkPointerSizeofStruct() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("void f() {\n"
               "    struct foo *ptr;\n"
               "    memset( ptr->bar, 0, sizeof ptr->bar );\n"
@@ -752,6 +787,9 @@ private:
     }
 
     void sizeofDivisionMemset() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("void foo(memoryMapEntry_t* entry, memoryMapEntry_t* memoryMapEnd) {\n"
               "    memmove(entry, entry + 1, (memoryMapEnd - entry) / sizeof(entry));\n"
               "}");
@@ -780,6 +818,9 @@ private:
     }
 
     void sizeofVoid() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("void f() {\n"
               "  int size = sizeof(void);\n"
               "}");
@@ -931,6 +972,9 @@ private:
     }
 
     void customStrncat() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         // Ensure we don't crash on custom-defined strncat, ticket #5875
         check("char strncat ();\n"
               "int main () {\n"

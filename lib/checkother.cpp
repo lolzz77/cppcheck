@@ -1,3 +1,5 @@
+#include <stdio.h>
+#include <pthread.h>
 /*
  * Cppcheck - A tool for static C/C++ code analysis
  * Copyright (C) 2007-2023 Cppcheck team.
@@ -83,6 +85,9 @@ static const CWE CWE783(783U);   // Operator Precedence Logic Error
 //----------------------------------------------------------------------------------
 void CheckOther::checkCastIntToCharAndBack()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (!mSettings->severity.isEnabled(Severity::warning))
         return;
 
@@ -133,6 +138,9 @@ void CheckOther::checkCastIntToCharAndBack()
 
 void CheckOther::checkCastIntToCharAndBackError(const Token *tok, const std::string &strFunctionName)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     reportError(
         tok,
         Severity::warning,
@@ -153,6 +161,9 @@ void CheckOther::checkCastIntToCharAndBackError(const Token *tok, const std::str
 //---------------------------------------------------------------------------
 void CheckOther::clarifyCalculation()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (!mSettings->severity.isEnabled(Severity::style))
         return;
 
@@ -202,6 +213,9 @@ void CheckOther::clarifyCalculation()
 
 void CheckOther::clarifyCalculationError(const Token *tok, const std::string &op)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     // suspicious calculation
     const std::string calc("'a" + op + "b?c:d'");
 
@@ -224,6 +238,9 @@ void CheckOther::clarifyCalculationError(const Token *tok, const std::string &op
 //---------------------------------------------------------------------------
 void CheckOther::clarifyStatement()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (!mSettings->severity.isEnabled(Severity::warning))
         return;
 
@@ -250,6 +267,9 @@ void CheckOther::clarifyStatement()
 
 void CheckOther::clarifyStatementError(const Token *tok)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     reportError(tok, Severity::warning, "clarifyStatement", "In expression like '*A++' the result of '*' is unused. Did you intend to write '(*A)++;'?\n"
                 "A statement like '*A++;' might not do what you intended. Postfix 'operator++' is executed before 'operator*'. "
                 "Thus, the dereference is meaningless. Did you intend to write '(*A)++;'?", CWE783, Certainty::normal);
@@ -260,6 +280,9 @@ void CheckOther::clarifyStatementError(const Token *tok)
 //---------------------------------------------------------------------------
 void CheckOther::checkSuspiciousSemicolon()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (!mSettings->certainty.isEnabled(Certainty::inconclusive) || !mSettings->severity.isEnabled(Severity::warning))
         return;
 
@@ -284,6 +307,9 @@ void CheckOther::checkSuspiciousSemicolon()
 
 void CheckOther::suspiciousSemicolonError(const Token* tok)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     reportError(tok, Severity::warning, "suspiciousSemicolon",
                 "Suspicious use of ; at the end of '" + (tok ? tok->str() : std::string()) + "' statement.", CWE398, Certainty::normal);
 }
@@ -294,6 +320,9 @@ void CheckOther::suspiciousSemicolonError(const Token* tok)
 //---------------------------------------------------------------------------
 void CheckOther::warningOldStylePointerCast()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     // Only valid on C++ code
     if (!mSettings->severity.isEnabled(Severity::style) || !mTokenizer->isCPP())
         return;
@@ -334,6 +363,9 @@ void CheckOther::warningOldStylePointerCast()
 
 void CheckOther::cstyleCastError(const Token *tok)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     reportError(tok, Severity::style, "cstyleCast",
                 "C-style pointer casting\n"
                 "C-style pointer casting detected. C++ offers four different kinds of casts as replacements: "
@@ -348,6 +380,9 @@ void CheckOther::cstyleCastError(const Token *tok)
 
 void CheckOther::invalidPointerCast()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (!mSettings->severity.isEnabled(Severity::portability))
         return;
 
@@ -388,6 +423,9 @@ void CheckOther::invalidPointerCast()
 
 void CheckOther::invalidPointerCastError(const Token* tok, const std::string& from, const std::string& to, bool inconclusive, bool toIsInt)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (toIsInt) { // If we cast something to int*, this can be useful to play with its binary data representation
         reportError(tok, Severity::portability, "invalidPointerCast", "Casting from " + from + " to " + to + " is not portable due to different binary data representations on different platforms.", CWE704, inconclusive ? Certainty::inconclusive : Certainty::normal);
     } else
@@ -401,6 +439,9 @@ void CheckOther::invalidPointerCastError(const Token* tok, const std::string& fr
 
 void CheckOther::checkRedundantAssignment()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (!mSettings->severity.isEnabled(Severity::style))
         return;
 
@@ -516,6 +557,9 @@ void CheckOther::checkRedundantAssignment()
 
 void CheckOther::redundantCopyError(const Token *tok1, const Token* tok2, const std::string& var)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     const std::list<const Token *> callstack = { tok1, tok2 };
     reportError(callstack, Severity::performance, "redundantCopy",
                 "$symbol:" + var + "\n"
@@ -524,6 +568,9 @@ void CheckOther::redundantCopyError(const Token *tok1, const Token* tok2, const 
 
 void CheckOther::redundantAssignmentError(const Token *tok1, const Token* tok2, const std::string& var, bool inconclusive)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     const ErrorPath errorPath = { ErrorPathItem(tok1, var + " is assigned"), ErrorPathItem(tok2, var + " is overwritten") };
     if (inconclusive)
         reportError(errorPath, Severity::style, "redundantAssignment",
@@ -538,6 +585,9 @@ void CheckOther::redundantAssignmentError(const Token *tok1, const Token* tok2, 
 
 void CheckOther::redundantInitializationError(const Token *tok1, const Token* tok2, const std::string& var, bool inconclusive)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     const ErrorPath errorPath = { ErrorPathItem(tok1, var + " is initialized"), ErrorPathItem(tok2, var + " is overwritten") };
     reportError(errorPath, Severity::style, "redundantInitialization",
                 "$symbol:" + var + "\nRedundant initialization for '$symbol'. The initialized value is overwritten before it is read.",
@@ -547,6 +597,9 @@ void CheckOther::redundantInitializationError(const Token *tok1, const Token* to
 
 void CheckOther::redundantAssignmentInSwitchError(const Token *tok1, const Token* tok2, const std::string &var)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     const ErrorPath errorPath = { ErrorPathItem(tok1, "$symbol is assigned"), ErrorPathItem(tok2, "$symbol is overwritten") };
     reportError(errorPath, Severity::style, "redundantAssignInSwitch",
                 "$symbol:" + var + "\n"
@@ -565,11 +618,17 @@ void CheckOther::redundantAssignmentInSwitchError(const Token *tok1, const Token
 //---------------------------------------------------------------------------
 static inline bool isFunctionOrBreakPattern(const Token *tok)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     return Token::Match(tok, "%name% (") || Token::Match(tok, "break|continue|return|exit|goto|throw");
 }
 
 void CheckOther::redundantBitwiseOperationInSwitchError()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (!mSettings->severity.isEnabled(Severity::warning))
         return;
 
@@ -687,6 +746,9 @@ void CheckOther::redundantBitwiseOperationInSwitchError()
 
 void CheckOther::redundantBitwiseOperationInSwitchError(const Token *tok, const std::string &varname)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     reportError(tok, Severity::style,
                 "redundantBitwiseOperationInSwitch",
                 "$symbol:" + varname + "\n"
@@ -699,6 +761,9 @@ void CheckOther::redundantBitwiseOperationInSwitchError(const Token *tok, const 
 //---------------------------------------------------------------------------
 void CheckOther::checkSuspiciousCaseInSwitch()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (!mSettings->certainty.isEnabled(Certainty::inconclusive) || !mSettings->severity.isEnabled(Severity::warning))
         return;
 
@@ -733,6 +798,9 @@ void CheckOther::checkSuspiciousCaseInSwitch()
 
 void CheckOther::suspiciousCaseInSwitchError(const Token* tok, const std::string& operatorString)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     reportError(tok, Severity::warning, "suspiciousCase",
                 "Found suspicious case label in switch(). Operator '" + operatorString + "' probably doesn't work as intended.\n"
                 "Using an operator like '" + operatorString + "' in a case label is suspicious. Did you intend to use a bitwise operator, multiple case labels or if/else instead?", CWE398, Certainty::inconclusive);
@@ -746,6 +814,9 @@ void CheckOther::suspiciousCaseInSwitchError(const Token* tok, const std::string
 //---------------------------------------------------------------------------
 void CheckOther::checkUnreachableCode()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (!mSettings->severity.isEnabled(Severity::style))
         return;
 
@@ -851,6 +922,9 @@ void CheckOther::checkUnreachableCode()
 
 void CheckOther::duplicateBreakError(const Token *tok, bool inconclusive)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     reportError(tok, Severity::style, "duplicateBreak",
                 "Consecutive return, break, continue, goto or throw statements are unnecessary.\n"
                 "Consecutive return, break, continue, goto or throw statements are unnecessary. "
@@ -859,6 +933,9 @@ void CheckOther::duplicateBreakError(const Token *tok, bool inconclusive)
 
 void CheckOther::unreachableCodeError(const Token *tok, const Token* noreturn, bool inconclusive)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     std::string msg = "Statements following ";
     if (noreturn && (noreturn->function() || mSettings->library.isnoreturn(noreturn)))
         msg += "noreturn function '" + noreturn->str() + "()'";
@@ -873,11 +950,17 @@ void CheckOther::unreachableCodeError(const Token *tok, const Token* noreturn, b
 
 void CheckOther::redundantContinueError(const Token *tok)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     reportError(tok, Severity::style, "redundantContinue",
                 "'continue' is redundant since it is the last statement in a loop.", CWE561, Certainty::normal);
 }
 
 static bool isSimpleExpr(const Token* tok, const Variable* var, const Settings* settings) {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (!tok)
         return false;
     if (tok->isNumber() || tok->tokType() == Token::eString || tok->tokType() == Token::eChar || tok->isBoolean())
@@ -897,6 +980,9 @@ static bool isSimpleExpr(const Token* tok, const Variable* var, const Settings* 
 //---------------------------------------------------------------------------
 void CheckOther::checkVariableScope()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (mSettings->clang)
         return;
 
@@ -1017,6 +1103,9 @@ void CheckOther::checkVariableScope()
 
 bool CheckOther::checkInnerScope(const Token *tok, const Variable* var, bool& used) const
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     const Scope* scope = tok->next()->scope();
     bool loopVariable = scope->isLoopScope();
     bool noContinue = true;
@@ -1115,6 +1204,9 @@ bool CheckOther::checkInnerScope(const Token *tok, const Variable* var, bool& us
 
 void CheckOther::variableScopeError(const Token *tok, const std::string &varname)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     reportError(tok,
                 Severity::style,
                 "variableScope",
@@ -1142,6 +1234,9 @@ void CheckOther::variableScopeError(const Token *tok, const std::string &varname
 //---------------------------------------------------------------------------
 void CheckOther::checkCommaSeparatedReturn()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     // This is experimental for now. See #5076
     if ((true) || !mSettings->severity.isEnabled(Severity::style)) // NOLINT(readability-simplify-boolean-expr)
         return;
@@ -1169,6 +1264,9 @@ void CheckOther::checkCommaSeparatedReturn()
 
 void CheckOther::commaSeparatedReturnError(const Token *tok)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     reportError(tok,
                 Severity::style,
                 "commaSeparatedReturn",
@@ -1229,6 +1327,9 @@ static int estimateSize(const Type* type, const Settings* settings, const Symbol
 
 void CheckOther::checkPassByReference()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (!mSettings->severity.isEnabled(Severity::performance) || mTokenizer->isC())
         return;
 
@@ -1284,6 +1385,9 @@ void CheckOther::checkPassByReference()
 
 void CheckOther::passedByValueError(const Variable* var, bool inconclusive)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     std::string id = "passedByValue";
     std::string msg = "$symbol:" + (var ? var->name() : "") + "\n"
                       "Function parameter '$symbol' should be passed by const reference.";
@@ -1301,6 +1405,9 @@ void CheckOther::passedByValueError(const Variable* var, bool inconclusive)
 
 static bool isUnusedVariable(const Variable *var)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (!var)
         return false;
     if (!var->scope())
@@ -1315,6 +1422,9 @@ static bool isUnusedVariable(const Variable *var)
 
 static bool isVariableMutableInInitializer(const Token* start, const Token * end, nonneg int varid)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (!start)
         return false;
     if (!end)
@@ -1343,6 +1453,9 @@ static bool isVariableMutableInInitializer(const Token* start, const Token * end
 
 void CheckOther::checkConstVariable()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (!mSettings->severity.isEnabled(Severity::style) || mTokenizer->isC())
         return;
 
@@ -1480,6 +1593,9 @@ void CheckOther::checkConstVariable()
 
 static const Token* getVariableChangedStart(const Variable* p)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (p->isArgument())
         return p->scope()->bodyStart;
     const Token* start = p->nameToken()->next();
@@ -1490,6 +1606,9 @@ static const Token* getVariableChangedStart(const Variable* p)
 
 void CheckOther::checkConstPointer()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (!mSettings->severity.isEnabled(Severity::style))
         return;
 
@@ -1622,6 +1741,9 @@ void CheckOther::checkConstPointer()
 
 void CheckOther::constVariableError(const Variable *var, const Function *function)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (!var) {
         reportError(nullptr, Severity::style, "constParameter", "Parameter 'x' can be declared with const");
         reportError(nullptr, Severity::style, "constVariable",  "Variable 'x' can be declared with const");
@@ -1660,6 +1782,9 @@ void CheckOther::constVariableError(const Variable *var, const Function *functio
 
 void CheckOther::checkCharVariable()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     const bool warning = mSettings->severity.isEnabled(Severity::warning);
     const bool portability = mSettings->severity.isEnabled(Severity::portability);
     if (!warning && !portability)
@@ -1711,6 +1836,9 @@ void CheckOther::checkCharVariable()
 
 void CheckOther::signedCharArrayIndexError(const Token *tok)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     reportError(tok,
                 Severity::warning,
                 "signedCharArrayIndex",
@@ -1722,6 +1850,9 @@ void CheckOther::signedCharArrayIndexError(const Token *tok)
 
 void CheckOther::unknownSignCharArrayIndexError(const Token *tok)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     reportError(tok,
                 Severity::portability,
                 "unknownSignCharArrayIndex",
@@ -1732,6 +1863,9 @@ void CheckOther::unknownSignCharArrayIndexError(const Token *tok)
 
 void CheckOther::charBitOpError(const Token *tok)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     reportError(tok,
                 Severity::warning,
                 "charBitOp",
@@ -1750,6 +1884,9 @@ void CheckOther::charBitOpError(const Token *tok)
 
 static bool isType(const Token * tok, bool unknown)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (tok && (tok->isStandardType() || (!tok->isKeyword() && Token::Match(tok, "%type%")) || tok->str() == "auto"))
         return true;
     if (Token::simpleMatch(tok, "::"))
@@ -1763,6 +1900,9 @@ static bool isType(const Token * tok, bool unknown)
 
 static bool isVarDeclOp(const Token* tok)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (!tok)
         return false;
     const Token * vartok = tok->astOperand2();
@@ -1774,6 +1914,9 @@ static bool isVarDeclOp(const Token* tok)
 
 static bool isBracketAccess(const Token* tok)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (!Token::simpleMatch(tok, "[") || !tok->astOperand1())
         return false;
     tok = tok->astOperand1();
@@ -1787,11 +1930,17 @@ static bool isBracketAccess(const Token* tok)
 }
 
 static bool isConstant(const Token* tok) {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     return tok && (tok->isEnumerator() || Token::Match(tok, "%bool%|%num%|%str%|%char%|nullptr|NULL"));
 }
 
 static bool isConstStatement(const Token *tok, bool cpp)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (!tok)
         return false;
     if (tok->isExpandedMacro())
@@ -1850,6 +1999,9 @@ static bool isConstStatement(const Token *tok, bool cpp)
 
 static bool isVoidStmt(const Token *tok)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (Token::simpleMatch(tok, "( void"))
         return true;
     if (isCPPCast(tok) && tok->astOperand1() && Token::Match(tok->astOperand1()->next(), "< void *| >"))
@@ -1866,6 +2018,9 @@ static bool isVoidStmt(const Token *tok)
 
 static bool isConstTop(const Token *tok)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (!tok)
         return false;
     if (!tok->astParent())
@@ -1890,6 +2045,9 @@ static bool isConstTop(const Token *tok)
 
 void CheckOther::checkIncompleteStatement()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (!mSettings->severity.isEnabled(Severity::warning))
         return;
 
@@ -1950,6 +2108,9 @@ void CheckOther::checkIncompleteStatement()
 
 void CheckOther::constStatementError(const Token *tok, const std::string &type, bool inconclusive)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     const Token *valueTok = tok;
     while (valueTok && valueTok->isCast())
         valueTok = valueTok->astOperand2() ? valueTok->astOperand2() : valueTok->astOperand1();
@@ -1999,6 +2160,9 @@ void CheckOther::constStatementError(const Token *tok, const std::string &type, 
 //---------------------------------------------------------------------------
 void CheckOther::checkZeroDivision()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     logChecker("CheckOther::checkZeroDivision");
 
     for (const Token *tok = mTokenizer->tokens(); tok; tok = tok->next()) {
@@ -2020,6 +2184,9 @@ void CheckOther::checkZeroDivision()
 
 void CheckOther::zerodivError(const Token *tok, const ValueFlow::Value *value)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (!tok && !value) {
         reportError(tok, Severity::error, "zerodiv", "Division by zero.", CWE369, Certainty::normal);
         reportError(tok, Severity::warning, "zerodivcond", ValueFlow::eitherTheConditionIsRedundant(nullptr) + " or there is division by zero.", CWE369, Certainty::normal);
@@ -2049,6 +2216,9 @@ void CheckOther::zerodivError(const Token *tok, const ValueFlow::Value *value)
 
 void CheckOther::checkNanInArithmeticExpression()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (!mSettings->severity.isEnabled(Severity::style))
         return;
     logChecker("CheckOther::checkNanInArithmeticExpression"); // style
@@ -2064,6 +2234,9 @@ void CheckOther::checkNanInArithmeticExpression()
 
 void CheckOther::nanInArithmeticExpressionError(const Token *tok)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     reportError(tok, Severity::style, "nanInArithmeticExpression",
                 "Using NaN/Inf in a computation.\n"
                 "Using NaN/Inf in a computation. "
@@ -2075,6 +2248,9 @@ void CheckOther::nanInArithmeticExpressionError(const Token *tok)
 //---------------------------------------------------------------------------
 void CheckOther::checkMisusedScopedObject()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     // Skip this check for .c files
     if (mTokenizer->isC())
         return;
@@ -2150,6 +2326,9 @@ void CheckOther::checkMisusedScopedObject()
 
 void CheckOther::misusedScopeObjectError(const Token *tok, const std::string& varname, bool isAssignment)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     std::string msg = "Instance of '$symbol' object is destroyed immediately";
     msg += isAssignment ? ", assignment has no effect." : ".";
     reportError(tok, Severity::style,
@@ -2177,6 +2356,9 @@ static const Token * getSingleExpressionInBlock(const Token * tok)
 //-----------------------------------------------------------------------------
 void CheckOther::checkDuplicateBranch()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     // This is inconclusive since in practice most warnings are noise:
     // * There can be unfixed low-priority todos. The code is fine as it
     //   is but it could be possible to enhance it. Writing a warning
@@ -2256,6 +2438,9 @@ void CheckOther::checkDuplicateBranch()
 
 void CheckOther::duplicateBranchError(const Token *tok1, const Token *tok2, ErrorPath errors)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     errors.emplace_back(tok2, "");
     errors.emplace_back(tok1, "");
 
@@ -2273,6 +2458,9 @@ void CheckOther::duplicateBranchError(const Token *tok1, const Token *tok2, Erro
 //-----------------------------------------------------------------------------
 void CheckOther::checkInvalidFree()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     std::map<int, bool> inconclusive;
     std::map<int, std::string> allocation;
 
@@ -2347,6 +2535,9 @@ void CheckOther::checkInvalidFree()
 
 void CheckOther::invalidFreeError(const Token *tok, const std::string &allocation, bool inconclusive)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     std::string alloc = allocation;
     if (alloc != "new")
         alloc += "()";
@@ -2364,11 +2555,17 @@ void CheckOther::invalidFreeError(const Token *tok, const std::string &allocatio
 namespace {
     bool notconst(const Function* func)
     {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         return !func->isConst();
     }
 
     void getConstFunctions(const SymbolDatabase *symbolDatabase, std::list<const Function*> &constFunctions)
     {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         for (const Scope &scope : symbolDatabase->scopeList) {
             // only add const functions that do not have a non-const overloaded version
             // since it is pretty much impossible to tell which is being called.
@@ -2390,6 +2587,9 @@ namespace {
 
 void CheckOther::checkDuplicateExpression()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     const bool styleEnabled = mSettings->severity.isEnabled(Severity::style);
     const bool warningEnabled = mSettings->severity.isEnabled(Severity::warning);
     if (!styleEnabled && !warningEnabled)
@@ -2579,6 +2779,9 @@ void CheckOther::checkDuplicateExpression()
 
 void CheckOther::oppositeExpressionError(const Token *opTok, ErrorPath errors)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     errors.emplace_back(opTok, "");
 
     const std::string& op = opTok ? opTok->str() : "&&";
@@ -2591,6 +2794,9 @@ void CheckOther::oppositeExpressionError(const Token *opTok, ErrorPath errors)
 
 void CheckOther::duplicateExpressionError(const Token *tok1, const Token *tok2, const Token *opTok, ErrorPath errors, bool hasMultipleExpr)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     errors.emplace_back(opTok, "");
 
     const std::string& expr1 = tok1 ? tok1->expressionString() : "x";
@@ -2618,6 +2824,9 @@ void CheckOther::duplicateExpressionError(const Token *tok1, const Token *tok2, 
 
 void CheckOther::duplicateAssignExpressionError(const Token *tok1, const Token *tok2, bool inconclusive)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     const std::list<const Token *> toks = { tok2, tok1 };
 
     const std::string& var1 = tok1 ? tok1->str() : "x";
@@ -2632,6 +2841,9 @@ void CheckOther::duplicateAssignExpressionError(const Token *tok1, const Token *
 
 void CheckOther::duplicateExpressionTernaryError(const Token *tok, ErrorPath errors)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     errors.emplace_back(tok, "");
     reportError(errors, Severity::style, "duplicateExpressionTernary", "Same expression in both branches of ternary operator.\n"
                 "Finding the same expression in both branches of ternary operator is suspicious as "
@@ -2640,6 +2852,9 @@ void CheckOther::duplicateExpressionTernaryError(const Token *tok, ErrorPath err
 
 void CheckOther::duplicateValueTernaryError(const Token *tok)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     reportError(tok, Severity::style, "duplicateValueTernary", "Same value in both branches of ternary operator.\n"
                 "Finding the same value in both branches of ternary operator is suspicious as "
                 "the same code is executed regardless of the condition.", CWE398, Certainty::normal);
@@ -2647,6 +2862,9 @@ void CheckOther::duplicateValueTernaryError(const Token *tok)
 
 void CheckOther::selfAssignmentError(const Token *tok, const std::string &varname)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     reportError(tok, Severity::warning,
                 "selfAssignment",
                 "$symbol:" + varname + "\n"
@@ -2664,6 +2882,9 @@ void CheckOther::selfAssignmentError(const Token *tok, const std::string &varnam
 //-----------------------------------------------------------------------------
 void CheckOther::checkComparisonFunctionIsAlwaysTrueOrFalse()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (!mSettings->severity.isEnabled(Severity::warning))
         return;
 
@@ -2694,6 +2915,9 @@ void CheckOther::checkComparisonFunctionIsAlwaysTrueOrFalse()
 }
 void CheckOther::checkComparisonFunctionIsAlwaysTrueOrFalseError(const Token* tok, const std::string &functionName, const std::string &varName, const bool result)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     const std::string strResult = bool_to_string(result);
     const CWE cweResult = result ? CWE571 : CWE570;
 
@@ -2709,6 +2933,9 @@ void CheckOther::checkComparisonFunctionIsAlwaysTrueOrFalseError(const Token* to
 //---------------------------------------------------------------------------
 void CheckOther::checkSignOfUnsignedVariable()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (!mSettings->severity.isEnabled(Severity::style))
         return;
 
@@ -2740,6 +2967,9 @@ void CheckOther::checkSignOfUnsignedVariable()
 
 bool CheckOther::comparisonNonZeroExpressionLessThanZero(const Token *tok, const ValueFlow::Value **zeroValue, const Token **nonZeroExpr)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (!tok->isComparisonOp() || !tok->astOperand1() || !tok->astOperand2())
         return false;
 
@@ -2762,6 +2992,9 @@ bool CheckOther::comparisonNonZeroExpressionLessThanZero(const Token *tok, const
 
 bool CheckOther::testIfNonZeroExpressionIsPositive(const Token *tok, const ValueFlow::Value **zeroValue, const Token **nonZeroExpr)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (!tok->isComparisonOp() || !tok->astOperand1() || !tok->astOperand2())
         return false;
 
@@ -2784,6 +3017,9 @@ bool CheckOther::testIfNonZeroExpressionIsPositive(const Token *tok, const Value
 
 void CheckOther::unsignedLessThanZeroError(const Token *tok, const ValueFlow::Value * v, const std::string &varname)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     reportError(getErrorPath(tok, v, "Unsigned less than zero"), Severity::style, "unsignedLessThanZero",
                 "$symbol:" + varname + "\n"
                 "Checking if unsigned expression '$symbol' is less than zero.\n"
@@ -2793,12 +3029,18 @@ void CheckOther::unsignedLessThanZeroError(const Token *tok, const ValueFlow::Va
 
 void CheckOther::pointerLessThanZeroError(const Token *tok, const ValueFlow::Value *v)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     reportError(getErrorPath(tok, v, "Pointer less than zero"), Severity::style, "pointerLessThanZero",
                 "A pointer can not be negative so it is either pointless or an error to check if it is.", CWE570, Certainty::normal);
 }
 
 void CheckOther::unsignedPositiveError(const Token *tok, const ValueFlow::Value * v, const std::string &varname)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     reportError(getErrorPath(tok, v, "Unsigned positive"), Severity::style, "unsignedPositive",
                 "$symbol:" + varname + "\n"
                 "Unsigned expression '$symbol' can't be negative so it is unnecessary to test it.", CWE570, Certainty::normal);
@@ -2806,6 +3048,9 @@ void CheckOther::unsignedPositiveError(const Token *tok, const ValueFlow::Value 
 
 void CheckOther::pointerPositiveError(const Token *tok, const ValueFlow::Value * v)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     reportError(getErrorPath(tok, v, "Pointer positive"), Severity::style, "pointerPositive",
                 "A pointer can not be negative so it is either pointless or an error to check if it is not.", CWE570, Certainty::normal);
 }
@@ -2813,6 +3058,9 @@ void CheckOther::pointerPositiveError(const Token *tok, const ValueFlow::Value *
 /* check if a constructor in given class scope takes a reference */
 static bool constructorTakesReference(const Scope * const classScope)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     return std::any_of(classScope->functionList.begin(), classScope->functionList.end(), [&](const Function& constructor) {
         if (constructor.isConstructor()) {
             for (int argnr = 0U; argnr < constructor.argCount(); argnr++) {
@@ -2832,6 +3080,9 @@ static bool constructorTakesReference(const Scope * const classScope)
 //---------------------------------------------------------------------------
 void CheckOther::checkRedundantCopy()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (!mSettings->severity.isEnabled(Severity::performance) || mTokenizer->isC() || !mSettings->certainty.isEnabled(Certainty::inconclusive))
         return;
 
@@ -2889,6 +3140,9 @@ void CheckOther::checkRedundantCopy()
 
 void CheckOther::redundantCopyError(const Token *tok,const std::string& varname)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     reportError(tok, Severity::performance, "redundantCopyLocalConst",
                 "$symbol:" + varname + "\n"
                 "Use const reference for '$symbol' to avoid unnecessary data copying.\n"
@@ -2904,11 +3158,17 @@ void CheckOther::redundantCopyError(const Token *tok,const std::string& varname)
 
 static bool isNegative(const Token *tok, const Settings *settings)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     return tok->valueType() && tok->valueType()->sign == ValueType::SIGNED && tok->getValueLE(-1LL, settings);
 }
 
 void CheckOther::checkNegativeBitwiseShift()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     const bool portability = mSettings->severity.isEnabled(Severity::portability);
 
     logChecker("CheckOther::checkNegativeBitwiseShift");
@@ -2949,6 +3209,9 @@ void CheckOther::checkNegativeBitwiseShift()
 
 void CheckOther::negativeBitwiseShiftError(const Token *tok, int op)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (op == 1)
         // LHS - this is used by intention in various software, if it
         // is used often in a project and works as expected then this is
@@ -2963,6 +3226,9 @@ void CheckOther::negativeBitwiseShiftError(const Token *tok, int op)
 //---------------------------------------------------------------------------
 void CheckOther::checkIncompleteArrayFill()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (!mSettings->certainty.isEnabled(Certainty::inconclusive))
         return;
     const bool printWarning = mSettings->severity.isEnabled(Severity::warning);
@@ -3009,6 +3275,9 @@ void CheckOther::checkIncompleteArrayFill()
 
 void CheckOther::incompleteArrayFillError(const Token* tok, const std::string& buffer, const std::string& function, bool boolean)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (boolean)
         reportError(tok, Severity::portability, "incompleteArrayFill",
                     "$symbol:" + buffer + "\n"
@@ -3029,6 +3298,9 @@ void CheckOther::incompleteArrayFillError(const Token* tok, const std::string& b
 
 void CheckOther::checkVarFuncNullUB()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (!mSettings->severity.isEnabled(Severity::portability))
         return;
 
@@ -3067,6 +3339,9 @@ void CheckOther::checkVarFuncNullUB()
 
 void CheckOther::varFuncNullUBError(const Token *tok)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     reportError(tok,
                 Severity::portability,
                 "varFuncNullUB",
@@ -3114,6 +3389,9 @@ void CheckOther::varFuncNullUBError(const Token *tok)
 
 void CheckOther::checkRedundantPointerOp()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (!mSettings->severity.isEnabled(Severity::style))
         return;
 
@@ -3153,6 +3431,9 @@ void CheckOther::checkRedundantPointerOp()
 
 void CheckOther::redundantPointerOpError(const Token* tok, const std::string &varname, bool inconclusive, bool addressOfDeref)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     std::string msg = "$symbol:" + varname + "\nRedundant pointer operation on '$symbol' - it's already a ";
     msg += addressOfDeref ? "pointer." : "variable.";
     reportError(tok, Severity::style, "redundantPointerOp", msg, CWE398, inconclusive ? Certainty::inconclusive : Certainty::normal);
@@ -3160,6 +3441,9 @@ void CheckOther::redundantPointerOpError(const Token* tok, const std::string &va
 
 void CheckOther::checkInterlockedDecrement()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (!mSettings->platform.isWindows()) {
         return;
     }
@@ -3200,12 +3484,18 @@ void CheckOther::checkInterlockedDecrement()
 
 void CheckOther::raceAfterInterlockedDecrementError(const Token* tok)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     reportError(tok, Severity::error, "raceAfterInterlockedDecrement",
                 "Race condition: non-interlocked access after InterlockedDecrement(). Use InterlockedDecrement() return value instead.", CWE362, Certainty::normal);
 }
 
 void CheckOther::checkUnusedLabel()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (!mSettings->severity.isEnabled(Severity::style) && !mSettings->severity.isEnabled(Severity::warning))
         return;
 
@@ -3229,6 +3519,9 @@ void CheckOther::checkUnusedLabel()
 
 void CheckOther::unusedLabelError(const Token* tok, bool inSwitch, bool hasIfdef)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (tok && !mSettings->severity.isEnabled(inSwitch ? Severity::warning : Severity::style))
         return;
 
@@ -3255,6 +3548,9 @@ void CheckOther::unusedLabelError(const Token* tok, bool inSwitch, bool hasIfdef
 
 void CheckOther::checkEvaluationOrder()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     // This checker is not written according to C++11 sequencing rules
     if (mTokenizer->isCPP() && mSettings->standards.cpp >= Standards::CPP11)
         return;
@@ -3330,12 +3626,18 @@ void CheckOther::checkEvaluationOrder()
 
 void CheckOther::unknownEvaluationOrder(const Token* tok)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     reportError(tok, Severity::error, "unknownEvaluationOrder",
                 "Expression '" + (tok ? tok->expressionString() : std::string("x = x++;")) + "' depends on order of evaluation of side effects", CWE768, Certainty::normal);
 }
 
 void CheckOther::checkAccessOfMovedVariable()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (!mTokenizer->isCPP() || mSettings->standards.cpp < Standards::CPP11 || !mSettings->severity.isEnabled(Severity::warning))
         return;
     logChecker("CheckOther::checkAccessOfMovedVariable"); // c++11,warning
@@ -3381,6 +3683,9 @@ void CheckOther::checkAccessOfMovedVariable()
 
 void CheckOther::accessMovedError(const Token *tok, const std::string &varname, const ValueFlow::Value *value, bool inconclusive)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (!tok) {
         reportError(tok, Severity::warning, "accessMoved", "Access of moved variable 'v'.", CWE672, Certainty::normal);
         reportError(tok, Severity::warning, "accessForwarded", "Access of forwarded variable 'v'.", CWE672, Certainty::normal);
@@ -3410,6 +3715,9 @@ void CheckOther::accessMovedError(const Token *tok, const std::string &varname, 
 
 void CheckOther::checkFuncArgNamesDifferent()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     const bool style = mSettings->severity.isEnabled(Severity::style);
     const bool inconclusive = mSettings->certainty.isEnabled(Certainty::inconclusive);
     const bool warning = mSettings->severity.isEnabled(Severity::warning);
@@ -3494,6 +3802,9 @@ void CheckOther::checkFuncArgNamesDifferent()
 void CheckOther::funcArgNamesDifferent(const std::string & functionName, nonneg int index,
                                        const Token* declaration, const Token* definition)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     std::list<const Token *> tokens = { declaration,definition };
     reportError(tokens, Severity::style, "funcArgNamesDifferent",
                 "$symbol:" + functionName + "\n"
@@ -3507,6 +3818,9 @@ void CheckOther::funcArgOrderDifferent(const std::string & functionName,
                                        const std::vector<const Token *> & declarations,
                                        const std::vector<const Token *> & definitions)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     std::list<const Token *> tokens = {
         !declarations.empty() ? declarations[0] ? declarations[0] : declaration : nullptr,
         !definitions.empty() ? definitions[0] ? definitions[0] : definition : nullptr
@@ -3531,6 +3845,9 @@ void CheckOther::funcArgOrderDifferent(const std::string & functionName,
 
 static const Token *findShadowed(const Scope *scope, const std::string &varname, int linenr)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (!scope)
         return nullptr;
     for (const Variable &var : scope->varlist) {
@@ -3555,6 +3872,9 @@ static const Token *findShadowed(const Scope *scope, const std::string &varname,
 
 void CheckOther::checkShadowVariables()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (!mSettings->severity.isEnabled(Severity::style))
         return;
     logChecker("CheckOther::checkShadowVariables"); // style
@@ -3597,6 +3917,9 @@ void CheckOther::checkShadowVariables()
 
 void CheckOther::shadowError(const Token *var, const Token *shadowed, const std::string& type)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     ErrorPath errorPath;
     errorPath.emplace_back(shadowed, "Shadowed declaration");
     errorPath.emplace_back(var, "Shadow variable");
@@ -3609,6 +3932,9 @@ void CheckOther::shadowError(const Token *var, const Token *shadowed, const std:
 
 static bool isVariableExpression(const Token* tok)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (tok->varId() != 0)
         return true;
     if (Token::simpleMatch(tok, "."))
@@ -3621,6 +3947,9 @@ static bool isVariableExpression(const Token* tok)
 
 static bool isVariableExprHidden(const Token* tok)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (!tok)
         return false;
     if (!tok->astParent())
@@ -3636,6 +3965,9 @@ static bool isVariableExprHidden(const Token* tok)
 
 void CheckOther::checkKnownArgument()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (!mSettings->severity.isEnabled(Severity::style))
         return;
     logChecker("CheckOther::checkKnownArgument"); // style
@@ -3705,6 +4037,9 @@ void CheckOther::checkKnownArgument()
 
 void CheckOther::knownArgumentError(const Token *tok, const Token *ftok, const ValueFlow::Value *value, const std::string &varexpr, bool isVariableExpressionHidden)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (!tok) {
         reportError(tok, Severity::style, "knownArgument", "Argument 'x-x' to function 'func' is always 0. It does not matter what value 'x' has.");
         reportError(tok, Severity::style, "knownArgumentHiddenVariableExpression", "Argument 'x*0' to function 'func' is always 0. Constant literal calculation disable/hide variable expression 'x'.");
@@ -3737,6 +4072,9 @@ void CheckOther::knownArgumentError(const Token *tok, const Token *ftok, const V
 
 void CheckOther::checkKnownPointerToBool()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (!mSettings->severity.isEnabled(Severity::style))
         return;
     logChecker("CheckOther::checkKnownPointerToBool"); // style
@@ -3767,6 +4105,9 @@ void CheckOther::checkKnownPointerToBool()
 
 void CheckOther::knownPointerToBoolError(const Token* tok, const ValueFlow::Value* value)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (!tok) {
         reportError(tok, Severity::style, "knownPointerToBool", "Pointer expression 'p' converted to bool is always true.");
         return;
@@ -3780,6 +4121,9 @@ void CheckOther::knownPointerToBoolError(const Token* tok, const ValueFlow::Valu
 
 void CheckOther::checkComparePointers()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     logChecker("CheckOther::checkComparePointers");
     const SymbolDatabase *symbolDatabase = mTokenizer->getSymbolDatabase();
     for (const Scope *functionScope : symbolDatabase->functionScopes) {
@@ -3817,6 +4161,9 @@ void CheckOther::checkComparePointers()
 
 void CheckOther::comparePointersError(const Token *tok, const ValueFlow::Value *v1, const ValueFlow::Value *v2)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     ErrorPath errorPath;
     std::string verb = "Comparing";
     if (Token::simpleMatch(tok, "-"))
@@ -3836,6 +4183,9 @@ void CheckOther::comparePointersError(const Token *tok, const ValueFlow::Value *
 
 void CheckOther::checkModuloOfOne()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (!mSettings->severity.isEnabled(Severity::style))
         return;
 
@@ -3858,6 +4208,9 @@ void CheckOther::checkModuloOfOne()
 
 void CheckOther::checkModuloOfOneError(const Token *tok)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     reportError(tok, Severity::style, "moduloofone", "Modulo of one is always equal to zero");
 }
 
@@ -3866,6 +4219,9 @@ void CheckOther::checkModuloOfOneError(const Token *tok)
 //-----------------------------------------------------------------------------
 static bool getBufAndOffset(const Token *expr, const Token **buf, MathLib::bigint *offset)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (!expr)
         return false;
     const Token *bufToken, *offsetToken;
@@ -3902,6 +4258,9 @@ static bool getBufAndOffset(const Token *expr, const Token **buf, MathLib::bigin
 
 void CheckOther::checkOverlappingWrite()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     logChecker("CheckOther::checkOverlappingWrite");
     const SymbolDatabase *symbolDatabase = mTokenizer->getSymbolDatabase();
     for (const Scope *functionScope : symbolDatabase->functionScopes) {
@@ -3998,11 +4357,17 @@ void CheckOther::checkOverlappingWrite()
 
 void CheckOther::overlappingWriteUnion(const Token *tok)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     reportError(tok, Severity::error, "overlappingWriteUnion", "Overlapping read/write of union is undefined behavior");
 }
 
 void CheckOther::overlappingWriteFunction(const Token *tok)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     const std::string &funcname = tok ? tok->str() : emptyString;
     reportError(tok, Severity::error, "overlappingWriteFunction", "Overlapping read/write in " + funcname + "() is undefined behavior");
 }

@@ -1,3 +1,5 @@
+#include <stdio.h>
+#include <pthread.h>
 /*
  * Cppcheck - A tool for static C/C++ code analysis
  * Copyright (C) 2007-2023 Cppcheck team.
@@ -82,6 +84,9 @@ static const char * getFunctionTypeName(Function::Type type)
 
 static bool isVariableCopyNeeded(const Variable &var, Function::Type type)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     bool isOpEqual = false;
     switch (type) {
     case Function::eOperatorEqual:
@@ -102,6 +107,9 @@ static bool isVariableCopyNeeded(const Variable &var, Function::Type type)
 
 static bool isVclTypeInit(const Type *type)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (!type)
         return false;
     return std::any_of(type->derivedFrom.begin(), type->derivedFrom.end(), [&](const Type::BaseInfo& baseInfo) {
@@ -125,6 +133,9 @@ CheckClass::CheckClass(const Tokenizer *tokenizer, const Settings *settings, Err
 
 void CheckClass::constructors()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     const bool printStyle = mSettings->severity.isEnabled(Severity::style);
     const bool printWarnings = mSettings->severity.isEnabled(Severity::warning);
     if (!printStyle && !printWarnings)
@@ -336,6 +347,9 @@ void CheckClass::constructors()
 
 void CheckClass::checkExplicitConstructors()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (!mSettings->severity.isEnabled(Severity::style))
         return;
 
@@ -381,6 +395,9 @@ void CheckClass::checkExplicitConstructors()
 
 static bool hasNonCopyableBase(const Scope *scope, bool *unknown)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     // check if there is base class that is not copyable
     for (const Type::BaseInfo &baseInfo : scope->definedType->derivedFrom) {
         if (!baseInfo.type || !baseInfo.type->classScope) {
@@ -405,6 +422,9 @@ static bool hasNonCopyableBase(const Scope *scope, bool *unknown)
 
 void CheckClass::copyconstructors()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (!mSettings->severity.isEnabled(Severity::warning))
         return;
 
@@ -537,6 +557,9 @@ void CheckClass::copyconstructors()
 
 void CheckClass::copyConstructorShallowCopyError(const Token *tok, const std::string& varname)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     reportError(tok, Severity::warning, "copyCtorPointerCopying",
                 "$symbol:" + varname + "\nValue of pointer '$symbol', which points to allocated memory, is copied in copy constructor instead of allocating new memory.", CWE398, Certainty::normal);
 }
@@ -563,21 +586,33 @@ static std::string noMemberErrorMessage(const Scope *scope, const char function[
 
 void CheckClass::noCopyConstructorError(const Scope *scope, bool isdefault, const Token *alloc, bool inconclusive)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     reportError(alloc, Severity::warning, "noCopyConstructor", noMemberErrorMessage(scope, "copy constructor", isdefault), CWE398, inconclusive ? Certainty::inconclusive : Certainty::normal);
 }
 
 void CheckClass::noOperatorEqError(const Scope *scope, bool isdefault, const Token *alloc, bool inconclusive)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     reportError(alloc, Severity::warning, "noOperatorEq", noMemberErrorMessage(scope, "operator=", isdefault), CWE398, inconclusive ? Certainty::inconclusive : Certainty::normal);
 }
 
 void CheckClass::noDestructorError(const Scope *scope, bool isdefault, const Token *alloc)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     reportError(alloc, Severity::warning, "noDestructor", noMemberErrorMessage(scope, "destructor", isdefault), CWE398, Certainty::normal);
 }
 
 bool CheckClass::canNotCopy(const Scope *scope)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     bool constructor = false;
     bool publicAssign = false;
     bool publicCopy = false;
@@ -602,6 +637,9 @@ bool CheckClass::canNotCopy(const Scope *scope)
 
 bool CheckClass::canNotMove(const Scope *scope)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     bool constructor = false;
     bool publicAssign = false;
     bool publicCopy = false;
@@ -631,6 +669,9 @@ bool CheckClass::canNotMove(const Scope *scope)
 
 static void getAllVariableMembers(const Scope *scope, std::vector<const Variable *>& varList)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     std::transform(scope->varlist.cbegin(), scope->varlist.cend(), std::back_inserter(varList), [](const Variable& var) {
         return &var;
     });
@@ -659,6 +700,9 @@ std::vector<CheckClass::Usage> CheckClass::createUsageList(const Scope *scope)
 
 void CheckClass::assignVar(std::vector<Usage> &usageList, nonneg int varid)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     for (Usage& usage: usageList) {
         if (usage.var->declarationId() == varid) {
             usage.assign = true;
@@ -669,6 +713,9 @@ void CheckClass::assignVar(std::vector<Usage> &usageList, nonneg int varid)
 
 void CheckClass::assignVar(std::vector<Usage> &usageList, const Token* vartok)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (vartok->varId() > 0) {
         assignVar(usageList, vartok->varId());
         return;
@@ -684,6 +731,9 @@ void CheckClass::assignVar(std::vector<Usage> &usageList, const Token* vartok)
 
 void CheckClass::initVar(std::vector<Usage> &usageList, nonneg int varid)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     for (Usage& usage: usageList) {
         if (usage.var->declarationId() == varid) {
             usage.init = true;
@@ -694,12 +744,18 @@ void CheckClass::initVar(std::vector<Usage> &usageList, nonneg int varid)
 
 void CheckClass::assignAllVar(std::vector<Usage> &usageList)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     for (Usage & i : usageList)
         i.assign = true;
 }
 
 void CheckClass::assignAllVarsVisibleFromScope(std::vector<Usage>& usageList, const Scope* scope)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     for (Usage& usage : usageList) {
         if (usage.var->scope() == scope)
             usage.assign = true;
@@ -716,6 +772,9 @@ void CheckClass::assignAllVarsVisibleFromScope(std::vector<Usage>& usageList, co
 
 void CheckClass::clearAllVar(std::vector<Usage> &usageList)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     for (Usage & i : usageList) {
         i.assign = false;
         i.init = false;
@@ -724,6 +783,9 @@ void CheckClass::clearAllVar(std::vector<Usage> &usageList)
 
 bool CheckClass::isBaseClassMutableMemberFunc(const Token *tok, const Scope *scope)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     // Iterate through each base class...
     for (const Type::BaseInfo & i : scope->definedType->derivedFrom) {
         const Type *derivedFrom = i.type;
@@ -751,6 +813,9 @@ bool CheckClass::isBaseClassMutableMemberFunc(const Token *tok, const Scope *sco
 
 void CheckClass::initializeVarList(const Function &func, std::list<const Function *> &callstack, const Scope *scope, std::vector<Usage> &usage) const
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (!func.functionScope)
         return;
 
@@ -1074,6 +1139,9 @@ void CheckClass::initializeVarList(const Function &func, std::list<const Functio
 
 void CheckClass::noConstructorError(const Token *tok, const std::string &classname, bool isStruct)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     // For performance reasons the constructor might be intentionally missing. Therefore this is not a "warning"
     const std::string message {"The " + std::string(isStruct ? "struct" : "class") + " '$symbol' does not declare a constructor although it has private member variables which likely require initialization."};
     const std::string verbose {message + " Member variables of native types, pointers, or references are left uninitialized when the class is instantiated. That may cause bugs or undefined behavior."};
@@ -1082,6 +1150,9 @@ void CheckClass::noConstructorError(const Token *tok, const std::string &classna
 
 void CheckClass::noExplicitConstructorError(const Token *tok, const std::string &classname, bool isStruct)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     const std::string message(std::string(isStruct ? "Struct" : "Class") + " '$symbol' has a constructor with 1 argument that is not explicit.");
     const std::string verbose(message + " Such, so called \"Converting constructors\", should in general be explicit for type safety reasons as that prevents unintended implicit conversions.");
     reportError(tok, Severity::style, "noExplicitConstructor", "$symbol:" + classname + '\n' + message + '\n' + verbose, CWE398, Certainty::normal);
@@ -1089,6 +1160,9 @@ void CheckClass::noExplicitConstructorError(const Token *tok, const std::string 
 
 void CheckClass::uninitVarError(const Token *tok, bool isprivate, Function::Type functionType, const std::string &classname, const std::string &varname, bool derived, bool inconclusive)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     std::string ctor;
     if (functionType == Function::eCopyConstructor)
         ctor = "copy ";
@@ -1104,6 +1178,9 @@ void CheckClass::uninitVarError(const Token *tok, bool isprivate, Function::Type
 
 void CheckClass::uninitVarError(const Token *tok, const std::string &classname, const std::string &varname)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     const std::string message("Member variable '$symbol' is not initialized."); // report missing in-class initializer
     const std::string verbose {message + " Member variables of native types, pointers, or references are left uninitialized when the class is instantiated. That may cause bugs or undefined behavior."};
     const std::string id = std::string("uninitMemberVarPrivate");
@@ -1112,6 +1189,9 @@ void CheckClass::uninitVarError(const Token *tok, const std::string &classname, 
 
 void CheckClass::missingMemberCopyError(const Token *tok, Function::Type functionType, const std::string& classname, const std::string& varname)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     const std::string ctor(functionType == Function::Type::eCopyConstructor ? "copy" : "move");
     const std::string action(functionType == Function::Type::eCopyConstructor ? "copied?" : "moved?");
     const std::string message =
@@ -1131,6 +1211,9 @@ void CheckClass::operatorEqVarError(const Token *tok, const std::string &classna
 
 void CheckClass::initializationListUsage()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (!mSettings->severity.isEnabled(Severity::performance))
         return;
 
@@ -1211,6 +1294,9 @@ void CheckClass::initializationListUsage()
 
 void CheckClass::suggestInitializationList(const Token* tok, const std::string& varname)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     reportError(tok, Severity::performance, "useInitializationList", "$symbol:" + varname + "\nVariable '$symbol' is assigned in constructor body. Consider performing initialization in initialization list.\n"
                 "When an object of a class is created, the constructors of all member variables are called consecutively "
                 "in the order the variables are declared, even if you don't explicitly write them to the initialization list. You "
@@ -1223,6 +1309,9 @@ void CheckClass::suggestInitializationList(const Token* tok, const std::string& 
 
 static bool checkFunctionUsage(const Function *privfunc, const Scope* scope)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (!scope)
         return true; // Assume it is used, if scope is not seen
 
@@ -1273,6 +1362,9 @@ static bool checkFunctionUsage(const Function *privfunc, const Scope* scope)
 
 void CheckClass::privateFunctions()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (!mSettings->severity.isEnabled(Severity::style))
         return;
 
@@ -1329,6 +1421,9 @@ void CheckClass::privateFunctions()
 
 void CheckClass::unusedPrivateFunctionError(const Token *tok, const std::string &classname, const std::string &funcname)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     reportError(tok, Severity::style, "unusedPrivateFunction", "$symbol:" + classname + "::" + funcname + "\nUnused private function: '$symbol'", CWE398, Certainty::normal);
 }
 
@@ -1338,6 +1433,9 @@ void CheckClass::unusedPrivateFunctionError(const Token *tok, const std::string 
 
 static const Scope* findFunctionOf(const Scope* scope)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     while (scope) {
         if (scope->type == Scope::eFunction)
             return scope->functionOf;
@@ -1348,6 +1446,9 @@ static const Scope* findFunctionOf(const Scope* scope)
 
 void CheckClass::checkMemset()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     logChecker("CheckClass::checkMemset");
     const bool printWarnings = mSettings->severity.isEnabled(Severity::warning);
     for (const Scope *scope : mSymbolDatabase->functionScopes) {
@@ -1441,6 +1542,9 @@ void CheckClass::checkMemset()
 
 void CheckClass::checkMemsetType(const Scope *start, const Token *tok, const Scope *type, bool allocation, std::set<const Scope *> parsedTypes)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     // If type has been checked there is no need to check it again
     if (parsedTypes.find(type) != parsedTypes.end())
         return;
@@ -1507,6 +1611,9 @@ void CheckClass::checkMemsetType(const Scope *start, const Token *tok, const Sco
 
 void CheckClass::mallocOnClassWarning(const Token* tok, const std::string &memfunc, const Token* classTok)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     std::list<const Token *> toks = { tok, classTok };
     reportError(toks, Severity::warning, "mallocOnClassWarning",
                 "$symbol:" + memfunc +"\n"
@@ -1517,6 +1624,9 @@ void CheckClass::mallocOnClassWarning(const Token* tok, const std::string &memfu
 
 void CheckClass::mallocOnClassError(const Token* tok, const std::string &memfunc, const Token* classTok, const std::string &classname)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     std::list<const Token *> toks = { tok, classTok };
     reportError(toks, Severity::error, "mallocOnClassError",
                 "$symbol:" + memfunc +"\n"
@@ -1528,6 +1638,9 @@ void CheckClass::mallocOnClassError(const Token* tok, const std::string &memfunc
 
 void CheckClass::memsetError(const Token *tok, const std::string &memfunc, const std::string &classname, const std::string &type, bool isContainer)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     const std::string typeStr = isContainer ? std::string() : (type + " that contains a ");
     const std::string msg = "$symbol:" + memfunc + "\n"
                             "$symbol:" + classname + "\n"
@@ -1540,6 +1653,9 @@ void CheckClass::memsetError(const Token *tok, const std::string &memfunc, const
 
 void CheckClass::memsetErrorReference(const Token *tok, const std::string &memfunc, const std::string &type)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     reportError(tok, Severity::error, "memsetClassReference",
                 "$symbol:" + memfunc +"\n"
                 "Using '" + memfunc + "' on " + type + " that contains a reference.", CWE665, Certainty::normal);
@@ -1547,6 +1663,9 @@ void CheckClass::memsetErrorReference(const Token *tok, const std::string &memfu
 
 void CheckClass::memsetErrorFloat(const Token *tok, const std::string &type)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     reportError(tok, Severity::portability, "memsetClassFloat", "Using memset() on " + type + " which contains a floating point number.\n"
                 "Using memset() on " + type + " which contains a floating point number."
                 " This is not portable because memset() sets each byte of a block of memory to a specific value and"
@@ -1581,12 +1700,18 @@ void CheckClass::operatorEqRetRefThis()
 
 void CheckClass::checkReturnPtrThis(const Scope *scope, const Function *func, const Token *tok, const Token *last)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     std::set<const Function*> analyzedFunctions;
     checkReturnPtrThis(scope, func, tok, last, analyzedFunctions);
 }
 
 void CheckClass::checkReturnPtrThis(const Scope *scope, const Function *func, const Token *tok, const Token *last, std::set<const Function*>& analyzedFunctions)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     bool foundReturn = false;
 
     const Token* const startTok = tok;
@@ -1747,6 +1872,9 @@ void CheckClass::operatorEqToSelf()
 
 bool CheckClass::hasAllocationInIfScope(const Function *func, const Scope* scope, const Token *ifStatementScopeStart) const
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     const Token *end;
     if (ifStatementScopeStart->str() == "{")
         end = ifStatementScopeStart->link();
@@ -1757,11 +1885,17 @@ bool CheckClass::hasAllocationInIfScope(const Function *func, const Scope* scope
 
 bool CheckClass::hasAllocation(const Function *func, const Scope* scope) const
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     return hasAllocation(func, scope, func->functionScope->bodyStart, func->functionScope->bodyEnd);
 }
 
 bool CheckClass::hasAllocation(const Function *func, const Scope* scope, const Token *start, const Token *end) const
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (!end)
         end = func->functionScope->bodyEnd;
     for (const Token *tok = start; tok && (tok != end); tok = tok->next()) {
@@ -1794,11 +1928,17 @@ bool CheckClass::hasAllocation(const Function *func, const Scope* scope, const T
 
 static bool isTrueKeyword(const Token* tok)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     return tok->hasKnownIntValue() && tok->getKnownIntValue() == 1;
 }
 
 static bool isFalseKeyword(const Token* tok)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     return tok->hasKnownIntValue() && tok->getKnownIntValue() == 0;
 }
 
@@ -1853,6 +1993,9 @@ const Token * CheckClass::getIfStmtBodyStart(const Token *tok, const Token *rhs)
 
 bool CheckClass::hasAssignSelf(const Function *func, const Token *rhs, const Token **out_ifStatementScopeStart)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (!rhs)
         return false;
     const Token *last = func->functionScope->bodyEnd;
@@ -1899,6 +2042,9 @@ void CheckClass::operatorEqToSelfError(const Token *tok)
 
 void CheckClass::virtualDestructor()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     // This error should only be given if:
     // * base class doesn't have virtual destructor
     // * derived class has non-empty destructor (only c++03, in c++11 it's UB see paragraph 3 in [expr.delete])
@@ -2034,6 +2180,9 @@ void CheckClass::virtualDestructor()
 
 void CheckClass::virtualDestructorError(const Token *tok, const std::string &Base, const std::string &Derived, bool inconclusive)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (inconclusive) {
         if (mSettings->severity.isEnabled(Severity::warning))
             reportError(tok, Severity::warning, "virtualDestructor", "$symbol:" + Base + "\nClass '$symbol' which has virtual members does not have a virtual destructor.", CWE404, Certainty::inconclusive);
@@ -2055,6 +2204,9 @@ void CheckClass::virtualDestructorError(const Token *tok, const std::string &Bas
 
 void CheckClass::thisSubtraction()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (!mSettings->severity.isEnabled(Severity::warning))
         return;
 
@@ -2075,6 +2227,9 @@ void CheckClass::thisSubtraction()
 
 void CheckClass::thisSubtractionError(const Token *tok)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     reportError(tok, Severity::warning, "thisSubtraction", "Suspicious pointer subtraction. Did you intend to write '->'?", CWE398, Certainty::normal);
 }
 
@@ -2084,6 +2239,9 @@ void CheckClass::thisSubtractionError(const Token *tok)
 
 void CheckClass::checkConst()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     // This is an inconclusive check. False positives: #3322.
     if (!mSettings->certainty.isEnabled(Certainty::inconclusive))
         return;
@@ -2193,6 +2351,9 @@ void CheckClass::checkConst()
 
 // tok should point at "this"
 static const Token* getFuncTokFromThis(const Token* tok) {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (!Token::simpleMatch(tok->next(), "."))
         return nullptr;
     tok = tok->tokAt(2);
@@ -2203,6 +2364,9 @@ static const Token* getFuncTokFromThis(const Token* tok) {
 
 bool CheckClass::isMemberVar(const Scope *scope, const Token *tok) const
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     bool again = false;
 
     // try to find the member variable
@@ -2278,6 +2442,9 @@ bool CheckClass::isMemberVar(const Scope *scope, const Token *tok) const
 
 bool CheckClass::isMemberFunc(const Scope *scope, const Token *tok)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (!tok->function()) {
         for (const Function &func : scope->functionList) {
             if (func.name() == tok->str()) {
@@ -2319,6 +2486,9 @@ bool CheckClass::isMemberFunc(const Scope *scope, const Token *tok)
 
 bool CheckClass::isConstMemberFunc(const Scope *scope, const Token *tok)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (!tok->function())
         return false;
     if (tok->function()->nestedIn == scope)
@@ -2346,6 +2516,9 @@ const std::set<std::string> CheckClass::stl_containers_not_const = { "map", "uno
 
 bool CheckClass::checkConstFunc(const Scope *scope, const Function *func, MemberAccess& memberAccessed) const
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (mTokenizer->hasIfdef(func->functionScope->bodyStart, func->functionScope->bodyEnd))
         return false;
 
@@ -2587,11 +2760,17 @@ bool CheckClass::checkConstFunc(const Scope *scope, const Function *func, Member
 
 void CheckClass::checkConstError(const Token *tok, const std::string &classname, const std::string &funcname, bool suggestStatic)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     checkConstError2(tok, nullptr, classname, funcname, suggestStatic);
 }
 
 void CheckClass::checkConstError2(const Token *tok1, const Token *tok2, const std::string &classname, const std::string &funcname, bool suggestStatic)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     std::list<const Token *> toks{ tok1 };
     if (tok2)
         toks.push_back(tok2);
@@ -2632,6 +2811,9 @@ namespace { // avoid one-definition-rule violation
 
 void CheckClass::initializerListOrder()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (!mSettings->severity.isEnabled(Severity::style))
         return;
 
@@ -2688,6 +2870,9 @@ void CheckClass::initializerListOrder()
 
 void CheckClass::initializerListError(const Token *tok1, const Token *tok2, const std::string &classname, const std::string &varname)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     std::list<const Token *> toks = { tok1, tok2 };
     reportError(toks, Severity::style, "initializerList",
                 "$symbol:" + classname + "::" + varname +"\n"
@@ -2706,6 +2891,9 @@ void CheckClass::initializerListError(const Token *tok1, const Token *tok2, cons
 
 void CheckClass::checkSelfInitialization()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     logChecker("CheckClass::checkSelfInitialization");
 
     for (const Scope *scope : mSymbolDatabase->functionScopes) {
@@ -2735,6 +2923,9 @@ void CheckClass::checkSelfInitialization()
 
 void CheckClass::selfInitializationError(const Token* tok, const std::string& varname)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     reportError(tok, Severity::error, "selfInitialization", "$symbol:" + varname + "\nMember variable '$symbol' is initialized by itself.", CWE665, Certainty::normal);
 }
 
@@ -2745,6 +2936,9 @@ void CheckClass::selfInitializationError(const Token* tok, const std::string& va
 
 void CheckClass::checkVirtualFunctionCallInConstructor()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (!mSettings->severity.isEnabled(Severity::warning))
         return;
     logChecker("CheckClass::checkVirtualFunctionCallInConstructor"); // warning
@@ -2836,6 +3030,9 @@ void CheckClass::getFirstVirtualFunctionCallStack(
     const Token * callToken,
     std::list<const Token *> & pureFuncStack)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     const Function *callFunction = callToken->function();
     if (callFunction->isImplicitlyVirtual() && (!callFunction->isPure() || !callFunction->hasBody())) {
         pureFuncStack.push_back(callFunction->tokenDef);
@@ -2856,6 +3053,9 @@ void CheckClass::virtualFunctionCallInConstructorError(
     const std::list<const Token *> & tokStack,
     const std::string &funcname)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     const char * scopeFunctionTypeName = scopeFunction ? getFunctionTypeName(scopeFunction->type) : "constructor";
 
     ErrorPath errorPath;
@@ -2891,6 +3091,9 @@ void CheckClass::pureVirtualFunctionCallInConstructorError(
     const std::list<const Token *> & tokStack,
     const std::string &purefuncname)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     const char * scopeFunctionTypeName = scopeFunction ? getFunctionTypeName(scopeFunction->type) : "constructor";
 
     ErrorPath errorPath;
@@ -2913,6 +3116,9 @@ void CheckClass::pureVirtualFunctionCallInConstructorError(
 
 void CheckClass::checkDuplInheritedMembers()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (!mSettings->severity.isEnabled(Severity::warning))
         return;
 
@@ -2996,6 +3202,9 @@ static std::vector<DuplMemberFuncInfo> getDuplInheritedMemberFunctionsRecursive(
 
 void CheckClass::checkDuplInheritedMembersRecursive(const Type* typeCurrent, const Type* typeBase)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     const auto resultsVar = getDuplInheritedMembersRecursive(typeCurrent, typeBase);
     for (const auto& r : resultsVar) {
         duplInheritedMembersError(r.classVar->nameToken(), r.parentClassVar->nameToken(),
@@ -3017,6 +3226,9 @@ void CheckClass::duplInheritedMembersError(const Token *tok1, const Token* tok2,
                                            const std::string &derivedName, const std::string &baseName,
                                            const std::string &memberName, bool derivedIsStruct, bool baseIsStruct, bool isFunction)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     ErrorPath errorPath;
     const std::string member = isFunction ? "function" : "variable";
     errorPath.emplace_back(tok2, "Parent " + member + " '" + baseName + "::" + memberName + "'");
@@ -3043,6 +3255,9 @@ enum class CtorType {
 
 void CheckClass::checkCopyCtorAndEqOperator()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     // This is disabled because of #8388
     // The message must be clarified. How is the behaviour different?
     // cppcheck-suppress unreachableCode - remove when code is enabled again
@@ -3096,6 +3311,9 @@ void CheckClass::checkCopyCtorAndEqOperator()
 
 void CheckClass::copyCtorAndEqOperatorError(const Token *tok, const std::string &classname, bool isStruct, bool hasCopyCtor)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     const std::string message = "$symbol:" + classname + "\n"
                                 "The " + std::string(isStruct ? "struct" : "class") + " '$symbol' has '" +
                                 getFunctionTypeName(hasCopyCtor ? Function::eCopyConstructor : Function::eOperatorEqual) +
@@ -3106,6 +3324,9 @@ void CheckClass::copyCtorAndEqOperatorError(const Token *tok, const std::string 
 
 void CheckClass::checkOverride()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (!mSettings->severity.isEnabled(Severity::style))
         return;
     if (mSettings->standards.cpp < Standards::CPP11)
@@ -3126,6 +3347,9 @@ void CheckClass::checkOverride()
 
 void CheckClass::overrideError(const Function *funcInBase, const Function *funcInDerived)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     const std::string functionName = funcInDerived ? ((funcInDerived->isDestructor() ? "~" : "") + funcInDerived->name()) : "";
     const std::string funcType = (funcInDerived && funcInDerived->isDestructor()) ? "destructor" : "function";
 
@@ -3144,6 +3368,9 @@ void CheckClass::overrideError(const Function *funcInBase, const Function *funcI
 
 void CheckClass::uselessOverrideError(const Function *funcInBase, const Function *funcInDerived, bool isSameCode)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     const std::string functionName = funcInDerived ? ((funcInDerived->isDestructor() ? "~" : "") + funcInDerived->name()) : "";
     const std::string funcType = (funcInDerived && funcInDerived->isDestructor()) ? "destructor" : "function";
 
@@ -3167,6 +3394,9 @@ void CheckClass::uselessOverrideError(const Function *funcInBase, const Function
 }
 
 static const Token* getSingleFunctionCall(const Scope* scope) {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     const Token* const start = scope->bodyStart->next();
     const Token* const end = Token::findsimplematch(start, ";", 1, scope->bodyEnd);
     if (!end || end->next() != scope->bodyEnd)
@@ -3184,6 +3414,9 @@ static const Token* getSingleFunctionCall(const Scope* scope) {
 }
 
 static bool compareTokenRanges(const Token* start1, const Token* end1, const Token* start2, const Token* end2) {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     const Token* tok1 = start1;
     const Token* tok2 = start2;
     bool isEqual = false;
@@ -3206,6 +3439,9 @@ static bool compareTokenRanges(const Token* start1, const Token* end1, const Tok
 
 void CheckClass::checkUselessOverride()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (!mSettings->severity.isEnabled(Severity::style))
         return;
 
@@ -3265,6 +3501,9 @@ void CheckClass::checkUselessOverride()
 
 void CheckClass::checkThisUseAfterFree()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (!mSettings->severity.isEnabled(Severity::warning))
         return;
 
@@ -3314,6 +3553,9 @@ void CheckClass::checkThisUseAfterFree()
 
 bool CheckClass::checkThisUseAfterFreeRecursive(const Scope *classScope, const Function *func, const Variable *selfPointer, std::set<const Function *> callstack, const Token **freeToken)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (!func || !func->functionScope)
         return false;
 
@@ -3353,6 +3595,9 @@ bool CheckClass::checkThisUseAfterFreeRecursive(const Scope *classScope, const F
 
 void CheckClass::thisUseAfterFree(const Token *self, const Token *free, const Token *use)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     std::string selfPointer = self ? self->str() : "ptr";
     const ErrorPath errorPath = { ErrorPathItem(self, "Assuming '" + selfPointer + "' is used as 'this'"), ErrorPathItem(free, "Delete '" + selfPointer + "', invalidating 'this'"), ErrorPathItem(use, "Call method when 'this' is invalid") };
     const std::string usestr = use ? use->str() : "x";
@@ -3365,6 +3610,9 @@ void CheckClass::thisUseAfterFree(const Token *self, const Token *free, const To
 
 void CheckClass::checkUnsafeClassRefMember()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (!mSettings->safeChecks.classes || !mSettings->severity.isEnabled(Severity::warning))
         return;
     logChecker("CheckClass::checkUnsafeClassRefMember"); // warning,safeChecks
@@ -3389,6 +3637,9 @@ void CheckClass::checkUnsafeClassRefMember()
 
 void CheckClass::unsafeClassRefMemberError(const Token *tok, const std::string &varname)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     reportError(tok, Severity::warning, "unsafeClassRefMember",
                 "$symbol:" + varname + "\n"
                 "Unsafe class: The const reference member '$symbol' is initialized by a const reference constructor argument. You need to be careful about lifetime issues.\n"
@@ -3408,6 +3659,9 @@ namespace {
             std::size_t hash;
 
             bool isSameLocation(const NameLoc& other) const {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
                 return fileName == other.fileName &&
                        lineNumber == other.lineNumber &&
                        column == other.column;
@@ -3531,6 +3785,9 @@ Check::FileInfo * CheckClass::loadFileInfoFromXml(const tinyxml2::XMLElement *xm
 
 bool CheckClass::analyseWholeProgram(const CTU::FileInfo *ctu, const std::list<Check::FileInfo*> &fileInfo, const Settings& settings, ErrorLogger &errorLogger)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     bool foundErrors = false;
     (void)ctu; // This argument is unused
     (void)settings; // This argument is unused

@@ -1,3 +1,5 @@
+#include <stdio.h>
+#include <pthread.h>
 // Test library configuration for bsd.cfg
 //
 // Usage:
@@ -14,6 +16,9 @@
 
 void nullPointer_setbuffer(FILE *stream, char *buf, size_t size)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     // cppcheck-suppress nullPointer
     (void) setbuffer(NULL, buf, size);
     (void) setbuffer(stream, NULL, size);
@@ -22,6 +27,9 @@ void nullPointer_setbuffer(FILE *stream, char *buf, size_t size)
 
 void nullPointer_setlinebuf(FILE *stream)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     // cppcheck-suppress nullPointer
     (void)setlinebuf(NULL);
     (void)setlinebuf(stream);
@@ -30,6 +38,9 @@ void nullPointer_setlinebuf(FILE *stream)
 // #9323, #9331
 void verify_timercmp(struct timeval t)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     (void)timercmp(&t, &t, <);
     (void)timercmp(&t, &t, <=);
     (void)timercmp(&t, &t, ==);
@@ -40,6 +51,9 @@ void verify_timercmp(struct timeval t)
 
 ssize_t nullPointer_readv(int fd, const struct iovec *iov, int iovcnt)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     // cppcheck-suppress nullPointer
     (void)readv(fd,NULL,iovcnt);
     return readv(fd,iov,iovcnt);
@@ -47,6 +61,9 @@ ssize_t nullPointer_readv(int fd, const struct iovec *iov, int iovcnt)
 
 ssize_t nullPointer_writev(int fd, const struct iovec *iov, int iovcnt)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     // cppcheck-suppress nullPointer
     (void)writev(fd,NULL,iovcnt);
     return writev(fd,iov,iovcnt);
@@ -54,6 +71,9 @@ ssize_t nullPointer_writev(int fd, const struct iovec *iov, int iovcnt)
 
 ssize_t nullPointer_preadv(int fd, const struct iovec *iov, int iovcnt, off_t offset)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     // cppcheck-suppress nullPointer
     (void)preadv(fd,NULL,iovcnt,offset);
     return preadv(fd,iov,iovcnt,offset);
@@ -61,6 +81,9 @@ ssize_t nullPointer_preadv(int fd, const struct iovec *iov, int iovcnt, off_t of
 
 ssize_t nullPointer_pwritev(int fd, const struct iovec *iov, int iovcnt, off_t offset)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     // cppcheck-suppress nullPointer
     (void)pwritev(fd,NULL,iovcnt,offset);
     return pwritev(fd,iov,iovcnt,offset);
@@ -69,6 +92,9 @@ ssize_t nullPointer_pwritev(int fd, const struct iovec *iov, int iovcnt, off_t o
 // False negative: #9346
 void uninitvar_timercmp(struct timeval t)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     struct timeval uninit;
     (void)timercmp(&t, &uninit, <);
     (void)timercmp(&uninit, &t, <=);
@@ -77,6 +103,9 @@ void uninitvar_timercmp(struct timeval t)
 
 void nullPointer_timercmp(struct timeval t)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     // cppcheck-suppress constVariablePointer
     struct timeval *p=0;
     // cppcheck-suppress nullPointer
@@ -90,6 +119,9 @@ void nullPointer_timercmp(struct timeval t)
 // size_t strlcat(char *dst, const char *src, size_t size);
 void uninitvar_strlcat(char *Ct, const char *S, size_t N)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     char *ct1, *ct2;
     char *s1, *s2;
     size_t n1, n2;
@@ -108,6 +140,9 @@ void uninitvar_strlcat(char *Ct, const char *S, size_t N)
 
 void bufferAccessOutOfBounds(void)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     uint16_t uint16Buf[4];
     // cppcheck-suppress bufferAccessOutOfBounds
     arc4random_buf(uint16Buf, 9);
@@ -117,6 +152,9 @@ void bufferAccessOutOfBounds(void)
 
 void ignoredReturnValue(void)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     // cppcheck-suppress ignoredReturnValue
     arc4random();
     // cppcheck-suppress ignoredReturnValue
@@ -125,6 +163,9 @@ void ignoredReturnValue(void)
 
 void invalidFunctionArg()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     // cppcheck-suppress invalidFunctionArg
     (void) arc4random_uniform(1);
     // valid
@@ -133,12 +174,18 @@ void invalidFunctionArg()
 
 void nullPointer(void)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     // cppcheck-suppress nullPointer
     arc4random_buf(NULL, 5);
 }
 
 void uninitvar(void)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     uint32_t uint32Uninit;
 
     // cppcheck-suppress uninitvar

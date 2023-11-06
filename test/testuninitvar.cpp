@@ -1,3 +1,5 @@
+#include <stdio.h>
+#include <pthread.h>
 /*
  * Cppcheck - A tool for static C/C++ code analysis
  * Copyright (C) 2007-2023 Cppcheck team.
@@ -37,6 +39,9 @@ private:
     const Settings settings = settingsBuilder().library("std.cfg").build();
 
     void run() override {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         TEST_CASE(uninitvar1);
         TEST_CASE(uninitvar_warn_once); // only write 1 warning at a time
         TEST_CASE(uninitvar_decl);      // handling various types in C and C++ files
@@ -123,6 +128,9 @@ private:
     }
 
     void uninitvar1() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         // extracttests.start: int b; int c;
 
         // Ticket #2207 - False negative
@@ -781,6 +789,9 @@ private:
     }
 
     void uninitvar_warn_once() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         // extracttests.start: int a; int b;
 
         checkUninitVar("void f() {\n"
@@ -793,6 +804,9 @@ private:
 
     // Handling of unknown types. Assume they are POD in C.
     void uninitvar_decl() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char code[] = "void f() {\n"
                             "    dfs a;\n"
                             "    return a;\n"
@@ -872,6 +886,9 @@ private:
     }
 
     void uninitvar_bitop() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         // extracttests.start: int a; int c;
 
         checkUninitVar("void foo() {\n"
@@ -889,6 +906,9 @@ private:
 
     // if..
     void uninitvar_if() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         // extracttests.start: struct Foo { void abcd(); };
         checkUninitVar("static void foo(int x)\n"
                        "{\n"
@@ -1273,6 +1293,9 @@ private:
 
     // handling for/while loops..
     void uninitvar_loops() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         // for..
         // extracttests.start: void b(int);
         checkUninitVar("void f()\n"
@@ -1511,6 +1534,9 @@ private:
 
     // switch..
     void uninitvar_switch() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         checkUninitVar("void f(int x)\n"
                        "{\n"
                        "    short c;\n"
@@ -1587,6 +1613,9 @@ private:
 
     // arrays..
     void uninitvar_arrays() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         checkUninitVar("void f()\n"
                        "{\n"
                        "    char a[10];\n"
@@ -1854,6 +1883,9 @@ private:
     }
 
     void uninitvar_pointertoarray() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         checkUninitVar("void draw_quad(float z)  {\n"
                        "    int i;\n"
                        "    float (*vertices)[2][4];\n"
@@ -1895,6 +1927,9 @@ private:
 
     // alloc..
     void uninitvar_alloc() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         checkUninitVar("void f() {\n"
                        "    char *s = (char *)malloc(100);\n"
                        "    strcat(s, \"abc\");\n"
@@ -2120,6 +2155,9 @@ private:
 
     // class / struct..
     void uninitvar_class() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         checkUninitVar("class Fred\n"
                        "{\n"
                        "    int i;\n"
@@ -2169,6 +2207,9 @@ private:
 
     // enum..
     void uninitvar_enum() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         checkUninitVar("void f()\n"
                        "{\n"
                        "    enum AB { a, b };\n"
@@ -2180,6 +2221,9 @@ private:
 
     // references..
     void uninitvar_references() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         checkUninitVar("void f()\n"
                        "{\n"
                        "    int a;\n"
@@ -2215,6 +2259,9 @@ private:
     }
 
     void uninitvar_return() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
 
         checkUninitVar("static int foo() {\n"
                        "    int ret;\n"
@@ -2359,6 +2406,9 @@ private:
 
     // strncpy doesn't always null-terminate..
     void uninitvar_strncpy() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         // TODO: Add this checking
         // Can it be added without hardcoding?
 
@@ -2422,6 +2472,9 @@ private:
 
     // valid and invalid use of 'int a(int x) { return x + x; }'
     void func_uninit_var() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const std::string funca("int a(int x) { return x + x; }");
 
         checkUninitVar((funca +
@@ -2442,6 +2495,9 @@ private:
 
     // valid and invalid use of 'void a(int *p) { *p = 0; }'
     void func_uninit_pointer() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const std::string funca("void a(int *p) { *p = 0; }");
 
         // ok - initialized pointer
@@ -2462,6 +2518,9 @@ private:
     }
 
     void uninitvar_typeof() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         checkUninitVar("void f() {\n"
                        "    struct Fred *fred;\n"
                        "    typeof(fred->x);\n"
@@ -2487,6 +2546,9 @@ private:
     }
 
     void uninitvar_ignore() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         checkUninitVar("void foo() {\n"
                        "  int i;\n"
                        "  dostuff((int&)i, 0);\n" // <- cast is not use
@@ -2513,6 +2575,9 @@ private:
     }
 
     void uninitvar2() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         // using uninit var
         checkUninitVar("void f() {\n"
                        "    int x;\n"
@@ -3044,6 +3109,9 @@ private:
 
     // #3869 - reference variable
     void uninitvar4() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         checkUninitVar("void f() {\n"
                        "    int buf[10];\n"
                        "    int &x = buf[0];\n"
@@ -3055,6 +3123,9 @@ private:
 
     // #3861
     void uninitvar5() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         // ensure there is no false positive
         checkUninitVar("void f() {\n"
                        "    x<char> c;\n"
@@ -3071,6 +3142,9 @@ private:
     }
 
     void uninitvar8() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char code[] = "struct Fred {\n"
                             "    void Sync(dsmp_t& type, int& len, int limit = 123);\n"
                             "    void Sync(int& syncpos, dsmp_t& type, int& len, int limit = 123);\n"
@@ -3165,6 +3239,9 @@ private:
     }
 
     void uninitvar_unconditionalTry() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         // Unconditional scopes and try{} scopes
         checkUninitVar("int f() {\n"
                        "    int i;\n"
@@ -3213,6 +3290,9 @@ private:
     }
 
     void uninitvar_funcptr() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         // extracttests.disable
 
         checkUninitVar("void getLibraryContainer() {\n"
@@ -3265,6 +3345,9 @@ private:
 
     // Handling of function calls
     void uninitvar2_func() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         // #4716
         checkUninitVar("void bar(const int a, const int * const b);\n"
                        "int foo(void) {\n"
@@ -3453,6 +3536,9 @@ private:
     }
 
     void uninitvar2_value() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         checkUninitVar("void f() {\n"
                        "    int i;\n"
                        "    if (x) {\n"
@@ -3566,6 +3652,9 @@ private:
 #define valueFlowUninit(...) valueFlowUninit_(__FILE__, __LINE__, __VA_ARGS__)
     void valueFlowUninit2_value()
     {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         valueFlowUninit("void f() {\n"
                         "    int i;\n"
                         "    if (x) {\n"
@@ -3759,6 +3848,9 @@ private:
 
     void valueFlowUninit_uninitvar2()
     {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         // using uninit var
         valueFlowUninit("void f() {\n"
                         "    int x;\n"
@@ -4878,6 +4970,9 @@ private:
     }
 
     void uninitvar2_while() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         // extracttests.start: int a;
 
         // for, while
@@ -5087,6 +5182,9 @@ private:
     }
 
     void uninitvar2_4494() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         checkUninitVar("namespace N1 {\n"
                        "    class Fred {\n"
                        "    public:\n"
@@ -5150,6 +5248,9 @@ private:
     }
 
     void uninitvar2_malloc() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         checkUninitVar("int f() {\n"
                        "    int *p = (int*)malloc(40);\n"
                        "    return *p;\n"
@@ -5250,6 +5351,9 @@ private:
     }
 
     void uninitvar_rangeBasedFor() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         checkUninitVar("void function(Entry& entry) {\n" // #7078
                        "    for (auto* expr : entry.exprs) {\n"
                        "        expr->operate();\n"
@@ -5287,6 +5391,9 @@ private:
     }
 
     void uninitvar_configuration() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const Settings s = settingsBuilder(settings).checkLibrary().build();
 
         checkUninitVar("int f() {\n"
@@ -5300,6 +5407,9 @@ private:
     }
 
     void checkExpr() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         checkUninitVar("struct AB { int a; int b; };\n"
                        "void f() {\n"
                        "    struct AB *ab = (struct AB*)calloc(1, sizeof(*ab));\n"
@@ -5366,6 +5476,9 @@ private:
 
 #define ctu(code) ctu_(__FILE__, __LINE__, code)
     void valueFlowUninitTest() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         // #9735 - FN
         valueFlowUninit("typedef struct\n"
                         "{\n"
@@ -6337,6 +6450,9 @@ private:
     }
 
     void uninitvar_ipa() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         // #8825
         valueFlowUninit("typedef struct  {\n"
                         "    int flags;\n"
@@ -6564,6 +6680,9 @@ private:
 
     void valueFlowUninitStructMembers()
     {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         valueFlowUninit("struct AB { int a; int b; };\n"
                         "void f(void) {\n"
                         "    struct AB ab;\n"
@@ -7209,6 +7328,9 @@ private:
     }
 
     void uninitvar_memberfunction() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         // # 8715
         valueFlowUninit("struct C {\n"
                         "    int x();\n"
@@ -7231,6 +7353,9 @@ private:
     }
 
     void uninitvar_nonmember() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         valueFlowUninit("struct Foo {\n"
                         "  int bar;\n"
                         "};\n"
@@ -7243,6 +7368,9 @@ private:
     }
 
     void uninitvarDesignatedInitializers() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         checkUninitVar("struct a { int b; };\n"
                        "int main() {\n"
                        "  char *b;\n"
@@ -7261,6 +7389,9 @@ private:
     }
 
     void isVariableUsageDeref() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         // *p
         checkUninitVar("void f() {\n"
                        "    char a[10];\n"
@@ -7296,6 +7427,9 @@ private:
 
     void isVariableUsageDerefValueflow()
     {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         // *p
         valueFlowUninit("void f() {\n"
                         "    char a[10];\n"
@@ -7358,6 +7492,9 @@ private:
     }
 
     void uninitvar_memberaccess() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         valueFlowUninit("struct foo{char *bar;};\n"
                         "void f(unsigned long long *p) {\n"
                         "    foo a;\n"
@@ -7453,6 +7590,9 @@ private:
     }
 
     void ctu_(const char* file, int line, const char code[]) {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         // Clear the error buffer..
         errout.str("");
 
@@ -7476,6 +7616,9 @@ private:
     }
 
     void ctuTest() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         ctu("void f(int *p) {\n"
             "    a = *p;\n"
             "}\n"

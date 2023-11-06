@@ -1,3 +1,5 @@
+#include <stdio.h>
+#include <pthread.h>
 /*
  * Cppcheck - A tool for static C/C++ code analysis
  * Copyright (C) 2007-2022 Cppcheck team.
@@ -51,6 +53,9 @@ namespace {
 // avoid explicit dependency on Dbghelp.dll
     bool loadDbgHelp()
     {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         hLibDbgHelp = ::LoadLibraryW(L"Dbghelp.dll");
         if (!hLibDbgHelp)
             return false;
@@ -67,6 +72,9 @@ namespace {
 
     void printCallstack(FILE* outputFile, PEXCEPTION_POINTERS ex)
     {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         if (!loadDbgHelp())
             return;
         const HANDLE hProcess   = GetCurrentProcess();
@@ -139,6 +147,9 @@ namespace {
 
     void writeMemoryErrorDetails(FILE* outputFile, PEXCEPTION_POINTERS ex, const char* description)
     {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         fputs(description, outputFile);
         fprintf(outputFile, " (instruction: 0x%p) ", ex->ExceptionRecord->ExceptionAddress);
         // Using %p for ULONG_PTR later on, so it must have size identical to size of pointer
@@ -167,6 +178,9 @@ namespace {
      */
     int filterException(FILE *outputFile, int code, PEXCEPTION_POINTERS ex)
     {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         fputs("Internal error: ", outputFile);
         switch (ex->ExceptionRecord->ExceptionCode) {
         case EXCEPTION_ACCESS_VIOLATION:
@@ -255,6 +269,9 @@ namespace {
  */
 int check_wrapper_seh(CppCheckExecutor& executor, int (CppCheckExecutor::*f)(CppCheck&), CppCheck& cppcheck)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     FILE *outputFile = CppCheckExecutor::getExceptionOutput();
     __try {
         return (&executor->*f)(cppcheck);

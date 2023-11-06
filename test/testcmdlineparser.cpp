@@ -1,3 +1,5 @@
+#include <stdio.h>
+#include <pthread.h>
 /*
  * Cppcheck - A tool for static C/C++ code analysis
  * Copyright (C) 2007-2023 Cppcheck team.
@@ -54,16 +56,25 @@ private:
 
         void printMessage(const std::string &message) override
         {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
             printInternal("cppcheck: " + message + '\n');
         }
 
         void printError(const std::string &message) override
         {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
             printMessage("error: " + message);
         }
 
         void printRaw(const std::string &message) override
         {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
             printInternal(message + '\n');
         }
 
@@ -76,6 +87,9 @@ private:
 
         void destroy()
         {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
             if (!buf.empty())
                 throw std::runtime_error("unconsumed messages");
         }
@@ -83,6 +97,9 @@ private:
     private:
         void printInternal(const std::string &message)
         {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
             buf += message;
         }
 
@@ -94,17 +111,26 @@ private:
     std::unique_ptr<CmdLineParser> parser;
 
     void prepareTestInternal() override {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         logger.reset(new CmdLineLoggerTest());
         settings.reset(new Settings());
         parser.reset(new CmdLineParser(*logger, *settings, settings->nomsg, settings->nofail));
     }
 
     void teardownTestInternal() override {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         logger->destroy();
         // TODO: verify that the redirect output is empty
     }
 
     void run() override {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         TEST_CASE(nooptions);
         TEST_CASE(helpshort);
         TEST_CASE(helplong);
@@ -340,6 +366,9 @@ private:
 
 
     void nooptions() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         REDIRECT;
         const char * const argv[] = {"cppcheck"};
         ASSERT(parser->parseFromArgs(1, argv));
@@ -348,6 +377,9 @@ private:
     }
 
     void helpshort() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         REDIRECT;
         const char * const argv[] = {"cppcheck", "-h"};
         ASSERT(parser->parseFromArgs(2, argv));
@@ -356,6 +388,9 @@ private:
     }
 
     void helplong() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         REDIRECT;
         const char * const argv[] = {"cppcheck", "--help"};
         ASSERT(parser->parseFromArgs(2, argv));
@@ -364,6 +399,9 @@ private:
     }
 
     void showversion() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         REDIRECT;
         const char * const argv[] = {"cppcheck", "--version"};
         ASSERT(parser->parseFromArgs(2, argv));
@@ -372,6 +410,9 @@ private:
     }
 
     void onefile() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         REDIRECT;
         const char * const argv[] = {"cppcheck", "file.cpp"};
         ASSERT(parser->parseFromArgs(2, argv));
@@ -381,6 +422,9 @@ private:
     }
 
     void onepath() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         REDIRECT;
         const char * const argv[] = {"cppcheck", "src"};
         ASSERT(parser->parseFromArgs(2, argv));
@@ -390,6 +434,9 @@ private:
     }
 
     void optionwithoutfile() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         REDIRECT;
         const char * const argv[] = {"cppcheck", "-v"};
         ASSERT_EQUALS(false, parser->parseFromArgs(2, argv));
@@ -398,6 +445,9 @@ private:
     }
 
     void verboseshort() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         REDIRECT;
         const char * const argv[] = {"cppcheck", "-v", "file.cpp"};
         settings->verbose = false;
@@ -407,6 +457,9 @@ private:
     }
 
     void verboselong() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         REDIRECT;
         const char * const argv[] = {"cppcheck", "--verbose", "file.cpp"};
         settings->verbose = false;
@@ -416,6 +469,9 @@ private:
     }
 
     void debugSimplified() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         REDIRECT;
         const char * const argv[] = {"cppcheck", "--debug-simplified", "file.cpp"};
         settings->debugSimplified = false;
@@ -425,6 +481,9 @@ private:
     }
 
     void debugwarnings() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         REDIRECT;
         const char * const argv[] = {"cppcheck", "--debug-warnings", "file.cpp"};
         settings->debugwarnings = false;
@@ -434,6 +493,9 @@ private:
     }
 
     void forceshort() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         REDIRECT;
         const char * const argv[] = {"cppcheck", "-f", "file.cpp"};
         settings->force = false;
@@ -443,6 +505,9 @@ private:
     }
 
     void forcelong() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         REDIRECT;
         const char * const argv[] = {"cppcheck", "--force", "file.cpp"};
         settings->force = false;
@@ -452,6 +517,9 @@ private:
     }
 
     void relativePaths1() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         REDIRECT;
         settings->relativePaths = false;
         const char * const argv[] = {"cppcheck", "-rp", "file.cpp"};
@@ -461,6 +529,9 @@ private:
     }
 
     void relativePaths2() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         REDIRECT;
         settings->relativePaths = false;
         const char * const argv[] = {"cppcheck", "--relative-paths", "file.cpp"};
@@ -470,6 +541,9 @@ private:
     }
 
     void relativePaths3() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         REDIRECT;
         settings->relativePaths = false;
         settings->basePaths.clear();
@@ -483,6 +557,9 @@ private:
     }
 
     void relativePaths4() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         REDIRECT;
         settings->relativePaths = false;
         settings->basePaths.clear();
@@ -497,6 +574,9 @@ private:
     }
 
     void quietshort() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         REDIRECT;
         const char * const argv[] = {"cppcheck", "-q", "file.cpp"};
         settings->quiet = false;
@@ -506,6 +586,9 @@ private:
     }
 
     void quietlong() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         REDIRECT;
         const char * const argv[] = {"cppcheck", "--quiet", "file.cpp"};
         settings->quiet = false;
@@ -515,6 +598,9 @@ private:
     }
 
     void defines_noarg() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         REDIRECT;
         const char * const argv[] = {"cppcheck", "-D"};
         // Fails since -D has no param
@@ -523,6 +609,9 @@ private:
     }
 
     void defines_noarg2() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         REDIRECT;
         const char * const argv[] = {"cppcheck", "-D", "-v", "file.cpp"};
         // Fails since -D has no param
@@ -531,6 +620,9 @@ private:
     }
 
     void defines_noarg3() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         REDIRECT;
         const char * const argv[] = {"cppcheck", "-D", "--quiet", "file.cpp"};
         // Fails since -D has no param
@@ -539,6 +631,9 @@ private:
     }
 
     void defines() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         REDIRECT;
         const char * const argv[] = {"cppcheck", "-D_WIN32", "file.cpp"};
         settings->userDefines.clear();
@@ -548,6 +643,9 @@ private:
     }
 
     void defines2() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         REDIRECT;
         const char * const argv[] = {"cppcheck", "-D_WIN32", "-DNODEBUG", "file.cpp"};
         settings->userDefines.clear();
@@ -557,6 +655,9 @@ private:
     }
 
     void defines3() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         REDIRECT;
         const char * const argv[] = {"cppcheck", "-D", "DEBUG", "file.cpp"};
         settings->userDefines.clear();
@@ -566,6 +667,9 @@ private:
     }
 
     void defines4() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         REDIRECT;
         const char * const argv[] = {"cppcheck", "-DDEBUG=", "file.cpp"}; // #5137 - defining empty macro
         settings->userDefines.clear();
@@ -575,6 +679,9 @@ private:
     }
 
     void enforceLanguage1() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         REDIRECT;
         const char * const argv[] = {"cppcheck", "file.cpp"};
         settings->enforcedLang = Settings::Language::None;
@@ -584,6 +691,9 @@ private:
     }
 
     void enforceLanguage2() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         REDIRECT;
         const char * const argv[] = {"cppcheck", "-x", "c++", "file.cpp"};
         settings->enforcedLang = Settings::Language::None;
@@ -593,6 +703,9 @@ private:
     }
 
     void enforceLanguage3() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         REDIRECT;
         const char * const argv[] = {"cppcheck", "-x"};
         ASSERT(!parser->parseFromArgs(2, argv));
@@ -600,6 +713,9 @@ private:
     }
 
     void enforceLanguage4() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         REDIRECT;
         const char * const argv[] = {"cppcheck", "-x", "--inconclusive", "file.cpp"};
         ASSERT(!parser->parseFromArgs(4, argv));
@@ -607,6 +723,9 @@ private:
     }
 
     void enforceLanguage5() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         REDIRECT;
         const char * const argv[] = {"cppcheck", "--language=c++", "file.cpp"};
         settings->enforcedLang = Settings::Language::None;
@@ -616,6 +735,9 @@ private:
     }
 
     void enforceLanguage6() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         REDIRECT;
         const char * const argv[] = {"cppcheck", "--language=c", "file.cpp"};
         settings->enforcedLang = Settings::Language::None;
@@ -625,6 +747,9 @@ private:
     }
 
     void enforceLanguage7() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         REDIRECT;
         const char * const argv[] = {"cppcheck", "--language=unknownLanguage", "file.cpp"};
         ASSERT(!parser->parseFromArgs(3, argv));
@@ -632,6 +757,9 @@ private:
     }
 
     void includesnopath() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         REDIRECT;
         const char * const argv[] = {"cppcheck", "-I"};
         // Fails since -I has no param
@@ -640,6 +768,9 @@ private:
     }
 
     void includes() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         REDIRECT;
         const char * const argv[] = {"cppcheck", "-I", "include", "file.cpp"};
         settings->includePaths.clear();
@@ -649,6 +780,9 @@ private:
     }
 
     void includesslash() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         REDIRECT;
         const char * const argv[] = {"cppcheck", "-I", "include/", "file.cpp"};
         settings->includePaths.clear();
@@ -658,6 +792,9 @@ private:
     }
 
     void includesbackslash() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         REDIRECT;
         const char * const argv[] = {"cppcheck", "-I", "include\\", "file.cpp"};
         settings->includePaths.clear();
@@ -667,6 +804,9 @@ private:
     }
 
     void includesnospace() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         REDIRECT;
         const char * const argv[] = {"cppcheck", "-Iinclude", "file.cpp"};
         settings->includePaths.clear();
@@ -676,6 +816,9 @@ private:
     }
 
     void includes2() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         REDIRECT;
         const char * const argv[] = {"cppcheck", "-I", "include/", "-I", "framework/", "file.cpp"};
         settings->includePaths.clear();
@@ -687,6 +830,9 @@ private:
     }
 
     void includesFile() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         REDIRECT;
         ScopedFile file("includes.txt",
                         "path/sub\n"
@@ -701,6 +847,9 @@ private:
     }
 
     void includesFileNoFile() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         REDIRECT;
         const char * const argv[] = {"cppcheck", "--includes-file=fileThatDoesNotExist.txt", "file.cpp"};
         ASSERT_EQUALS(false, parser->parseFromArgs(3, argv));
@@ -708,6 +857,9 @@ private:
     }
 
     void configExcludesFile() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         REDIRECT;
         ScopedFile file("excludes.txt",
                         "path/sub\n"
@@ -723,6 +875,9 @@ private:
     }
 
     void configExcludesFileNoFile() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         REDIRECT;
         const char * const argv[] = {"cppcheck", "--config-excludes-file=fileThatDoesNotExist.txt", "file.cpp"};
         ASSERT_EQUALS( false, parser->parseFromArgs(3, argv));
@@ -730,6 +885,9 @@ private:
     }
 
     void enabledAll() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         REDIRECT;
         const char * const argv[] = {"cppcheck", "--enable=all", "file.cpp"};
         ASSERT(parser->parseFromArgs(3, argv));
@@ -742,6 +900,9 @@ private:
     }
 
     void enabledStyle() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         REDIRECT;
         const char * const argv[] = {"cppcheck", "--enable=style", "file.cpp"};
         ASSERT(parser->parseFromArgs(3, argv));
@@ -755,6 +916,9 @@ private:
     }
 
     void enabledPerformance() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         REDIRECT;
         const char * const argv[] = {"cppcheck", "--enable=performance", "file.cpp"};
         ASSERT(parser->parseFromArgs(3, argv));
@@ -768,6 +932,9 @@ private:
     }
 
     void enabledPortability() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         REDIRECT;
         const char * const argv[] = {"cppcheck", "--enable=portability", "file.cpp"};
         ASSERT(parser->parseFromArgs(3, argv));
@@ -781,6 +948,9 @@ private:
     }
 
     void enabledInformation() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         REDIRECT;
         const char * const argv[] = {"cppcheck", "--enable=information", "file.cpp"};
         ASSERT(parser->parseFromArgs(3, argv));
@@ -790,6 +960,9 @@ private:
     }
 
     void enabledUnusedFunction() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         REDIRECT;
         const char * const argv[] = {"cppcheck", "--enable=unusedFunction", "file.cpp"};
         ASSERT(parser->parseFromArgs(3, argv));
@@ -798,6 +971,9 @@ private:
     }
 
     void enabledMissingInclude() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         REDIRECT;
         const char * const argv[] = {"cppcheck", "--enable=missingInclude", "file.cpp"};
         ASSERT(parser->parseFromArgs(3, argv));
@@ -807,6 +983,9 @@ private:
 
 #ifdef CHECK_INTERNAL
     void enabledInternal() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         REDIRECT;
         const char * const argv[] = {"cppcheck", "--enable=internal", "file.cpp"};
         ASSERT(parser->parseFromArgs(3, argv));
@@ -816,6 +995,9 @@ private:
 #endif
 
     void enabledMultiple() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         REDIRECT;
         const char * const argv[] = {"cppcheck", "--enable=missingInclude,portability,warning", "file.cpp"};
         ASSERT(parser->parseFromArgs(3, argv));
@@ -829,6 +1011,9 @@ private:
     }
 
     void enabledInvalid() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         REDIRECT;
         const char * const argv[] = {"cppcheck", "--enable=warning,missingIncludeSystem,style", "file.cpp"};
         ASSERT(!parser->parseFromArgs(3, argv));
@@ -836,6 +1021,9 @@ private:
     }
 
     void enabledError() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         REDIRECT;
         const char * const argv[] = {"cppcheck", "--enable=error", "file.cpp"};
         ASSERT(!parser->parseFromArgs(3, argv));
@@ -843,6 +1031,9 @@ private:
     }
 
     void enabledEmpty() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         REDIRECT;
         const char * const argv[] = {"cppcheck", "--enable=", "file.cpp"};
         ASSERT(!parser->parseFromArgs(3, argv));
@@ -851,6 +1042,9 @@ private:
 
 
     void disableAll() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         REDIRECT;
         const char * const argv[] = {"cppcheck", "--enable=all", "--disable=all", "file.cpp"};
         settings->severity.clear();
@@ -869,6 +1063,9 @@ private:
     }
 
     void disableMultiple() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         REDIRECT;
         const char * const argv[] = {"cppcheck", "--enable=all", "--disable=style", "--disable=unusedFunction", "file.cpp"};
         settings->severity.clear();
@@ -888,6 +1085,9 @@ private:
 
     // make sure the implied "style" checks are not added when "--enable=style" is specified
     void disableStylePartial() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         REDIRECT;
         const char * const argv[] = {"cppcheck", "--enable=style", "--disable=performance", "--enable=unusedFunction", "file.cpp"};
         settings->severity.clear();
@@ -906,6 +1106,9 @@ private:
     }
 
     void disableInformationPartial() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         REDIRECT;
         const char * const argv[] = {"cppcheck", "--enable=information", "--disable=missingInclude", "file.cpp"};
         ASSERT(parser->parseFromArgs(4, argv));
@@ -915,6 +1118,9 @@ private:
     }
 
     void disableInformationPartial2() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         REDIRECT;
         const char * const argv[] = {"cppcheck", "--enable=missingInclude", "--disable=information", "file.cpp"};
         ASSERT(parser->parseFromArgs(4, argv));
@@ -924,6 +1130,9 @@ private:
     }
 
     void disableInvalid() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         REDIRECT;
         const char * const argv[] = {"cppcheck", "--disable=leaks", "file.cpp"};
         ASSERT(!parser->parseFromArgs(3, argv));
@@ -931,6 +1140,9 @@ private:
     }
 
     void disableError() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         REDIRECT;
         const char * const argv[] = {"cppcheck", "--disable=error", "file.cpp"};
         ASSERT(!parser->parseFromArgs(3, argv));
@@ -938,6 +1150,9 @@ private:
     }
 
     void disableEmpty() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         REDIRECT;
         const char * const argv[] = {"cppcheck", "--disable=", "file.cpp"};
         ASSERT(!parser->parseFromArgs(3, argv));
@@ -945,6 +1160,9 @@ private:
     }
 
     void inconclusive() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         REDIRECT;
         const char * const argv[] = {"cppcheck", "--inconclusive", "file.cpp"};
         settings->certainty.clear();
@@ -954,6 +1172,9 @@ private:
     }
 
     void errorExitcode() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         REDIRECT;
         const char * const argv[] = {"cppcheck", "--error-exitcode=5", "file.cpp"};
         settings->exitCode = 0;
@@ -963,6 +1184,9 @@ private:
     }
 
     void errorExitcodeMissing() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         REDIRECT;
         const char * const argv[] = {"cppcheck", "--error-exitcode=", "file.cpp"};
         // Fails since exit code not given
@@ -971,6 +1195,9 @@ private:
     }
 
     void errorExitcodeStr() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         REDIRECT;
         const char * const argv[] = {"cppcheck", "--error-exitcode=foo", "file.cpp"};
         // Fails since invalid exit code
@@ -979,6 +1206,9 @@ private:
     }
 
     void exitcodeSuppressionsOld() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         REDIRECT;
         const char * const argv[] = {"cppcheck", "--exitcode-suppressions", "suppr.txt", "file.cpp"};
         ASSERT_EQUALS(false, parser->parseFromArgs(4, argv));
@@ -986,6 +1216,9 @@ private:
     }
 
     void exitcodeSuppressions() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         REDIRECT;
         ScopedFile file("suppr.txt",
                         "uninitvar\n"
@@ -1000,6 +1233,9 @@ private:
     }
 
     void exitcodeSuppressionsNoFile() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         REDIRECT;
         const char * const argv[] = {"cppcheck", "--exitcode-suppressions", "file.cpp"};
         ASSERT_EQUALS(false, parser->parseFromArgs(3, argv));
@@ -1007,6 +1243,9 @@ private:
     }
 
     void fileList() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         REDIRECT;
         ScopedFile file("files.txt",
                         "file1.c\n"
@@ -1022,6 +1261,9 @@ private:
     }
 
     void fileListNoFile() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         REDIRECT;
         const char * const argv[] = {"cppcheck", "--file-list=files.txt", "file.cpp"};
         ASSERT_EQUALS(false, parser->parseFromArgs(3, argv));
@@ -1038,6 +1280,9 @@ private:
         } */
 
     void fileListInvalid() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         REDIRECT;
         const char * const argv[] = {"cppcheck", "--file-list", "files.txt", "file.cpp"};
         ASSERT_EQUALS(false, parser->parseFromArgs(4, argv));
@@ -1045,6 +1290,9 @@ private:
     }
 
     void inlineSuppr() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         REDIRECT;
         const char * const argv[] = {"cppcheck", "--inline-suppr", "file.cpp"};
         settings->inlineSuppressions = false;
@@ -1054,6 +1302,9 @@ private:
     }
 
     void jobs() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         REDIRECT;
         const char * const argv[] = {"cppcheck", "-j", "3", "file.cpp"};
         settings->jobs = 0;
@@ -1063,6 +1314,9 @@ private:
     }
 
     void jobs2() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         REDIRECT;
         const char * const argv[] = {"cppcheck", "-j3", "file.cpp"};
         settings->jobs = 0;
@@ -1072,6 +1326,9 @@ private:
     }
 
     void jobsMissingCount() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         REDIRECT;
         const char * const argv[] = {"cppcheck", "-j", "file.cpp"};
         // Fails since -j is missing thread count
@@ -1080,6 +1337,9 @@ private:
     }
 
     void jobsInvalid() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         REDIRECT;
         const char * const argv[] = {"cppcheck", "-j", "e", "file.cpp"};
         // Fails since invalid count given for -j
@@ -1088,6 +1348,9 @@ private:
     }
 
     void jobsNoJobs() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         REDIRECT;
         const char * const argv[] = {"cppcheck", "-j0", "file.cpp"};
         ASSERT(!parser->parseFromArgs(3, argv));
@@ -1095,6 +1358,9 @@ private:
     }
 
     void jobsTooBig() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         REDIRECT;
         const char * const argv[] = {"cppcheck", "-j1025", "file.cpp"};
         ASSERT(!parser->parseFromArgs(3, argv));
@@ -1102,6 +1368,9 @@ private:
     }
 
     void maxConfigs() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         REDIRECT;
         const char * const argv[] = {"cppcheck", "-f", "--max-configs=12", "file.cpp"};
         settings->force = false;
@@ -1113,6 +1382,9 @@ private:
     }
 
     void maxConfigsMissingCount() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         REDIRECT;
         const char * const argv[] = {"cppcheck", "--max-configs=", "file.cpp"};
         // Fails since --max-configs= is missing limit
@@ -1121,6 +1393,9 @@ private:
     }
 
     void maxConfigsInvalid() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         REDIRECT;
         const char * const argv[] = {"cppcheck", "--max-configs=e", "file.cpp"};
         // Fails since invalid count given for --max-configs=
@@ -1129,6 +1404,9 @@ private:
     }
 
     void maxConfigsTooSmall() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         REDIRECT;
         const char * const argv[] = {"cppcheck", "--max-configs=0", "file.cpp"};
         // Fails since limit must be greater than 0
@@ -1137,6 +1415,9 @@ private:
     }
 
     void reportProgress1() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         REDIRECT;
         const char * const argv[] = {"cppcheck", "--report-progress", "file.cpp"};
         settings->reportProgress = -1;
@@ -1146,6 +1427,9 @@ private:
     }
 
     void reportProgress2() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         REDIRECT;
         const char * const argv[] = {"cppcheck", "--report-progress=", "file.cpp"};
         settings->reportProgress = -1;
@@ -1154,6 +1438,9 @@ private:
     }
 
     void reportProgress3() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         REDIRECT;
         const char * const argv[] = {"cppcheck", "--report-progress=-1", "file.cpp"};
         settings->reportProgress = -1;
@@ -1162,6 +1449,9 @@ private:
     }
 
     void reportProgress4() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         REDIRECT;
         const char * const argv[] = {"cppcheck", "--report-progress=0", "file.cpp"};
         settings->reportProgress = -1;
@@ -1171,6 +1461,9 @@ private:
     }
 
     void reportProgress5() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         REDIRECT;
         const char * const argv[] = {"cppcheck", "--report-progress=1", "file.cpp"};
         settings->reportProgress = -1;
@@ -1180,6 +1473,9 @@ private:
     }
 
     void stdc99() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         REDIRECT;
         const char * const argv[] = {"cppcheck", "--std=c99", "file.cpp"};
         settings->standards.c = Standards::C89;
@@ -1189,6 +1485,9 @@ private:
     }
 
     void stdcpp11() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         REDIRECT;
         const char * const argv[] = {"cppcheck", "--std=c++11", "file.cpp"};
         settings->standards.cpp = Standards::CPP03;
@@ -1198,6 +1497,9 @@ private:
     }
 
     void stdunknown1() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         REDIRECT;
         const char *const argv[] = {"cppcheck", "--std=d++11", "file.cpp"};
         ASSERT(!parser->parseFromArgs(3, argv));
@@ -1205,6 +1507,9 @@ private:
     }
 
     void stdunknown2() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         REDIRECT;
         const char *const argv[] = {"cppcheck", "--std=cplusplus11", "file.cpp"};
         TODO_ASSERT(!parser->parseFromArgs(3, argv));
@@ -1212,6 +1517,9 @@ private:
     }
 
     void platformWin64() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         REDIRECT;
         const char * const argv[] = {"cppcheck", "--platform=win64", "file.cpp"};
         ASSERT(settings->platform.set(Platform::Type::Unspecified));
@@ -1221,6 +1529,9 @@ private:
     }
 
     void platformWin32A() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         REDIRECT;
         const char * const argv[] = {"cppcheck", "--platform=win32A", "file.cpp"};
         ASSERT(settings->platform.set(Platform::Type::Unspecified));
@@ -1230,6 +1541,9 @@ private:
     }
 
     void platformWin32W() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         REDIRECT;
         const char * const argv[] = {"cppcheck", "--platform=win32W", "file.cpp"};
         ASSERT(settings->platform.set(Platform::Type::Unspecified));
@@ -1239,6 +1553,9 @@ private:
     }
 
     void platformUnix32() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         REDIRECT;
         const char * const argv[] = {"cppcheck", "--platform=unix32", "file.cpp"};
         ASSERT(settings->platform.set(Platform::Type::Unspecified));
@@ -1248,6 +1565,9 @@ private:
     }
 
     void platformUnix32Unsigned() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         REDIRECT;
         const char * const argv[] = {"cppcheck", "--platform=unix32-unsigned", "file.cpp"};
         ASSERT(settings->platform.set(Platform::Type::Unspecified));
@@ -1257,6 +1577,9 @@ private:
     }
 
     void platformUnix64() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         REDIRECT;
         const char * const argv[] = {"cppcheck", "--platform=unix64", "file.cpp"};
         ASSERT(settings->platform.set(Platform::Type::Unspecified));
@@ -1266,6 +1589,9 @@ private:
     }
 
     void platformUnix64Unsigned() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         REDIRECT;
         const char * const argv[] = {"cppcheck", "--platform=unix64-unsigned", "file.cpp"};
         ASSERT(settings->platform.set(Platform::Type::Unspecified));
@@ -1275,6 +1601,9 @@ private:
     }
 
     void platformNative() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         REDIRECT;
         const char * const argv[] = {"cppcheck", "--platform=native", "file.cpp"};
         ASSERT(settings->platform.set(Platform::Type::Unspecified));
@@ -1284,6 +1613,9 @@ private:
     }
 
     void platformUnspecified() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         REDIRECT;
         const char * const argv[] = {"cppcheck", "--platform=unspecified", "file.cpp"};
         ASSERT(settings->platform.set(Platform::Type::Native));
@@ -1293,6 +1625,9 @@ private:
     }
 
     void platformPlatformFile() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         REDIRECT;
         const char * const argv[] = {"cppcheck", "--platform=avr8", "file.cpp"};
         ASSERT(settings->platform.set(Platform::Type::Unspecified));
@@ -1302,6 +1637,9 @@ private:
     }
 
     void platformUnknown() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         REDIRECT;
         const char * const argv[] = {"cppcheck", "--platform=win128", "file.cpp"};
         ASSERT(!parser->parseFromArgs(3, argv));
@@ -1309,6 +1647,9 @@ private:
     }
 
     void plistEmpty() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         REDIRECT;
         const char * const argv[] = {"cppcheck", "--plist-output=", "file.cpp"};
         settings->plistOutput = "";
@@ -1318,6 +1659,9 @@ private:
     }
 
     void plistDoesNotExist() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         REDIRECT;
         const char * const argv[] = {"cppcheck", "--plist-output=./cppcheck_reports", "file.cpp"};
         // Fails since folder pointed by --plist-output= does not exist
@@ -1327,6 +1671,9 @@ private:
     }
 
     void suppressionsOld() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         REDIRECT;
         const char * const argv[] = {"cppcheck", "--suppressions", "suppr.txt", "file.cpp"};
         ASSERT(!parser->parseFromArgs(4, argv));
@@ -1334,6 +1681,9 @@ private:
     }
 
     void suppressions() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         REDIRECT;
         ScopedFile file("suppr.txt",
                         "uninitvar\n"
@@ -1348,6 +1698,9 @@ private:
     }
 
     void suppressionsNoFile1() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         REDIRECT;
         const char * const argv[] = {"cppcheck", "--suppressions-list=", "file.cpp"};
         ASSERT_EQUALS(false, parser->parseFromArgs(3, argv));
@@ -1355,6 +1708,9 @@ private:
     }
 
     void suppressionsNoFile2() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         REDIRECT;
         const char * const argv[] = {"cppcheck", "--suppressions-list=a.suppr,b.suppr", "file.cpp"};
         ASSERT_EQUALS(false, parser->parseFromArgs(3, argv));
@@ -1362,6 +1718,9 @@ private:
     }
 
     void suppressionsNoFile3() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         REDIRECT;
         const char * const argv[] = {"cppcheck", "--suppressions-list=a.suppr b.suppr", "file.cpp"};
         ASSERT_EQUALS(false, parser->parseFromArgs(3, argv));
@@ -1377,6 +1736,9 @@ private:
     }
 
     void suppressionSingle() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         REDIRECT;
         const char * const argv[] = {"cppcheck", "--suppress=uninitvar", "file.cpp"};
         ASSERT(parser->parseFromArgs(3, argv));
@@ -1385,6 +1747,9 @@ private:
     }
 
     void suppressionSingleFile() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         REDIRECT;
         const char * const argv[] = {"cppcheck", "--suppress=uninitvar:file.cpp", "file.cpp"};
         ASSERT(parser->parseFromArgs(3, argv));
@@ -1393,6 +1758,9 @@ private:
     }
 
     void suppressionTwo() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         REDIRECT;
         const char * const argv[] = {"cppcheck", "--suppress=uninitvar,noConstructor", "file.cpp"};
         TODO_ASSERT_EQUALS(true, false, parser->parseFromArgs(3, argv));
@@ -1402,6 +1770,9 @@ private:
     }
 
     void suppressionTwoSeparate() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         REDIRECT;
         const char * const argv[] = {"cppcheck", "--suppress=uninitvar", "--suppress=noConstructor", "file.cpp"};
         ASSERT(parser->parseFromArgs(4, argv));
@@ -1411,6 +1782,9 @@ private:
     }
 
     void templates() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         REDIRECT;
         const char * const argv[] = {"cppcheck", "--template={file}:{line},{severity},{id},{message}", "--template-location={file}:{line}:{column} {info}", "file.cpp"};
         settings->templateFormat.clear();
@@ -1422,6 +1796,9 @@ private:
     }
 
     void templatesGcc() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         REDIRECT;
         const char * const argv[] = {"cppcheck", "--template=gcc", "file.cpp"};
         settings->templateFormat.clear();
@@ -1433,6 +1810,9 @@ private:
     }
 
     void templatesVs() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         REDIRECT;
         const char * const argv[] = {"cppcheck", "--template=vs", "file.cpp"};
         settings->templateFormat.clear();
@@ -1444,6 +1824,9 @@ private:
     }
 
     void templatesEdit() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         REDIRECT;
         const char * const argv[] = {"cppcheck", "--template=edit", "file.cpp"};
         settings->templateFormat.clear();
@@ -1455,6 +1838,9 @@ private:
     }
 
     void templatesCppcheck1() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         REDIRECT;
         const char * const argv[] = {"cppcheck", "--template=cppcheck1", "file.cpp"};
         settings->templateFormat.clear();
@@ -1466,6 +1852,9 @@ private:
     }
 
     void templatesDaca2() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         REDIRECT;
         const char * const argv[] = {"cppcheck", "--template=daca2", "file.cpp"};
         settings->templateFormat.clear();
@@ -1478,6 +1867,9 @@ private:
     }
 
     void templatesSelfcheck() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         REDIRECT;
         const char * const argv[] = {"cppcheck", "--template=selfcheck", "file.cpp"};
         settings->templateFormat.clear();
@@ -1490,6 +1882,9 @@ private:
 
     // TODO: we should bail out on this
     void templatesNoPlaceholder() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         REDIRECT;
         const char * const argv[] = {"cppcheck", "--template=selfchek", "file.cpp"};
         settings->templateFormat.clear();
@@ -1501,6 +1896,9 @@ private:
     }
 
     void templateFormatInvalid() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         REDIRECT;
         settings->templateFormat.clear();
         settings->templateLocation.clear();
@@ -1512,6 +1910,9 @@ private:
     // will use the default
     // TODO: bail out on empty?
     void templateFormatEmpty() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         REDIRECT;
         settings->templateFormat.clear();
         settings->templateLocation.clear();
@@ -1523,6 +1924,9 @@ private:
     }
 
     void templateLocationInvalid() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         REDIRECT;
         const char* const argv[] = { "cppcheck", "--template-location", "--template={file}", "file.cpp" };
         ASSERT(!parser->parseFromArgs(4, argv));
@@ -1532,6 +1936,9 @@ private:
     // will use the default
     // TODO: bail out on empty?
     void templateLocationEmpty() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         REDIRECT;
         settings->templateFormat.clear();
         settings->templateLocation.clear();
@@ -1543,6 +1950,9 @@ private:
     }
 
     void xml() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         REDIRECT;
         const char * const argv[] = {"cppcheck", "--xml", "file.cpp"};
         settings->xml_version = 1;
@@ -1554,6 +1964,9 @@ private:
     }
 
     void xmlver2() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         REDIRECT;
         const char * const argv[] = {"cppcheck", "--xml-version=2", "file.cpp"};
         settings->xml_version = 1;
@@ -1565,6 +1978,9 @@ private:
     }
 
     void xmlver2both() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         REDIRECT;
         const char * const argv[] = {"cppcheck", "--xml", "--xml-version=2", "file.cpp"};
         settings->xml_version = 1;
@@ -1576,6 +1992,9 @@ private:
     }
 
     void xmlver2both2() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         REDIRECT;
         const char * const argv[] = {"cppcheck", "--xml-version=2", "--xml", "file.cpp"};
         settings->xml_version = 1;
@@ -1587,6 +2006,9 @@ private:
     }
 
     void xmlverunknown() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         REDIRECT;
         const char * const argv[] = {"cppcheck", "--xml", "--xml-version=3", "file.cpp"};
         // FAils since unknown XML format version
@@ -1595,6 +2017,9 @@ private:
     }
 
     void xmlverinvalid() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         REDIRECT;
         const char * const argv[] = {"cppcheck", "--xml", "--xml-version=a", "file.cpp"};
         // FAils since unknown XML format version
@@ -1603,6 +2028,9 @@ private:
     }
 
     void doc() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         REDIRECT;
         const char * const argv[] = {"cppcheck", "--doc"};
         ASSERT(parser->parseFromArgs(2, argv));
@@ -1612,6 +2040,9 @@ private:
     }
 
     void showtimeSummary() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         REDIRECT;
         const char * const argv[] = {"cppcheck", "--showtime=summary", "file.cpp"};
         settings->showtime = SHOWTIME_MODES::SHOWTIME_NONE;
@@ -1621,6 +2052,9 @@ private:
     }
 
     void showtimeFile() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         REDIRECT;
         const char * const argv[] = {"cppcheck", "--showtime=file", "file.cpp"};
         settings->showtime = SHOWTIME_MODES::SHOWTIME_NONE;
@@ -1630,6 +2064,9 @@ private:
     }
 
     void showtimeFileTotal() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         REDIRECT;
         const char * const argv[] = {"cppcheck", "--showtime=file-total", "file.cpp"};
         settings->showtime = SHOWTIME_MODES::SHOWTIME_NONE;
@@ -1639,6 +2076,9 @@ private:
     }
 
     void showtimeTop5() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         REDIRECT;
         const char * const argv[] = {"cppcheck", "--showtime=top5", "file.cpp"};
         settings->showtime = SHOWTIME_MODES::SHOWTIME_NONE;
@@ -1648,6 +2088,9 @@ private:
     }
 
     void showtimeTop5File() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         REDIRECT;
         const char * const argv[] = {"cppcheck", "--showtime=top5_file", "file.cpp"};
         settings->showtime = SHOWTIME_MODES::SHOWTIME_NONE;
@@ -1657,6 +2100,9 @@ private:
     }
 
     void showtimeTop5Summary() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         REDIRECT;
         const char * const argv[] = {"cppcheck", "--showtime=top5_summary", "file.cpp"};
         settings->showtime = SHOWTIME_MODES::SHOWTIME_NONE;
@@ -1666,6 +2112,9 @@ private:
     }
 
     void showtimeNone() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         REDIRECT;
         const char * const argv[] = {"cppcheck", "--showtime=none", "file.cpp"};
         settings->showtime = SHOWTIME_MODES::SHOWTIME_FILE;
@@ -1675,6 +2124,9 @@ private:
     }
 
     void showtimeEmpty() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         REDIRECT;
         const char * const argv[] = {"cppcheck", "--showtime=", "file.cpp"};
         ASSERT(!parser->parseFromArgs(3, argv));
@@ -1682,6 +2134,9 @@ private:
     }
 
     void showtimeInvalid() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         REDIRECT;
         const char * const argv[] = {"cppcheck", "--showtime=top10", "file.cpp"};
         ASSERT(!parser->parseFromArgs(3, argv));
@@ -1689,6 +2144,9 @@ private:
     }
 
     void errorlist1() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         REDIRECT;
         const char * const argv[] = {"cppcheck", "--errorlist"};
         ASSERT(parser->parseFromArgs(2, argv));
@@ -1697,6 +2155,9 @@ private:
     }
 
     void errorlistverbose1() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         REDIRECT;
         const char * const argv[] = {"cppcheck", "--verbose", "--errorlist"};
         settings->verbose = false;
@@ -1706,6 +2167,9 @@ private:
     }
 
     void errorlistverbose2() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         REDIRECT;
         const char * const argv[] = {"cppcheck", "--errorlist", "--verbose"};
         settings->verbose = false;
@@ -1715,6 +2179,9 @@ private:
     }
 
     void ignorepathsnopath() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         REDIRECT;
         const char * const argv[] = {"cppcheck", "-i"};
         // Fails since no ignored path given
@@ -1724,6 +2191,9 @@ private:
 
 #if defined(USE_WINDOWS_SEH) || defined(USE_UNIX_SIGNAL_HANDLING)
     void exceptionhandling() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         REDIRECT;
         const char * const argv[] = {"cppcheck", "--exception-handling", "file.cpp"};
         settings->exceptionHandling = false;
@@ -1735,6 +2205,9 @@ private:
     }
 
     void exceptionhandling2() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         REDIRECT;
         const char * const argv[] = {"cppcheck", "--exception-handling=stderr", "file.cpp"};
         settings->exceptionHandling = false;
@@ -1746,6 +2219,9 @@ private:
     }
 
     void exceptionhandling3() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         REDIRECT;
         const char * const argv[] = {"cppcheck", "--exception-handling=stdout", "file.cpp"};
         settings->exceptionHandling = false;
@@ -1757,6 +2233,9 @@ private:
     }
 
     void exceptionhandlingInvalid() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         REDIRECT;
         const char * const argv[] = {"cppcheck", "--exception-handling=exfile"};
         ASSERT_EQUALS(false, parser->parseFromArgs(2, argv));
@@ -1764,6 +2243,9 @@ private:
     }
 
     void exceptionhandlingInvalid2() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         REDIRECT;
         const char * const argv[] = {"cppcheck", "--exception-handling-foo"};
         ASSERT_EQUALS(false, parser->parseFromArgs(2, argv));
@@ -1771,6 +2253,9 @@ private:
     }
 #else
     void exceptionhandlingNotSupported() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         REDIRECT;
         const char * const argv[] = {"cppcheck", "--exception-handling", "file.cpp"};
         ASSERT(!parser->parseFromArgs(3, argv));
@@ -1778,6 +2263,9 @@ private:
     }
 
     void exceptionhandlingNotSupported2() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         REDIRECT;
         const char * const argv[] = {"cppcheck", "--exception-handling=stderr", "file.cpp"};
         ASSERT(!parser->parseFromArgs(3, argv));
@@ -1786,6 +2274,9 @@ private:
 #endif
 
     void clang() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         REDIRECT;
         const char * const argv[] = {"cppcheck", "--clang", "file.cpp"};
         settings->clang = false;
@@ -1797,6 +2288,9 @@ private:
     }
 
     void clang2() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         REDIRECT;
         const char * const argv[] = {"cppcheck", "--clang=clang-14", "file.cpp"};
         settings->clang = false;
@@ -1808,6 +2302,9 @@ private:
     }
 
     void clangInvalid() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         REDIRECT;
         const char * const argv[] = {"cppcheck", "--clang-foo"};
         ASSERT_EQUALS(false, parser->parseFromArgs(2, argv));
@@ -1815,6 +2312,9 @@ private:
     }
 
     void valueFlowMaxIterations() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         REDIRECT;
         const char * const argv[] = {"cppcheck", "--valueflow-max-iterations=0", "file.cpp"};
         settings->valueFlowMaxIterations = SIZE_MAX;
@@ -1824,6 +2324,9 @@ private:
     }
 
     void valueFlowMaxIterations2() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         REDIRECT;
         const char * const argv[] = {"cppcheck", "--valueflow-max-iterations=11", "file.cpp"};
         settings->valueFlowMaxIterations = SIZE_MAX;
@@ -1833,6 +2336,9 @@ private:
     }
 
     void valueFlowMaxIterationsInvalid() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         REDIRECT;
         const char * const argv[] = {"cppcheck", "--valueflow-max-iterations"};
         ASSERT(!parser->parseFromArgs(2, argv));
@@ -1840,6 +2346,9 @@ private:
     }
 
     void valueFlowMaxIterationsInvalid2() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         REDIRECT;
         const char * const argv[] = {"cppcheck", "--valueflow-max-iterations=seven"};
         ASSERT(!parser->parseFromArgs(2, argv));
@@ -1847,6 +2356,9 @@ private:
     }
 
     void valueFlowMaxIterationsInvalid3() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         REDIRECT;
         const char * const argv[] = {"cppcheck", "--valueflow-max-iterations=-1"};
         ASSERT(!parser->parseFromArgs(2, argv));
@@ -1854,6 +2366,9 @@ private:
     }
 
     void checksMaxTime() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         REDIRECT;
         const char * const argv[] = {"cppcheck", "--checks-max-time=12", "file.cpp"};
         settings->checksMaxTime = 0;
@@ -1863,6 +2378,9 @@ private:
     }
 
     void checksMaxTime2() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         REDIRECT;
         const char * const argv[] = {"cppcheck", "--checks-max-time=-1", "file.cpp"};
         ASSERT(!parser->parseFromArgs(3, argv));
@@ -1870,6 +2388,9 @@ private:
     }
 
     void checksMaxTimeInvalid() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         REDIRECT;
         const char * const argv[] = {"cppcheck", "--checks-max-time=one", "file.cpp"};
         ASSERT(!parser->parseFromArgs(3, argv));
@@ -1878,6 +2399,9 @@ private:
 
 #ifdef THREADING_MODEL_FORK
     void loadAverage() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         REDIRECT;
         const char * const argv[] = {"cppcheck", "-l", "12", "file.cpp"};
         settings->loadAverage = 0;
@@ -1887,6 +2411,9 @@ private:
     }
 
     void loadAverage2() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         REDIRECT;
         const char * const argv[] = {"cppcheck", "-l12", "file.cpp"};
         settings->loadAverage = 0;
@@ -1896,6 +2423,9 @@ private:
     }
 
     void loadAverageInvalid() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         REDIRECT;
         const char * const argv[] = {"cppcheck", "-l", "one", "file.cpp"};
         ASSERT(!parser->parseFromArgs(4, argv));
@@ -1903,6 +2433,9 @@ private:
     }
 #else
     void loadAverageNotSupported() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         REDIRECT;
         const char * const argv[] = {"cppcheck", "-l", "12", "file.cpp"};
         ASSERT(!parser->parseFromArgs(4, argv));
@@ -1911,6 +2444,9 @@ private:
 #endif
 
     void maxCtuDepth() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         REDIRECT;
         const char * const argv[] = {"cppcheck", "--max-ctu-depth=12", "file.cpp"};
         settings->maxCtuDepth = 0;
@@ -1920,6 +2456,9 @@ private:
     }
 
     void maxCtuDepthInvalid() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         REDIRECT;
         const char * const argv[] = {"cppcheck", "--max-ctu-depth=one", "file.cpp"};
         ASSERT(!parser->parseFromArgs(3, argv));
@@ -1927,6 +2466,9 @@ private:
     }
 
     void performanceValueflowMaxTime() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         REDIRECT;
         const char * const argv[] = {"cppcheck", "--performance-valueflow-max-time=12", "file.cpp"};
         settings->performanceValueFlowMaxTime = 0;
@@ -1936,6 +2478,9 @@ private:
     }
 
     void performanceValueflowMaxTimeInvalid() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         REDIRECT;
         const char * const argv[] = {"cppcheck", "--performance-valueflow-max-time=one", "file.cpp"};
         ASSERT(!parser->parseFromArgs(3, argv));
@@ -1943,6 +2488,9 @@ private:
     }
 
     void performanceValueFlowMaxIfCount() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         REDIRECT;
         const char * const argv[] = {"cppcheck", "--performance-valueflow-max-if-count=12", "file.cpp"};
         settings->performanceValueFlowMaxIfCount = 0;
@@ -1952,6 +2500,9 @@ private:
     }
 
     void performanceValueFlowMaxIfCountInvalid() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         REDIRECT;
         const char * const argv[] = {"cppcheck", "--performance-valueflow-max-if-count=one", "file.cpp"};
         ASSERT(!parser->parseFromArgs(3, argv));
@@ -1959,6 +2510,9 @@ private:
     }
 
     void templateMaxTime() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         REDIRECT;
         const char * const argv[] = {"cppcheck", "--template-max-time=12", "file.cpp"};
         settings->templateMaxTime = 0;
@@ -1968,6 +2522,9 @@ private:
     }
 
     void templateMaxTimeInvalid() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         REDIRECT;
         const char * const argv[] = {"cppcheck", "--template-max-time=one", "file.cpp"};
         ASSERT(!parser->parseFromArgs(3, argv));
@@ -1975,6 +2532,9 @@ private:
     }
 
     void templateMaxTimeInvalid2() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         REDIRECT;
         const char * const argv[] = {"cppcheck", "--template-max-time=-1", "file.cpp"};
         ASSERT(!parser->parseFromArgs(3, argv));
@@ -1982,6 +2542,9 @@ private:
     }
 
     void typedefMaxTime() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         REDIRECT;
         const char * const argv[] = {"cppcheck", "--typedef-max-time=12", "file.cpp"};
         settings->typedefMaxTime = 0;
@@ -1991,6 +2554,9 @@ private:
     }
 
     void typedefMaxTimeInvalid() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         REDIRECT;
         const char * const argv[] = {"cppcheck", "--typedef-max-time=one", "file.cpp"};
         ASSERT(!parser->parseFromArgs(3, argv));
@@ -1998,6 +2564,9 @@ private:
     }
 
     void typedefMaxTimeInvalid2() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         REDIRECT;
         const char * const argv[] = {"cppcheck", "--typedef-max-time=-1", "file.cpp"};
         ASSERT(!parser->parseFromArgs(3, argv));
@@ -2005,6 +2574,9 @@ private:
     }
 
     void project() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         REDIRECT;
         ScopedFile file("project.cppcheck",
                         "<project>\n"
@@ -2021,6 +2593,9 @@ private:
     }
 
     void projectMultiple() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         REDIRECT;
         ScopedFile file("project.cppcheck", "<project></project>");
         const char * const argv[] = {"cppcheck", "--project=project.cppcheck", "--project=project.cppcheck", "file.cpp"};
@@ -2029,6 +2604,9 @@ private:
     }
 
     void projectAndSource() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         REDIRECT;
         ScopedFile file("project.cppcheck", "<project></project>");
         const char * const argv[] = {"cppcheck", "--project=project.cppcheck", "file.cpp"};
@@ -2037,6 +2615,9 @@ private:
     }
 
     void projectEmpty() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         REDIRECT;
         const char * const argv[] = {"cppcheck", "--project=", "file.cpp"};
         ASSERT(!parser->parseFromArgs(3, argv));
@@ -2044,6 +2625,9 @@ private:
     }
 
     void projectMissing() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         REDIRECT;
         const char * const argv[] = {"cppcheck", "--project=project.cppcheck", "file.cpp"};
         ASSERT(!parser->parseFromArgs(3, argv));
@@ -2051,6 +2635,9 @@ private:
     }
 
     void projectNoPaths() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         ScopedFile file("project.cppcheck", "<project></project>");
         const char * const argv[] = {"cppcheck", "--project=project.cppcheck"};
         ASSERT(!parser->parseFromArgs(2, argv));
@@ -2058,6 +2645,9 @@ private:
     }
 
     void addon() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         REDIRECT;
         const char * const argv[] = {"cppcheck", "--addon=misra", "file.cpp"};
         settings->addons.clear();
@@ -2069,6 +2659,9 @@ private:
 
 #ifdef HAVE_RULES
     void rule() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         REDIRECT;
         const char * const argv[] = {"cppcheck", "--rule=.+", "file.cpp"};
         ASSERT(parser->parseFromArgs(3, argv));
@@ -2079,6 +2672,9 @@ private:
     }
 #else
     void ruleNotSupported() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         REDIRECT;
         const char * const argv[] = {"cppcheck", "--rule=.+", "file.cpp"};
         ASSERT(!parser->parseFromArgs(3, argv));
@@ -2088,6 +2684,9 @@ private:
 
 #ifdef HAVE_RULES
     void ruleFile() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         REDIRECT;
         ScopedFile file("rule.xml",
                         "<rules>\n"
@@ -2104,6 +2703,9 @@ private:
     }
 
     void ruleFileEmpty() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         REDIRECT;
         const char * const argv[] = {"cppcheck", "--rule-file=", "file.cpp"};
         ASSERT(!parser->parseFromArgs(3, argv));
@@ -2111,6 +2713,9 @@ private:
     }
 
     void ruleFileMissing() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         REDIRECT;
         const char * const argv[] = {"cppcheck", "--rule-file=rule.xml", "file.cpp"};
         ASSERT(!parser->parseFromArgs(3, argv));
@@ -2118,6 +2723,9 @@ private:
     }
 
     void ruleFileInvalid() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         REDIRECT;
         ScopedFile file("rule.xml", "");
         const char * const argv[] = {"cppcheck", "--rule-file=rule.xml", "file.cpp"};
@@ -2126,6 +2734,9 @@ private:
     }
 #else
     void ruleFileNotSupported() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         REDIRECT;
         const char * const argv[] = {"cppcheck", "--rule-file=rule.xml", "file.cpp"};
         ASSERT(!parser->parseFromArgs(3, argv));
@@ -2134,6 +2745,9 @@ private:
 #endif
 
     void ignorepaths1() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         REDIRECT;
         const char * const argv[] = {"cppcheck", "-isrc", "file.cpp"};
         ASSERT(parser->parseFromArgs(3, argv));
@@ -2143,6 +2757,9 @@ private:
     }
 
     void ignorepaths2() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         REDIRECT;
         const char * const argv[] = {"cppcheck", "-i", "src", "file.cpp"};
         ASSERT(parser->parseFromArgs(4, argv));
@@ -2152,6 +2769,9 @@ private:
     }
 
     void ignorepaths3() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         REDIRECT;
         const char * const argv[] = {"cppcheck", "-isrc", "-imodule", "file.cpp"};
         ASSERT(parser->parseFromArgs(4, argv));
@@ -2162,6 +2782,9 @@ private:
     }
 
     void ignorepaths4() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         REDIRECT;
         const char * const argv[] = {"cppcheck", "-i", "src", "-i", "module", "file.cpp"};
         ASSERT(parser->parseFromArgs(6, argv));
@@ -2172,6 +2795,9 @@ private:
     }
 
     void ignorefilepaths1() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         REDIRECT;
         const char * const argv[] = {"cppcheck", "-ifoo.cpp", "file.cpp"};
         ASSERT(parser->parseFromArgs(3, argv));
@@ -2181,6 +2807,9 @@ private:
     }
 
     void ignorefilepaths2() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         REDIRECT;
         const char * const argv[] = {"cppcheck", "-isrc/foo.cpp", "file.cpp"};
         ASSERT(parser->parseFromArgs(3, argv));
@@ -2190,6 +2819,9 @@ private:
     }
 
     void checkconfig() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         REDIRECT;
         const char * const argv[] = {"cppcheck", "--check-config", "file.cpp"};
         settings->checkConfiguration = false;
@@ -2199,6 +2831,9 @@ private:
     }
 
     void unknownParam() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         REDIRECT;
         const char * const argv[] = {"cppcheck", "--foo", "file.cpp"};
         ASSERT(!parser->parseFromArgs(3, argv));
@@ -2206,6 +2841,9 @@ private:
     }
 
     void undefs() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         REDIRECT;
         const char * const argv[] = {"cppcheck", "-U_WIN32", "file.cpp"};
         ASSERT(parser->parseFromArgs(3, argv));
@@ -2215,6 +2853,9 @@ private:
     }
 
     void undefs2() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         REDIRECT;
         const char * const argv[] = {"cppcheck", "-U_WIN32", "-UNODEBUG", "file.cpp"};
         ASSERT(parser->parseFromArgs(4, argv));
@@ -2225,6 +2866,9 @@ private:
     }
 
     void undefs_noarg() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         REDIRECT;
         const char * const argv[] = {"cppcheck", "-U"};
         // Fails since -U has no param
@@ -2233,6 +2877,9 @@ private:
     }
 
     void undefs_noarg2() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         REDIRECT;
         const char * const argv[] = {"cppcheck", "-U", "-v", "file.cpp"};
         // Fails since -U has no param
@@ -2241,6 +2888,9 @@ private:
     }
 
     void undefs_noarg3() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         REDIRECT;
         const char * const argv[] = {"cppcheck", "-U", "--quiet", "file.cpp"};
         // Fails since -U has no param
@@ -2249,6 +2899,9 @@ private:
     }
 
     void cppcheckBuildDirExistent() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         REDIRECT;
         const char * const argv[] = {"cppcheck", "--cppcheck-build-dir=.", "file.cpp"};
         ASSERT_EQUALS(true, parser->parseFromArgs(3, argv));
@@ -2256,6 +2909,9 @@ private:
     }
 
     void cppcheckBuildDirNonExistent() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         REDIRECT;
         const char * const argv[] = {"cppcheck", "--cppcheck-build-dir=non-existent-path"};
         ASSERT_EQUALS(false, parser->parseFromArgs(2, argv));
@@ -2263,6 +2919,9 @@ private:
     }
 
     void cppcheckBuildDirEmpty() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         REDIRECT;
         const char * const argv[] = {"cppcheck", "--cppcheck-build-dir="};
         ASSERT_EQUALS(false, parser->parseFromArgs(2, argv));

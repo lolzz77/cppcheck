@@ -1,3 +1,5 @@
+#include <stdio.h>
+#include <pthread.h>
 /*
  * Cppcheck - A tool for static C/C++ code analysis
  * Copyright (C) 2007-2021 Cppcheck team.
@@ -44,6 +46,9 @@ bool ImportProject::sourceFileExists(const std::string & /*file*/) {
 
 void TestProjectFile::loadInexisting() const
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     const QString filepath(QString(SRCDIR) + "/../data/projectfiles/foo.cppcheck");
     ProjectFile pfile(filepath);
     QCOMPARE(pfile.read(), false);
@@ -51,6 +56,9 @@ void TestProjectFile::loadInexisting() const
 
 void TestProjectFile::loadSimple() const
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     const QString filepath(QString(SRCDIR) + "/../data/projectfiles/simple.cppcheck");
     ProjectFile pfile(filepath);
     QVERIFY(pfile.read());
@@ -74,6 +82,9 @@ void TestProjectFile::loadSimple() const
 // Test that project file with old 'ignore' element works
 void TestProjectFile::loadSimpleWithIgnore() const
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     const QString filepath(QString(SRCDIR) + "/../data/projectfiles/simple_ignore.cppcheck");
     ProjectFile pfile(filepath);
     QVERIFY(pfile.read());
@@ -96,6 +107,9 @@ void TestProjectFile::loadSimpleWithIgnore() const
 
 void TestProjectFile::loadSimpleNoroot() const
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     const QString filepath(QString(SRCDIR) + "/../data/projectfiles/simple_noroot.cppcheck");
     ProjectFile pfile(filepath);
     QVERIFY(pfile.read());

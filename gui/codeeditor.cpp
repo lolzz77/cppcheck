@@ -1,3 +1,5 @@
+#include <stdio.h>
+#include <pthread.h>
 /*
  * Cppcheck - A tool for static C/C++ code analysis
  * Copyright (C) 2007-2023 Cppcheck team.
@@ -182,6 +184,9 @@ Highlighter::Highlighter(QTextDocument *parent,
 
 void Highlighter::setSymbols(const QStringList &symbols)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     mHighlightingRulesWithSymbols = mHighlightingRules;
     for (const QString &sym : symbols) {
         HighlightingRule rule;
@@ -194,6 +199,9 @@ void Highlighter::setSymbols(const QStringList &symbols)
 
 void Highlighter::setStyle(const CodeEditorStyle &newStyle)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     mKeywordFormat.setForeground(newStyle.keywordColor);
     mKeywordFormat.setFontWeight(newStyle.keywordWeight);
     mClassFormat.setForeground(newStyle.classColor);
@@ -218,6 +226,9 @@ void Highlighter::setStyle(const CodeEditorStyle &newStyle)
 
 void Highlighter::highlightBlock(const QString &text)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     for (const HighlightingRule &rule : mHighlightingRulesWithSymbols) {
         QRegularExpressionMatchIterator matchIterator = rule.pattern.globalMatch(text);
         while (matchIterator.hasNext()) {
@@ -250,6 +261,9 @@ void Highlighter::highlightBlock(const QString &text)
 
 void Highlighter::applyFormat(HighlightingRule &rule)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     switch (rule.ruleRole) {
     case RuleRole::Keyword:
         rule.format = mKeywordFormat;
@@ -310,6 +324,9 @@ CodeEditor::~CodeEditor()
 
 static int getPos(const QString &fileData, int lineNumber)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (lineNumber <= 1)
         return 0;
     for (int pos = 0, line = 1; pos < fileData.size(); ++pos) {
@@ -324,6 +341,9 @@ static int getPos(const QString &fileData, int lineNumber)
 
 void CodeEditor::setStyle(const CodeEditorStyle& newStyle)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     *mWidgetStyle = newStyle;
     // apply new styling
     setStyleSheet(generateStyleString());
@@ -334,6 +354,9 @@ void CodeEditor::setStyle(const CodeEditorStyle& newStyle)
 
 void CodeEditor::setError(const QString &code, int errorLine, const QStringList &symbols)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     mHighlighter->setSymbols(symbols);
 
     setPlainText(code);
@@ -349,6 +372,9 @@ void CodeEditor::setError(const QString &code, int errorLine, const QStringList 
 
 void CodeEditor::setError(int errorLine, const QStringList &symbols)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     mHighlighter->setSymbols(symbols);
 
     mErrorPosition = getPos(toPlainText(), errorLine);
@@ -362,6 +388,9 @@ void CodeEditor::setError(int errorLine, const QStringList &symbols)
 
 int CodeEditor::lineNumberAreaWidth()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     int digits = 1;
     int max = qMax(1, blockCount());
     while (max >= 10) {
@@ -384,6 +413,9 @@ void CodeEditor::updateLineNumberAreaWidth(int /* newBlockCount */)
 
 void CodeEditor::updateLineNumberArea(const QRect &rect, int dy)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (dy)
         mLineNumberArea->scroll(0, dy);
     else
@@ -395,6 +427,9 @@ void CodeEditor::updateLineNumberArea(const QRect &rect, int dy)
 
 void CodeEditor::resizeEvent(QResizeEvent *event)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     QPlainTextEdit::resizeEvent(event);
     QRect cr = contentsRect();
     mLineNumberArea->setGeometry(QRect(cr.left(), cr.top(), lineNumberAreaWidth(), cr.height()));
@@ -402,6 +437,9 @@ void CodeEditor::resizeEvent(QResizeEvent *event)
 
 void CodeEditor::highlightErrorLine()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     QList<QTextEdit::ExtraSelection> extraSelections;
 
     QTextEdit::ExtraSelection selection;
@@ -422,6 +460,9 @@ void CodeEditor::highlightErrorLine()
 
 void CodeEditor::lineNumberAreaPaintEvent(QPaintEvent *event)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     QPainter painter(mLineNumberArea);
     painter.fillRect(event->rect(), mWidgetStyle->lineNumBGColor);
 
@@ -447,6 +488,9 @@ void CodeEditor::lineNumberAreaPaintEvent(QPaintEvent *event)
 
 QString CodeEditor::generateStyleString()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     QString bgcolor = QString("background:rgb(%1,%2,%3);")
                       .arg(mWidgetStyle->widgetBGColor.red())
                       .arg(mWidgetStyle->widgetBGColor.green())

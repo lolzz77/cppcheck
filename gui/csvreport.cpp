@@ -1,3 +1,5 @@
+#include <stdio.h>
+#include <pthread.h>
 /*
  * Cppcheck - A tool for static C/C++ code analysis
  * Copyright (C) 2007-2023 Cppcheck team.
@@ -32,6 +34,9 @@ CsvReport::CsvReport(const QString &filename) :
 
 bool CsvReport::create()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (Report::create()) {
         mTxtWriter.setDevice(Report::getFile());
         return true;
@@ -41,6 +46,9 @@ bool CsvReport::create()
 
 void CsvReport::writeHeader()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     // Added 5 columns to the header.
 #if (QT_VERSION >= QT_VERSION_CHECK(5, 14, 0))
     mTxtWriter << "File, Line, Severity, Id, Summary" << Qt::endl;
@@ -51,11 +59,17 @@ void CsvReport::writeHeader()
 
 void CsvReport::writeFooter()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     // No footer for CSV report
 }
 
 void CsvReport::writeError(const ErrorItem &error)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     /*
        Error as CSV line
        gui/test.cpp,23,error,Mismatching allocation and deallocation: k

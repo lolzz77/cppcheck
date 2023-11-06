@@ -1,3 +1,5 @@
+#include <stdio.h>
+#include <pthread.h>
 /*
  * Cppcheck - A tool for static C/C++ code analysis
  * Copyright (C) 2007-2023 Cppcheck team.
@@ -37,6 +39,9 @@ namespace {
 
 void CheckInternal::checkTokenMatchPatterns()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     const SymbolDatabase *symbolDatabase = mTokenizer->getSymbolDatabase();
     for (const Scope *scope : symbolDatabase->functionScopes) {
         for (const Token* tok = scope->bodyStart->next(); tok != scope->bodyEnd; tok = tok->next()) {
@@ -88,6 +93,9 @@ void CheckInternal::checkTokenMatchPatterns()
 
 void CheckInternal::checkRedundantTokCheck()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     for (const Token *tok = mTokenizer->tokens(); tok; tok = tok->next()) {
         if (Token::Match(tok, "&& Token :: simpleMatch|Match|findsimplematch|findmatch (")) {
             // in code like
@@ -123,12 +131,18 @@ void CheckInternal::checkRedundantTokCheck()
 
 void CheckInternal::checkRedundantTokCheckError(const Token* tok)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     reportError(tok, Severity::style, "redundantTokCheck",
                 "Unnecessary check of \"" + (tok? tok->expressionString(): emptyString) + "\", match-function already checks if it is null.");
 }
 
 void CheckInternal::checkTokenSimpleMatchPatterns()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     const SymbolDatabase *symbolDatabase = mTokenizer->getSymbolDatabase();
     for (const Scope* scope : symbolDatabase->functionScopes) {
         for (const Token* tok = scope->bodyStart->next(); tok != scope->bodyEnd; tok = tok->next()) {
@@ -213,6 +227,9 @@ namespace {
 
 void CheckInternal::checkMissingPercentCharacter()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     const SymbolDatabase *symbolDatabase = mTokenizer->getSymbolDatabase();
     for (const Scope* scope : symbolDatabase->functionScopes) {
         for (const Token* tok = scope->bodyStart->next(); tok != scope->bodyEnd; tok = tok->next()) {
@@ -255,6 +272,9 @@ void CheckInternal::checkMissingPercentCharacter()
 
 void CheckInternal::checkUnknownPattern()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     const SymbolDatabase *symbolDatabase = mTokenizer->getSymbolDatabase();
     for (const Scope* scope : symbolDatabase->functionScopes) {
         for (const Token* tok = scope->bodyStart->next(); tok != scope->bodyEnd; tok = tok->next()) {
@@ -289,6 +309,9 @@ void CheckInternal::checkUnknownPattern()
 
 void CheckInternal::checkRedundantNextPrevious()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     const SymbolDatabase *symbolDatabase = mTokenizer->getSymbolDatabase();
     for (const Scope* scope : symbolDatabase->functionScopes) {
         for (const Token* tok = scope->bodyStart->next(); tok != scope->bodyEnd; tok = tok->next()) {
@@ -320,6 +343,9 @@ void CheckInternal::checkRedundantNextPrevious()
 
 void CheckInternal::checkExtraWhitespace()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     const SymbolDatabase *symbolDatabase = mTokenizer->getSymbolDatabase();
     for (const Scope* scope : symbolDatabase->functionScopes) {
         for (const Token* tok = scope->bodyStart->next(); tok != scope->bodyEnd; tok = tok->next()) {
@@ -346,6 +372,9 @@ void CheckInternal::checkExtraWhitespace()
 
 void CheckInternal::multiComparePatternError(const Token* tok, const std::string& pattern, const std::string &funcname)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     reportError(tok, Severity::error, "multiComparePatternError",
                 "Bad multicompare pattern (a %cmd% must be first unless it is %or%,%op%,%cop%,%name%,%oror%) inside Token::" + funcname + "() call: \"" + pattern + "\""
                 );
@@ -353,6 +382,9 @@ void CheckInternal::multiComparePatternError(const Token* tok, const std::string
 
 void CheckInternal::simplePatternError(const Token* tok, const std::string& pattern, const std::string &funcname)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     reportError(tok, Severity::warning, "simplePatternError",
                 "Found simple pattern inside Token::" + funcname + "() call: \"" + pattern + "\""
                 );
@@ -360,6 +392,9 @@ void CheckInternal::simplePatternError(const Token* tok, const std::string& patt
 
 void CheckInternal::complexPatternError(const Token* tok, const std::string& pattern, const std::string &funcname)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     reportError(tok, Severity::error, "complexPatternError",
                 "Found complex pattern inside Token::" + funcname + "() call: \"" + pattern + "\""
                 );
@@ -367,6 +402,9 @@ void CheckInternal::complexPatternError(const Token* tok, const std::string& pat
 
 void CheckInternal::missingPercentCharacterError(const Token* tok, const std::string& pattern, const std::string& funcname)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     reportError(tok, Severity::error, "missingPercentCharacter",
                 "Missing percent end character in Token::" + funcname + "() pattern: \"" + pattern + "\""
                 );
@@ -374,24 +412,36 @@ void CheckInternal::missingPercentCharacterError(const Token* tok, const std::st
 
 void CheckInternal::unknownPatternError(const Token* tok, const std::string& pattern)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     reportError(tok, Severity::error, "unknownPattern",
                 "Unknown pattern used: \"" + pattern + "\"");
 }
 
 void CheckInternal::redundantNextPreviousError(const Token* tok, const std::string& func1, const std::string& func2)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     reportError(tok, Severity::style, "redundantNextPrevious",
                 "Call to 'Token::" + func1 + "()' followed by 'Token::" + func2 + "()' can be simplified.");
 }
 
 void CheckInternal::orInComplexPattern(const Token* tok, const std::string& pattern, const std::string &funcname)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     reportError(tok, Severity::error, "orInComplexPattern",
                 "Token::" + funcname + "() pattern \"" + pattern + "\" contains \"||\" or \"|\". Replace it by \"%oror%\" or \"%or%\".");
 }
 
 void CheckInternal::extraWhitespaceError(const Token* tok, const std::string& pattern, const std::string &funcname)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     reportError(tok, Severity::warning, "extraWhitespaceError",
                 "Found extra whitespace inside Token::" + funcname + "() call: \"" + pattern + "\""
                 );

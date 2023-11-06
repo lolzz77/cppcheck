@@ -1,3 +1,5 @@
+#include <stdio.h>
+#include <pthread.h>
 /*
  * Cppcheck - A tool for static C/C++ code analysis
  * Copyright (C) 2007-2023 Cppcheck team.
@@ -33,6 +35,9 @@ private:
     const Settings settings;
 
     void run() override {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         TEST_CASE(testaddtoken1);
         TEST_CASE(testaddtoken2);
         TEST_CASE(inc);
@@ -41,6 +46,9 @@ private:
 
     // inspired by #5895
     void testaddtoken1() const {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const std::string code = "0x89504e470d0a1a0a";
         TokenList tokenlist(&settings);
         tokenlist.addtoken(code, 1, 1, false);
@@ -48,6 +56,9 @@ private:
     }
 
     void testaddtoken2() const {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const std::string code = "0xF0000000";
         Settings settings1;
         settings1.platform.int_bit = 32;
@@ -57,6 +68,9 @@ private:
     }
 
     void inc() const {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char code[] = "a++1;1++b;";
 
         errout.str("");
@@ -70,6 +84,9 @@ private:
     }
 
     void isKeyword() const {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
 
         const char code[] = "for a int delete true";
 

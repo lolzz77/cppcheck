@@ -1,3 +1,5 @@
+#include <stdio.h>
+#include <pthread.h>
 /*
  * Cppcheck - A tool for static C/C++ code analysis
  * Copyright (C) 2007-2023 Cppcheck team.
@@ -78,6 +80,9 @@ class XMLErrorMessagesLogger : public ErrorLogger
 
     void reportErr(const ErrorMessage &msg) override
     {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         reportOut(msg.toXML());
     }
 
@@ -92,16 +97,25 @@ public:
 
     void printMessage(const std::string &message) override
     {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         printRaw("cppcheck: " + message);
     }
 
     void printError(const std::string &message) override
     {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         printMessage("error: " + message);
     }
 
     void printRaw(const std::string &message) override
     {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         std::cout << message << std::endl;
     }
 };
@@ -119,6 +133,9 @@ CppCheckExecutor::~CppCheckExecutor()
 
 bool CppCheckExecutor::parseFromArgs(Settings &settings, int argc, const char* const argv[])
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     CmdLineLoggerStd logger;
     CmdLineParser parser(logger, settings, settings.nomsg, settings.nofail);
     const bool success = parser.parseFromArgs(argc, argv);
@@ -245,6 +262,9 @@ bool CppCheckExecutor::parseFromArgs(Settings &settings, int argc, const char* c
 
 int CppCheckExecutor::check(int argc, const char* const argv[])
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     CheckUnusedFunctions::clear();
 
     Settings settings;
@@ -267,6 +287,9 @@ int CppCheckExecutor::check(int argc, const char* const argv[])
 
 int CppCheckExecutor::check_wrapper(CppCheck& cppcheck)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
 #ifdef USE_WINDOWS_SEH
     if (cppcheck.settings().exceptionHandling)
         return check_wrapper_seh(*this, &CppCheckExecutor::check_internal, cppcheck);
@@ -278,6 +301,9 @@ int CppCheckExecutor::check_wrapper(CppCheck& cppcheck)
 }
 
 bool CppCheckExecutor::reportSuppressions(const Settings &settings, bool unusedFunctionCheckEnabled, const std::map<std::string, std::size_t> &files, ErrorLogger& errorLogger) {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     const auto& suppressions = settings.nomsg.getSuppressions();
     if (std::any_of(suppressions.begin(), suppressions.end(), [](const Suppressions::Suppression& s) {
         return s.errorId == "unmatchedSuppression" && s.fileName.empty() && s.lineNumber == Suppressions::Suppression::NO_LINE;
@@ -300,6 +326,9 @@ bool CppCheckExecutor::reportSuppressions(const Settings &settings, bool unusedF
  * */
 int CppCheckExecutor::check_internal(CppCheck& cppcheck)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     Settings& settings = cppcheck.settings();
 
     if (settings.reportProgress >= 0)
@@ -364,6 +393,9 @@ int CppCheckExecutor::check_internal(CppCheck& cppcheck)
 
 void CppCheckExecutor::writeCheckersReport(const Settings& settings) const
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     CheckersReport checkersReport(settings, mActiveCheckers);
 
     if (!settings.quiet) {
@@ -388,6 +420,9 @@ void CppCheckExecutor::writeCheckersReport(const Settings& settings) const
 
 bool CppCheckExecutor::loadLibraries(Settings& settings)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (!tryLoadLibrary(settings.library, settings.exename, "std.cfg")) {
         const std::string msg("Failed to load std.cfg. Your Cppcheck installation is broken, please re-install.");
 #ifdef FILESDIR
@@ -415,6 +450,9 @@ bool CppCheckExecutor::loadLibraries(Settings& settings)
 
 bool CppCheckExecutor::loadAddons(Settings& settings)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     bool result = true;
     for (const std::string &addon: settings.addons) {
         AddonInfo addonInfo;
@@ -455,6 +493,9 @@ static inline std::string ansiToOEM(const std::string &msg, bool doConvert)
 
 void CppCheckExecutor::reportErr(const std::string &errmsg)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (mErrorOutput)
         *mErrorOutput << errmsg << std::endl;
     else {
@@ -464,6 +505,9 @@ void CppCheckExecutor::reportErr(const std::string &errmsg)
 
 void CppCheckExecutor::reportOut(const std::string &outmsg, Color c)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (c == Color::Reset)
         std::cout << ansiToOEM(outmsg, true) << std::endl;
     else
@@ -473,6 +517,9 @@ void CppCheckExecutor::reportOut(const std::string &outmsg, Color c)
 // TODO: remove filename parameter?
 void CppCheckExecutor::reportProgress(const std::string &filename, const char stage[], const std::size_t value)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     (void)filename;
 
     if (!mLatestProgressOutputTime)
@@ -497,6 +544,9 @@ void CppCheckExecutor::reportProgress(const std::string &filename, const char st
 
 void CppCheckExecutor::reportErr(const ErrorMessage &msg)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     assert(mSettings != nullptr);
 
     if (msg.severity == Severity::none && (msg.id == "logChecker" || endsWith(msg.id, "-logChecker"))) {
@@ -524,17 +574,26 @@ void CppCheckExecutor::reportErr(const ErrorMessage &msg)
 #if defined(USE_WINDOWS_SEH) || defined(USE_UNIX_SIGNAL_HANDLING)
 void CppCheckExecutor::setExceptionOutput(FILE* exceptionOutput)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     mExceptionOutput = exceptionOutput;
 }
 
 FILE* CppCheckExecutor::getExceptionOutput()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     return mExceptionOutput;
 }
 #endif
 
 bool CppCheckExecutor::tryLoadLibrary(Library& destination, const std::string& basepath, const char* filename)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     const Library::Error err = destination.load(basepath.c_str(), filename);
 
     if (err.errorcode == Library::ErrorCode::UNKNOWN_ELEMENT)
@@ -584,6 +643,9 @@ bool CppCheckExecutor::tryLoadLibrary(Library& destination, const std::string& b
 // NOLINTNEXTLINE(performance-unnecessary-value-param) - used as callback so we need to preserve the signature
 int CppCheckExecutor::executeCommand(std::string exe, std::vector<std::string> args, std::string redirect, std::string &output_)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     output_.clear();
 
 #ifdef _WIN32

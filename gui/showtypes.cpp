@@ -1,3 +1,5 @@
+#include <stdio.h>
+#include <pthread.h>
 /*
  * Cppcheck - A tool for static C/C++ code analysis
  * Copyright (C) 2007-2022 Cppcheck team.
@@ -57,6 +59,9 @@ ShowTypes::ShowType ShowTypes::SeverityToShowType(Severity severity)
 
 Severity ShowTypes::ShowTypeToSeverity(ShowTypes::ShowType type)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     switch (type) {
     case ShowTypes::ShowStyle:
         return Severity::style;
@@ -93,6 +98,9 @@ ShowTypes::ShowType ShowTypes::VariantToShowType(const QVariant &data)
 
 void ShowTypes::load()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     QSettings settings;
     mVisible[ShowStyle] = settings.value(SETTINGS_SHOW_STYLE, true).toBool();
     mVisible[ShowErrors] = settings.value(SETTINGS_SHOW_ERRORS, true).toBool();
@@ -104,6 +112,9 @@ void ShowTypes::load()
 
 void ShowTypes::save() const
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     QSettings settings;
     settings.setValue(SETTINGS_SHOW_STYLE, mVisible[ShowStyle]);
     settings.setValue(SETTINGS_SHOW_ERRORS, mVisible[ShowErrors]);
@@ -115,15 +126,24 @@ void ShowTypes::save() const
 
 bool ShowTypes::isShown(ShowTypes::ShowType category) const
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     return mVisible[category];
 }
 
 bool ShowTypes::isShown(Severity severity) const
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     return isShown(ShowTypes::SeverityToShowType(severity));
 }
 
 void ShowTypes::show(ShowTypes::ShowType category, bool showing)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     mVisible[category] = showing;
 }

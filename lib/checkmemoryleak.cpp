@@ -1,3 +1,5 @@
+#include <stdio.h>
+#include <pthread.h>
 /*
  * Cppcheck - A tool for static C/C++ code analysis
  * Copyright (C) 2007-2023 Cppcheck team.
@@ -242,6 +244,9 @@ CheckMemoryLeak::AllocType CheckMemoryLeak::getDeallocationType(const Token *tok
 
 bool CheckMemoryLeak::isReopenStandardStream(const Token *tok) const
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (getReallocationType(tok, 0) == File) {
         const Library::AllocFunc *f = mSettings_->library.getReallocFuncInfo(tok);
         if (f && f->reallocArg > 0 && f->reallocArg <= numberOfArguments(tok)) {
@@ -255,6 +260,9 @@ bool CheckMemoryLeak::isReopenStandardStream(const Token *tok) const
 
 bool CheckMemoryLeak::isOpenDevNull(const Token *tok) const
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (mSettings_->hasLib("posix") && tok->str() == "open" && numberOfArguments(tok) == 2) {
         const Token* arg = getArguments(tok).at(0);
         if (Token::simpleMatch(arg, "\"/dev/null\""))
@@ -270,6 +278,9 @@ bool CheckMemoryLeak::isOpenDevNull(const Token *tok) const
 
 void CheckMemoryLeak::memoryLeak(const Token *tok, const std::string &varname, AllocType alloctype) const
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (alloctype == CheckMemoryLeak::File ||
         alloctype == CheckMemoryLeak::Pipe ||
         alloctype == CheckMemoryLeak::Fd ||
@@ -282,6 +293,9 @@ void CheckMemoryLeak::memoryLeak(const Token *tok, const std::string &varname, A
 
 void CheckMemoryLeak::reportErr(const Token *tok, Severity severity, const std::string &id, const std::string &msg, const CWE &cwe) const
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     std::list<const Token *> callstack;
 
     if (tok)
@@ -292,6 +306,9 @@ void CheckMemoryLeak::reportErr(const Token *tok, Severity severity, const std::
 
 void CheckMemoryLeak::reportErr(const std::list<const Token *> &callstack, Severity severity, const std::string &id, const std::string &msg, const CWE &cwe) const
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     const ErrorMessage errmsg(callstack, mTokenizer_ ? &mTokenizer_->list : nullptr, severity, id, msg, cwe, Certainty::normal);
     if (mErrorLogger_)
         mErrorLogger_->reportErr(errmsg);
@@ -301,16 +318,25 @@ void CheckMemoryLeak::reportErr(const std::list<const Token *> &callstack, Sever
 
 void CheckMemoryLeak::memleakError(const Token *tok, const std::string &varname) const
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     reportErr(tok, Severity::error, "memleak", "$symbol:" + varname + "\nMemory leak: $symbol", CWE(401U));
 }
 
 void CheckMemoryLeak::memleakUponReallocFailureError(const Token *tok, const std::string &reallocfunction, const std::string &varname) const
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     reportErr(tok, Severity::error, "memleakOnRealloc", "$symbol:" + varname + "\nCommon " + reallocfunction + " mistake: \'$symbol\' nulled but not freed upon failure", CWE(401U));
 }
 
 void CheckMemoryLeak::resourceLeakError(const Token *tok, const std::string &varname) const
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     std::string errmsg("Resource leak");
     if (!varname.empty())
         errmsg = "$symbol:" + varname + '\n' + errmsg + ": $symbol";
@@ -319,11 +345,17 @@ void CheckMemoryLeak::resourceLeakError(const Token *tok, const std::string &var
 
 void CheckMemoryLeak::deallocuseError(const Token *tok, const std::string &varname) const
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     reportErr(tok, Severity::error, "deallocuse", "$symbol:" + varname + "\nDereferencing '$symbol' after it is deallocated / released", CWE(416U));
 }
 
 void CheckMemoryLeak::mismatchAllocDealloc(const std::list<const Token *> &callstack, const std::string &varname) const
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     reportErr(callstack, Severity::error, "mismatchAllocDealloc", "$symbol:" + varname + "\nMismatching allocation and deallocation: $symbol", CWE(762U));
 }
 
@@ -394,6 +426,9 @@ CheckMemoryLeak::AllocType CheckMemoryLeak::functionReturnType(const Function* f
 
 static bool notvar(const Token *tok, nonneg int varid)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (!tok)
         return false;
     if (Token::Match(tok, "&&|;"))
@@ -406,6 +441,9 @@ static bool notvar(const Token *tok, nonneg int varid)
 
 static bool ifvar(const Token *tok, nonneg int varid, const std::string &comp, const std::string &rhs)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (!Token::simpleMatch(tok, "if ("))
         return false;
     const Token *condition = tok->next()->astOperand2();
@@ -427,6 +465,9 @@ static bool ifvar(const Token *tok, nonneg int varid, const std::string &comp, c
 
 void CheckMemoryLeakInFunction::checkReallocUsage()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     logChecker("CheckMemoryLeakInFunction::checkReallocUsage");
 
     // only check functions
@@ -503,6 +544,9 @@ void CheckMemoryLeakInFunction::checkReallocUsage()
 
 void CheckMemoryLeakInClass::check()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     logChecker("CheckMemoryLeakInClass::check");
 
     const SymbolDatabase *symbolDatabase = mTokenizer->getSymbolDatabase();
@@ -528,6 +572,9 @@ void CheckMemoryLeakInClass::check()
 
 void CheckMemoryLeakInClass::variable(const Scope *scope, const Token *tokVarname)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     const std::string& varname = tokVarname->str();
     const int varid = tokVarname->varId();
     const std::string& classname = scope->className;
@@ -635,6 +682,9 @@ void CheckMemoryLeakInClass::variable(const Scope *scope, const Token *tokVarnam
 
 void CheckMemoryLeakInClass::unsafeClassError(const Token *tok, const std::string &classname, const std::string &varname)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (!mSettings->severity.isEnabled(Severity::style))
         return;
 
@@ -648,6 +698,9 @@ void CheckMemoryLeakInClass::unsafeClassError(const Token *tok, const std::strin
 
 void CheckMemoryLeakInClass::checkPublicFunctions(const Scope *scope, const Token *classtok)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     // Check that public functions deallocate the pointers that they allocate.
     // There is no checking how these functions are used and therefore it
     // isn't established if there is real leaks or not.
@@ -678,12 +731,18 @@ void CheckMemoryLeakInClass::checkPublicFunctions(const Scope *scope, const Toke
 
 void CheckMemoryLeakInClass::publicAllocationError(const Token *tok, const std::string &varname)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     reportError(tok, Severity::warning, "publicAllocationError", "$symbol:" + varname + "\nPossible leak in public function. The pointer '$symbol' is not deallocated before it is allocated.", CWE398, Certainty::normal);
 }
 
 
 void CheckMemoryLeakStructMember::check()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (mSettings->clang)
         return;
 
@@ -703,6 +762,9 @@ void CheckMemoryLeakStructMember::check()
 
 bool CheckMemoryLeakStructMember::isMalloc(const Variable *variable) const
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (!variable)
         return false;
     const int declarationId(variable->declarationId());
@@ -718,6 +780,9 @@ bool CheckMemoryLeakStructMember::isMalloc(const Variable *variable) const
 
 void CheckMemoryLeakStructMember::checkStructVariable(const Variable* const variable) const
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (!variable)
         return;
     // Is struct variable a pointer?
@@ -931,6 +996,9 @@ void CheckMemoryLeakStructMember::checkStructVariable(const Variable* const vari
 
 void CheckMemoryLeakNoVar::check()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     logChecker("CheckMemoryLeakNoVar::check");
 
     const SymbolDatabase *symbolDatabase = mTokenizer->getSymbolDatabase();
@@ -957,6 +1025,9 @@ void CheckMemoryLeakNoVar::check()
 //---------------------------------------------------------------------------
 void CheckMemoryLeakNoVar::checkForUnreleasedInputArgument(const Scope *scope)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     // parse the executable scope until tok is reached...
     for (const Token *tok = scope->bodyStart; tok != scope->bodyEnd; tok = tok->next()) {
         // allocating memory in parameter for function call..
@@ -1030,6 +1101,9 @@ void CheckMemoryLeakNoVar::checkForUnreleasedInputArgument(const Scope *scope)
 //---------------------------------------------------------------------------
 void CheckMemoryLeakNoVar::checkForUnusedReturnValue(const Scope *scope)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     for (const Token *tok = scope->bodyStart; tok != scope->bodyEnd; tok = tok->next()) {
         const bool isNew = mTokenizer->isCPP() && tok->str() == "new";
         if (!isNew && !Token::Match(tok, "%name% ("))
@@ -1092,6 +1166,9 @@ void CheckMemoryLeakNoVar::checkForUnusedReturnValue(const Scope *scope)
 //---------------------------------------------------------------------------
 void CheckMemoryLeakNoVar::checkForUnsafeArgAlloc(const Scope *scope)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     // This test only applies to C++ source
     if (!mTokenizer->isCPP() || !mSettings->certainty.isEnabled(Certainty::inconclusive) || !mSettings->severity.isEnabled(Severity::warning))
         return;
@@ -1137,16 +1214,25 @@ void CheckMemoryLeakNoVar::checkForUnsafeArgAlloc(const Scope *scope)
 
 void CheckMemoryLeakNoVar::functionCallLeak(const Token *loc, const std::string &alloc, const std::string &functionCall)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     reportError(loc, Severity::error, "leakNoVarFunctionCall", "Allocation with " + alloc + ", " + functionCall + " doesn't release it.", CWE772, Certainty::normal);
 }
 
 void CheckMemoryLeakNoVar::returnValueNotUsedError(const Token *tok, const std::string &alloc)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     reportError(tok, Severity::error, "leakReturnValNotUsed", "$symbol:" + alloc + "\nReturn value of allocation function '$symbol' is not stored.", CWE771, Certainty::normal);
 }
 
 void CheckMemoryLeakNoVar::unsafeArgAllocError(const Token *tok, const std::string &funcName, const std::string &ptrType, const std::string& objType)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     const std::string factoryFunc = ptrType == "shared_ptr" ? "make_shared" : "make_unique";
     reportError(tok, Severity::warning, "leakUnsafeArgAlloc",
                 "$symbol:" + funcName + "\n"

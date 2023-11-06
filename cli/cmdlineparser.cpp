@@ -1,3 +1,5 @@
+#include <stdio.h>
+#include <pthread.h>
 /*
  * Cppcheck - A tool for static C/C++ code analysis
  * Copyright (C) 2007-2023 Cppcheck team.
@@ -54,6 +56,9 @@
 
 static bool addFilesToList(const std::string& fileList, std::vector<std::string>& pathNames)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     std::istream *files;
     std::ifstream infile;
     if (fileList == "-") { // read from stdin
@@ -79,6 +84,9 @@ static bool addFilesToList(const std::string& fileList, std::vector<std::string>
 
 static bool addIncludePathsToList(const std::string& fileList, std::list<std::string>& pathNames)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     std::ifstream files(fileList);
     if (files) {
         std::string pathName;
@@ -102,6 +110,9 @@ static bool addIncludePathsToList(const std::string& fileList, std::list<std::st
 
 static bool addPathsToSet(const std::string& fileName, std::set<std::string>& set)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     std::list<std::string> templist;
     if (!addIncludePathsToList(fileName, templist))
         return false;
@@ -120,6 +131,9 @@ CmdLineParser::CmdLineParser(CmdLineLogger &logger, Settings &settings, Suppress
 // TODO: error out on all missing given files/paths
 bool CmdLineParser::parseFromArgs(int argc, const char* const argv[])
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     bool def = false;
     bool maxconfigs = false;
 
@@ -1084,6 +1098,9 @@ bool CmdLineParser::parseFromArgs(int argc, const char* const argv[])
 
 void CmdLineParser::printHelp() const
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     const std::string manualUrl(isCppcheckPremium() ?
                                 "https://cppcheck.sourceforge.io/manual.pdf" :
                                 "https://files.cppchecksolutions.com/manual.pdf");
@@ -1436,6 +1453,9 @@ void CmdLineParser::printHelp() const
 }
 
 bool CmdLineParser::isCppcheckPremium() const {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (mSettings.cppcheckCfgProductName.empty())
         mSettings.loadCppcheckCfg();
     return startsWith(mSettings.cppcheckCfgProductName, "Cppcheck Premium");

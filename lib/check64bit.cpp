@@ -1,3 +1,5 @@
+#include <stdio.h>
+#include <pthread.h>
 /*
  * Cppcheck - A tool for static C/C++ code analysis
  * Copyright (C) 2007-2023 Cppcheck team.
@@ -42,6 +44,9 @@ namespace {
 
 void Check64BitPortability::pointerassignment()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (!mSettings->severity.isEnabled(Severity::portability))
         return;
 
@@ -120,6 +125,9 @@ void Check64BitPortability::pointerassignment()
 
 void Check64BitPortability::assignmentAddressToIntegerError(const Token *tok)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     reportError(tok, Severity::portability,
                 "AssignmentAddressToInteger",
                 "Assigning a pointer to an integer is not portable.\n"
@@ -131,6 +139,9 @@ void Check64BitPortability::assignmentAddressToIntegerError(const Token *tok)
 
 void Check64BitPortability::assignmentIntegerToAddressError(const Token *tok)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     reportError(tok, Severity::portability,
                 "AssignmentIntegerToAddress",
                 "Assigning an integer to a pointer is not portable.\n"
@@ -142,6 +153,9 @@ void Check64BitPortability::assignmentIntegerToAddressError(const Token *tok)
 
 void Check64BitPortability::returnPointerError(const Token *tok)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     reportError(tok, Severity::portability,
                 "CastAddressToIntegerAtReturn",
                 "Returning an address value in a function with integer return type is not portable.\n"
@@ -153,6 +167,9 @@ void Check64BitPortability::returnPointerError(const Token *tok)
 
 void Check64BitPortability::returnIntegerError(const Token *tok)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     reportError(tok, Severity::portability,
                 "CastIntegerToAddressAtReturn",
                 "Returning an integer in a function with pointer return type is not portable.\n"

@@ -1,3 +1,5 @@
+#include <stdio.h>
+#include <pthread.h>
 /*
  * Cppcheck - A tool for static C/C++ code analysis
  * Copyright (C) 2007-2023 Cppcheck team.
@@ -33,6 +35,9 @@ private:
     Settings settings;
 
     void run() override {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         settings.severity.fill();
 
         TEST_CASE(destructors);
@@ -75,6 +80,9 @@ private:
     }
 
     void destructors() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("class x {\n"
               "    ~x() {\n"
               "        throw e;\n"
@@ -112,6 +120,9 @@ private:
     }
 
     void deallocThrow1() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("int * p;\n"
               "void f(int x) {\n"
               "    delete p;\n"
@@ -132,6 +143,9 @@ private:
     }
 
     void deallocThrow2() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("void f() {\n"
               "    int* p = 0;\n"
               "    delete p;\n"
@@ -151,6 +165,9 @@ private:
     }
 
     void deallocThrow3() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("void f() {\n"
               "    static int* p = 0;\n"
               "    delete p;\n"
@@ -167,6 +184,9 @@ private:
     }
 
     void rethrowCopy1() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("void f() {\n"
               "    try\n"
               "    {\n"
@@ -181,6 +201,9 @@ private:
     }
 
     void rethrowCopy2() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("void f() {\n"
               "    try\n"
               "    {\n"
@@ -195,6 +218,9 @@ private:
     }
 
     void rethrowCopy3() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("void f() {\n"
               "    try {\n"
               "       foo();\n"
@@ -207,6 +233,9 @@ private:
     }
 
     void rethrowCopy4() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("void f() {\n"
               "    try\n"
               "    {\n"
@@ -222,6 +251,9 @@ private:
     }
 
     void rethrowCopy5() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("void f() {\n"
               "    try {\n"
               "       foo();\n"
@@ -254,6 +286,9 @@ private:
     }
 
     void catchExceptionByValue() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("void f() {\n"
               "    try {\n"
               "        bar();\n"
@@ -326,6 +361,9 @@ private:
     }
 
     void noexceptThrow() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("void func1() noexcept(false) { try {} catch(...) {;} throw 1; }\n"
               "void func2() noexcept { throw 1; }\n"
               "void func3() noexcept(true) { throw 1; }\n"
@@ -343,6 +381,9 @@ private:
     }
 
     void nothrowThrow() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("void func1() throw(int) { try {;} catch(...) { throw 1; } ; }\n"
               "void func2() throw() { throw 1; }\n"
               "void func3() throw(int) { throw 1; }\n"
@@ -372,6 +413,9 @@ private:
     }
 
     void unhandledExceptionSpecification2() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("void f() const throw (std::runtime_error);\n"
               "int main()\n"
               "{\n"
@@ -381,6 +425,9 @@ private:
     }
 
     void unhandledExceptionSpecification3() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char code[] = "void f() const throw (std::runtime_error);\n"
                             "int _init() {\n"
                             "    f();\n"
@@ -403,6 +450,9 @@ private:
     }
 
     void nothrowAttributeThrow() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("void func1() throw(int) { throw 1; }\n"
               "void func2() __attribute((nothrow)); void func2() { throw 1; }\n"
               "void func3() __attribute((nothrow)); void func3() { func1(); }");
@@ -415,6 +465,9 @@ private:
     }
 
     void nothrowAttributeThrow2() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("class foo {\n"
               "  void copyMemberValues() throw () {\n"
               "      copyMemberValues();\n"
@@ -424,6 +477,9 @@ private:
     }
 
     void nothrowDeclspecThrow() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("void func1() throw(int) { throw 1; }\n"
               "void __declspec(nothrow) func2() { throw 1; }\n"
               "void __declspec(nothrow) func3() { func1(); }");
@@ -436,18 +492,27 @@ private:
     }
 
     void rethrowNoCurrentException1() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("void func1(const bool flag) { try{ if(!flag) throw; } catch (int&) { ; } }");
         ASSERT_EQUALS("[test.cpp:1]: (error) Rethrowing current exception with 'throw;', it seems there is no current exception to rethrow."
                       " If there is no current exception this calls std::terminate(). More: https://isocpp.org/wiki/faq/exceptions#throw-without-an-object\n", errout.str());
     }
 
     void rethrowNoCurrentException2() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("void func1() { try{ ; } catch (...) { ; } throw; }");
         ASSERT_EQUALS("[test.cpp:1]: (error) Rethrowing current exception with 'throw;', it seems there is no current exception to rethrow."
                       " If there is no current exception this calls std::terminate(). More: https://isocpp.org/wiki/faq/exceptions#throw-without-an-object\n", errout.str());
     }
 
     void rethrowNoCurrentException3() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("void on_error() { try { throw; } catch (const int &) { ; } catch (...) { ; } }\n"      // exception dispatcher idiom
               "void func2() { try{ ; } catch (const int&) { throw; } ; }\n"
               "void func3() { throw 0; }");

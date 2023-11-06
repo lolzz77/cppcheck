@@ -1,3 +1,5 @@
+#include <stdio.h>
+#include <pthread.h>
 // To test:
 // ~/cppcheck/cppcheck --dump misra/misra-test.h --std=c89
 // ~/cppcheck/cppcheck --dump -DDUMMY --suppress=uninitvar --inline-suppr misra/misra-test.c --std=c89 --platform=unix64 && python3 ../misra.py -verify misra/misra-test.c.dump
@@ -60,6 +62,9 @@ typedef unsigned long long u64;
 
 static void misra_1_2(bool expr)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     (void)(condition ? : 0); // 1.2
     a = 1 + ({if (!expr) {code;} 1;}); // 1.2
 }
@@ -74,6 +79,9 @@ static _Noreturn void misra_1_4_func(void) // 1.4
 #define MISRA_2_2 (1*60)
 
 static void misra_2_2(int x) {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     int a;
     a = x + 0; // 2.2
     a = 0 + x; // 2.2
@@ -99,6 +107,9 @@ static void misra_2_7_unused_param (int *param1, int unused_param)  // 2.7
 
 static void misra_2_7_used_params (int *param1, int param2, int param3)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     (void)param3;
     *param1 = param2;
 }
@@ -108,6 +119,9 @@ static void misra_2_7_a(int a,
                         int c,
                         int d) // 2.7
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     (void)a;
     (void)c;
 }
@@ -121,6 +135,9 @@ static void misra_2_7_d(int) { } // 2.7 8.2
 
 static void misra_3_2(int enable)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     // This won't generate a violation because of subsequent blank line \
 
     int y = 0;
@@ -151,6 +168,9 @@ static int misra_5_2_function_hides_var_31x;
 static void misra_5_2_function_hides_var_31y(void) {}//5.2
 static void foo(void)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
   int i;
   switch(misra_5_2_func1()) //16.4 16.6
   {
@@ -207,6 +227,9 @@ int c41_15         = 'a'; // 10.3 8.4
 
 static void misra_4_1(void)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     (void)printf("\x41g"); // 4.1
     (void)printf("\x41\x42");
     (void)printf("\x41" "g");
@@ -218,6 +241,9 @@ const char *s42_3 = "No trigraph?(?'?)"; // 8.4
 
 static void misra_4_2(void)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     (void)printf("??=Trigraph\n");   // 4.2
     (void)printf("No?/Trigraph\n");
 }
@@ -246,6 +272,9 @@ int x;
 };
 static void misra_5_5_func1(void)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
   switch(misra_5_5_func2()) //16.4 16.6
   {
     case 1:
@@ -276,16 +305,25 @@ struct struct_with_bitfields
 };
 
 static void misra6_1_fn(void) {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     // "Use" occurrence should not generate warnings
     struct_with_bitfields s;
     s.h = 61;
 }
 
 static void misra_7_1(void) {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
   int x = 066; // 7.1
 }
 
 static void misra_7_2(void) {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     uint32_t a = 0x7fffffff;
     uint32_t b = 0x80000000; // 7.2
     uint32_t c = 0x80000000U;
@@ -302,6 +340,9 @@ struct misra_7_3_s
 };
 
 static void misra_7_3(void) {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
   long misra_7_3_a = 0l; //7.3
   long misra_7_3_b = 0lU; //7.3
   long long misra_7_3_c = 0Ull; //7.3
@@ -326,6 +367,9 @@ static void misra_7_4_call_2(int a, ...) { } // 2.7
 
 static void misra_7_4(void)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
    const char *a = "text a";
    char* const b = "text_b"; // 7.4
    char *c = "text c";  // 7.4
@@ -352,6 +396,9 @@ static int misra_8_2_f (vec, n )
 int *vec; // 8.2
 int n; // 8.2
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     return vec[ n - 1 ];
 }
 static int misra_8_2_g ( /* comment */ ); // 8.2
@@ -365,6 +412,9 @@ static int misra_8_2_l ( // 8.2
 static void misra_8_2_m(uint8_t * const x);
 static void misra_8_2_m(uint8_t * const x)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
 (void)x;
 }
 int16_t ( *misra_8_2_p_a ) (); // 8.2 8.4
@@ -419,6 +469,9 @@ struct S_9_3 { struct S_9_3* p; int x; };
 struct S_9_3* s_9_3_array[] = { x, NULL }; // 8.4
 
 static void misra_9_empty_or_zero_initializers(void) {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     int a[2]    = {};                          // 9.2
     int b[2][2] = {};                          // 9.2
     int c[2][2] = { {} };                      // 9.2 9.3
@@ -443,6 +496,9 @@ static void misra_9_empty_or_zero_initializers(void) {
 }
 
 static void misra_9_string_initializers(void) {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     const char a[12]    = { "Hello world" };           // 9.2
     const char b[2][20] = "Hello world";               // 9.2 9.3
     const char c[]      = "Hello world";
@@ -460,6 +516,9 @@ static void misra_9_string_initializers(void) {
 }
 
 static void misra_9_array_initializers(void) {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     char    a[4]        = { 1, 2, 3, 4 };
     char    b[2][2]     = { {1, 2}, {3, 4} };
     char    c[2][2]     = { 1, 2, 3, 4 };                                   // 9.2
@@ -477,6 +536,9 @@ static void misra_9_array_initializers(void) {
 }
 
 static void misra_9_array_initializers_with_designators(void) {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     char    a[1]        = { [0][1] = 1 };                                   // 9.2
     char    b[1]        = { [0] = { 1, 2 } };                               // 9.2
     char    c[2][2]     = { [0] = {1, 2, 3} };
@@ -503,6 +565,9 @@ static void misra_9_array_initializers_with_designators(void) {
 }
 
 static void misra_9_struct_initializers(void) {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     typedef struct {
         int i1;
         int i2;
@@ -593,6 +658,9 @@ static void misra_9_struct_initializers(void) {
 }
 
 static void misra_9_2(void) {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     union misra_9_2_union {     // 19.2
         char c;
         struct1 i;
@@ -600,6 +668,9 @@ static void misra_9_2(void) {
 }
 
 static void misra_9_5(void) {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     char a[]    = { 1, 2, 3 };
     char b[]    = { [2] = 5 };                          // 9.5
     char c[]    = { 1, [1] = 5 };                       // 9.5
@@ -614,6 +685,9 @@ static void misra_9_5(void) {
 typedef char misra_10_1_char_t;
 #define MISRA_10_1_CHAR char
 static void misra_10_1(uint32_t u, char c1, char c2, uint8_t u8) {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
   int32_t i;
   char c;
   enum { E1 = 1 };
@@ -643,6 +717,9 @@ static void misra_10_1(uint32_t u, char c1, char c2, uint8_t u8) {
 }
 static void misra_10_1_ternary(void)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     int a;
     uint8_t ui8;
     uint16_t ui16;
@@ -668,6 +745,9 @@ static void misra_10_1_ternary(void)
 }
 
 static void misra_10_2(void) {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     uint8_t u8a = 0;
     char cha = 0;
     int8_t s8a = 0;
@@ -690,6 +770,9 @@ static void misra_10_2(void) {
 }
 
 static void misra_10_3(uint32_t u32a, uint32_t u32b) {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     uint8_t res;
     res = u32a + u32b; // 10.3
     res = (uint16_t)(2U + 3U); // 10.3 10.8
@@ -700,6 +783,9 @@ static void misra_10_3(uint32_t u32a, uint32_t u32b) {
 }
 
 static void misra_10_4(u32 x, s32 y) {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
   z = x + 3; // 10.4
   enum misra_10_4_enuma { misra_10_4_A1, misra_10_4_A2, misra_10_4_A3 } a;
   enum misra_10_4_enumb { misra_10_4_B1, misra_10_4_B2, misra_10_4_B3 };
@@ -733,6 +819,9 @@ static void misra_10_4(u32 x, s32 y) {
 }
 
 static void misra_10_5(uint16_t x) {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     // bool
     res = (uint16_t) (x > 10u); // 10.5
     res = (bool) 1u; // no-warning
@@ -746,6 +835,9 @@ struct misra_10_6_s {
     unsigned int a:4;
 };
 static void misra_10_6(u8 x, char c1, char c2) {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
   u16 y1 = x+x; // 10.6
   u16 y2 = (0x100u - 0x80u); // rhs is not a composite expression because it's a constant expression
   u16 z = ~u8 x ;//10.6
@@ -755,11 +847,17 @@ static void misra_10_6(u8 x, char c1, char c2) {
 }
 static void misra_10_6_1(uint32_t *a, uint16_t b, uint16_t c)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     *a = b + c ; // 10.6
 }
 
 static void misra_10_7_f1(struct Timer *pSelf, uint32_t interval_ms);
 static void misra_10_7(uint16_t u16a, uint16_t u16b) {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     uint32_t u32a = 100u;
     res = u32a * u16a + u16b; // 12.1 no-warning
     res = (u32a * u16a) + u16b; // no-warning
@@ -771,6 +869,9 @@ static void misra_10_7(uint16_t u16a, uint16_t u16b) {
 }
 
 static void misra_10_8(u8 x, s32 a, s32 b) {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
   y = (u16)x;
   y = (u16)(x+x); // 10.8
   y = (u16) (a + b) //10.8
@@ -787,11 +888,17 @@ static struct misra_11_2_t * tp = sp; // 11.2
 
 struct Fred {}; struct Wilma {};
 static void misra_11_3(u8* p, struct Fred *fred) {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
   x = (u64*)p; // 11.3
   struct Wilma *wilma = (struct Wilma *)fred; // 11.3
 }
 
 static void misra_11_4(u8*p) {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
   u64 y = (u64)p; // 11.4
   u8 *misra_11_4_A = ( u8 * ) 0x0005;// 11.4
   s32 misra_11_4_B;
@@ -800,12 +907,18 @@ static void misra_11_4(u8*p) {
 }
 
 static void misra_11_5(void *p) {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
   u16 *p16;
   x = (u8 *)p; // 11.5
   p16 = p;     // 11.5
 }
 
 static void misra_11_6(void) {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
   void *p;
   p = (void*)123;  // 11.6
   x = (u64)p;      // 11.6
@@ -815,11 +928,17 @@ static void misra_11_6(void) {
 
 
 static void misra_11_7(int *p, float f) {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
   x = ( float ) p; //11.7
   y = ( int * ) f; //11.7
 }
 
 static void misra_11_7_extra(int *p, float f, bool b) {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
   (void) p; // no-warning
   (void) f; // no-warning
   (void) b; // no-warning
@@ -827,6 +946,9 @@ static void misra_11_7_extra(int *p, float f, bool b) {
 
 static void misra_11_8_const(const char *str) {(void)str;}
 static char * misra_11_8(const char *str) {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
   (void)misra_11_8_const(str); // no-warning
   return (char *)str; // 11.8
 }
@@ -835,6 +957,9 @@ static char * misra_11_8(const char *str) {
 #define MISRA_11_9_NULL_2 ( void * ) 0
 #define MISRA_11_9_NULL_3 NULL
 static void misra_11_9(void) {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
   int *p1 = (5-5); //11.9
   int *p2 = MISRA_11_9_NULL_2 ; // no-warning
   int *p3 = MISRA_11_9_NULL_3 ; // no-warning
@@ -847,12 +972,18 @@ static void misra_11_9(void) {
 
 
 static void misra_12_1(void) {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
   sz = sizeof x + y; // 12.1
   a = (b * c) + d;
   a = b << c + d; // 12.1
 }
 
 static void misra_12_2(u8 x) {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
   a = x << 8;  // 12.2
 }
 
@@ -884,6 +1015,9 @@ extern uint32_t misra_12_3_fn7(const uint32_t * const, const uint8_t); // 8.2
 #define MISRA_12_3_FN3_2_MSG(x) x, fflush(stderr)
 static void misra_12_3(int, int, int); // 8.2
 void misra_12_3(int a, int b, int c) {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
   int a1, a2; // 12.3
   int a3; int a4; // no warning
   int a5 = 9, a6; // 12.3
@@ -947,6 +1081,9 @@ void misra_12_3(int a, int b, int c) {
 #define MISRA12_4a 2000000000u
 #define MISRA12_4b 4000000000u
 static void misra_12_4(uint8_t t) {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
   x = 123456u * 123456u; // 12.4
   x = MISRA12_4a + MISRA12_4b; // 12.4
   x = 0u - 1u; // 12.4
@@ -957,6 +1094,9 @@ struct misra_13_1_t { int a; int b; };
 uint8_t misra_13_1_x = 0; // 8.4
 static void misra_13_1_bar(uint8_t a[2]);
 static void misra_13_1(int *p) {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
   volatile int v;
   int a1[3] = {0, (*p)++, 2}; // 13.1
   int a2[3] = {0, ((*p) += 1), 2}; // 13.1
@@ -1128,6 +1268,9 @@ static uint8_t misra_13_1_large_bad[1024] = { // 13.1
 };
 
 static void misra_13_3(void) {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
   x = y++; // 13.3
 }
 
@@ -1144,12 +1287,18 @@ static s13_4_t s13_4 =
 };
 
 static void misra_13_4(int x, int z) {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
   int y;
   if (x != (y = z)) {} // 13.4
   else {}
 }
 
 static void misra_13_5(void) {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
   int x = 0;
   int y = 0;
   if (x && (y++ < 123)){} // 13.5
@@ -1160,12 +1309,18 @@ static void misra_13_5(void) {
 }
 
 static void misra_13_6(void) {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
   int a = sizeof(x|=42); // 13.6
   a = sizeof(--x); // 13.6 13.3
   return sizeof(x++); // 13.6
 }
 
 static void misra_14_1(void) {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
   for (float f=0.1f; f<1.0f; f += 0.1f){} // 14.1
   float a = 0.0f;
   int b = 10;
@@ -1181,11 +1336,17 @@ static void misra_14_1(void) {
 }
 
 static void misra_14_2_init_value(int32_t *var) {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     *var = 0;
 }
 static void misra_14_2_init_value_1(int32_t *var);
 
 static void misra_14_2_fn1(bool b) {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
   for (;i++<10;) {} // 14.2
   for (;i<10;dostuff()) {} // 14.2
   int32_t g = 0;
@@ -1269,6 +1430,9 @@ static void misra_14_2_fn1(bool b) {
 }
 static void misra_14_2_fn2(void)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     int y = 0;
 
     // Handle cases when i is not treated as loop counter according MISRA
@@ -1316,6 +1480,9 @@ struct {
   unsigned int y:1;
 } r14_4_struct; // 8.4
 static void misra_14_4(bool b) {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
   if (x+4){} //config
   else {}
 
@@ -1329,16 +1496,25 @@ static void misra_14_4(bool b) {
 }
 
 static void misra_15_1(void) {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
   goto a1; // 15.1
 a1:
 }
 
 static void misra_15_2(void) {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
 label:
   goto label; // 15.2 15.1
 }
 
 static void misra_15_3(int a) {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
   int x = 0;
   int y;
   if (x!=0) {
@@ -1372,6 +1548,9 @@ static void misra_15_3(int a) {
 }
 
 static void misra_15_4(void) {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
   misra_15_4_label:
     return;
 
@@ -1456,6 +1635,9 @@ static void misra_15_4(void) {
 }
 
 static int misra_15_5(int x) {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
   if (x!=0) {
     return 1; // 15.5
   } else {}
@@ -1463,6 +1645,9 @@ static int misra_15_5(int x) {
 }
 
 static void misra_15_6(int x) {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
   if (x!=0); // 15.6
   else{}
 
@@ -1483,6 +1668,9 @@ static void misra_15_6(int x) {
 
 static void misra_15_6_fp(void)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     uint8_t value = 0U;
     do // Test
     {
@@ -1495,6 +1683,9 @@ static void misra_15_6_fp(void)
 #endif
 
 static void misra_15_7(int x, int a, int b) {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
   uint32_t var = 0;
   uint32_t var2 = 0;
 
@@ -1520,6 +1711,9 @@ static void misra_15_7(int x, int a, int b) {
 }
 
 static void misra_16_1(int32_t i) {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
   switch (i) {
     int8_t x; // 16.1
     default: // 16.3 16.5
@@ -1531,6 +1725,9 @@ static void misra_16_1(int32_t i) {
 }
 
 static void misra_16_2(int y) {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
   switch (x) {
     default:
       break;
@@ -1543,6 +1740,9 @@ static void misra_16_2(int y) {
 }
 
 static void misra_16_3(int b) {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
   int a;
   switch (x) {
     case 1:
@@ -1631,6 +1831,9 @@ static void misra_16_3(int b) {
 }
 
 static void misra_16_4(void) {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
   switch (x) { // 16.4
     case 1:
       break;
@@ -1640,6 +1843,9 @@ static void misra_16_4(void) {
 }
 
 static void misra_16_5(void) {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
   switch (x) {
     case 1:
       break;
@@ -1651,6 +1857,9 @@ static void misra_16_5(void) {
 }
 
 static void misra_16_6(void) {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
   switch (x) { // 16.6
     default:
       break;
@@ -1672,6 +1881,9 @@ static void misra_16_6(void) {
 }
 
 static void misra_16_7(void) {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
   switch (x != 123) { // 16.7
     case 1:
       break;
@@ -1681,6 +1893,9 @@ static void misra_16_7(void) {
 }
 
 static void misra_17_1(void) {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
   va_list(); // 17.1 17.7
   va_arg(); // 17.1
   va_start(); // 17.1
@@ -1690,26 +1905,44 @@ static void misra_17_1(void) {
 
 static void misra_17_2_ok_1(void) { ; }
 static void misra_17_2_ok_2(void) {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     misra_17_2_ok_1(); // no-warning
 }
 static void misra_17_2_1(void) {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
   misra_17_2_ok_1(); // no-warning
   misra_17_2_1(); // 17.2
   misra_17_2_ok_2(); // no-warning
   misra_17_2_1(); // 17.2
 }
 static void misra_17_2_2(void) {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
   misra_17_2_3(); // 17.2
 }
 static void misra_17_2_3(void) {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
   misra_17_2_4(); // 17.2
 }
 static void misra_17_2_4(void) {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
   misra_17_2_2(); // 17.2
   misra_17_2_3(); // 17.2
 }
 
 static void misra_17_2_5(void) {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
   misra_17_2_ok_1(); // no-warning
   misra_17_2_5(); // 17.2
   misra_17_2_1(); // no-warning
@@ -1717,10 +1950,16 @@ static void misra_17_2_5(void) {
 
 bool (*dostuff)(); //8.2 8.4
 static void misra_17_3(void) {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
   if (dostuff()) {}
 }
 
 static void misra_config(const char* str) {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (strlen(str) > 3){} //10.4
     if (sizeof(int) > 1){} //10.4
 }
@@ -1729,15 +1968,24 @@ static void misra_17_6(int x[static 20]) {(void)x;} // 17.6
 
 static int calculation(int x) { return x + 1; }
 static void misra_17_7(void) {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
   calculation(123); // 17.7
 }
 
 static void misra_17_8(int x) {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
   x = 3; // 17.8
 }
 
 static void misra_18_4(void)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
   int b = 42;
   int *bp = &b;
   bp += 1; // 18.4
@@ -1751,6 +1999,9 @@ static void misra_18_4(void)
 }
 
 static void misra_18_5(void) {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
   int *** p;  // 18.5
 }
 
@@ -1780,6 +2031,9 @@ typedef enum {
 } r18_8_enum;
 
 static void misra_18_8(int x) {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
   int buf1[10];
   int buf2[sizeof(int)];
   int vla[x]; // 18.8
@@ -1857,6 +2111,9 @@ misra_20_12 = M_20_12_BB(M_20_12_AA);
 static int _file_scope_id_21_1 = 42; // no warning
 static int _file_scope_id_21_1_fn(void) { return 42; } // no warning
 static int misra_21_1(void) {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     int _a = 42; // no warning: only directives affected
     errno = EINVAL; // no warning
     _a ++; // no warning
@@ -1871,6 +2128,9 @@ static int _misra_21_1_2(void); // no warning
 extern void *memcpy ( void *restrict s1, const void *restrict s2, size_t n ); // 21.2 8.14
 
 static void misra_21_3(void) {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
   p1=malloc(10); // 21.3
   p2=calloc(10); // 21.3
   realloc(10); // 21.3
@@ -1878,6 +2138,9 @@ static void misra_21_3(void) {
 }
 
 static void misra_21_7(void) {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
   (void)atof(str); // 21.7
   (void)atoi(str); // 21.7
   (void)atol(str); // 21.7
@@ -1885,17 +2148,26 @@ static void misra_21_7(void) {
 }
 
 static void misra_21_8(void) {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
   abort(); // 21.8
   (void)getenv("foo"); // 21.8
   exit(-1); // 21.8
 }
 
 static void misra_21_9(void) {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
   (void)bsearch(key,base,num,size,cmp); // 21.9
   qsort(base,num,size,cmp); // 21.9
 }
 
 static void misra_21_12(void) {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     int rc;
     fexcept_t f; // 21.12
     rc = feclearexcept(1); // 21.12
@@ -1906,12 +2178,18 @@ static void misra_21_12(void) {
 }
 
 static void misra_21_14(uint8_t *x) {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     (void)strcpy(x, "123");
     (void)memcmp(x, y, 100); // 21.14
     (void)memcmp("abc", y, 100); // 21.14 21.16
 }
 
 static void misra_21_15(uint8_t *x, uint16_t *y) {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     (void)memcpy(x, y, 10); // 21.15
     (void)memmove(x, y, 10); // 21.15
     (void)memcmp(x, y, 10); // 21.15
@@ -1919,52 +2197,82 @@ static void misra_21_15(uint8_t *x, uint16_t *y) {
 
 struct misra_21_16_S { int a; int b; };
 static void misra_21_16_f1(struct misra_21_16_S *s1, struct misra_21_16_S *s2) {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     (void)memcmp(s1, s2, 10); // 21.16
 }
 static void misra_21_16_f2(char *x, char *y) {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     (void)memcmp(x, y, 10); // 21.16
 }
 
 static void misra_21_19(void) {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     char *s = setlocale(LC_ALL,0); // 21.19
     const struct lconv *conv = localeconv ();
     conv->decimal_point = "^"; // 21.19
 }
 
 static void misra_21_20(void) {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     const char *res1 = setlocale ( LC_ALL, 0 );
     (void) setlocale ( LC_MONETARY, "French" );
     if (res1) {} // 21.20 14.4
 }
 
 static void misra_21_21(void) {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     (void)system("ls"); // 21.21
 }
 
 static void misra_22_5(FILE *f) {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     int x = *f; // 22.5
     int y = f->pos; // 22.5
 }
 
 static void misra_22_7(char ch)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (EOF == ch) {} // 22.7
 }
 
 static void misra_22_8(void)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     (void)strtoll("123", NULL, 10); // 22.8
     if (errno == 0) {}
 }
 
 static void misra_22_9(void)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     errno = 0;
     (void)strtoll("123", NULL, 10); // 22.9
 }
 
 static void misra_22_10(void)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
   errno = 0;
   f = atof ( "A.12" ); // 21.7
   if ( 0 == errno ) {} // 22.10

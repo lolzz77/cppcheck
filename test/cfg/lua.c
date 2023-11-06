@@ -1,3 +1,5 @@
+#include <stdio.h>
+#include <pthread.h>
 
 // Test library configuration for lua.cfg
 //
@@ -12,6 +14,9 @@
 
 void validCode(lua_State *L)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     int a = lua_gettop(L);
     printf("%d", a);
     lua_pushnil(L);
@@ -20,6 +25,9 @@ void validCode(lua_State *L)
 
 void ignoredReturnValue(lua_State *L)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     // cppcheck-suppress ignoredReturnValue
     lua_tonumber(L, 1);
     // cppcheck-suppress ignoredReturnValue

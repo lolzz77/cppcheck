@@ -1,3 +1,5 @@
+#include <stdio.h>
+#include <pthread.h>
 /*
  * Cppcheck - A tool for static C/C++ code analysis
  * Copyright (C) 2007-2023 Cppcheck team.
@@ -62,6 +64,9 @@ namespace {
 // get ast parent, skip possible address-of and casts
 static const Token *getAstParentSkipPossibleCastAndAddressOf(const Token *vartok, bool *unknown)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (unknown)
         *unknown = false;
     if (!vartok)
@@ -106,6 +111,9 @@ static std::map<nonneg int, VariableValue> getVariableValues(const Token* tok) {
 
 bool CheckUninitVar::diag(const Token* tok)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (!tok)
         return true;
     while (Token::Match(tok->astParent(), "*|&|."))
@@ -115,6 +123,9 @@ bool CheckUninitVar::diag(const Token* tok)
 
 void CheckUninitVar::check()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     logChecker("CheckUninitVar::check");
 
     const SymbolDatabase *symbolDatabase = mTokenizer->getSymbolDatabase();
@@ -135,6 +146,9 @@ void CheckUninitVar::check()
 
 void CheckUninitVar::checkScope(const Scope* scope, const std::set<std::string> &arrayTypeDefs)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     for (const Variable &var : scope->varlist) {
         if ((mTokenizer->isCPP() && var.type() && !var.isPointer() && var.type()->needInitialization != Type::NeedInitialization::True) ||
             var.isStatic() || var.isExtern() || var.isReference())
@@ -240,6 +254,9 @@ void CheckUninitVar::checkScope(const Scope* scope, const std::set<std::string> 
 
 void CheckUninitVar::checkStruct(const Token *tok, const Variable &structvar)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     const Token *typeToken = structvar.typeStartToken();
     while (Token::Match(typeToken, "%name% ::"))
         typeToken = typeToken->tokAt(2);
@@ -292,6 +309,9 @@ static bool operator!=(const VariableValue & v, MathLib::bigint i)
 
 static void conditionAlwaysTrueOrFalse(const Token *tok, const std::map<nonneg int, VariableValue> &variableValue, bool *alwaysTrue, bool *alwaysFalse)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (!tok)
         return;
 
@@ -377,6 +397,9 @@ static void conditionAlwaysTrueOrFalse(const Token *tok, const std::map<nonneg i
 
 static bool isVariableUsed(const Token *tok, const Variable& var)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (!tok)
         return false;
     if (tok->str() == "&" && !tok->astOperand2())
@@ -401,6 +424,9 @@ static bool isVariableUsed(const Token *tok, const Variable& var)
 
 bool CheckUninitVar::checkScopeForVariable(const Token *tok, const Variable& var, bool * const possibleInit, bool * const noreturn, Alloc* const alloc, const std::string &membervar, std::map<nonneg int, VariableValue>& variableValue)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     const bool suppressErrors(possibleInit && *possibleInit);  // Assume that this is a variable declaration, rather than a fundef
     const bool printDebug = mSettings->debugwarnings;
 
@@ -877,6 +903,9 @@ const Token* CheckUninitVar::checkExpr(const Token* tok, const Variable& var, co
 
 bool CheckUninitVar::checkIfForWhileHead(const Token *startparentheses, const Variable& var, bool suppressErrors, bool isuninit, Alloc alloc, const std::string &membervar)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     const Token * const endpar = startparentheses->link();
     if (Token::Match(startparentheses, "( ! %name% %oror%") && startparentheses->tokAt(2)->getValue(0))
         suppressErrors = true;
@@ -1063,6 +1092,9 @@ const Token* CheckUninitVar::checkLoopBodyRecursive(const Token *start, const Va
 
 bool CheckUninitVar::checkLoopBody(const Token *tok, const Variable& var, const Alloc alloc, const std::string &membervar, const bool suppressErrors)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     bool bailout = false;
     const Token *errorToken = checkLoopBodyRecursive(tok, var, alloc, membervar, bailout);
 
@@ -1079,6 +1111,9 @@ bool CheckUninitVar::checkLoopBody(const Token *tok, const Variable& var, const 
 
 void CheckUninitVar::checkRhs(const Token *tok, const Variable &var, Alloc alloc, nonneg int number_of_if, const std::string &membervar)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     bool rhs = false;
     int indent = 0;
     while (nullptr != (tok = tok->next())) {
@@ -1116,16 +1151,25 @@ void CheckUninitVar::checkRhs(const Token *tok, const Variable &var, Alloc alloc
 
 static bool astIsLhs(const Token *tok)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     return tok && tok->astParent() && tok == tok->astParent()->astOperand1();
 }
 
 static bool astIsRhs(const Token *tok)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     return tok && tok->astParent() && tok == tok->astParent()->astOperand2();
 }
 
 static bool isVoidCast(const Token *tok)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     return Token::simpleMatch(tok, "(") && tok->isCast() && tok->valueType() && tok->valueType()->type == ValueType::Type::VOID && tok->valueType()->pointer == 0;
 }
 
@@ -1345,6 +1389,9 @@ const Token* CheckUninitVar::isVariableUsage(const Token *vartok, bool pointer, 
  */
 int CheckUninitVar::isFunctionParUsage(const Token *vartok, const Library& library, bool pointer, Alloc alloc, int indirect)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     bool unknown = false;
     const Token *parent = getAstParentSkipPossibleCastAndAddressOf(vartok, &unknown);
     if (unknown || !Token::Match(parent, "[(,]"))
@@ -1413,11 +1460,17 @@ int CheckUninitVar::isFunctionParUsage(const Token *vartok, const Library& libra
 
 int CheckUninitVar::isFunctionParUsage(const Token *vartok, bool pointer, Alloc alloc, int indirect) const
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     return CheckUninitVar::isFunctionParUsage(vartok, mSettings->library, pointer, alloc, indirect);
 }
 
 bool CheckUninitVar::isMemberVariableAssignment(const Token *tok, const std::string &membervar) const
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (Token::Match(tok, "%name% . %name%") && tok->strAt(2) == membervar) {
         if (Token::Match(tok->tokAt(3), "[=.[]"))
             return true;
@@ -1487,6 +1540,9 @@ bool CheckUninitVar::isMemberVariableAssignment(const Token *tok, const std::str
 
 bool CheckUninitVar::isMemberVariableUsage(const Token *tok, bool isPointer, Alloc alloc, const std::string &membervar) const
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (Token::Match(tok->previous(), "[(,] %name% . %name% [,)]") &&
         tok->strAt(2) == membervar) {
         const int use = isFunctionParUsage(tok, isPointer, alloc);
@@ -1529,11 +1585,17 @@ bool CheckUninitVar::isMemberVariableUsage(const Token *tok, bool isPointer, All
 
 void CheckUninitVar::uninitdataError(const Token *tok, const std::string &varname)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     reportError(tok, Severity::error, "uninitdata", "$symbol:" + varname + "\nMemory is allocated but not initialized: $symbol", CWE_USE_OF_UNINITIALIZED_VARIABLE, Certainty::normal);
 }
 
 void CheckUninitVar::uninitvarError(const Token *tok, const std::string &varname, ErrorPath errorPath)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (diag(tok))
         return;
     errorPath.emplace_back(tok, "");
@@ -1547,6 +1609,9 @@ void CheckUninitVar::uninitvarError(const Token *tok, const std::string &varname
 
 void CheckUninitVar::uninitvarError(const Token* tok, const ValueFlow::Value& v)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (!mSettings->isEnabled(&v))
         return;
     if (diag(tok))
@@ -1584,6 +1649,9 @@ void CheckUninitVar::uninitvarError(const Token* tok, const ValueFlow::Value& v)
 
 void CheckUninitVar::uninitStructMemberError(const Token *tok, const std::string &membername)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     reportError(tok,
                 Severity::error,
                 "uninitStructMember",
@@ -1592,6 +1660,9 @@ void CheckUninitVar::uninitStructMemberError(const Token *tok, const std::string
 
 static bool isLeafDot(const Token* tok)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (!tok)
         return false;
     const Token * parent = tok->astParent();
@@ -1604,6 +1675,9 @@ static bool isLeafDot(const Token* tok)
 
 void CheckUninitVar::valueFlowUninit()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     logChecker("CheckUninitVar::valueFlowUninit");
 
     const SymbolDatabase *symbolDatabase = mTokenizer->getSymbolDatabase();
@@ -1690,6 +1764,9 @@ Check::FileInfo *CheckUninitVar::getFileInfo(const Tokenizer *tokenizer, const S
 // NOLINTNEXTLINE(readability-non-const-parameter) - used as callback so we need to preserve the signature
 static bool isVariableUsage(const Check *check, const Token *vartok, MathLib::bigint *value)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     (void)value;
     const CheckUninitVar *c = dynamic_cast<const CheckUninitVar *>(check);
     return c && c->isVariableUsage(vartok, true, CheckUninitVar::Alloc::ARRAY);
@@ -1734,6 +1811,9 @@ Check::FileInfo * CheckUninitVar::loadFileInfoFromXml(const tinyxml2::XMLElement
 
 bool CheckUninitVar::analyseWholeProgram(const CTU::FileInfo *ctu, const std::list<Check::FileInfo*> &fileInfo, const Settings& settings, ErrorLogger &errorLogger)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (!ctu)
         return false;
     bool foundErrors = false;

@@ -1,3 +1,5 @@
+#include <stdio.h>
+#include <pthread.h>
 /*
  * Cppcheck - A tool for static C/C++ code analysis
  * Copyright (C) 2007-2023 Cppcheck team.
@@ -34,6 +36,9 @@ private:
 
 #define check(code) check_(code, __FILE__, __LINE__)
     void check_(const char code[], const char* file, int line) {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         // Clear the error buffer..
         errout.str("");
 
@@ -48,6 +53,9 @@ private:
     }
 
     void run() override {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         TEST_CASE(testsimple);
         TEST_CASE(testfor);
         TEST_CASE(testvolatile);
@@ -62,6 +70,9 @@ private:
     }
 
     void testsimple() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("int main()\n"
               "{\n"
               "    unsigned int k(0);\n"
@@ -186,6 +197,9 @@ private:
     }
 
     void testfor() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("int main()\n"
               "{\n"
               "    for ( unsigned int i=0; i <= 10; i++) {\n"
@@ -239,6 +253,9 @@ private:
     }
 
     void testvolatile() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("class K {};\n"
               "int main()\n"
               "{\n"
@@ -252,6 +269,9 @@ private:
     }
 
     void testiterator() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("class Base {};\n"
               "int main() {\n"
               "    std::vector<Base*> v;\n"
@@ -309,12 +329,18 @@ private:
     }
 
     void test2168() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("--> declare allocator lock here\n"
               "int main(){}");
         ASSERT_EQUALS("", errout.str());
     }
 
     void pointerSimplest() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("void f(int* p){\n"
               "    p++;\n"
               "    std::cout << *p;\n"
@@ -323,6 +349,9 @@ private:
     }
 
     void pointer() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("static struct class * ab;\n"
               "int * p;\n"
               "\n"
@@ -333,6 +362,9 @@ private:
     }
 
     void testtemplate() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("bool foo() {\n"
               "    std::vector<FilterConfigCacheEntry>::iterator aIter(aImport.begin());\n"
               "    aIter++;\n"
@@ -341,6 +373,9 @@ private:
     }
 
     void testmember() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("bool foo() {\n"
               "    class A {}; class B {A a;};\n"
               "    B b;\n"
@@ -357,6 +392,9 @@ private:
     }
 
     void testcomma() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("bool foo(int i) {\n"
               "    class A {};\n"
               "    A a;\n"

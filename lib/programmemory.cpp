@@ -1,3 +1,5 @@
+#include <stdio.h>
+#include <pthread.h>
 /*
  * Cppcheck - A tool for static C/C++ code analysis
  * Copyright (C) 2007-2023 Cppcheck team.
@@ -50,6 +52,9 @@ std::size_t ExprIdToken::Hash::operator()(ExprIdToken etok) const
 }
 
 void ProgramMemory::setValue(const Token* expr, const ValueFlow::Value& value) {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     mValues[expr] = value;
     ValueFlow::Value subvalue = value;
     const Token* subexpr = solveExprValue(
@@ -78,6 +83,9 @@ const ValueFlow::Value* ProgramMemory::getValue(nonneg int exprid, bool impossib
 // cppcheck-suppress unusedFunction
 bool ProgramMemory::getIntValue(nonneg int exprid, MathLib::bigint& result) const
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     const ValueFlow::Value* value = getValue(exprid);
     if (value && value->isIntValue()) {
         result = value->intvalue;
@@ -88,6 +96,9 @@ bool ProgramMemory::getIntValue(nonneg int exprid, MathLib::bigint& result) cons
 
 void ProgramMemory::setIntValue(const Token* expr, MathLib::bigint value, bool impossible)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     ValueFlow::Value v(value);
     if (impossible)
         v.setImpossible();
@@ -96,6 +107,9 @@ void ProgramMemory::setIntValue(const Token* expr, MathLib::bigint value, bool i
 
 bool ProgramMemory::getTokValue(nonneg int exprid, const Token** result) const
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     const ValueFlow::Value* value = getValue(exprid);
     if (value && value->isTokValue()) {
         *result = value->tokvalue;
@@ -107,6 +121,9 @@ bool ProgramMemory::getTokValue(nonneg int exprid, const Token** result) const
 // cppcheck-suppress unusedFunction
 bool ProgramMemory::getContainerSizeValue(nonneg int exprid, MathLib::bigint& result) const
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     const ValueFlow::Value* value = getValue(exprid);
     if (value && value->isContainerSizeValue()) {
         result = value->intvalue;
@@ -116,6 +133,9 @@ bool ProgramMemory::getContainerSizeValue(nonneg int exprid, MathLib::bigint& re
 }
 bool ProgramMemory::getContainerEmptyValue(nonneg int exprid, MathLib::bigint& result) const
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     const ValueFlow::Value* value = getValue(exprid, true);
     if (value && value->isContainerSizeValue()) {
         if (value->isImpossible() && value->intvalue == 0) {
@@ -132,6 +152,9 @@ bool ProgramMemory::getContainerEmptyValue(nonneg int exprid, MathLib::bigint& r
 
 void ProgramMemory::setContainerSizeValue(const Token* expr, MathLib::bigint value, bool isEqual)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     ValueFlow::Value v(value);
     v.valueType = ValueFlow::Value::ValueType::CONTAINER_SIZE;
     if (!isEqual)
@@ -140,11 +163,17 @@ void ProgramMemory::setContainerSizeValue(const Token* expr, MathLib::bigint val
 }
 
 void ProgramMemory::setUnknown(const Token* expr) {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     mValues[expr].valueType = ValueFlow::Value::ValueType::UNINIT;
 }
 
 bool ProgramMemory::hasValue(nonneg int exprid)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     return mValues.find(exprid) != mValues.end();
 }
 
@@ -157,6 +186,9 @@ ValueFlow::Value& ProgramMemory::at(nonneg int exprid) {
 
 void ProgramMemory::erase_if(const std::function<bool(const ExprIdToken&)>& pred)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     for (auto it = mValues.begin(); it != mValues.end();) {
         if (pred(it->first))
             it = mValues.erase(it);
@@ -167,21 +199,33 @@ void ProgramMemory::erase_if(const std::function<bool(const ExprIdToken&)>& pred
 
 void ProgramMemory::swap(ProgramMemory &pm)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     mValues.swap(pm.mValues);
 }
 
 void ProgramMemory::clear()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     mValues.clear();
 }
 
 bool ProgramMemory::empty() const
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     return mValues.empty();
 }
 
 void ProgramMemory::replace(const ProgramMemory &pm)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     for (auto&& p : pm.mValues) {
         mValues[p.first] = p.second;
     }
@@ -189,6 +233,9 @@ void ProgramMemory::replace(const ProgramMemory &pm)
 
 void ProgramMemory::insert(const ProgramMemory &pm)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     for (auto&& p : pm)
         mValues.insert(p);
 }
@@ -201,6 +248,9 @@ static bool evaluateCondition(const std::string& op,
                               ProgramMemory& pm,
                               const Settings* settings)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (!condition)
         return false;
     if (condition->str() == op) {
@@ -217,16 +267,25 @@ static bool evaluateCondition(const std::string& op,
 
 bool conditionIsFalse(const Token* condition, ProgramMemory pm, const Settings* settings)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     return evaluateCondition("&&", 0, condition, pm, settings);
 }
 
 bool conditionIsTrue(const Token* condition, ProgramMemory pm, const Settings* settings)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     return evaluateCondition("||", 1, condition, pm, settings);
 }
 
 static bool frontIs(const std::vector<MathLib::bigint>& v, bool i)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (v.empty())
         return false;
     if (v.front())
@@ -236,6 +295,9 @@ static bool frontIs(const std::vector<MathLib::bigint>& v, bool i)
 
 static bool isTrue(const ValueFlow::Value& v)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (v.isImpossible())
         return v.intvalue == 0;
     return v.intvalue != 0;
@@ -243,6 +305,9 @@ static bool isTrue(const ValueFlow::Value& v)
 
 static bool isFalse(const ValueFlow::Value& v)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (v.isImpossible())
         return false;
     return v.intvalue == 0;
@@ -251,6 +316,9 @@ static bool isFalse(const ValueFlow::Value& v)
 // If the scope is a non-range for loop
 static bool isBasicForLoop(const Token* tok)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (!tok)
         return false;
     if (Token::simpleMatch(tok, "}"))
@@ -269,6 +337,9 @@ static bool isBasicForLoop(const Token* tok)
 
 void programMemoryParseCondition(ProgramMemory& pm, const Token* tok, const Token* endTok, const Settings* settings, bool then)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     auto eval = [&](const Token* t) -> std::vector<MathLib::bigint> {
         if (t->hasKnownIntValue())
             return {t->values().front().intvalue};
@@ -328,6 +399,9 @@ void programMemoryParseCondition(ProgramMemory& pm, const Token* tok, const Toke
 
 static void fillProgramMemoryFromConditions(ProgramMemory& pm, const Scope* scope, const Token* endTok, const Settings* settings)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (!scope)
         return;
     if (!scope->isLocal())
@@ -348,11 +422,17 @@ static void fillProgramMemoryFromConditions(ProgramMemory& pm, const Scope* scop
 
 static void fillProgramMemoryFromConditions(ProgramMemory& pm, const Token* tok, const Settings* settings)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     fillProgramMemoryFromConditions(pm, tok->scope(), tok, settings);
 }
 
 static void fillProgramMemoryFromAssignments(ProgramMemory& pm, const Token* tok, const Settings* settings, const ProgramMemory& state, const ProgramMemory::Map& vars)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     int indentlevel = 0;
     for (const Token *tok2 = tok; tok2; tok2 = tok2->previous()) {
         if ((Token::simpleMatch(tok2, "=") || Token::Match(tok2->previous(), "%var% (|{")) && tok2->astOperand1() &&
@@ -413,6 +493,9 @@ static void fillProgramMemoryFromAssignments(ProgramMemory& pm, const Token* tok
 
 static void removeModifiedVars(ProgramMemory& pm, const Token* tok, const Token* origin)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     pm.erase_if([&](const ExprIdToken& e) {
         return isVariableChanged(origin, tok, e.getExpressionId(), false, nullptr, true);
     });
@@ -423,6 +506,9 @@ static ProgramMemory getInitialProgramState(const Token* tok,
                                             const Settings* settings,
                                             const ProgramMemory::Map& vars = ProgramMemory::Map {})
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     ProgramMemory pm;
     if (origin) {
         fillProgramMemoryFromConditions(pm, origin, nullptr);
@@ -437,6 +523,9 @@ ProgramMemoryState::ProgramMemoryState(const Settings* s) : settings(s) {}
 
 void ProgramMemoryState::insert(const ProgramMemory &pm, const Token* origin)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (origin)
         for (auto&& p : pm)
             origins.insert(std::make_pair(p.first.getExpressionId(), origin));
@@ -445,6 +534,9 @@ void ProgramMemoryState::insert(const ProgramMemory &pm, const Token* origin)
 
 void ProgramMemoryState::replace(const ProgramMemory &pm, const Token* origin)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (origin)
         for (auto&& p : pm)
             origins[p.first.getExpressionId()] = origin;
@@ -453,6 +545,9 @@ void ProgramMemoryState::replace(const ProgramMemory &pm, const Token* origin)
 
 static void addVars(ProgramMemory& pm, const ProgramMemory::Map& vars)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     for (const auto& p:vars) {
         const ValueFlow::Value &value = p.second;
         pm.setValue(p.first.tok, value);
@@ -461,6 +556,9 @@ static void addVars(ProgramMemory& pm, const ProgramMemory::Map& vars)
 
 void ProgramMemoryState::addState(const Token* tok, const ProgramMemory::Map& vars)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     ProgramMemory pm = state;
     addVars(pm, vars);
     fillProgramMemoryFromConditions(pm, tok, settings);
@@ -472,6 +570,9 @@ void ProgramMemoryState::addState(const Token* tok, const ProgramMemory::Map& va
 
 void ProgramMemoryState::assume(const Token* tok, bool b, bool isEmpty)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     ProgramMemory pm = state;
     if (isEmpty)
         pm.setContainerSizeValue(tok, 0, b);
@@ -490,6 +591,9 @@ void ProgramMemoryState::assume(const Token* tok, bool b, bool isEmpty)
 
 void ProgramMemoryState::removeModifiedVars(const Token* tok)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     ProgramMemory pm = state;
     auto eval = [&](const Token* cond) -> std::vector<MathLib::bigint> {
         if (conditionIsTrue(cond, pm))
@@ -511,6 +615,9 @@ void ProgramMemoryState::removeModifiedVars(const Token* tok)
 
 ProgramMemory ProgramMemoryState::get(const Token* tok, const Token* ctx, const ProgramMemory::Map& vars) const
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     ProgramMemoryState local = *this;
     if (ctx)
         local.addState(ctx, vars);
@@ -529,6 +636,9 @@ ProgramMemory ProgramMemoryState::get(const Token* tok, const Token* ctx, const 
 
 ProgramMemory getProgramMemory(const Token* tok, const Token* expr, const ValueFlow::Value& value, const Settings* settings)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     ProgramMemory programMemory;
     programMemory.replace(getInitialProgramState(tok, value.tokvalue, settings));
     programMemory.replace(getInitialProgramState(tok, value.condition, settings));
@@ -540,11 +650,17 @@ ProgramMemory getProgramMemory(const Token* tok, const Token* expr, const ValueF
 }
 
 static bool isNumericValue(const ValueFlow::Value& value) {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     return value.isIntValue() || value.isFloatValue();
 }
 
 static double asFloat(const ValueFlow::Value& value)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     return value.isFloatValue() ? value.floatValue : value.intvalue;
 }
 
@@ -556,12 +672,18 @@ struct assign {
     template<class T, class U>
     void operator()(T& x, const U& y) const
     {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         x = y;
     }
 };
 
 static bool isIntegralValue(const ValueFlow::Value& value)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     return value.isIntValue() || value.isIteratorValue() || value.isSymbolicValue();
 }
 
@@ -1190,6 +1312,9 @@ static std::unordered_map<std::string, BuiltinLibraryFunction> createBuiltinLibr
 
 static BuiltinLibraryFunction getBuiltinLibraryFunction(const std::string& name)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     static const std::unordered_map<std::string, BuiltinLibraryFunction> functions = createBuiltinLibraryFunctions();
     auto it = functions.find(name);
     if (it == functions.end())
@@ -1593,6 +1718,9 @@ void execute(const Token* expr,
              bool* error,
              const Settings* settings)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     ValueFlow::Value v = execute(expr, programMemory, settings);
     if (!v.isIntValue() || v.isImpossible()) {
         if (error)

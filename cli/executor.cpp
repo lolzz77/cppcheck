@@ -1,3 +1,5 @@
+#include <stdio.h>
+#include <pthread.h>
 /*
  * Cppcheck - A tool for static C/C++ code analysis
  * Copyright (C) 2007-2023 Cppcheck team.
@@ -33,6 +35,9 @@ Executor::Executor(const std::map<std::string, std::size_t> &files, const Settin
 
 bool Executor::hasToLog(const ErrorMessage &msg)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (!mSuppressions.isSuppressed(msg, {}))
     {
         std::string errmsg = msg.toString(mSettings.verbose);
@@ -48,6 +53,9 @@ bool Executor::hasToLog(const ErrorMessage &msg)
 
 void Executor::reportStatus(std::size_t fileindex, std::size_t filecount, std::size_t sizedone, std::size_t sizetotal)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (filecount > 1) {
         std::ostringstream oss;
         const unsigned long percentDone = (sizetotal > 0) ? (100 * sizedone) / sizetotal : 0;

@@ -1,3 +1,5 @@
+#include <stdio.h>
+#include <pthread.h>
 /*
  * Cppcheck - A tool for static C/C++ code analysis
  * Copyright (C) 2007-2023 Cppcheck team.
@@ -44,6 +46,9 @@ private:
     std::vector<std::string> assignmentOps;
 
     void run() override {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         arithmeticalOps = { "+", "-", "*", "/", "%", "<<", ">>" };
         logicalOps = { "&&", "||", "!" };
         comparisonOps = { "==", "!=", "<", "<=", ">", ">=" };
@@ -114,6 +119,9 @@ private:
     }
 
     void nextprevious() const {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         Token *token = new Token();
         token->str("1");
         token->insertToken("2");
@@ -146,6 +154,9 @@ private:
     }
 
     void multiCompare() const {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         // Test for found
         Token one;
         one.str("one");
@@ -202,6 +213,9 @@ private:
     }
 
     void multiCompare3() const {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         // Original pattern that failed: "return|(|&&|%oror% %name% &&|%oror%|==|!=|<=|>=|<|>|-|%or% %name% )|&&|%oror%|;"
         // Code snippet that failed: "return lv@86 |= rv@87 ;"
 
@@ -254,6 +268,9 @@ private:
     }
 
     void multiCompare4() const {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         givenACodeSampleToTokenize var("std :: queue < int > foo ;");
 
         ASSERT_EQUALS(Token::eBracket, var.tokens()->tokAt(3)->tokType());
@@ -265,12 +282,18 @@ private:
     }
 
     void multiCompare5() const {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         Token tok;
         tok.str("||");
         ASSERT_EQUALS(true, Token::multiCompare(&tok, "+|%or%|%oror%", 0) >= 0);
     }
 
     void charTypes() const {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         Token tok;
 
         tok.str("'a'");
@@ -323,6 +346,9 @@ private:
     }
 
     void stringTypes() const {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         Token tok;
 
         tok.str("\"a\"");
@@ -367,6 +393,9 @@ private:
     }
 
     void getStrLength() const {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         Token tok;
 
         tok.str("\"\"");
@@ -395,6 +424,9 @@ private:
     }
 
     void getStrSize() const {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         Token tok;
         const Settings settings;
 
@@ -412,6 +444,9 @@ private:
     }
 
     void strValue() const {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         Token tok;
 
         tok.str("\"\"");
@@ -443,6 +478,9 @@ private:
     }
 
     void concatStr() const {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         Token tok;
 
         tok.str("\"\"");
@@ -482,6 +520,9 @@ private:
     }
 
     void deleteLast() const {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         TokensFrontBack listEnds;
         Token ** const tokensBack = &(listEnds.back);
         Token tok(&listEnds);
@@ -492,6 +533,9 @@ private:
     }
 
     void deleteFirst() const {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         TokensFrontBack listEnds;
         Token ** const tokensFront = &(listEnds.front);
         Token tok(&listEnds);
@@ -504,6 +548,9 @@ private:
     }
 
     void nextArgument() const {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         givenACodeSampleToTokenize example1("foo(1, 2, 3, 4);");
         ASSERT_EQUALS(true, Token::simpleMatch(example1.tokens()->tokAt(2)->nextArgument(), "2 , 3"));
         ASSERT_EQUALS(true, Token::simpleMatch(example1.tokens()->tokAt(4)->nextArgument(), "3 , 4"));
@@ -519,6 +566,9 @@ private:
     }
 
     void eraseTokens() const {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         givenACodeSampleToTokenize code("begin ; { this code will be removed } end", true);
         Token::eraseTokens(code.tokens()->next(), code.tokens()->tokAt(9));
         ASSERT_EQUALS("begin ; end", code.tokens()->stringifyList(nullptr, false));
@@ -526,6 +576,9 @@ private:
 
 
     void matchAny() const {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         givenACodeSampleToTokenize varBitOrVar("abc|def", true);
         ASSERT_EQUALS(true, Token::Match(varBitOrVar.tokens(), "%name% %or% %name%"));
 
@@ -534,6 +587,9 @@ private:
     }
 
     void matchSingleChar() const {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         givenACodeSampleToTokenize singleChar("a", true);
         ASSERT_EQUALS(true, Token::Match(singleChar.tokens(), "[a|bc]"));
         ASSERT_EQUALS(false, Token::Match(singleChar.tokens(), "[d|ef]"));
@@ -544,6 +600,9 @@ private:
     }
 
     void matchNothingOrAnyNotElse() const {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         givenACodeSampleToTokenize empty_String("", true);
         ASSERT_EQUALS(true, Token::Match(empty_String.tokens(), "!!else"));
         ASSERT_EQUALS(false, Token::Match(empty_String.tokens(), "!!else something"));
@@ -562,6 +621,9 @@ private:
     }
 
     void matchType() const {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         givenACodeSampleToTokenize type("abc", true);
         ASSERT_EQUALS(true, Token::Match(type.tokens(), "%type%"));
 
@@ -581,6 +643,9 @@ private:
     }
 
     void matchChar() const {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         givenACodeSampleToTokenize chr1("'a'", true);
         ASSERT_EQUALS(true, Token::Match(chr1.tokens(), "%char%"));
 
@@ -592,6 +657,9 @@ private:
     }
 
     void matchCompOp() const {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         givenACodeSampleToTokenize comp1("<=", true);
         ASSERT_EQUALS(true, Token::Match(comp1.tokens(), "%comp%"));
 
@@ -603,6 +671,9 @@ private:
     }
 
     void matchStr() const {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         givenACodeSampleToTokenize noStr1("abc", true);
         ASSERT_EQUALS(false, Token::Match(noStr1.tokens(), "%str%"));
 
@@ -618,6 +689,9 @@ private:
     }
 
     void matchVarid() const {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         givenACodeSampleToTokenize var("int a ; int b ;");
 
         // Varid == 0 should throw exception
@@ -635,6 +709,9 @@ private:
     }
 
     void matchNumeric() const {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         givenACodeSampleToTokenize nonNumeric("abc", true);
         ASSERT_EQUALS(false, Token::Match(nonNumeric.tokens(), "%num%"));
 
@@ -689,6 +766,9 @@ private:
 
 
     void matchBoolean() const {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         givenACodeSampleToTokenize yes("YES", true);
         ASSERT_EQUALS(false, Token::Match(yes.tokens(), "%bool%"));
 
@@ -700,6 +780,9 @@ private:
     }
 
     void matchOr() const {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         givenACodeSampleToTokenize bitwiseOr(";|;", true);
         // cppcheck-suppress simplePatternError - this is intentional
         ASSERT_EQUALS(true,  Token::Match(bitwiseOr.tokens(), "; %or%"));
@@ -730,10 +813,16 @@ private:
     }
 
     static void append_vector(std::vector<std::string> &dest, const std::vector<std::string> &src) {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         dest.insert(dest.end(), src.cbegin(), src.cend());
     }
 
     void matchOp() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         std::vector<std::string> test_ops;
         append_vector(test_ops, arithmeticalOps);
         append_vector(test_ops, bitOps);
@@ -756,6 +845,9 @@ private:
     }
 
     void matchConstOp() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         std::vector<std::string> test_ops;
         append_vector(test_ops, arithmeticalOps);
         append_vector(test_ops, bitOps);
@@ -779,6 +871,9 @@ private:
 
 
     void isArithmeticalOp() const {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         std::vector<std::string>::const_iterator test_op, test_ops_end = arithmeticalOps.cend();
         for (test_op = arithmeticalOps.cbegin(); test_op != test_ops_end; ++test_op) {
             Token tok;
@@ -803,6 +898,9 @@ private:
     }
 
     void isOp() const {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         std::vector<std::string> test_ops;
         append_vector(test_ops, arithmeticalOps);
         append_vector(test_ops, bitOps);
@@ -830,6 +928,9 @@ private:
     }
 
     void isConstOp() const {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         std::vector<std::string> test_ops;
         append_vector(test_ops, arithmeticalOps);
         append_vector(test_ops, bitOps);
@@ -857,6 +958,9 @@ private:
     }
 
     void isExtendedOp() const {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         std::vector<std::string> test_ops;
         append_vector(test_ops, arithmeticalOps);
         append_vector(test_ops, bitOps);
@@ -881,6 +985,9 @@ private:
     }
 
     void isAssignmentOp() const {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         std::vector<std::string>::const_iterator test_op, test_ops_end = assignmentOps.cend();
         for (test_op = assignmentOps.cbegin(); test_op != test_ops_end; ++test_op) {
             Token tok;
@@ -905,6 +1012,9 @@ private:
     }
 
     void operators() const {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         std::vector<std::string>::const_iterator test_op;
         for (test_op = extendedOps.cbegin(); test_op != extendedOps.cend(); ++test_op) {
             Token tok;
@@ -934,6 +1044,9 @@ private:
     }
 
     void literals() const {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         Token tok;
 
         tok.str("\"foo\"");
@@ -953,6 +1066,9 @@ private:
     }
 
     void isStandardType() const {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         std::vector<std::string> standard_types;
         standard_types.emplace_back("bool");
         standard_types.emplace_back("char");
@@ -987,6 +1103,9 @@ private:
     }
 
     void updateProperties() const {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         Token tok;
         tok.str("foobar");
 
@@ -1000,24 +1119,36 @@ private:
     }
 
     void isNameGuarantees1() const {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         Token tok;
         tok.str("Name");
         ASSERT_EQUALS(true, tok.isName());
     }
 
     void isNameGuarantees2() const {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         Token tok;
         tok.str("_name");
         ASSERT_EQUALS(true, tok.isName());
     }
 
     void isNameGuarantees3() const {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         Token tok;
         tok.str("_123");
         ASSERT_EQUALS(true, tok.isName());
     }
 
     void isNameGuarantees4() const {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         Token tok;
         tok.str("123456");
         ASSERT_EQUALS(false, tok.isName());
@@ -1025,6 +1156,9 @@ private:
     }
 
     void isNameGuarantees5() const {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         Token tok;
         tok.str("a123456");
         ASSERT_EQUALS(true, tok.isName());
@@ -1032,12 +1166,18 @@ private:
     }
 
     void isNameGuarantees6() const {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         Token tok;
         tok.str("$f");
         ASSERT_EQUALS(true, tok.isName());
     }
 
     void canFindMatchingBracketsNeedsOpen() const {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         givenACodeSampleToTokenize var("std::deque<std::set<int> > intsets;");
 
         const Token* const t = var.tokens()->findClosingBracket();
@@ -1045,6 +1185,9 @@ private:
     }
 
     void canFindMatchingBracketsInnerPair() const {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         givenACodeSampleToTokenize var("std::deque<std::set<int> > intsets;");
 
         const Token * const t = var.tokens()->tokAt(7)->findClosingBracket();
@@ -1053,6 +1196,9 @@ private:
     }
 
     void canFindMatchingBracketsOuterPair() const {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         givenACodeSampleToTokenize var("std::deque<std::set<int> > intsets;");
 
         const Token* const t = var.tokens()->tokAt(3)->findClosingBracket();
@@ -1061,6 +1207,9 @@ private:
     }
 
     void canFindMatchingBracketsWithTooManyClosing() const {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         givenACodeSampleToTokenize var("X< 1>2 > x1;");
 
         const Token* const t = var.tokens()->next()->findClosingBracket();
@@ -1069,6 +1218,9 @@ private:
     }
 
     void canFindMatchingBracketsWithTooManyOpening() const {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         givenACodeSampleToTokenize var("X < (2 < 1) > x1;");
 
         const Token* t = var.tokens()->next()->findClosingBracket();
@@ -1079,6 +1231,9 @@ private:
     }
 
     void findClosingBracket() const {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         givenACodeSampleToTokenize var("template<typename X, typename...Y> struct S : public Fred<Wilma<Y...>> {}");
 
         const Token* const t = var.tokens()->next()->findClosingBracket();
@@ -1086,6 +1241,9 @@ private:
     }
 
     void findClosingBracket2() const {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         givenACodeSampleToTokenize var("const auto g = []<typename T>() {};\n"); // #11275
 
         const Token* const t = Token::findsimplematch(var.tokens(), "<");
@@ -1093,6 +1251,9 @@ private:
     }
 
     void expressionString() const {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         givenACodeSampleToTokenize var1("void f() { *((unsigned long long *)x) = 0; }");
         const Token *const tok1 = Token::findsimplematch(var1.tokens(), "*");
         ASSERT_EQUALS("*((unsigned long long*)x)", tok1->expressionString());
@@ -1115,6 +1276,9 @@ private:
     }
 
     void hasKnownIntValue() const {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         // pointer might be NULL
         ValueFlow::Value v1(0);
 

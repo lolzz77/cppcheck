@@ -1,3 +1,5 @@
+#include <stdio.h>
+#include <pthread.h>
 /*
  * Cppcheck - A tool for static C/C++ code analysis
  * Copyright (C) 2007-2021 Cppcheck team.
@@ -32,6 +34,9 @@ const QString TestCppcheckLibraryData::TempCfgFile = "./tmp.cfg";
 
 void TestCppcheckLibraryData::init()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     result.clear();
     libraryData.clear();
     fileLibraryData.clear();
@@ -39,6 +44,9 @@ void TestCppcheckLibraryData::init()
 
 void TestCppcheckLibraryData::xmlReaderError()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     loadCfgFile(":/files/xml_reader_error.cfg", fileLibraryData, result);
     QCOMPARE(result.isNull(), false);
     qDebug() << result;
@@ -46,6 +54,9 @@ void TestCppcheckLibraryData::xmlReaderError()
 
 void TestCppcheckLibraryData::unhandledElement()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     loadCfgFile(":/files/unhandled_element.cfg", fileLibraryData, result);
     QCOMPARE(result.isNull(), false);
     qDebug() << result;
@@ -73,6 +84,9 @@ void TestCppcheckLibraryData::unhandledElement()
 
 void TestCppcheckLibraryData::mandatoryAttributeMissing()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     loadCfgFile(":/files/mandatory_attribute_missing.cfg", fileLibraryData, result);
     QCOMPARE(result.isNull(), false);
     qDebug() << result;
@@ -88,6 +102,9 @@ void TestCppcheckLibraryData::mandatoryAttributeMissing()
 
 void TestCppcheckLibraryData::podtypeValid()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     // Load library data from file
     loadCfgFile(":/files/podtype_valid.cfg", fileLibraryData, result);
     QCOMPARE(result.isNull(), true);
@@ -131,6 +148,9 @@ void TestCppcheckLibraryData::podtypeValid()
 
 void TestCppcheckLibraryData::typechecksValid()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     // Load library data from file
     loadCfgFile(":/files/typechecks_valid.cfg", fileLibraryData, result);
     QCOMPARE(result.isNull(), true);
@@ -179,6 +199,9 @@ void TestCppcheckLibraryData::typechecksValid()
 
 void TestCppcheckLibraryData::smartPointerValid()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     // Load library data from file
     loadCfgFile(":/files/smartptr_valid.cfg", fileLibraryData, result);
     QCOMPARE(result.isNull(), true);
@@ -217,6 +240,9 @@ void TestCppcheckLibraryData::smartPointerValid()
 
 void TestCppcheckLibraryData::platformTypeValid()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     // Load library data from file
     loadCfgFile(":/files/platform_type_valid.cfg", fileLibraryData, result);
     QCOMPARE(result.isNull(), true);
@@ -275,6 +301,9 @@ void TestCppcheckLibraryData::platformTypeValid()
 
 void TestCppcheckLibraryData::memoryResourceValid()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     // Load library data from file
     loadCfgFile(":/files/memory_resource_valid.cfg", fileLibraryData, result);
     QCOMPARE(result.isNull(), true);
@@ -375,6 +404,9 @@ void TestCppcheckLibraryData::memoryResourceValid()
 
 void TestCppcheckLibraryData::defineValid()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     // Load library data from file
     loadCfgFile(":/files/define_valid.cfg", fileLibraryData, result);
     QCOMPARE(result.isNull(), true);
@@ -410,6 +442,9 @@ void TestCppcheckLibraryData::defineValid()
 
 void TestCppcheckLibraryData::undefineValid()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     // Load library data from file
     loadCfgFile(":/files/undefine_valid.cfg", fileLibraryData, result);
     QCOMPARE(result.isNull(), true);
@@ -440,6 +475,9 @@ void TestCppcheckLibraryData::undefineValid()
 
 void TestCppcheckLibraryData::reflectionValid()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     // Load library data from file
     loadCfgFile(":/files/reflection_valid.cfg", fileLibraryData, result);
     QCOMPARE(result.isNull(), true);
@@ -483,6 +521,9 @@ void TestCppcheckLibraryData::reflectionValid()
 
 void TestCppcheckLibraryData::markupValid()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     // Load library data from file
     loadCfgFile(":/files/markup_valid.cfg", fileLibraryData, result);
     QCOMPARE(result.isNull(), true);
@@ -558,6 +599,9 @@ void TestCppcheckLibraryData::markupValid()
 
 void TestCppcheckLibraryData::containerValid()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     // Load library data from file
     loadCfgFile(":/files/container_valid.cfg", fileLibraryData, result);
     QCOMPARE(result.isNull(), true);
@@ -598,6 +642,9 @@ void TestCppcheckLibraryData::containerValid()
 
 void TestCppcheckLibraryData::loadCfgFile(const QString &filename, CppcheckLibraryData &data, QString &res, bool removeFile)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     QFile file(filename);
     QVERIFY(file.open(QIODevice::ReadOnly | QIODevice::Text));
     res = data.open(file);
@@ -609,6 +656,9 @@ void TestCppcheckLibraryData::loadCfgFile(const QString &filename, CppcheckLibra
 
 void TestCppcheckLibraryData::saveCfgFile(const QString &filename, CppcheckLibraryData &data)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     QFile file(filename);
     QVERIFY(file.open(QIODevice::WriteOnly | QIODevice::Text));
     QTextStream textStream(&file);
@@ -618,6 +668,9 @@ void TestCppcheckLibraryData::saveCfgFile(const QString &filename, CppcheckLibra
 
 void TestCppcheckLibraryData::validateAllCfg()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     const QDir dir(QString(SRCDIR) + "/../../../cfg/");
     const QStringList files = dir.entryList(QStringList() << "*.cfg",QDir::Files);
     QVERIFY(!files.empty());

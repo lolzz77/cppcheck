@@ -1,3 +1,5 @@
+#include <stdio.h>
+#include <pthread.h>
 /*
  * Cppcheck - A tool for static C/C++ code analysis
  * Copyright (C) 2007-2023 Cppcheck team.
@@ -41,6 +43,9 @@ namespace {
 
 void CheckAssert::assertWithSideEffects()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (!mSettings->severity.isEnabled(Severity::warning))
         return;
 
@@ -101,6 +106,9 @@ void CheckAssert::assertWithSideEffects()
 
 void CheckAssert::sideEffectInAssertError(const Token *tok, const std::string& functionName)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     reportError(tok, Severity::warning,
                 "assertWithSideEffect",
                 "$symbol:" + functionName + "\n"
@@ -113,6 +121,9 @@ void CheckAssert::sideEffectInAssertError(const Token *tok, const std::string& f
 
 void CheckAssert::assignmentInAssertError(const Token *tok, const std::string& varname)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     reportError(tok, Severity::warning,
                 "assignmentInAssert",
                 "$symbol:" + varname + "\n"
@@ -126,6 +137,9 @@ void CheckAssert::assignmentInAssertError(const Token *tok, const std::string& v
 // checks if side effects happen on the variable prior to tmp
 void CheckAssert::checkVariableAssignment(const Token* assignTok, const Scope *assertionScope)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (!assignTok->isAssignmentOp() && assignTok->tokType() != Token::eIncDecOp)
         return;
 
@@ -154,6 +168,9 @@ void CheckAssert::checkVariableAssignment(const Token* assignTok, const Scope *a
 
 bool CheckAssert::inSameScope(const Token* returnTok, const Token* assignTok)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     // TODO: even if a return is in the same scope, the assignment might not affect it.
     return returnTok->scope() == assignTok->scope();
 }

@@ -1,3 +1,5 @@
+#include <stdio.h>
+#include <pthread.h>
 /*
  * Cppcheck - A tool for static C/C++ code analysis
  * Copyright (C) 2007-2023 Cppcheck team.
@@ -64,6 +66,9 @@ static std::string objfiles(const std::vector<std::string> &files)
 
 static void getDeps(const std::string &filename, std::vector<std::string> &depfiles)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     static const std::array<std::string, 3> externalfolders{"externals/picojson", "externals/simplecpp", "externals/tinyxml2"};
 
     // Is the dependency already included?
@@ -125,6 +130,9 @@ static void getDeps(const std::string &filename, std::vector<std::string> &depfi
 
 static void compilefiles(std::ostream &fout, const std::vector<std::string> &files, const std::string &args)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     for (const std::string &file : files) {
         const bool external(startsWith(file,"externals/"));
         fout << objfile(file) << ": " << file;
@@ -158,6 +166,9 @@ static std::string getCppFiles(std::vector<std::string> &files, const std::strin
 
 static void makeConditionalVariable(std::ostream &os, const std::string &variable, const std::string &defaultValue)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     os << "ifndef " << variable << '\n'
        << "    " << variable << '=' << defaultValue << '\n'
        << "endif\n"
@@ -166,6 +177,9 @@ static void makeConditionalVariable(std::ostream &os, const std::string &variabl
 
 static int write_vcxproj(const std::string &proj_name, const std::function<void(std::string&)> &source_f, const std::function<void(std::string&)> &header_f)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     std::string outstr;
 
     {
@@ -272,6 +286,9 @@ static std::vector<std::string> prioritizelib(const std::vector<std::string>& li
 
 int main(int argc, char **argv)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     const bool release(argc >= 2 && std::string(argv[1]) == "--release");
 
     // Get files..

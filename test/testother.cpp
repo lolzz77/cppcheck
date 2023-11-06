@@ -1,3 +1,5 @@
+#include <stdio.h>
+#include <pthread.h>
 /*
  * Cppcheck - A tool for static C/C++ code analysis
  * Copyright (C) 2007-2023 Cppcheck team.
@@ -38,6 +40,9 @@ private:
     Settings _settings;
 
     void run() override {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         LOAD_LIB_2(_settings.library, "std.cfg");
 
 
@@ -322,6 +327,9 @@ private:
     }
 
     void check_(const char* file, int line, const char code[], Settings *s) {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check_(file, line, code, "test.cpp", true, true, false, s);
     }
 
@@ -352,6 +360,9 @@ private:
     }
 
     void checkInterlockedDecrement(const char code[]) {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         Settings settings;
         settings.platform.type = Platform::Type::Win32A;
 
@@ -359,6 +370,9 @@ private:
     }
 
     void emptyBrackets() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("{\n"
               "}");
         ASSERT_EQUALS("", errout.str());
@@ -388,6 +402,9 @@ private:
     }
 
     void zeroDiv2() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("void foo()\n"
               "{\n"
               "    int sum = 0;\n"
@@ -401,6 +418,9 @@ private:
     }
 
     void zeroDiv3() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("int foo(int i) {\n"
               "    return i / 0;\n"
               "}");
@@ -428,6 +448,9 @@ private:
     }
 
     void zeroDiv4() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("void f()\n"
               "{\n"
               "   long a = b / 0x6;\n"
@@ -483,6 +506,9 @@ private:
     }
 
     void zeroDiv5() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("void f()\n"
               "{ { {\n"
               "   long a = b / 0;\n"
@@ -496,6 +522,9 @@ private:
     }
 
     void zeroDiv6() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("void f()\n"
               "{ { {\n"
               "   int a = b % 0;\n"
@@ -509,6 +538,9 @@ private:
     }
 
     void zeroDiv7() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         // unknown types for x and y --> do not warn
         check("void f() {\n"
               "  int a = x/2*3/0;\n"
@@ -524,6 +556,9 @@ private:
     }
 
     void zeroDiv8() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         // #5584 - FP when function is unknown
         check("void f() {\n"
               "  int a = 0;\n"
@@ -534,6 +569,9 @@ private:
     }
 
     void zeroDiv9() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         // #6403 FP zerodiv - inside protecting if-clause
         check("void foo() {\n"
               "  double fStepHelp = 0;\n"
@@ -548,6 +586,9 @@ private:
     }
 
     void zeroDiv10() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         // #5402 false positive: (error) Division by zero -- with boost::format
         check("int main() {\n"
               "  std::cout\n"
@@ -559,6 +600,9 @@ private:
     }
 
     void zeroDiv11() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("void f(int a) {\n"
               "  int res = (a+2)/0;\n"
               "  int res = (a*2)/0;\n"
@@ -573,6 +617,9 @@ private:
     }
 
     void zeroDiv12() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         // #8141
         check("intmax_t f() {\n"
               "  return 1 / imaxabs(0);\n"
@@ -580,6 +627,9 @@ private:
         ASSERT_EQUALS("[test.cpp:2]: (error) Division by zero.\n", errout.str());
     }
     void zeroDiv13() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         // #7324
         check("int f () {\n"
               "    int dividend = 10;\n"
@@ -591,6 +641,9 @@ private:
     }
 
     void zeroDiv14() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("void f() {\n" // #1169
               "    double dx = 1.;\n"
               "    int ix = 1;\n"
@@ -614,6 +667,9 @@ private:
     // #11158
     void zeroDiv16()
     {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("int f(int i) {\n"
               "    int number = 10, a = 0;\n"
               "    for (int count = 0; count < 2; count++) {\n"
@@ -647,6 +703,9 @@ private:
 
     void zeroDiv18()
     {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("int f(int x, int y) {\n"
               "    if (x == y) {}\n"
               "    return 1 / (x-y);\n"
@@ -658,6 +717,9 @@ private:
 
     void zeroDiv19()
     {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("void f() {\n" // #2456
               "    for (int i = 0;;)\n"
               "        int j = 10 / i;\n"
@@ -666,6 +728,9 @@ private:
     }
 
     void zeroDivCond() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("void f(unsigned int x) {\n"
               "  int y = 17 / x;\n"
               "  if (x > 0) {}\n"
@@ -830,6 +895,9 @@ private:
     }
 
     void nanInArithmeticExpression() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("void f()\n"
               "{\n"
               "   double x = 3.0 / 0.0 + 1.0;\n"
@@ -868,6 +936,9 @@ private:
     }
 
     void varScope1() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("unsigned short foo()\n"
               "{\n"
               "    test_client CClient;\n"
@@ -898,6 +969,9 @@ private:
     }
 
     void varScope2() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("int foo()\n"
               "{\n"
               "    Error e;\n"
@@ -908,6 +982,9 @@ private:
     }
 
     void varScope3() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("void foo()\n"
               "{\n"
               "    int i;\n"
@@ -922,6 +999,9 @@ private:
     }
 
     void varScope4() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("void foo()\n"
               "{\n"
               "    int i;\n"
@@ -930,6 +1010,9 @@ private:
     }
 
     void varScope5() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("void f(int x)\n"
               "{\n"
               "    int i = 0;\n"
@@ -959,6 +1042,9 @@ private:
     }
 
     void varScope6() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("void f(int x)\n"
               "{\n"
               "    int i = x;\n"
@@ -1015,6 +1101,9 @@ private:
     }
 
     void varScope7() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("void f(int x)\n"
               "{\n"
               "    int y = 0;\n"
@@ -1027,6 +1116,9 @@ private:
     }
 
     void varScope8() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("void test() {\n"
               "    float edgeResistance=1;\n"
               "    std::vector<int> edges;\n"
@@ -1038,6 +1130,9 @@ private:
     }
 
     void varScope9() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         // classes may have extra side effects
         check("class fred {\n"
               "public:\n"
@@ -1053,6 +1148,9 @@ private:
     }
 
     void varScope10() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("int f()\n"
               "{\n"
               "    int x = 0;\n"
@@ -1064,6 +1162,9 @@ private:
     }
 
     void varScope11() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("int f() {\n"
               "    int x = 0;\n"
               "    AB ab = { x, 0 };\n"
@@ -1086,6 +1187,9 @@ private:
     }
 
     void varScope12() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("void f(int x) {\n"
               "    int i[5];\n"
               "    int* j = y;\n"
@@ -1122,6 +1226,9 @@ private:
     }
 
     void varScope13() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         // #2770
         check("void f() {\n"
               "    int i = 0;\n"
@@ -1133,6 +1240,9 @@ private:
     }
 
     void varScope14() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         // #3941
         check("void f() {\n"
               "    const int i( foo());\n"
@@ -1144,6 +1254,9 @@ private:
     }
 
     void varScope15() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         // #4573
         check("void f() {\n"
               "    int a,b,c;\n"
@@ -1156,6 +1269,9 @@ private:
     }
 
     void varScope16() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("void f() {\n"
               "    int a = 0;\n"
               "    while((++a) < 56) {\n"
@@ -1192,6 +1308,9 @@ private:
     }
 
     void varScope17() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("void f() {\n"
               "    int x;\n"
               "    if (a) {\n"
@@ -1213,6 +1332,9 @@ private:
     }
 
     void varScope18() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("void f() {\n"
               "    short x;\n"
               "\n"
@@ -1339,6 +1461,9 @@ private:
     }
 
     void varScope24() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("void f(Foo x) {\n"
               "   Foo &r = x;\n"
               "   if (cond) {\n"
@@ -1357,6 +1482,9 @@ private:
     }
 
     void varScope25() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("void f() {\n"
               "    time_t currtime;\n"
               "    if (a) {\n"
@@ -1368,6 +1496,9 @@ private:
     }
 
     void varScope26() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("void f(const std::map<int,int> &m) {\n"
               "  for (auto it : m) {\n"
               "     if (cond1) {\n"
@@ -1380,6 +1511,9 @@ private:
     }
 
     void varScope27() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         checkP("void f() {\n"
                "  int x = 0;\n"
                "#ifdef X\n"
@@ -1398,6 +1532,9 @@ private:
     }
 
     void varScope28() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("void f() {\n" // #10527
               "    int i{};\n"
               "    if (double d = g(i); d == 1.0) {}\n"
@@ -1668,6 +1805,9 @@ private:
 
 #define checkOldStylePointerCast(code) checkOldStylePointerCast_(code, __FILE__, __LINE__)
     void checkOldStylePointerCast_(const char code[], const char* file, int line) {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         // Clear the error buffer..
         errout.str("");
 
@@ -1686,6 +1826,9 @@ private:
     }
 
     void oldStylePointerCast() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         checkOldStylePointerCast("class Base;\n"
                                  "void foo()\n"
                                  "{\n"
@@ -1889,6 +2032,9 @@ private:
 
 
     void invalidPointerCast() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         checkInvalidPointerCast("void test() {\n"
                                 "    float *f = new float[10];\n"
                                 "    delete [] (double*)f;\n"
@@ -1960,6 +2106,9 @@ private:
 
 
     void passedByValue() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("void f(const std::string str) {}");
         ASSERT_EQUALS("[test.cpp:1]: (performance) Function parameter 'str' should be passed by const reference.\n", errout.str());
 
@@ -2180,6 +2329,9 @@ private:
     }
 
     void passedByValue_nonConst() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("void f(std::string str) {}");
         ASSERT_EQUALS("[test.cpp:1]: (performance) Function parameter 'str' should be passed by const reference.\n", errout.str());
 
@@ -2337,6 +2489,9 @@ private:
     }
 
     void passedByValue_externC() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("struct X { int a[5]; }; void f(X v) { }");
         ASSERT_EQUALS("[test.cpp:1]: (performance) Function parameter 'v' should be passed by const reference.\n", errout.str());
 
@@ -2357,6 +2512,9 @@ private:
     }
 
     void constVariable() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("int f(std::vector<int> x) {\n"
               "    int& i = x[0];\n"
               "    return i;\n"
@@ -3339,6 +3497,9 @@ private:
     }
 
     void constParameterCallback() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("int callback(std::vector<int>& x) { return x[0]; }\n"
               "void f() { dostuff(callback); }");
         ASSERT_EQUALS("[test.cpp:2] -> [test.cpp:1]: (style) Parameter 'x' can be declared as reference to const. However it seems that 'callback' is a callback function, if 'x' is declared with const you might also need to cast function pointer(s).\n", errout.str());
@@ -3363,6 +3524,9 @@ private:
     }
 
     void constPointer() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("void foo(int *p) { return *p; }");
         ASSERT_EQUALS("[test.cpp:1]: (style) Parameter 'p' can be declared as pointer to const\n", errout.str());
 
@@ -3847,6 +4011,9 @@ private:
     }
 
     void switchRedundantAssignmentTest() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("void foo()\n"
               "{\n"
               "    int y = 1;\n"
@@ -4129,6 +4296,9 @@ private:
     }
 
     void switchRedundantOperationTest() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("void foo()\n"
               "{\n"
               "    int y = 1;\n"
@@ -4490,6 +4660,9 @@ private:
     }
 
     void switchRedundantBitwiseOperationTest() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("void foo(int a)\n"
               "{\n"
               "    int y = 1;\n"
@@ -4679,6 +4852,9 @@ private:
     }
 
     void unreachableCode() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("void foo(int a) {\n"
               "    while(1) {\n"
               "        if (a++ >= 100) {\n"
@@ -5052,6 +5228,9 @@ private:
     }
 
     void redundantContinue() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("void f() {\n" // #11195
               "    for (int i = 0; i < 10; ++i) {\n"
               "        printf(\"i = %d\\n\", i);\n"
@@ -5073,6 +5252,9 @@ private:
 
 
     void suspiciousCase() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("void foo() {\n"
               "    switch(a) {\n"
               "        case A&&B:\n"
@@ -5106,6 +5288,9 @@ private:
     }
 
     void suspiciousEqualityComparison() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("void foo(int c) {\n"
               "    if (x) c == 0;\n"
               "}");
@@ -5228,6 +5413,9 @@ private:
     }
 
     void selfAssignment() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("void foo()\n"
               "{\n"
               "    int x = 1;\n"
@@ -5402,6 +5590,9 @@ private:
     }
 
     void trac1132() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("class Lock\n"
               "{\n"
               "public:\n"
@@ -5424,6 +5615,9 @@ private:
     }
 
     void trac3693() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("struct A{\n"
               "  enum {\n"
               "    b = 300\n"
@@ -5434,6 +5628,9 @@ private:
     }
 
     void testMisusedScopeObjectDoesNotPickFunction1() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("int main ( )\n"
               "{\n"
               "    CouldBeFunction ( 123 ) ;\n"
@@ -5443,6 +5640,9 @@ private:
     }
 
     void testMisusedScopeObjectDoesNotPickFunction2() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("struct error {\n"
               "    error() {}\n"
               "};\n"
@@ -5460,6 +5660,9 @@ private:
     }
 
     void testMisusedScopeObjectPicksClass() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("class NotAFunction ;\n"
               "int function ( )\n"
               "{\n"
@@ -5470,6 +5673,9 @@ private:
     }
 
     void testMisusedScopeObjectPicksStruct() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("struct NotAClass;\n"
               "bool func ( )\n"
               "{\n"
@@ -5480,6 +5686,9 @@ private:
     }
 
     void testMisusedScopeObjectDoesNotPickIf() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("bool func( int a , int b , int c )\n"
               "{\n"
               "    if ( a > b ) return c == a ;\n"
@@ -5489,6 +5698,9 @@ private:
     }
 
     void testMisusedScopeObjectDoesNotPickConstructorDeclaration() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("class Something : public SomethingElse\n"
               "{\n"
               "public:\n"
@@ -5499,6 +5711,9 @@ private:
     }
 
     void testMisusedScopeObjectDoesNotPickFunctor() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("class IncrementFunctor\n"
               "{\n"
               "public:\n"
@@ -5518,6 +5733,9 @@ private:
     }
 
     void testMisusedScopeObjectDoesNotPickLocalClassConstructors() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("void f() {\n"
               "    class Foo {\n"
               "        Foo() { }\n"
@@ -5531,6 +5749,9 @@ private:
     }
 
     void testMisusedScopeObjectDoesNotPickUsedObject() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("struct Foo {\n"
               "    void bar() {\n"
               "    }\n"
@@ -5543,6 +5764,9 @@ private:
     }
 
     void testMisusedScopeObjectDoesNotPickPureC() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         // Ticket #2352
         const char code[] = "struct cb_watch_bool {\n"
                             "    int a;\n"
@@ -5583,6 +5807,9 @@ private:
     }
 
     void testMisusedScopeObjectDoesNotPickNestedClass() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char code[] = "class ios_base {\n"
                             "public:\n"
                             "  class Init {\n"
@@ -5604,6 +5831,9 @@ private:
     }
 
     void testMisusedScopeObjectInConstructor() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char code[] = "class Foo {\n"
                             "public:\n"
                             "  Foo(char x) {\n"
@@ -5617,6 +5847,9 @@ private:
     }
 
     void testMisusedScopeObjectStandardType() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("int g();\n"
               "void f(int i) {\n"
               "    int();\n"
@@ -5654,6 +5887,9 @@ private:
     }
 
     void testMisusedScopeObjectNamespace() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("namespace M {\n" // #4779
               "    namespace N {\n"
               "        struct S {};\n"
@@ -5714,6 +5950,9 @@ private:
     }
 
     void trac2084() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("void f()\n"
               "{\n"
               "    struct sigaction sa;\n"
@@ -5725,6 +5964,9 @@ private:
     }
 
     void trac2071() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("void f() {\n"
               "    struct AB {\n"
               "        AB(int a) { }\n"
@@ -5736,6 +5978,9 @@ private:
     }
 
     void clarifyCalculation() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("int f(char c) {\n"
               "    return 10 * (c == 0) ? 1 : 2;\n"
               "}");
@@ -5805,6 +6050,9 @@ private:
     }
 
     void clarifyStatement() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("char* f(char* c) {\n"
               "    *c++;\n"
               "    return c;\n"
@@ -5909,6 +6157,9 @@ private:
     }
 
     void duplicateBranch() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("void f(int a, int &b) {\n"
               "    if (a)\n"
               "        b = 1;\n"
@@ -5968,6 +6219,9 @@ private:
     }
 
     void duplicateBranch1() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
 
         // tests inspired by http://www.viva64.com/en/b/0149/ ( Comparison between PVS-Studio and cppcheck )
         // Errors detected in Quake 3: Arena by PVS-Studio: Fragment 2
@@ -6001,6 +6255,9 @@ private:
     }
 
     void duplicateBranch2() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         checkP("#define DOSTUFF1 ;\n"
                "#define DOSTUFF2 ;\n"
                "void f(int x) {\n" // #4329
@@ -6013,6 +6270,9 @@ private:
     }
 
     void duplicateBranch3() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("void f(bool b, int i) {\n"
               "    int j = i;\n"
               "    if (b) {\n"
@@ -6038,6 +6298,9 @@ private:
     }
 
     void duplicateBranch4() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("void* f(bool b) {\n"
               "    if (b) {\n"
               "        return new A::Y(true);\n"
@@ -6049,6 +6312,9 @@ private:
     }
 
     void duplicateBranch5() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("void f(bool b) {\n"
               "    int j;\n"
               "    if (b) {\n"
@@ -6097,6 +6363,9 @@ private:
     }
 
     void duplicateBranch6() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("void f(bool b) {\n"
               "    if (b) {\n"
               "    } else {\n"
@@ -6115,6 +6384,9 @@ private:
     }
 
     void duplicateExpression1() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("void foo(int a) {\n"
               "    if (a == a) { }\n"
               "}");
@@ -6391,6 +6663,9 @@ private:
     }
 
     void duplicateExpression3() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         constexpr char xmldata[] = "<?xml version=\"1.0\"?>\n"
                                    "<def>\n"
                                    "  <function name=\"mystrcmp\">\n"
@@ -6506,6 +6781,9 @@ private:
     }
 
     void duplicateExpression4() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("void foo() {\n"
               "    if (*a++ != b || *a++ != b) {}\n"
               "}");
@@ -6538,6 +6816,9 @@ private:
     }
 
     void duplicateExpression7() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("void f() {\n"
               "    const int i = sizeof(int);\n"
               "    if ( i != sizeof (int)){}\n"
@@ -6691,6 +6972,9 @@ private:
     }
 
     void duplicateExpression8() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("void f() {\n"
               "    int a = 1;\n"
               "    int b = a;\n"
@@ -6766,6 +7050,9 @@ private:
     }
 
     void duplicateExpression9() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         // #9320
         check("void f() {\n"
               "  uint16_t x = 1000;\n"
@@ -6776,6 +7063,9 @@ private:
     }
 
     void duplicateExpression10() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         // #9485
         check("int f() {\n"
               "   const int a = 1;\n"
@@ -6787,6 +7077,9 @@ private:
     }
 
     void duplicateExpression11() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("class Fred {\n"
               "public:\n"
               "    double getScale() const { return m_range * m_zoom; }\n"
@@ -6848,6 +7141,9 @@ private:
     }
 
     void duplicateExpression16() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("void f(const std::string& a) {\n" //#10569
               "    if ((a == \"x\") ||\n"
               "        (a == \"42\") ||\n"
@@ -6881,6 +7177,9 @@ private:
     }
 
     void duplicateExpression17() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("enum { E0 };\n" // #12036
               "void f() {\n"
               "    if (0 > E0) {}\n"
@@ -6925,6 +7224,9 @@ private:
     }
 
     void duplicateExpressionLoop() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("void f() {\n"
               "    int a = 1;\n"
               "    while ( a != 1){}\n"
@@ -7054,6 +7356,9 @@ private:
     }
 
     void duplicateValueTernary() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("void f() {\n"
               "    if( a ? (b ? false:false): false ) ;\n"
               "}");
@@ -7122,6 +7427,9 @@ private:
     }
 
     void duplicateExpressionTemplate() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("template <int I> void f() {\n" // #6930
               "    if (I >= 0 && I < 3) {}\n"
               "}\n"
@@ -7151,6 +7459,9 @@ private:
     }
 
     void duplicateExpressionCompareWithZero() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("void f(const int* x, bool b) {\n"
               "    if ((x && b) || (x != 0 && b)) {}\n"
               "}\n");
@@ -7202,6 +7513,9 @@ private:
     }
 
     void oppositeExpression() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("void f(bool a) { if(a && !a) {} }");
         ASSERT_EQUALS("[test.cpp:1]: (style) Opposite expression on both sides of '&&'.\n", errout.str());
 
@@ -7323,6 +7637,9 @@ private:
     }
 
     void duplicateVarExpression() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("int f() __attribute__((pure));\n"
               "int g() __attribute__((pure));\n"
               "void test() {\n"
@@ -7506,6 +7823,9 @@ private:
     }
 
     void duplicateVarExpressionUnique() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("struct SW { int first; };\n"
               "void foo(SW* x) {\n"
               "    int start = x->first;\n"
@@ -7556,6 +7876,9 @@ private:
     }
 
     void duplicateVarExpressionAssign() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("struct A { int x; int y; };"
               "void use(int);\n"
               "void test(A a) {\n"
@@ -7646,6 +7969,9 @@ private:
     }
 
     void duplicateVarExpressionCrash() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         // Issue #8624
         check("struct  X {\n"
               "    X();\n"
@@ -7709,6 +8035,9 @@ private:
     }
 
     void multiConditionSameExpression() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("void f() {\n"
               "  int val = 0;\n"
               "  if (val < 0) continue;\n"
@@ -7765,6 +8094,9 @@ private:
     }
 
     void checkSignOfUnsignedVariable() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("void foo() {\n"
               "  for(unsigned char i = 10; i >= 0; i--) {}\n"
               "}");
@@ -8004,6 +8336,9 @@ private:
     }
 
     void checkSignOfPointer() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("void foo(const int* x) {\n"
               "  if (x >= 0) {}\n"
               "}");
@@ -8239,6 +8574,9 @@ private:
     }
 
     void checkSuspiciousSemicolon1() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("void foo() {\n"
               "  for(int i = 0; i < 10; ++i);\n"
               "}");
@@ -8260,6 +8598,9 @@ private:
     }
 
     void checkSuspiciousSemicolon2() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("void foo() {\n"
               "  if (i == 1); {\n"
               "    do_something();\n"
@@ -8301,6 +8642,9 @@ private:
     }
 
     void checkSuspiciousSemicolon3() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         checkP("#define REQUIRE(code) {code}\n"
                "void foo() {\n"
                "  if (x == 123);\n"
@@ -8310,6 +8654,9 @@ private:
     }
 
     void checkSuspiciousComparison() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         checkP("void f(int a, int b) {\n"
                "  a > b;\n"
                "}");
@@ -8323,6 +8670,9 @@ private:
     }
 
     void checkInvalidFree() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("void foo(char *p) {\n"
               "  char *a; a = malloc(1024);\n"
               "  free(a + 10);\n"
@@ -8402,6 +8752,9 @@ private:
     }
 
     void checkRedundantCopy() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("const std::string& getA(){static std::string a;return a;}\n"
               "void foo() {\n"
               "    const std::string a = getA();\n"
@@ -8588,6 +8941,9 @@ private:
     }
 
     void checkNegativeShift() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("void foo()\n"
               "{\n"
               "   int a; a = 123;\n"
@@ -8655,6 +9011,9 @@ private:
     }
 
     void incompleteArrayFill() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("void f() {\n"
               "    int a[5];\n"
               "    memset(a, 123, 5);\n"
@@ -8715,6 +9074,9 @@ private:
     }
 
     void redundantVarAssignment() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         setMultiline();
 
         // Simple tests
@@ -9170,6 +9532,9 @@ private:
     }
 
     void redundantVarAssignment_trivial() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("void f() {\n"
               "   int a = 0;\n"
               "   a = 4;\n"
@@ -9206,6 +9571,9 @@ private:
     }
 
     void redundantVarAssignment_struct() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("struct foo {\n"
               "  int a,b;\n"
               "};\n"
@@ -9233,6 +9601,9 @@ private:
     }
 
     void redundantVarAssignment_7133() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         // #7133
         check("sal_Int32 impl_Export() {\n"
               "   try {\n"
@@ -9282,6 +9653,9 @@ private:
     }
 
     void redundantVarAssignment_stackoverflow() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("typedef struct message_node {\n"
               "  char code;\n"
               "  size_t size;\n"
@@ -9296,6 +9670,9 @@ private:
     }
 
     void redundantVarAssignment_lambda() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         // #7152
         check("int foo() {\n"
               "    int x = 0, y = 0;\n"
@@ -9319,6 +9696,9 @@ private:
     }
 
     void redundantVarAssignment_loop() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("void f() {\n"
               "    char buf[10];\n"
               "    int i;\n"
@@ -9353,6 +9733,9 @@ private:
     }
 
     void redundantVarAssignment_after_switch() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("void f(int x) {\n" // #7907
               "    int ret;\n"
               "    switch (x) {\n"
@@ -9366,6 +9749,9 @@ private:
     }
 
     void redundantVarAssignment_pointer() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("void f(int *ptr) {\n"
               "    int *x = ptr + 1;\n"
               "    *x = 23;\n"
@@ -9386,6 +9772,9 @@ private:
     }
 
     void redundantVarAssignment_pointer_parameter() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("void f(int *p) {\n"
               "    *p = 1;\n"
               "    if (condition) return;\n"
@@ -9395,6 +9784,9 @@ private:
     }
 
     void redundantVarAssignment_array() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("void f() {\n"
               "    int arr[10];\n"
               "    int i = 0;\n"
@@ -9407,6 +9799,9 @@ private:
     }
 
     void redundantVarAssignment_switch_break() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         // #10058
         check("void f(int a, int b) {\n"
               "    int ret = 0;\n"
@@ -9435,6 +9830,9 @@ private:
     }
 
     void redundantInitialization() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         setMultiline();
 
         check("void f() {\n"
@@ -9491,6 +9889,9 @@ private:
     }
 
     void redundantMemWrite() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         return; // FIXME: temporary hack
 
         // Simple tests
@@ -9815,6 +10216,9 @@ private:
     }
 
     void checkCommaSeparatedReturn() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("int fun(int a) {\n"
               "  if (a < 0)\n"
               "    return a++,\n"
@@ -9860,6 +10264,9 @@ private:
     }
 
     void checkPassByReference() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         // #8570 passByValue when std::move is used
         check("struct A\n"
               "{\n"
@@ -9945,6 +10352,9 @@ private:
     }
 
     void checkComparisonFunctionIsAlwaysTrueOrFalse() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         // positive test
         check("bool f(int x){\n"
               "   return isless(x,x);\n"
@@ -9987,6 +10397,9 @@ private:
     }
 
     void redundantPointerOp() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("int *f(int *x) {\n"
               "    return &*x;\n"
               "}\n", nullptr, true);
@@ -10082,6 +10495,9 @@ private:
     }
 
     void raceAfterInterlockedDecrement() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         checkInterlockedDecrement("void f() {\n"
                                   "    int counter = 0;\n"
                                   "    InterlockedDecrement(&counter);\n"
@@ -10326,6 +10742,9 @@ private:
     }
 
     void testUnusedLabel() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("void f() {\n"
               "    label:\n"
               "}");
@@ -10393,6 +10812,9 @@ private:
     }
 
     void testEvaluationOrder() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("void f() {\n"
               "  int x = dostuff();\n"
               "  return x + x++;\n"
@@ -10438,6 +10860,9 @@ private:
     }
 
     void testEvaluationOrderSelfAssignment() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         // self assignment
         check("void f() {\n"
               "  int x = x = y + 1;\n"
@@ -10446,6 +10871,9 @@ private:
     }
 
     void testEvaluationOrderMacro() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         // macro, don't bailout (#7233)
         checkP("#define X x\n"
                "void f(int x) {\n"
@@ -10455,6 +10883,9 @@ private:
     }
 
     void testEvaluationOrderSequencePointsFunctionCall() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         // FP
         check("void f(int id) {\n"
               "  id = dostuff(id += 42);\n"
@@ -10469,6 +10900,9 @@ private:
     }
 
     void testEvaluationOrderSequencePointsComma() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("int f(void) {\n"
               "  int t;\n"
               "  return (unsigned char)(t=1,t^c);\n"
@@ -10511,6 +10945,9 @@ private:
     }
 
     void testEvaluationOrderSizeof() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("void f(char *buf) {\n"
               "  dostuff(buf++, sizeof(*buf));"
               "}", "test.c");
@@ -10518,6 +10955,9 @@ private:
     }
 
     void testUnsignedLessThanZero() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("struct d {\n"
               "  unsigned n;\n"
               "};\n"
@@ -10539,6 +10979,9 @@ private:
     }
 
     void doubleMove1() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("void g(A a);\n"
               "void f() {\n"
               "    A a;\n"
@@ -10549,6 +10992,9 @@ private:
     }
 
     void doubleMoveMemberInitialization1() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("class A\n"
               "{\n"
               "    A(B && b)\n"
@@ -10563,6 +11009,9 @@ private:
     }
 
     void doubleMoveMemberInitialization2() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("class A\n"
               "{\n"
               "    A(B && b)\n"
@@ -10597,6 +11046,9 @@ private:
     }
 
     void moveAndAssign1() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("A g(A a);\n"
               "void f() {\n"
               "    A a;\n"
@@ -10607,6 +11059,9 @@ private:
     }
 
     void moveAndAssign2() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("A g(A a);\n"
               "void f() {\n"
               "    A a;\n"
@@ -10617,6 +11072,9 @@ private:
     }
 
     void moveAssignMoveAssign() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("void h(A a);\n"
               "void f() {"
               "    A a;\n"
@@ -10634,6 +11092,9 @@ private:
     }
 
     void moveAndReset1() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("A g(A a);\n"
               "void f() {\n"
               "    A a;\n"
@@ -10644,6 +11105,9 @@ private:
     }
 
     void moveAndReset2() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("A g(A a);\n"
               "void f() {\n"
               "    A a;\n"
@@ -10656,6 +11120,9 @@ private:
     }
 
     void moveResetMoveReset() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("void h(A a);\n"
               "void f() {"
               "    A a;\n"
@@ -10673,6 +11140,9 @@ private:
     }
 
     void moveAndFunctionParameter() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("void g(A a);\n"
               "void f() {\n"
               "    A a;\n"
@@ -10685,6 +11155,9 @@ private:
     }
 
     void moveAndFunctionParameterReference() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("void g(A & a);\n"
               "void f() {\n"
               "    A a;\n"
@@ -10696,6 +11169,9 @@ private:
     }
 
     void moveAndFunctionParameterConstReference() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("void g(A const & a);\n"
               "void f() {\n"
               "    A a;\n"
@@ -10708,6 +11184,9 @@ private:
     }
 
     void moveAndFunctionParameterUnknown() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("void f() {\n"
               "    A a;\n"
               "    A b = std::move(a);\n"
@@ -10719,6 +11198,9 @@ private:
     }
 
     void moveAndReturn() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("int f(int i) {\n"
               "    A a;\n"
               "    A b;\n"
@@ -10731,6 +11213,9 @@ private:
     }
 
     void moveAndClear() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("void f() {\n"
               "    V v;\n"
               "    g(std::move(v));\n"
@@ -10741,6 +11226,9 @@ private:
     }
 
     void movedPointer() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("void f() {\n"
               "    P p;\n"
               "    g(std::move(p));\n"
@@ -10752,6 +11240,9 @@ private:
     }
 
     void moveAndAddressOf() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("void f() {\n"
               "    std::string s1 = x;\n"
               "    std::string s2 = std::move(s1);\n"
@@ -10761,6 +11252,9 @@ private:
     }
 
     void partiallyMoved() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("void f() {\n"
               "    A a;\n"
               "    gx(std::move(a).x());\n"
@@ -10770,6 +11264,9 @@ private:
     }
 
     void moveAndLambda() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("void f() {\n"
               "    A a;\n"
               "    auto h = [a=std::move(a)](){return g(std::move(a));};"
@@ -10780,6 +11277,9 @@ private:
 
     void moveInLoop()
     {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("void g(std::string&& s);\n"
               "void f() {\n"
               "    std::string p;\n"
@@ -10799,6 +11299,9 @@ private:
 
     void moveCallback()
     {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("bool f(std::function<void()>&& callback);\n"
               "void func(std::function<void()> callback) {\n"
               "    if(!f(std::move(callback)))\n"
@@ -10809,6 +11312,9 @@ private:
 
     void moveClassVariable()
     {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("struct B {\n"
               "    virtual void f();\n"
               "};\n"
@@ -10823,6 +11329,9 @@ private:
     }
 
     void forwardAndUsed() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         Settings s = settingsBuilder().checkUnusedTemplates().build();
 
         check("template<typename T>\n"
@@ -10847,6 +11356,9 @@ private:
 
     void moveForRange()
     {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("struct C {\n"
               "    void f() {\n"
               "        for (auto r : mCategory.find(std::move(mWhere))) {}\n"
@@ -10858,6 +11370,9 @@ private:
     }
 
     void funcArgNamesDifferent() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("void func1(int a, int b, int c);\n"
               "void func1(int a, int b, int c) { }\n"
               "void func2(int a, int b, int c);\n"
@@ -10884,6 +11399,9 @@ private:
     }
 
     void funcArgOrderDifferent() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("void func1(int a, int b, int c);\n"
               "void func1(int a, int b, int c) { }\n"
               "void func2(int a, int b, int c);\n"
@@ -10910,6 +11428,9 @@ private:
 
     // #7846 - Syntax error when using C++11 braced-initializer in default argument
     void cpp11FunctionArgInit() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         // syntax error is not expected
         ASSERT_NO_THROW(check("\n void foo(int declaration = {}) {"
                               "\n   for (int i = 0; i < 10; i++) {}\n"
@@ -10919,6 +11440,9 @@ private:
     }
 
     void shadowVariables() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("int x;\n"
               "void f() { int x; }");
         ASSERT_EQUALS("[test.cpp:1] -> [test.cpp:2]: (style) Local variable \'x\' shadows outer variable\n", errout.str());
@@ -11009,6 +11533,9 @@ private:
     }
 
     void knownArgument() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("void g(int);\n"
               "void f(int x) {\n"
               "   g((x & 0x01) >> 7);\n"
@@ -11205,6 +11732,9 @@ private:
     }
 
     void knownArgumentHiddenVariableExpression() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         // #9914 - variable expression is explicitly hidden
         check("void f(int x) {\n"
               "    dostuff(x && false);\n"
@@ -11233,6 +11763,9 @@ private:
     }
 
     void checkComparePointers() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("int f() {\n"
               "    const int foo[1] = {0};\n"
               "    const int bar[1] = {0};\n"
@@ -11369,6 +11902,9 @@ private:
     }
 
     void unusedVariableValueTemplate() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("#include <functional>\n"
               "class A\n"
               "{\n"
@@ -11398,6 +11934,9 @@ private:
     }
 
     void moduloOfOne() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("void f(unsigned int x) {\n"
               "  int y = x % 1;\n"
               "}");
@@ -11418,6 +11957,9 @@ private:
     }
 
     void sameExpressionPointers() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("int f(int *i);\n"
               "void g(int *a, const int *b) {\n"
               "    int c = *a;\n"
@@ -11428,6 +11970,9 @@ private:
     }
 
     void checkOverlappingWrite() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         // union
         check("void foo() {\n"
               "    union { int i; float f; } u;\n"
@@ -11511,6 +12056,9 @@ private:
 
     void knownPointerToBool()
     {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("void g(bool);\n"
               "void f() {\n"
               "    int i = 5;\n"

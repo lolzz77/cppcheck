@@ -1,3 +1,5 @@
+#include <stdio.h>
+#include <pthread.h>
 /*
  * Cppcheck - A tool for static C/C++ code analysis
  * Copyright (C) 2007-2023 Cppcheck team.
@@ -61,6 +63,9 @@ static const std::array<std::pair<std::string, std::string>, 4> alloc_failed_con
 static const std::array<std::pair<std::string, std::string>, 4> alloc_success_conds {{{"!=", "0"}, {">", "0"}, {"!=", "-1"}, {">=", "0"}}};
 
 static bool isAutoDeallocType(const Type* type) {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (!type)
         return true;
     if (type->classScope && type->classScope->numConstructors == 0 &&
@@ -79,6 +84,9 @@ static bool isAutoDeallocType(const Type* type) {
  */
 static bool isAutoDealloc(const Variable *var)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (var->valueType() && var->valueType()->type != ValueType::Type::RECORD && var->valueType()->type != ValueType::Type::UNKNOWN_TYPE)
         return false;
 
@@ -92,6 +100,9 @@ template<std::size_t N>
 static bool isVarTokComparison(const Token * tok, const Token ** vartok,
                                const std::array<std::pair<std::string, std::string>, N>& ops)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     return std::any_of(ops.cbegin(), ops.cend(), [&](const std::pair<std::string, std::string>& op) {
         return astIsVariableComparison(tok, op.first, op.second, vartok);
     });
@@ -101,6 +112,9 @@ static bool isVarTokComparison(const Token * tok, const Token ** vartok,
 
 void VarInfo::print()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     std::cout << "size=" << alloctype.size() << std::endl;
     for (std::map<int, AllocInfo>::const_iterator it = alloctype.cbegin(); it != alloctype.cend(); ++it) {
         std::string strusage;
@@ -142,6 +156,9 @@ void VarInfo::print()
 
 void VarInfo::possibleUsageAll(const std::pair<std::string, Usage>& functionUsage)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     possibleUsage.clear();
     for (std::map<int, AllocInfo>::const_iterator it = alloctype.cbegin(); it != alloctype.cend(); ++it)
         possibleUsage[it->first] = functionUsage;
@@ -150,6 +167,9 @@ void VarInfo::possibleUsageAll(const std::pair<std::string, Usage>& functionUsag
 
 void CheckLeakAutoVar::leakError(const Token *tok, const std::string &varname, int type) const
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     const CheckMemoryLeak checkmemleak(mTokenizer, mErrorLogger, mSettings);
     if (Library::isresource(type))
         checkmemleak.resourceLeakError(tok, varname);
@@ -159,6 +179,9 @@ void CheckLeakAutoVar::leakError(const Token *tok, const std::string &varname, i
 
 void CheckLeakAutoVar::mismatchError(const Token *deallocTok, const Token *allocTok, const std::string &varname) const
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     const CheckMemoryLeak c(mTokenizer, mErrorLogger, mSettings);
     const std::list<const Token *> callstack = { allocTok, deallocTok };
     c.mismatchAllocDealloc(callstack, varname);
@@ -166,18 +189,27 @@ void CheckLeakAutoVar::mismatchError(const Token *deallocTok, const Token *alloc
 
 void CheckLeakAutoVar::deallocUseError(const Token *tok, const std::string &varname) const
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     const CheckMemoryLeak c(mTokenizer, mErrorLogger, mSettings);
     c.deallocuseError(tok, varname);
 }
 
 void CheckLeakAutoVar::deallocReturnError(const Token *tok, const Token *deallocTok, const std::string &varname)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     const std::list<const Token *> locations = { deallocTok, tok };
     reportError(locations, Severity::error, "deallocret", "$symbol:" + varname + "\nReturning/dereferencing '$symbol' after it is deallocated / released", CWE672, Certainty::normal);
 }
 
 void CheckLeakAutoVar::configurationInfo(const Token* tok, const std::pair<std::string, VarInfo::Usage>& functionUsage)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (mSettings->checkLibrary && functionUsage.second == VarInfo::USED) {
         reportError(tok,
                     Severity::information,
@@ -188,6 +220,9 @@ void CheckLeakAutoVar::configurationInfo(const Token* tok, const std::pair<std::
 
 void CheckLeakAutoVar::doubleFreeError(const Token *tok, const Token *prevFreeTok, const std::string &varname, int type)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     const std::list<const Token *> locations = { prevFreeTok, tok };
 
     if (Library::isresource(type))
@@ -199,6 +234,9 @@ void CheckLeakAutoVar::doubleFreeError(const Token *tok, const Token *prevFreeTo
 
 void CheckLeakAutoVar::check()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (mSettings->clang)
         return;
 
@@ -223,6 +261,9 @@ void CheckLeakAutoVar::check()
 
 static bool isVarUsedInTree(const Token *tok, nonneg int varid)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (!tok)
         return false;
     if (tok->varId() == varid)
@@ -234,6 +275,9 @@ static bool isVarUsedInTree(const Token *tok, nonneg int varid)
 
 static bool isPointerReleased(const Token *startToken, const Token *endToken, nonneg int varid)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     for (const Token *tok = startToken; tok && tok != endToken; tok = tok->next()) {
         if (tok->varId() != varid)
             continue;
@@ -247,6 +291,9 @@ static bool isPointerReleased(const Token *startToken, const Token *endToken, no
 
 static bool isLocalVarNoAutoDealloc(const Token *varTok, const bool isCpp)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     // not a local variable nor argument?
     const Variable *var = varTok->variable();
     if (!var)
@@ -300,6 +347,9 @@ bool CheckLeakAutoVar::checkScope(const Token * const startToken,
                                   std::set<int> notzero,
                                   nonneg int recursiveCount)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
 #if ASAN
     static const nonneg int recursiveLimit = 300;
 #elif defined(__MINGW32__)
@@ -869,6 +919,9 @@ const Token * CheckLeakAutoVar::checkTokenInsideExpression(const Token * const t
 
 void CheckLeakAutoVar::changeAllocStatusIfRealloc(std::map<int, VarInfo::AllocInfo> &alloctype, const Token *fTok, const Token *retTok) const
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     const Library::AllocFunc* f = mSettings->library.getReallocFuncInfo(fTok);
     if (f && f->arg == -1 && f->reallocArg > 0 && f->reallocArg <= numberOfArguments(fTok)) {
         const Token* argTok = getArguments(fTok).at(f->reallocArg - 1);
@@ -890,6 +943,9 @@ void CheckLeakAutoVar::changeAllocStatusIfRealloc(std::map<int, VarInfo::AllocIn
 
 void CheckLeakAutoVar::changeAllocStatus(VarInfo &varInfo, const VarInfo::AllocInfo& allocation, const Token* tok, const Token* arg)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     std::map<int, VarInfo::AllocInfo> &alloctype = varInfo.alloctype;
     const std::map<int, VarInfo::AllocInfo>::iterator var = alloctype.find(arg->varId());
     if (var != alloctype.end()) {
@@ -919,6 +975,9 @@ void CheckLeakAutoVar::changeAllocStatus(VarInfo &varInfo, const VarInfo::AllocI
 
 void CheckLeakAutoVar::functionCall(const Token *tokName, const Token *tokOpeningPar, VarInfo &varInfo, const VarInfo::AllocInfo& allocation, const Library::AllocFunc* af)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     // Ignore function call?
     if (mSettings->library.isLeakIgnore(mSettings->library.getFunctionName(tokName)))
         return;
@@ -1032,6 +1091,9 @@ void CheckLeakAutoVar::functionCall(const Token *tokName, const Token *tokOpenin
 void CheckLeakAutoVar::leakIfAllocated(const Token *vartok,
                                        const VarInfo &varInfo)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     const std::map<int, VarInfo::AllocInfo> &alloctype = varInfo.alloctype;
     const auto& possibleUsage = varInfo.possibleUsage;
 
@@ -1048,6 +1110,9 @@ void CheckLeakAutoVar::leakIfAllocated(const Token *vartok,
 
 void CheckLeakAutoVar::ret(const Token *tok, VarInfo &varInfo, const bool isEndOfScope)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     const std::map<int, VarInfo::AllocInfo> &alloctype = varInfo.alloctype;
     const auto& possibleUsage = varInfo.possibleUsage;
     std::vector<int> toRemove;

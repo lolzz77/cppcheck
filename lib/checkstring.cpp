@@ -1,3 +1,5 @@
+#include <stdio.h>
+#include <pthread.h>
 /*
  * Cppcheck - A tool for static C/C++ code analysis
  * Copyright (C) 2007-2023 Cppcheck team.
@@ -54,6 +56,9 @@ static const CWE CWE758(758U);   // Reliance on Undefined, Unspecified, or Imple
 //---------------------------------------------------------------------------
 void CheckString::stringLiteralWrite()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     logChecker("CheckString::stringLiteralWrite");
     const SymbolDatabase *symbolDatabase = mTokenizer->getSymbolDatabase();
     for (const Scope * scope : symbolDatabase->functionScopes) {
@@ -73,6 +78,9 @@ void CheckString::stringLiteralWrite()
 
 void CheckString::stringLiteralWriteError(const Token *tok, const Token *strValue)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     std::list<const Token*> callstack{ tok };
     if (strValue)
         callstack.push_back(strValue);
@@ -96,6 +104,9 @@ void CheckString::stringLiteralWriteError(const Token *tok, const Token *strValu
 //---------------------------------------------------------------------------
 void CheckString::checkAlwaysTrueOrFalseStringCompare()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (!mSettings->severity.isEnabled(Severity::warning))
         return;
 
@@ -140,6 +151,9 @@ void CheckString::checkAlwaysTrueOrFalseStringCompare()
 
 void CheckString::alwaysTrueFalseStringCompareError(const Token *tok, const std::string& str1, const std::string& str2)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     constexpr std::size_t stringLen = 10;
     const std::string string1 = (str1.size() < stringLen) ? str1 : (str1.substr(0, stringLen-2) + "..");
     const std::string string2 = (str2.size() < stringLen) ? str2 : (str2.substr(0, stringLen-2) + "..");
@@ -152,6 +166,9 @@ void CheckString::alwaysTrueFalseStringCompareError(const Token *tok, const std:
 
 void CheckString::alwaysTrueStringVariableCompareError(const Token *tok, const std::string& str1, const std::string& str2)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     reportError(tok, Severity::warning, "stringCompare",
                 "Comparison of identical string variables.\n"
                 "The compared strings, '" + str1 + "' and '" + str2 + "', are identical. "
@@ -165,6 +182,9 @@ void CheckString::alwaysTrueStringVariableCompareError(const Token *tok, const s
 //-----------------------------------------------------------------------------
 void CheckString::checkSuspiciousStringCompare()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (!mSettings->severity.isEnabled(Severity::warning))
         return;
 
@@ -204,6 +224,9 @@ void CheckString::checkSuspiciousStringCompare()
 
 void CheckString::suspiciousStringCompareError(const Token* tok, const std::string& var, bool isLong)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     const std::string cmpFunc = isLong ? "wcscmp" : "strcmp";
     reportError(tok, Severity::warning, "literalWithCharPtrCompare",
                 "$symbol:" + var + "\nString literal compared with variable '$symbol'. Did you intend to use " + cmpFunc + "() instead?", CWE595, Certainty::normal);
@@ -211,6 +234,9 @@ void CheckString::suspiciousStringCompareError(const Token* tok, const std::stri
 
 void CheckString::suspiciousStringCompareError_char(const Token* tok, const std::string& var)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     reportError(tok, Severity::warning, "charLiteralWithCharPtrCompare",
                 "$symbol:" + var + "\nChar literal compared with pointer '$symbol'. Did you intend to dereference it?", CWE595, Certainty::normal);
 }
@@ -222,11 +248,17 @@ void CheckString::suspiciousStringCompareError_char(const Token* tok, const std:
 
 static bool isChar(const Variable* var)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     return (var && !var->isPointer() && !var->isArray() && (var->typeStartToken()->str() == "char" || var->typeStartToken()->str() == "wchar_t"));
 }
 
 void CheckString::strPlusChar()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     logChecker("CheckString::strPlusChar");
     const SymbolDatabase* symbolDatabase = mTokenizer->getSymbolDatabase();
     for (const Scope * scope : symbolDatabase->functionScopes) {
@@ -243,6 +275,9 @@ void CheckString::strPlusChar()
 
 void CheckString::strPlusCharError(const Token *tok)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     std::string charType = "char";
     if (tok && tok->astOperand2() && tok->astOperand2()->variable())
         charType = tok->astOperand2()->variable()->typeStartToken()->str();
@@ -253,6 +288,9 @@ void CheckString::strPlusCharError(const Token *tok)
 
 static bool isMacroUsage(const Token* tok)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (const Token* parent = tok->astParent()) {
         while (parent && parent->isCast())
             parent = parent->astParent();
@@ -276,6 +314,9 @@ static bool isMacroUsage(const Token* tok)
 //---------------------------------------------------------------------------
 void CheckString::checkIncorrectStringCompare()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (!mSettings->severity.isEnabled(Severity::warning))
         return;
 
@@ -324,11 +365,17 @@ void CheckString::checkIncorrectStringCompare()
 
 void CheckString::incorrectStringCompareError(const Token *tok, const std::string& func, const std::string &string)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     reportError(tok, Severity::warning, "incorrectStringCompare", "$symbol:" + func + "\nString literal " + string + " doesn't match length argument for $symbol().", CWE570, Certainty::normal);
 }
 
 void CheckString::incorrectStringBooleanError(const Token *tok, const std::string& string)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     const bool charLiteral = isCharLiteral(string);
     const std::string literalType = charLiteral ? "char" : "string";
     const std::string result = bool_to_string(getCharLiteral(string) != "\\0");
@@ -344,6 +391,9 @@ void CheckString::incorrectStringBooleanError(const Token *tok, const std::strin
 //---------------------------------------------------------------------------
 void CheckString::overlappingStrcmp()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (!mSettings->severity.isEnabled(Severity::warning))
         return;
 
@@ -406,6 +456,9 @@ void CheckString::overlappingStrcmp()
 
 void CheckString::overlappingStrcmpError(const Token *eq0, const Token *ne0)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     std::string eq0Expr(eq0 ? eq0->expressionString() : std::string("strcmp(x,\"abc\")"));
     if (eq0 && eq0->astParent()->str() == "!")
         eq0Expr = "!" + eq0Expr;
@@ -423,6 +476,9 @@ void CheckString::overlappingStrcmpError(const Token *eq0, const Token *ne0)
 //---------------------------------------------------------------------------
 void CheckString::sprintfOverlappingData()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     logChecker("CheckString::sprintfOverlappingData");
 
     const SymbolDatabase* symbolDatabase = mTokenizer->getSymbolDatabase();
@@ -461,6 +517,9 @@ void CheckString::sprintfOverlappingData()
 
 void CheckString::sprintfOverlappingDataError(const Token *funcTok, const Token *tok, const std::string &varname)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     const std::string func = funcTok ? funcTok->str() : "s[n]printf";
 
     reportError(tok, Severity::error, "sprintfOverlappingData",

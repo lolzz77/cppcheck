@@ -1,3 +1,5 @@
+#include <stdio.h>
+#include <pthread.h>
 /*
  * Cppcheck - A tool for static C/C++ code analysis
  * Copyright (C) 2007-2023 Cppcheck team.
@@ -30,6 +32,9 @@
 
 QStringList FileList::getDefaultFilters()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     QStringList extensions;
     extensions << "*.cpp" << "*.cxx" << "*.cc" << "*.c" << "*.c++" << "*.txx" << "*.tpp" << "*.ipp" << "*.ixx";
     return extensions;
@@ -37,6 +42,9 @@ QStringList FileList::getDefaultFilters()
 
 bool FileList::filterMatches(const QFileInfo &inf)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (inf.isFile()) {
         const QStringList filters = FileList::getDefaultFilters();
         QString ext("*.");
@@ -49,6 +57,9 @@ bool FileList::filterMatches(const QFileInfo &inf)
 
 void FileList::addFile(const QString &filepath)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     QFileInfo inf(filepath);
     if (filterMatches(inf))
         mFileList << inf;
@@ -56,6 +67,9 @@ void FileList::addFile(const QString &filepath)
 
 void FileList::addDirectory(const QString &directory, bool recursive)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     QDir dir(directory);
     dir.setSorting(QDir::Name);
     const QStringList filters = FileList::getDefaultFilters();
@@ -81,6 +95,9 @@ void FileList::addDirectory(const QString &directory, bool recursive)
 
 void FileList::addPathList(const QStringList &paths)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     for (const QString& path : paths) {
         QFileInfo inf(path);
         if (inf.isFile())
@@ -92,6 +109,9 @@ void FileList::addPathList(const QStringList &paths)
 
 QStringList FileList::getFileList() const
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (mExcludedPaths.empty()) {
         QStringList names;
         for (const QFileInfo& item : mFileList) {
@@ -105,6 +125,9 @@ QStringList FileList::getFileList() const
 
 void FileList::addExcludeList(const QStringList &paths)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     mExcludedPaths = paths;
 }
 
@@ -119,6 +142,9 @@ static std::vector<std::string> toStdStringList(const QStringList &stringList)
 
 QStringList FileList::applyExcludeList() const
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
 #ifdef _WIN32
     const PathMatch pathMatch(toStdStringList(mExcludedPaths), true);
 #else

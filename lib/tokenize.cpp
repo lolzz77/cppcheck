@@ -1,3 +1,5 @@
+#include <stdio.h>
+#include <pthread.h>
 /*
  * Cppcheck - A tool for static C/C++ code analysis
  * Copyright (C) 2007-2023 Cppcheck team.
@@ -78,6 +80,9 @@ namespace {
 /** Return whether tok is the "{" that starts an enumerator list */
 static bool isEnumStart(const Token* tok)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (!tok || tok->str() != "{")
         return false;
     return (tok->strAt(-1) == "enum") || (tok->strAt(-2) == "enum") || Token::Match(tok->tokAt(-3), "enum class %name%");
@@ -86,6 +91,9 @@ static bool isEnumStart(const Token* tok)
 template<typename T>
 static void skipEnumBody(T **tok)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     T *defStart = *tok;
     while (Token::Match(defStart, "%name%|::|:"))
         defStart = defStart->next();
@@ -147,6 +155,9 @@ const Token * Tokenizer::isFunctionHead(const Token *tok, const std::string &end
  */
 static bool isClassStructUnionEnumStart(const Token * tok)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (!Token::Match(tok->previous(), "class|struct|union|enum|%name%|>|>> {"))
         return false;
     const Token * tok2 = tok->previous();
@@ -222,6 +233,9 @@ nonneg int Tokenizer::sizeOfType(const Token *type) const
 // check if this statement is a duplicate definition
 bool Tokenizer::duplicateTypedef(Token **tokPtr, const Token *name, const Token *typeDef) const
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     // check for an end of definition
     Token * tok = *tokPtr;
     if (tok && Token::Match(tok->next(), ";|,|[|=|)|>|(|{")) {
@@ -340,6 +354,9 @@ bool Tokenizer::duplicateTypedef(Token **tokPtr, const Token *name, const Token 
 
 void Tokenizer::unsupportedTypedef(const Token *tok) const
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (!mSettings->debugwarnings)
         return;
 
@@ -371,6 +388,9 @@ void Tokenizer::unsupportedTypedef(const Token *tok) const
 
 Token * Tokenizer::deleteInvalidTypedef(Token *typeDef)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     Token *tok = nullptr;
 
     // remove typedef but leave ;
@@ -409,6 +429,9 @@ namespace {
 
 static Token *splitDefinitionFromTypedef(Token *tok, nonneg int *unnamedCount)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     std::string name;
     std::set<std::string> qualifiers;
 
@@ -543,11 +566,17 @@ const Token *Tokenizer::processFunc(const Token *tok2, bool inOperator) const
 
 Token *Tokenizer::processFunc(Token *tok2, bool inOperator)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     return const_cast<Token*>(processFunc(const_cast<const Token*>(tok2), inOperator));
 }
 
 void Tokenizer::simplifyUsingToTypedef()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (!isCPP() || mSettings->standards.cpp < Standards::CPP11)
         return;
 
@@ -571,6 +600,9 @@ void Tokenizer::simplifyUsingToTypedef()
 
 void Tokenizer::simplifyTypedefLHS()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (!list.front())
         return;
 
@@ -704,14 +736,23 @@ namespace {
         }
 
         const Token* getTypedefToken() const {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
             return mTypedefToken;
         }
 
         bool isUsed() const {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
             return mUsed;
         }
 
         bool isInvalidConstFunctionType(const std::map<std::string, TypedefSimplifier>& m) const {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
             if (!Token::Match(mTypedefToken, "typedef const %name% %name% ;"))
                 return false;
             const auto it = m.find(mTypedefToken->strAt(2));
@@ -721,14 +762,23 @@ namespace {
         }
 
         bool fail() const {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
             return mFail;
         }
 
         bool replaceFailed() const {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
             return mReplaceFailed;
         }
 
         bool isStructEtc() const {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
             return mRangeType.second && mRangeType.second->str() == "{";
         }
 
@@ -737,6 +787,9 @@ namespace {
         }
 
         void replace(Token* tok) {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
             if (tok == mNameToken)
                 return;
 
@@ -909,6 +962,9 @@ namespace {
         }
 
         void removeDeclaration() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
             if (Token::simpleMatch(mRangeType.second, "{")) {
                 while (Token::Match(mTypedefToken, "typedef|const"))
                     mTypedefToken->deleteThis();
@@ -920,6 +976,9 @@ namespace {
         }
 
         static int canReplaceStatic(const Token* tok) {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
             if (!Token::Match(tok, "%name% %name%|*|&|&&|;|(|)|,|::")) {
                 if (Token::Match(tok->previous(), "( %name% =") && Token::Match(tok->linkAt(-1), ") %name%|{") && !tok->tokAt(-2)->isKeyword())
                     return true;
@@ -960,6 +1019,9 @@ namespace {
         }
 
         bool canReplace(const Token* tok) {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
             if (mNameToken == tok)
                 return false;
             if (!Token::Match(tok->previous(), "%name%|;|{|}|(|,|<") && !Token::Match(tok->previous(), "!!. %name% ("))
@@ -1007,11 +1069,17 @@ namespace {
         }
 
         Token* endToken() const {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
             return mEndToken;
         }
 
     private:
         static bool isCast(const Token* tok) {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
             if (Token::Match(tok, "( %name% ) (|%name%"))
                 return !tok->tokAt(2)->isKeyword();
             if (Token::Match(tok, "< %name% > (") && tok->previous() && endsWith(tok->previous()->str(), "_cast", 5))
@@ -1020,6 +1088,9 @@ namespace {
         }
 
         static Token* insertTokens(Token* to, std::pair<Token*,Token*> range) {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
             for (const Token* from = range.first; from != range.second; from = from->next()) {
                 to->insertToken(from->str());
                 to->next()->column(to->column());
@@ -1031,6 +1102,9 @@ namespace {
         }
 
         static void printTypedef(const Token *tok) {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
             int indent = 0;
             while (tok && (indent > 0 || tok->str() != ";")) {
                 if (tok->str() == "{")
@@ -1047,6 +1121,9 @@ namespace {
 
 void Tokenizer::simplifyTypedef()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     // Simplify global typedefs that are not redefined with the fast 1-pass simplification.
     // Then use the slower old typedef simplification.
     std::map<std::string, int> numberOfTypedefs;
@@ -1129,6 +1206,9 @@ void Tokenizer::simplifyTypedef()
 
 void Tokenizer::simplifyTypedefCpp()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     bool isNamespace = false;
     std::string className, fullClassName;
     bool hasClass = false;
@@ -2415,17 +2495,26 @@ namespace {
         std::set<std::string> baseTypes;
 
         ScopeInfo3 *addChild(Type scopeType, const std::string &scopeName, const Token *bodyStartToken, const Token *bodyEndToken) {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
             children.emplace_back(this, scopeType, scopeName, bodyStartToken, bodyEndToken);
             return &children.back();
         }
 
         bool hasChild(const std::string &childName) const {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
             return std::any_of(children.cbegin(), children.cend(), [&](const ScopeInfo3& child) {
                 return child.name == childName;
             });
         }
 
         const ScopeInfo3 * findInChildren(const std::string & scope) const {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
             for (const auto & child : children) {
                 if (child.type == Record && (child.name == scope || child.fullName == scope))
                     return &child;
@@ -2438,6 +2527,9 @@ namespace {
         }
 
         const ScopeInfo3 * findScope(const std::string & scope) const {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
             const ScopeInfo3 * tempScope = this;
             while (tempScope) {
                 // check children
@@ -2462,6 +2554,9 @@ namespace {
         }
 
         bool findTypeInBase(const std::string &scope) const {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
             if (scope.empty())
                 return false;
             // check in base types first
@@ -2482,6 +2577,9 @@ namespace {
         }
 
         ScopeInfo3 * findScope(const ScopeInfo3 * scope) {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
             if (scope->bodyStart == bodyStart)
                 return this;
             for (auto & child : children) {
@@ -2631,6 +2729,9 @@ namespace {
 
     Token *findSemicolon(Token *tok)
     {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         int level = 0;
 
         for (; tok && (level > 0 || tok->str() != ";"); tok = tok->next()) {
@@ -2651,6 +2752,9 @@ namespace {
         const ScopeInfo3 *currentScope,
         const ScopeInfo3 *memberClassScope)
     {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         Token *tok1 = *tok;
 
         if (tok1 && tok1->str() != nameToken->str())
@@ -2776,6 +2880,9 @@ namespace {
 
     const Token * memberFunctionEnd(const Token *tok)
     {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         if (tok->str() != "(")
             return nullptr;
         const Token *end = tok->link()->next();
@@ -2792,6 +2899,9 @@ namespace {
 
 bool Tokenizer::isMemberFunction(const Token *openParen) const
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     return (Token::Match(openParen->tokAt(-2), ":: %name% (") ||
             Token::Match(openParen->tokAt(-3), ":: ~ %name% (")) &&
            isFunctionHead(openParen, "{|:");
@@ -2799,6 +2909,9 @@ bool Tokenizer::isMemberFunction(const Token *openParen) const
 
 static bool scopesMatch(const std::string &scope1, const std::string &scope2, const ScopeInfo3 *globalScope)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (scope1.empty() || scope2.empty())
         return false;
 
@@ -2825,6 +2938,9 @@ static bool scopesMatch(const std::string &scope1, const std::string &scope2, co
 }
 
 static unsigned int tokDistance(const Token* tok1, const Token* tok2) {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     unsigned int dist = 0;
     const Token* tok = tok1;
     while (tok != tok2) {
@@ -2836,6 +2952,9 @@ static unsigned int tokDistance(const Token* tok1, const Token* tok2) {
 
 bool Tokenizer::simplifyUsing()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (!isCPP() || mSettings->standards.cpp < Standards::CPP11)
         return false;
 
@@ -3315,6 +3434,9 @@ bool Tokenizer::simplifyUsing()
 
 void Tokenizer::simplifyUsingError(const Token* usingStart, const Token* usingEnd)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (mSettings->debugwarnings && mErrorLogger) {
         std::string str;
         for (const Token *tok = usingStart; tok && tok != usingEnd; tok = tok->next()) {
@@ -3332,16 +3454,25 @@ void Tokenizer::simplifyUsingError(const Token* usingStart, const Token* usingEn
 bool Tokenizer::createTokens(std::istream &code,
                              const std::string& FileName)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     return list.createTokens(code, FileName);
 }
 
 void Tokenizer::createTokens(simplecpp::TokenList&& tokenList)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     list.createTokens(std::move(tokenList));
 }
 
 bool Tokenizer::simplifyTokens1(const std::string &configuration)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     // Fill the map mTypeSize..
     fillTypeSizes();
 
@@ -3423,6 +3554,9 @@ bool Tokenizer::tokenize(std::istream &code,
                          const char FileName[],
                          const std::string &configuration)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (!createTokens(code, FileName))
         return false;
 
@@ -3432,12 +3566,18 @@ bool Tokenizer::tokenize(std::istream &code,
 
 void Tokenizer::findComplicatedSyntaxErrorsInTemplates()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     validate();
     mTemplateSimplifier->checkComplicatedSyntaxErrorsInTemplates();
 }
 
 void Tokenizer::checkForEnumsWithTypedef()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     for (const Token *tok = list.front(); tok; tok = tok->next()) {
         if (Token::Match(tok, "enum %name% {")) {
             tok = tok->tokAt(2);
@@ -3451,6 +3591,9 @@ void Tokenizer::checkForEnumsWithTypedef()
 
 void Tokenizer::fillTypeSizes()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     mTypeSize.clear();
     mTypeSize["char"] = 1;
     mTypeSize["_Bool"] = mSettings->platform.sizeof_bool;
@@ -3469,6 +3612,9 @@ void Tokenizer::fillTypeSizes()
 
 void Tokenizer::combineOperators()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     const bool cpp = isCPP();
 
     // Combine tokens..
@@ -3545,6 +3691,9 @@ void Tokenizer::combineOperators()
 
 void Tokenizer::combineStringAndCharLiterals()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     // Combine strings
     for (Token *tok = list.front(); tok; tok = tok->next()) {
         if (!isStringLiteral(tok->str()))
@@ -3568,6 +3717,9 @@ void Tokenizer::combineStringAndCharLiterals()
 
 void Tokenizer::concatenateNegativeNumberAndAnyPositive()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     for (Token *tok = list.front(); tok; tok = tok->next()) {
         if (!Token::Match(tok, "?|:|,|(|[|{|return|case|sizeof|%op% +|-") || tok->tokType() == Token::eIncDecOp)
             continue;
@@ -3584,6 +3736,9 @@ void Tokenizer::concatenateNegativeNumberAndAnyPositive()
 
 void Tokenizer::simplifyExternC()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (isC())
         return;
 
@@ -3609,6 +3764,9 @@ void Tokenizer::simplifyExternC()
 
 void Tokenizer::simplifyRoundCurlyParentheses()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     for (Token *tok = list.front(); tok; tok = tok->next()) {
         while (Token::Match(tok, "[;{}:] ( {") &&
                Token::simpleMatch(tok->linkAt(2), "} ) ;")) {
@@ -3630,6 +3788,9 @@ void Tokenizer::simplifyRoundCurlyParentheses()
 
 void Tokenizer::simplifySQL()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     for (Token *tok = list.front(); tok; tok = tok->next()) {
         if (!Token::simpleMatch(tok, "__CPPCHECK_EMBEDDED_SQL_EXEC__ SQL"))
             continue;
@@ -3657,6 +3818,9 @@ void Tokenizer::simplifySQL()
 
 void Tokenizer::simplifyArrayAccessSyntax()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     // 0[a] -> a[0]
     for (Token *tok = list.front(); tok; tok = tok->next()) {
         if (tok->isNumber() && Token::Match(tok, "%num% [ %name% ]")) {
@@ -3671,6 +3835,9 @@ void Tokenizer::simplifyArrayAccessSyntax()
 
 void Tokenizer::simplifyParameterVoid()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     for (Token* tok = list.front(); tok; tok = tok->next()) {
         if (Token::Match(tok, "%name% ( void )") && !Token::Match(tok, "sizeof|decltype|typeof|return")) {
             tok->next()->deleteNext();
@@ -3681,6 +3848,9 @@ void Tokenizer::simplifyParameterVoid()
 
 void Tokenizer::simplifyRedundantConsecutiveBraces()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     // Remove redundant consecutive braces, i.e. '.. { { .. } } ..' -> '.. { .. } ..'.
     for (Token *tok = list.front(); tok;) {
         if (Token::simpleMatch(tok, "= {")) {
@@ -3696,6 +3866,9 @@ void Tokenizer::simplifyRedundantConsecutiveBraces()
 
 void Tokenizer::simplifyDoublePlusAndDoubleMinus()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     // Convert - - into + and + - into -
     for (Token *tok = list.front(); tok; tok = tok->next()) {
         while (tok->next()) {
@@ -3738,6 +3911,9 @@ void Tokenizer::simplifyDoublePlusAndDoubleMinus()
 
 void Tokenizer::arraySize()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     auto getStrTok = [](Token* tok, bool addLength, Token** endStmt) -> Token* {
         if (addLength) {
             *endStmt = tok->tokAt(5);
@@ -3811,6 +3987,9 @@ void Tokenizer::arraySize()
 
 static Token *skipTernaryOp(Token *tok)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     int colonLevel = 1;
     while (nullptr != (tok = tok->next())) {
         if (tok->str() == "?") {
@@ -3837,6 +4016,9 @@ static Token *skipTernaryOp(Token *tok)
 // In case of failure returns the token that caused the error.
 static Token *skipCaseLabel(Token *tok)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     assert(tok->str() == "case");
     while (nullptr != (tok = tok->next())) {
         if (Token::Match(tok, "(|["))
@@ -3873,6 +4055,9 @@ const Token * Tokenizer::startOfExecutableScope(const Token * tok)
 
 void Tokenizer::simplifyLabelsCaseDefault()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     const bool cpp = isCPP();
     bool executablescope = false;
     int indentLevel = 0;
@@ -3923,6 +4108,9 @@ void Tokenizer::simplifyLabelsCaseDefault()
 
 void Tokenizer::simplifyCaseRange()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     for (Token* tok = list.front(); tok; tok = tok->next()) {
         if (Token::Match(tok, "case %num%|%char% ... %num%|%char% :")) {
             const MathLib::bigint start = MathLib::toBigNumber(tok->strAt(1));
@@ -3944,6 +4132,9 @@ void Tokenizer::simplifyCaseRange()
 
 void Tokenizer::calculateScopes()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     for (auto *tok = list.front(); tok; tok = tok->next())
         tok->scopeInfo(nullptr);
 
@@ -4035,6 +4226,9 @@ void Tokenizer::calculateScopes()
 
 void Tokenizer::simplifyTemplates()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (isC())
         return;
 
@@ -4058,6 +4252,9 @@ public:
     bool leaveScope();
     void addVariable(const std::string& varname, bool globalNamespace);
     bool hasVariable(const std::string& varname) const {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         return mVariableId.find(varname) != mVariableId.end();
     }
 
@@ -4065,6 +4262,9 @@ public:
         return global ? mVariableId_global : mVariableId;
     }
     nonneg int getVarId() const {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         return mVarId;
     }
     nonneg int& getVarId() {
@@ -4075,11 +4275,17 @@ public:
 
 void VariableMap::enterScope()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     mScopeInfo.emplace(/*std::vector<std::pair<std::string, nonneg int>>()*/);
 }
 
 bool VariableMap::leaveScope()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (mScopeInfo.empty())
         return false;
 
@@ -4095,6 +4301,9 @@ bool VariableMap::leaveScope()
 
 void VariableMap::addVariable(const std::string& varname, bool globalNamespace)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (mScopeInfo.empty()) {
         mVariableId[varname] = ++mVarId;
         if (globalNamespace)
@@ -4115,6 +4324,9 @@ void VariableMap::addVariable(const std::string& varname, bool globalNamespace)
 
 static bool setVarIdParseDeclaration(Token** tok, const VariableMap& variableMap, bool executableScope, bool cpp, bool c)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     const Token* const tok1 = *tok;
     Token* tok2 = *tok;
     if (!tok2->isName())
@@ -4259,6 +4471,9 @@ void Tokenizer::setVarIdStructMembers(Token **tok1,
                                       std::map<nonneg int, std::map<std::string, nonneg int>>& structMembers,
                                       nonneg int &varId) const
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     Token *tok = *tok1;
 
     if (Token::Match(tok, "%name% = { . %name% =|{")) {
@@ -4325,6 +4540,9 @@ void Tokenizer::setVarIdClassDeclaration(Token* const startToken,
                                          const nonneg int scopeStartVarId,
                                          std::map<nonneg int, std::map<std::string, nonneg int>>& structMembers)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     // end of scope
     const Token* const endToken = startToken->link();
 
@@ -4405,6 +4623,9 @@ void Tokenizer::setVarIdClassFunction(const std::string &classname,
                                       std::map<nonneg int, std::map<std::string, nonneg int>>& structMembers,
                                       nonneg int &varId_)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     const auto pos = classname.rfind(' '); // TODO handle multiple scopes
     const std::string lastScope = classname.substr(pos == std::string::npos ? 0 : pos + 1);
     for (Token *tok2 = startToken; tok2 && tok2 != endToken; tok2 = tok2->next()) {
@@ -4431,6 +4652,9 @@ void Tokenizer::setVarIdClassFunction(const std::string &classname,
 
 void Tokenizer::setVarId()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     // Clear all variable ids
     for (Token *tok = list.front(); tok; tok = tok->next()) {
         if (tok->isName())
@@ -4454,6 +4678,9 @@ static const std::unordered_set<std::string> notstart_cpp = { NOTSTART_C,
 
 void Tokenizer::setVarIdPass1()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     // Variable declarations can't start with "return" etc.
     const std::unordered_set<std::string>& notstart = (isC()) ? notstart_c : notstart_cpp;
 
@@ -4835,6 +5062,9 @@ static std::string getScopeName(const std::list<ScopeInfo2> &scopeInfo)
 
 static Token * matchMemberName(const std::list<std::string> &scope, const Token *nsToken, Token *memberToken, const std::list<ScopeInfo2> &scopeInfo)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     std::list<ScopeInfo2>::const_iterator scopeIt = scopeInfo.cbegin();
 
     // Current scope..
@@ -4881,6 +5111,9 @@ static Token * matchMemberName(const std::list<std::string> &scope, const Token 
 
 static Token * matchMemberName(const Member &member, const std::list<ScopeInfo2> &scopeInfo)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (scopeInfo.empty())
         return nullptr;
 
@@ -4901,6 +5134,9 @@ static Token * matchMemberName(const Member &member, const std::list<ScopeInfo2>
 
 static Token * matchMemberVarName(const Member &var, const std::list<ScopeInfo2> &scopeInfo)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     Token *tok = matchMemberName(var, scopeInfo);
     if (Token::Match(tok, "%name%")) {
         if (!tok->next() || tok->strAt(1) != "(" || (tok->tokAt(2) && tok->tokAt(2)->isLiteral()))
@@ -4911,6 +5147,9 @@ static Token * matchMemberVarName(const Member &var, const std::list<ScopeInfo2>
 
 static Token * matchMemberFunctionName(const Member &func, const std::list<ScopeInfo2> &scopeInfo)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     Token *tok = matchMemberName(func, scopeInfo);
     return Token::Match(tok, "~| %name% (") ? tok : nullptr;
 }
@@ -4918,6 +5157,9 @@ static Token * matchMemberFunctionName(const Member &func, const std::list<Scope
 template<typename T>
 static T* skipInitializerList(T* tok)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     T* const start = tok;
     while (Token::Match(tok, "[:,] ::| %name%")) {
         tok = tok->tokAt(tok->strAt(1) == "::" ? 1 : 2);
@@ -4935,6 +5177,9 @@ static T* skipInitializerList(T* tok)
 
 void Tokenizer::setVarIdPass2()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     std::map<nonneg int, std::map<std::string, nonneg int>> structMembers;
 
     // Member functions and variables in this source
@@ -5178,6 +5423,9 @@ void Tokenizer::setVarIdPass2()
 
 static void linkBrackets(const Tokenizer * const tokenizer, std::stack<const Token*>& type, std::stack<Token*>& links, Token * const token, const char open, const char close)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (token->str()[0] == open) {
         links.push(token);
         type.push(token);
@@ -5198,6 +5446,9 @@ static void linkBrackets(const Tokenizer * const tokenizer, std::stack<const Tok
 
 void Tokenizer::createLinks()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     std::stack<const Token*> type;
     std::stack<Token*> links1;
     std::stack<Token*> links2;
@@ -5232,6 +5483,9 @@ void Tokenizer::createLinks()
 
 void Tokenizer::createLinks2()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (isC())
         return;
 
@@ -5350,6 +5604,9 @@ void Tokenizer::createLinks2()
 
 void Tokenizer::sizeofAddParentheses()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     for (Token *tok = list.front(); tok; tok = tok->next()) {
         if (!Token::Match(tok, "sizeof !!("))
             continue;
@@ -5374,6 +5631,9 @@ void Tokenizer::sizeofAddParentheses()
 
 bool Tokenizer::simplifyTokenList1(const char FileName[])
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (Settings::terminated())
         return false;
 
@@ -5790,6 +6050,9 @@ bool Tokenizer::simplifyTokenList1(const char FileName[])
 
 void Tokenizer::printDebugOutput(int simplification) const
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     const bool debug = (simplification != 1U && mSettings->debugSimplified) ||
                        (simplification != 2U && mSettings->debugnormal);
 
@@ -5840,6 +6103,9 @@ void Tokenizer::printDebugOutput(int simplification) const
 
 void Tokenizer::dump(std::ostream &out) const
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     // Create a xml data dump.
     // The idea is not that this will be readable for humans. It's a
     // data dump that 3rd party tools could load and get useful info from.
@@ -6065,6 +6331,9 @@ void Tokenizer::dump(std::ostream &out) const
 
 void Tokenizer::simplifyHeadersAndUnusedTemplates()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (mSettings->checkHeaders && mSettings->checkUnusedTemplates)
         // Full analysis. All information in the headers are kept.
         return;
@@ -6190,6 +6459,9 @@ void Tokenizer::simplifyHeadersAndUnusedTemplates()
 
 void Tokenizer::removeExtraTemplateKeywords()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (isCPP()) {
         for (Token *tok = list.front(); tok; tok = tok->next()) {
             if (Token::Match(tok, "%name%|>|) .|:: template %name%")) {
@@ -6222,6 +6494,9 @@ static std::string getExpression(const Token *tok)
 
 void Tokenizer::splitTemplateRightAngleBrackets(bool check)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     std::vector<std::pair<std::string, int>> vars;
 
     int scopeLevel = 0;
@@ -6274,6 +6549,9 @@ void Tokenizer::splitTemplateRightAngleBrackets(bool check)
 
 void Tokenizer::removeMacrosInGlobalScope()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     for (Token *tok = list.front(); tok; tok = tok->next()) {
         if (tok->str() == "(") {
             tok = tok->link();
@@ -6352,6 +6630,9 @@ void Tokenizer::removeMacrosInGlobalScope()
 
 void Tokenizer::removePragma()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (isC() && mSettings->standards.c == Standards::C89)
         return;
     if (isCPP() && mSettings->standards.cpp == Standards::CPP03)
@@ -6368,6 +6649,9 @@ void Tokenizer::removePragma()
 
 void Tokenizer::removeMacroInClassDef()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     for (Token *tok = list.front(); tok; tok = tok->next()) {
         if (!Token::Match(tok, "class|struct %name% %name% final| {|:"))
             continue;
@@ -6385,6 +6669,9 @@ void Tokenizer::removeMacroInClassDef()
 
 void Tokenizer::addSemicolonAfterUnknownMacro()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (!isCPP())
         return;
     for (Token *tok = list.front(); tok; tok = tok->next()) {
@@ -6403,6 +6690,9 @@ void Tokenizer::addSemicolonAfterUnknownMacro()
 
 void Tokenizer::simplifyEmptyNamespaces()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (isC())
         return;
 
@@ -6442,6 +6732,9 @@ void Tokenizer::simplifyEmptyNamespaces()
 
 void Tokenizer::removeRedundantSemicolons()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     for (Token *tok = list.front(); tok; tok = tok->next()) {
         if (tok->link() && tok->str() == "(") {
             tok = tok->link();
@@ -6462,6 +6755,9 @@ void Tokenizer::removeRedundantSemicolons()
 
 bool Tokenizer::simplifyAddBraces()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     for (Token *tok = list.front(); tok; tok = tok->next()) {
         Token const * tokRet=simplifyAddBracesToCommand(tok);
         if (!tokRet)
@@ -6472,6 +6768,9 @@ bool Tokenizer::simplifyAddBraces()
 
 Token *Tokenizer::simplifyAddBracesToCommand(Token *tok)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     Token * tokEnd=tok;
     if (Token::Match(tok,"for|switch|BOOST_FOREACH")) {
         tokEnd=simplifyAddBracesPair(tok,true);
@@ -6516,6 +6815,9 @@ Token *Tokenizer::simplifyAddBracesToCommand(Token *tok)
 
 Token *Tokenizer::simplifyAddBracesPair(Token *tok, bool commandWithCondition)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     Token * tokCondition=tok->next();
     if (!tokCondition) // Missing condition
         return tok;
@@ -6612,6 +6914,9 @@ Token *Tokenizer::simplifyAddBracesPair(Token *tok, bool commandWithCondition)
 
 void Tokenizer::simplifyFunctionParameters()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     for (Token *tok = list.front(); tok; tok = tok->next()) {
         if (tok->link() && Token::Match(tok, "{|[|(")) {
             tok = tok->link();
@@ -6784,6 +7089,9 @@ void Tokenizer::simplifyFunctionParameters()
 
 void Tokenizer::simplifyPointerToStandardType()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (!isC())
         return;
 
@@ -6806,6 +7114,9 @@ void Tokenizer::simplifyPointerToStandardType()
 
 void Tokenizer::simplifyFunctionPointers()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     for (Token *tok = list.front(); tok; tok = tok->next()) {
         // #2873 - do not simplify function pointer usage here:
         // (void)(xy(*p)(0));
@@ -6927,11 +7238,17 @@ void Tokenizer::simplifyFunctionPointers()
 
 void Tokenizer::simplifyVarDecl(const bool only_k_r_fpar)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     simplifyVarDecl(list.front(), nullptr, only_k_r_fpar);
 }
 
 void Tokenizer::simplifyVarDecl(Token * tokBegin, const Token * const tokEnd, const bool only_k_r_fpar)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     const bool isCPP11  = mSettings->standards.cpp >= Standards::CPP11;
 
     // Split up variable declarations..
@@ -7291,6 +7608,9 @@ void Tokenizer::simplifyVarDecl(Token * tokBegin, const Token * const tokEnd, co
 
 void Tokenizer::simplifyStaticConst()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     // This function will simplify the token list so that the qualifiers "extern", "static"
     // and "const" appear in the same order as in the array below.
     const std::string qualifiers[] = {"extern", "static", "const"};
@@ -7360,6 +7680,9 @@ void Tokenizer::simplifyStaticConst()
 
 void Tokenizer::simplifyVariableMultipleAssign()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     for (Token *tok = list.front(); tok; tok = tok->next()) {
         if (Token::Match(tok, "%name% = %name% = %num%|%name% ;")) {
             // skip intermediate assignments
@@ -7415,6 +7738,9 @@ static const std::unordered_map<std::string, std::string> cAlternativeTokens = {
 //  xor_eq   =>     ^=
 bool Tokenizer::simplifyCAlternativeTokens()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     /* executable scope level */
     int executableScopeLevel = 0;
 
@@ -7503,6 +7829,9 @@ bool Tokenizer::simplifyCAlternativeTokens()
 // int i(0), j; => int i; i = 0; int j;
 void Tokenizer::simplifyInitVar()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (isC())
         return;
 
@@ -7536,6 +7865,9 @@ void Tokenizer::simplifyInitVar()
 
 Token * Tokenizer::initVar(Token * tok)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     // call constructor of class => no simplification
     if (Token::Match(tok, "class|struct|union")) {
         if (tok->strAt(2) != "*")
@@ -7581,6 +7913,9 @@ Token * Tokenizer::initVar(Token * tok)
 
 void Tokenizer::elseif()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     for (Token *tok = list.front(); tok; tok = tok->next()) {
         if (tok->str() != "else")
             continue;
@@ -7613,6 +7948,9 @@ void Tokenizer::elseif()
 
 void Tokenizer::simplifyIfSwitchForInit()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (!isCPP() || mSettings->standards.cpp < Standards::CPP17)
         return;
 
@@ -7674,6 +8012,9 @@ void Tokenizer::simplifyIfSwitchForInit()
 
 bool Tokenizer::simplifyRedundantParentheses()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     bool ret = false;
     for (Token *tok = list.front(); tok; tok = tok->next()) {
         if (tok->str() != "(")
@@ -7855,6 +8196,9 @@ bool Tokenizer::simplifyRedundantParentheses()
 
 void Tokenizer::simplifyTypeIntrinsics()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     static const std::unordered_map<std::string, std::string> intrinsics = {
         { "__has_nothrow_assign", "has_nothrow_assign" },
         { "__has_nothrow_constructor", "has_nothrow_constructor" },
@@ -7911,6 +8255,9 @@ void Tokenizer::simplifyTypeIntrinsics()
 
 bool Tokenizer::isScopeNoReturn(const Token *endScopeToken, bool *unknown) const
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     std::string unknownFunc;
     const bool ret = mSettings->library.isScopeNoReturn(endScopeToken,&unknownFunc);
     if (!unknownFunc.empty() && mSettings->summaryReturn.find(unknownFunc) != mSettings->summaryReturn.end()) {
@@ -7940,12 +8287,18 @@ bool Tokenizer::isScopeNoReturn(const Token *endScopeToken, bool *unknown) const
 
 void Tokenizer::syntaxError(const Token *tok, const std::string &code) const
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     printDebugOutput(0);
     throw InternalError(tok, code.empty() ? "syntax error" : "syntax error: " + code, InternalError::SYNTAX);
 }
 
 void Tokenizer::unmatchedToken(const Token *tok) const
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     printDebugOutput(0);
     throw InternalError(tok,
                         "Unmatched '" + tok->str() + "'. Configuration: '" + mConfiguration + "'.",
@@ -7954,18 +8307,27 @@ void Tokenizer::unmatchedToken(const Token *tok) const
 
 void Tokenizer::syntaxErrorC(const Token *tok, const std::string &what) const
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     printDebugOutput(0);
     throw InternalError(tok, "Code '"+what+"' is invalid C code. Use --std or --language to configure the language.", InternalError::SYNTAX);
 }
 
 void Tokenizer::unknownMacroError(const Token *tok1) const
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     printDebugOutput(0);
     throw InternalError(tok1, "There is an unknown macro here somewhere. Configuration is required. If " + tok1->str() + " is a macro then please configure it.", InternalError::UNKNOWN_MACRO);
 }
 
 void Tokenizer::unhandled_macro_class_x_y(const Token *tok) const
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     reportError(tok,
                 Severity::information,
                 "class_X_Y",
@@ -7978,6 +8340,9 @@ void Tokenizer::unhandled_macro_class_x_y(const Token *tok) const
 
 void Tokenizer::macroWithSemicolonError(const Token *tok, const std::string &macroName) const
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     reportError(tok,
                 Severity::information,
                 "macroWithSemicolon",
@@ -7986,12 +8351,18 @@ void Tokenizer::macroWithSemicolonError(const Token *tok, const std::string &mac
 
 void Tokenizer::cppcheckError(const Token *tok) const
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     printDebugOutput(0);
     throw InternalError(tok, "Analysis failed. If the code is valid then please report this failure.", InternalError::INTERNAL);
 }
 
 void Tokenizer::unhandledCharLiteral(const Token *tok, const std::string& msg) const
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     std::string s = tok ? (" " + tok->str()) : "";
     for (int i = 0; i < s.size(); ++i) {
         if ((unsigned char)s[i] >= 0x80)
@@ -8014,6 +8385,9 @@ void Tokenizer::unhandledCharLiteral(const Token *tok, const std::string& msg) c
  */
 static bool isNumberOneOf(const std::string &s, MathLib::bigint intConstant, const char* floatConstant)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (MathLib::isInt(s)) {
         if (MathLib::toBigNumber(s) == intConstant)
             return true;
@@ -8031,6 +8405,9 @@ static bool isNumberOneOf(const std::string &s, MathLib::bigint intConstant, con
 // ------------------------------------------------------------------------
 bool Tokenizer::isOneNumber(const std::string &s)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (!MathLib::isPositive(s))
         return false;
     return isNumberOneOf(s, 1L, "1.0");
@@ -8038,6 +8415,9 @@ bool Tokenizer::isOneNumber(const std::string &s)
 // ------------------------------------------------------------------------
 void Tokenizer::checkConfiguration() const
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (!mSettings->checkConfiguration)
         return;
     for (const Token *tok = tokens(); tok; tok = tok->next()) {
@@ -8058,6 +8438,9 @@ void Tokenizer::checkConfiguration() const
 
 void Tokenizer::validateC() const
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (isCPP())
         return;
     for (const Token *tok = tokens(); tok; tok = tok->next()) {
@@ -8087,6 +8470,9 @@ void Tokenizer::validateC() const
 
 void Tokenizer::validate() const
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     std::stack<const Token *> linkTokens;
     const Token *lastTok = nullptr;
     for (const Token *tok = tokens(); tok; tok = tok->next()) {
@@ -8146,17 +8532,26 @@ static const Token *findUnmatchedTernaryOp(const Token * const begin, const Toke
 
 static bool isCPPAttribute(const Token * tok)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     return Token::simpleMatch(tok, "[ [") && tok->link() && tok->link()->previous() == tok->linkAt(1);
 }
 
 static bool isAlignAttribute(const Token * tok)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     return Token::simpleMatch(tok, "alignas (") && tok->next()->link();
 }
 
 template<typename T>
 static T* skipCPPOrAlignAttribute(T * tok)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (isCPPAttribute(tok))
         return tok->link();
     if (isAlignAttribute(tok)) {
@@ -8167,6 +8562,9 @@ static T* skipCPPOrAlignAttribute(T * tok)
 
 static bool isNonMacro(const Token* tok)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (tok->isKeyword() || tok->isStandardType())
         return true;
     if (cAlternativeTokens.count(tok->str()) > 0)
@@ -8180,6 +8578,9 @@ static bool isNonMacro(const Token* tok)
 
 void Tokenizer::reportUnknownMacros() const
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     // Report unknown macros used in expressions "%name% %num%"
     for (const Token *tok = tokens(); tok; tok = tok->next()) {
         if (Token::Match(tok, "%name% %num%")) {
@@ -8316,6 +8717,9 @@ void Tokenizer::reportUnknownMacros() const
 
 void Tokenizer::findGarbageCode() const
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     const bool isCPP11 = isCPP() && mSettings->standards.cpp >= Standards::CPP11;
 
     static const std::unordered_set<std::string> nonConsecutiveKeywords{ "break",
@@ -8624,6 +9028,9 @@ void Tokenizer::findGarbageCode() const
 
 bool Tokenizer::isGarbageExpr(const Token *start, const Token *end, bool allowSemicolon)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     for (const Token *tok = start; tok != end; tok = tok->next()) {
         if (tok->isControlFlowKeyword())
             return true;
@@ -8676,6 +9083,9 @@ std::string Tokenizer::simplifyString(const std::string &source)
 
 void Tokenizer::simplifyFunctionTryCatch()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (!isCPP())
         return;
 
@@ -8715,6 +9125,9 @@ void Tokenizer::simplifyFunctionTryCatch()
 
 void Tokenizer::simplifyStructDecl()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     const bool cpp = isCPP();
 
     // A counter that is used when giving unique names for anonymous structs.
@@ -8866,6 +9279,9 @@ void Tokenizer::simplifyStructDecl()
 
 void Tokenizer::simplifyCallingConvention()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     const bool windows = mSettings->platform.isWindows();
 
     for (Token *tok = list.front(); tok; tok = tok->next()) {
@@ -8876,10 +9292,16 @@ void Tokenizer::simplifyCallingConvention()
 }
 
 static bool isAttribute(const Token* tok, bool gcc) {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     return gcc ? Token::Match(tok, "__attribute__|__attribute (") : Token::Match(tok, "__declspec|_declspec (");
 }
 
 static Token* getTokenAfterAttributes(Token* tok, bool gccattr) {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     Token* after = tok;
     while (isAttribute(after, gccattr))
         after = after->linkAt(1)->next();
@@ -8887,6 +9309,9 @@ static Token* getTokenAfterAttributes(Token* tok, bool gccattr) {
 }
 
 Token* Tokenizer::getAttributeFuncTok(Token* tok, bool gccattr) const {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (!Token::Match(tok, "%name% ("))
         return nullptr;
     Token* const after = getTokenAfterAttributes(tok, gccattr);
@@ -8927,6 +9352,9 @@ Token* Tokenizer::getAttributeFuncTok(Token* tok, bool gccattr) const {
 
 void Tokenizer::simplifyDeclspec()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     for (Token *tok = list.front(); tok; tok = tok->next()) {
         while (isAttribute(tok, false)) {
             if (Token::Match(tok->tokAt(2), "noreturn|nothrow|dllexport")) {
@@ -8950,6 +9378,9 @@ void Tokenizer::simplifyDeclspec()
 
 void Tokenizer::simplifyAttribute()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     for (Token *tok = list.front(); tok; tok = tok->next()) {
         if (!tok->isKeyword() && Token::Match(tok, "%type% (") && !mSettings->library.isNotLibraryFunction(tok)) {
             if (mSettings->library.isFunctionConst(tok->str(), true))
@@ -9034,6 +9465,9 @@ void Tokenizer::simplifyAttribute()
 
 void Tokenizer::simplifyCppcheckAttribute()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     for (Token *tok = list.front(); tok; tok = tok->next()) {
         if (tok->str() != "(")
             continue;
@@ -9075,6 +9509,9 @@ void Tokenizer::simplifyCppcheckAttribute()
 
 void Tokenizer::simplifyCPPAttribute()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (mSettings->standards.cpp < Standards::CPP11 || isC())
         return;
 
@@ -9146,6 +9583,9 @@ void Tokenizer::simplifyCPPAttribute()
 
 void Tokenizer::simplifySpaceshipOperator()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (isCPP() && mSettings->standards.cpp >= Standards::CPP20) {
         for (Token *tok = list.front(); tok && tok->next(); tok = tok->next()) {
             if (Token::simpleMatch(tok, "<= >")) {
@@ -9172,6 +9612,9 @@ static const std::unordered_set<std::string> keywords = {
 //   - Not in C++ standard yet
 void Tokenizer::simplifyKeyword()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     // FIXME: There is a risk that "keywords" are removed by mistake. This
     // code should be fixed so it doesn't remove variables etc. Nonstandard
     // keywords should be defined with a library instead. For instance the
@@ -9295,6 +9738,9 @@ void Tokenizer::simplifyKeyword()
 
 static Token* setTokenDebug(Token* start, TokenDebug td)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (!start->link())
         return nullptr;
     Token* end = start->link();
@@ -9308,6 +9754,9 @@ static Token* setTokenDebug(Token* start, TokenDebug td)
 
 void Tokenizer::simplifyDebug()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (!mSettings->debugnormal && !mSettings->debugwarnings)
         return;
     static const std::unordered_map<std::string, TokenDebug> m = {{"debug_valueflow", TokenDebug::ValueFlow},
@@ -9325,6 +9774,9 @@ void Tokenizer::simplifyDebug()
 
 void Tokenizer::simplifyAssignmentBlock()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     for (Token *tok = list.front(); tok; tok = tok->next()) {
         if (Token::Match(tok, "[;{}] %name% = ( {")) {
             const std::string &varname = tok->next()->str();
@@ -9360,6 +9812,9 @@ void Tokenizer::simplifyAssignmentBlock()
 // Remove __asm..
 void Tokenizer::simplifyAsm()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     std::string instruction;
     for (Token *tok = list.front(); tok; tok = tok->next()) {
         if (Token::Match(tok, "__asm|_asm|asm {") &&
@@ -9442,6 +9897,9 @@ void Tokenizer::simplifyAsm()
 
 void Tokenizer::simplifyAsm2()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     // Block declarations: ^{}
     // A C extension used to create lambda like closures.
 
@@ -9490,6 +9948,9 @@ void Tokenizer::simplifyAsm2()
 
 void Tokenizer::simplifyAt()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     std::set<std::string> var;
 
     for (Token *tok = list.front(); tok; tok = tok->next()) {
@@ -9536,6 +9997,9 @@ void Tokenizer::simplifyAt()
 // Simplify bitfields
 void Tokenizer::simplifyBitfields()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     bool goback = false;
     for (Token *tok = list.front(); tok; tok = tok->next()) {
         if (goback) {
@@ -9612,6 +10076,9 @@ void Tokenizer::simplifyBitfields()
 // Add std:: in front of std classes, when using namespace std; was given
 void Tokenizer::simplifyNamespaceStd()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (!isCPP())
         return;
 
@@ -9665,6 +10132,9 @@ void Tokenizer::simplifyNamespaceStd()
 
 void Tokenizer::simplifyMicrosoftMemoryFunctions()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     // skip if not Windows
     if (!mSettings->platform.isWindows())
         return;
@@ -9760,6 +10230,9 @@ namespace {
 
 void Tokenizer::simplifyMicrosoftStringFunctions()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     // skip if not Windows
     if (!mSettings->platform.isWindows())
         return;
@@ -9796,6 +10269,9 @@ void Tokenizer::simplifyMicrosoftStringFunctions()
 // Remove Borland code
 void Tokenizer::simplifyBorland()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     // skip if not Windows
     if (!mSettings->platform.isWindows())
         return;
@@ -9847,6 +10323,9 @@ void Tokenizer::simplifyBorland()
 
 void Tokenizer::createSymbolDatabase()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (!mSymbolDatabase)
         mSymbolDatabase = new SymbolDatabase(*this, *mSettings, mErrorLogger);
     mSymbolDatabase->validate();
@@ -9891,6 +10370,9 @@ bool Tokenizer::operatorEnd(const Token * tok) const
 
 void Tokenizer::simplifyOperatorName()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (isC())
         return;
 
@@ -10013,6 +10495,9 @@ void Tokenizer::simplifyOperatorName()
 
 void Tokenizer::simplifyOverloadedOperators()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (isC())
         return;
     std::set<std::string> classNames;
@@ -10089,6 +10574,9 @@ void Tokenizer::simplifyOverloadedOperators()
 // remove unnecessary member qualification..
 void Tokenizer::removeUnnecessaryQualification()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (isC())
         return;
 
@@ -10159,6 +10647,9 @@ void Tokenizer::removeUnnecessaryQualification()
 
 void Tokenizer::printUnknownTypes() const
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (!mSymbolDatabase)
         return;
 
@@ -10237,6 +10728,9 @@ void Tokenizer::printUnknownTypes() const
 
 void Tokenizer::prepareTernaryOpForAST()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     // http://en.cppreference.com/w/cpp/language/operator_precedence says about ternary operator:
     //       "The expression in the middle of the conditional operator (between ? and :) is parsed as if parenthesized: its precedence relative to ?: is ignored."
     // The AST parser relies on this function to add such parentheses where necessary.
@@ -10274,12 +10768,18 @@ void Tokenizer::prepareTernaryOpForAST()
 
 void Tokenizer::reportError(const Token* tok, const Severity severity, const std::string& id, const std::string& msg, bool inconclusive) const
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     const std::list<const Token*> callstack(1, tok);
     reportError(callstack, severity, id, msg, inconclusive);
 }
 
 void Tokenizer::reportError(const std::list<const Token*>& callstack, Severity severity, const std::string& id, const std::string& msg, bool inconclusive) const
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     const ErrorMessage errmsg(callstack, &list, severity, id, msg, inconclusive ? Certainty::inconclusive : Certainty::normal);
     if (mErrorLogger)
         mErrorLogger->reportErr(errmsg);
@@ -10289,6 +10789,9 @@ void Tokenizer::reportError(const std::list<const Token*>& callstack, Severity s
 
 void Tokenizer::setPodTypes()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (!mSettings)
         return;
     for (Token *tok = list.front(); tok; tok = tok->next()) {
@@ -10327,6 +10830,9 @@ const Token *Tokenizer::findSQLBlockEnd(const Token *tokSQLStart)
 
 void Tokenizer::simplifyNestedNamespace()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (!isCPP())
         return;
 
@@ -10368,6 +10874,9 @@ void Tokenizer::simplifyNestedNamespace()
 
 void Tokenizer::simplifyCoroutines()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (!isCPP() || mSettings->standards.cpp < Standards::CPP20)
         return;
     for (Token *tok = list.front(); tok; tok = tok->next()) {
@@ -10391,6 +10900,9 @@ void Tokenizer::simplifyCoroutines()
 
 static bool sameTokens(const Token *first, const Token *last, const Token *other)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     while (other && first->str() == other->str()) {
         if (first == last)
             return true;
@@ -10403,6 +10915,9 @@ static bool sameTokens(const Token *first, const Token *last, const Token *other
 
 static bool alreadyHasNamespace(const Token *first, const Token *last, const Token *end)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     while (end && last->str() == end->str()) {
         if (first == last)
             return true;
@@ -10415,6 +10930,9 @@ static bool alreadyHasNamespace(const Token *first, const Token *last, const Tok
 
 static Token * deleteAlias(Token * tok)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     Token::eraseTokens(tok, Token::findsimplematch(tok, ";"));
 
     // delete first token
@@ -10428,6 +10946,9 @@ static Token * deleteAlias(Token * tok)
 
 void Tokenizer::simplifyNamespaceAliases()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (!isCPP())
         return;
 
@@ -10524,6 +11045,9 @@ void Tokenizer::simplifyNamespaceAliases()
 
 bool Tokenizer::hasIfdef(const Token *start, const Token *end) const
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     assert(mPreprocessor);
 
     return std::any_of(mPreprocessor->getDirectives().cbegin(), mPreprocessor->getDirectives().cend(), [&](const Directive& d) {

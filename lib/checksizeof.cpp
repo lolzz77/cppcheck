@@ -1,3 +1,5 @@
+#include <stdio.h>
+#include <pthread.h>
 /*
  * Cppcheck - A tool for static C/C++ code analysis
  * Copyright (C) 2007-2023 Cppcheck team.
@@ -46,6 +48,9 @@ static const CWE CWE682(682U);   // Incorrect Calculation
 //---------------------------------------------------------------------------
 void CheckSizeof::checkSizeofForNumericParameter()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (!mSettings->severity.isEnabled(Severity::warning))
         return;
 
@@ -64,6 +69,9 @@ void CheckSizeof::checkSizeofForNumericParameter()
 
 void CheckSizeof::sizeofForNumericParameterError(const Token *tok)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     reportError(tok, Severity::warning,
                 "sizeofwithnumericparameter", "Suspicious usage of 'sizeof' with a numeric constant as parameter.\n"
                 "It is unusual to use a constant value with sizeof. For example, 'sizeof(10)'"
@@ -76,6 +84,9 @@ void CheckSizeof::sizeofForNumericParameterError(const Token *tok)
 //---------------------------------------------------------------------------
 void CheckSizeof::checkSizeofForArrayParameter()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (!mSettings->severity.isEnabled(Severity::warning))
         return;
 
@@ -101,6 +112,9 @@ void CheckSizeof::checkSizeofForArrayParameter()
 
 void CheckSizeof::sizeofForArrayParameterError(const Token *tok)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     reportError(tok, Severity::warning,
                 "sizeofwithsilentarraypointer", "Using 'sizeof' on array given as function argument "
                 "returns size of a pointer.\n"
@@ -117,6 +131,9 @@ void CheckSizeof::sizeofForArrayParameterError(const Token *tok)
 
 void CheckSizeof::checkSizeofForPointerSize()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (!mSettings->severity.isEnabled(Severity::warning))
         return;
 
@@ -268,6 +285,9 @@ void CheckSizeof::checkSizeofForPointerSize()
 
 void CheckSizeof::sizeofForPointerError(const Token *tok, const std::string &varname)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     reportError(tok, Severity::warning, "pointerSize",
                 "Size of pointer '" + varname + "' used instead of size of its data.\n"
                 "Size of pointer '" + varname + "' used instead of size of its data. "
@@ -277,6 +297,9 @@ void CheckSizeof::sizeofForPointerError(const Token *tok, const std::string &var
 
 void CheckSizeof::divideBySizeofError(const Token *tok, const std::string &memfunc)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     reportError(tok, Severity::warning, "sizeofDivisionMemfunc",
                 "Division by result of sizeof(). " + memfunc + "() expects a size in bytes, did you intend to multiply instead?", CWE682, Certainty::normal);
 }
@@ -285,6 +308,9 @@ void CheckSizeof::divideBySizeofError(const Token *tok, const std::string &memfu
 //-----------------------------------------------------------------------------
 void CheckSizeof::sizeofsizeof()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (!mSettings->severity.isEnabled(Severity::warning))
         return;
 
@@ -300,6 +326,9 @@ void CheckSizeof::sizeofsizeof()
 
 void CheckSizeof::sizeofsizeofError(const Token *tok)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     reportError(tok, Severity::warning,
                 "sizeofsizeof", "Calling 'sizeof' on 'sizeof'.\n"
                 "Calling sizeof for 'sizeof looks like a suspicious code and "
@@ -311,6 +340,9 @@ void CheckSizeof::sizeofsizeofError(const Token *tok)
 
 void CheckSizeof::sizeofCalculation()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (!mSettings->severity.isEnabled(Severity::warning))
         return;
 
@@ -349,6 +381,9 @@ void CheckSizeof::sizeofCalculation()
 
 void CheckSizeof::sizeofCalculationError(const Token *tok, bool inconclusive)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     reportError(tok, Severity::warning,
                 "sizeofCalculation", "Found calculation inside sizeof().", CWE682, inconclusive ? Certainty::inconclusive : Certainty::normal);
 }
@@ -357,6 +392,9 @@ void CheckSizeof::sizeofCalculationError(const Token *tok, bool inconclusive)
 
 void CheckSizeof::sizeofFunction()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (!mSettings->severity.isEnabled(Severity::warning))
         return;
 
@@ -391,6 +429,9 @@ void CheckSizeof::sizeofFunction()
 
 void CheckSizeof::sizeofFunctionError(const Token *tok)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     reportError(tok, Severity::warning,
                 "sizeofFunctionCall", "Found function call inside sizeof().", CWE682, Certainty::normal);
 }
@@ -400,6 +441,9 @@ void CheckSizeof::sizeofFunctionError(const Token *tok)
 //-----------------------------------------------------------------------------
 void CheckSizeof::suspiciousSizeofCalculation()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (!mSettings->severity.isEnabled(Severity::warning) || !mSettings->certainty.isEnabled(Certainty::inconclusive))
         return;
 
@@ -430,12 +474,18 @@ void CheckSizeof::suspiciousSizeofCalculation()
 
 void CheckSizeof::multiplySizeofError(const Token *tok)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     reportError(tok, Severity::warning,
                 "multiplySizeof", "Multiplying sizeof() with sizeof() indicates a logic error.", CWE682, Certainty::inconclusive);
 }
 
 void CheckSizeof::divideSizeofError(const Token *tok)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     reportError(tok, Severity::warning,
                 "divideSizeof", "Division of result of sizeof() on pointer type.\n"
                 "Division of result of sizeof() on pointer type. sizeof() returns the size of the pointer, "
@@ -444,6 +494,9 @@ void CheckSizeof::divideSizeofError(const Token *tok)
 
 void CheckSizeof::sizeofVoid()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (!mSettings->severity.isEnabled(Severity::portability))
         return;
 
@@ -482,6 +535,9 @@ void CheckSizeof::sizeofVoid()
 
 void CheckSizeof::sizeofVoidError(const Token *tok)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     const std::string message = "Behaviour of 'sizeof(void)' is not covered by the ISO C standard.";
     const std::string verbose = message + " A value for 'sizeof(void)' is defined only as part of a GNU C extension, which defines 'sizeof(void)' to be 1.";
     reportError(tok, Severity::portability, "sizeofVoid", message + "\n" + verbose, CWE682, Certainty::normal);
@@ -489,6 +545,9 @@ void CheckSizeof::sizeofVoidError(const Token *tok)
 
 void CheckSizeof::sizeofDereferencedVoidPointerError(const Token *tok, const std::string &varname)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     const std::string message = "'*" + varname + "' is of type 'void', the behaviour of 'sizeof(void)' is not covered by the ISO C standard.";
     const std::string verbose = message + " A value for 'sizeof(void)' is defined only as part of a GNU C extension, which defines 'sizeof(void)' to be 1.";
     reportError(tok, Severity::portability, "sizeofDereferencedVoidPointer", message + "\n" + verbose, CWE682, Certainty::normal);
@@ -496,6 +555,9 @@ void CheckSizeof::sizeofDereferencedVoidPointerError(const Token *tok, const std
 
 void CheckSizeof::arithOperationsOnVoidPointerError(const Token* tok, const std::string &varname, const std::string &vartype)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     const std::string message = "'$symbol' is of type '" + vartype + "'. When using void pointers in calculations, the behaviour is undefined.";
     const std::string verbose = message + " Arithmetic operations on 'void *' is a GNU C extension, which defines the 'sizeof(void)' to be 1.";
     reportError(tok, Severity::portability, "arithOperationsOnVoidPointer", "$symbol:" + varname + '\n' + message + '\n' + verbose, CWE467, Certainty::normal);

@@ -1,3 +1,5 @@
+#include <stdio.h>
+#include <pthread.h>
 /*
  * Cppcheck - A tool for static C/C++ code analysis
  * Copyright (C) 2007-2023 Cppcheck team.
@@ -51,6 +53,9 @@ static const CWE CWE665(665U);   // Improper Initialization
 /** Is scope a raii class scope */
 static bool isRaiiClassScope(const Scope *classScope)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     return classScope && classScope->getDestructor() != nullptr;
 }
 
@@ -124,12 +129,18 @@ public:
 
         /** variable is used.. set both read+write */
         void use() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
             _read = true;
             _write = true;
         }
 
         /** is variable unused? */
         bool unused() const {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
             return (!_read && !_write);
         }
 
@@ -146,6 +157,9 @@ public:
     };
 
     void clear() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         mVarUsage.clear();
     }
     const std::map<nonneg int, VariableUsage> &varUsage() const {
@@ -164,6 +178,9 @@ public:
     VariableUsage *find(nonneg int varid);
     void alias(nonneg int varid1, nonneg int varid2, bool replace);
     void erase(nonneg int varid) {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         mVarUsage.erase(varid);
     }
     void eraseAliases(nonneg int varid);
@@ -185,6 +202,9 @@ private:
  */
 void Variables::alias(nonneg int varid1, nonneg int varid2, bool replace)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     VariableUsage *var1 = find(varid1);
     VariableUsage *var2 = find(varid2);
 
@@ -227,6 +247,9 @@ void Variables::alias(nonneg int varid1, nonneg int varid2, bool replace)
 
 void Variables::clearAliases(nonneg int varid)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     VariableUsage *usage = find(varid);
 
     if (usage) {
@@ -245,6 +268,9 @@ void Variables::clearAliases(nonneg int varid)
 
 void Variables::eraseAliases(nonneg int varid)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     VariableUsage *usage = find(varid);
 
     if (usage) {
@@ -255,6 +281,9 @@ void Variables::eraseAliases(nonneg int varid)
 
 void Variables::eraseAll(nonneg int varid)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     eraseAliases(varid);
     erase(varid);
 }
@@ -263,6 +292,9 @@ void Variables::addVar(const Variable *var,
                        VariableType type,
                        bool write_)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (var->declarationId() > 0) {
         mVarUsage.insert(std::make_pair(var->declarationId(), VariableUsage(var, type, false, write_, false)));
     }
@@ -270,6 +302,9 @@ void Variables::addVar(const Variable *var,
 
 void Variables::allocateMemory(nonneg int varid, const Token* tok)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     VariableUsage *usage = find(varid);
 
     if (usage) {
@@ -280,6 +315,9 @@ void Variables::allocateMemory(nonneg int varid, const Token* tok)
 
 void Variables::read(nonneg int varid, const Token* tok)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     VariableUsage *usage = find(varid);
 
     if (usage) {
@@ -291,6 +329,9 @@ void Variables::read(nonneg int varid, const Token* tok)
 
 void Variables::readAliases(nonneg int varid, const Token* tok)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     const VariableUsage *usage = find(varid);
 
     if (usage) {
@@ -307,12 +348,18 @@ void Variables::readAliases(nonneg int varid, const Token* tok)
 
 void Variables::readAll(nonneg int varid, const Token* tok)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     read(varid, tok);
     readAliases(varid, tok);
 }
 
 void Variables::write(nonneg int varid, const Token* tok)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     VariableUsage *usage = find(varid);
 
     if (usage) {
@@ -325,6 +372,9 @@ void Variables::write(nonneg int varid, const Token* tok)
 
 void Variables::writeAliases(nonneg int varid, const Token* tok)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     VariableUsage *usage = find(varid);
 
     if (usage) {
@@ -341,12 +391,18 @@ void Variables::writeAliases(nonneg int varid, const Token* tok)
 
 void Variables::writeAll(nonneg int varid, const Token* tok)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     write(varid, tok);
     writeAliases(varid, tok);
 }
 
 void Variables::use(nonneg int varid, const Token* tok)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     VariableUsage *usage = find(varid);
 
     if (usage) {
@@ -366,6 +422,9 @@ void Variables::use(nonneg int varid, const Token* tok)
 
 void Variables::modified(nonneg int varid, const Token* tok)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     VariableUsage *usage = find(varid);
 
     if (usage) {
@@ -397,6 +456,9 @@ Variables::VariableUsage *Variables::find(nonneg int varid)
 
 static const Token* doAssignment(Variables &variables, const Token *tok, bool dereference, const Scope *scope)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     // a = a + b;
     if (Token::Match(tok, "%var% = %var% !!;")) {
         const Token* rhsVarTok = tok->tokAt(2);
@@ -629,6 +691,9 @@ static const Token* doAssignment(Variables &variables, const Token *tok, bool de
 
 static bool isPartOfClassStructUnion(const Token* tok)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     for (; tok; tok = tok->previous()) {
         if (tok->str() == "}" || tok->str() == ")")
             tok = tok->link();
@@ -643,6 +708,9 @@ static bool isPartOfClassStructUnion(const Token* tok)
 
 static bool isVarDecl(const Token *tok)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     return tok && tok->variable() && tok->variable()->nameToken() == tok;
 }
 
@@ -671,6 +739,9 @@ static const Token * skipBracketsAndMembers(const Token *tok)
 
 static void useFunctionArgs(const Token *tok, Variables& variables)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     // TODO: Match function args to see if they are const or not. Assume that const data is not written.
     if (!tok)
         return;
@@ -690,6 +761,9 @@ static void useFunctionArgs(const Token *tok, Variables& variables)
 //---------------------------------------------------------------------------
 void CheckUnusedVar::checkFunctionVariableUsage_iterateScopes(const Scope* const scope, Variables& variables)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     // Find declarations if the scope is executable..
     if (scope->isExecutable()) {
         // Find declarations
@@ -1149,6 +1223,9 @@ void CheckUnusedVar::checkFunctionVariableUsage_iterateScopes(const Scope* const
 
 void CheckUnusedVar::checkFunctionVariableUsage()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (!mSettings->severity.isEnabled(Severity::style) && !mSettings->checkLibrary)
         return;
 
@@ -1399,6 +1476,9 @@ void CheckUnusedVar::checkFunctionVariableUsage()
 
 void CheckUnusedVar::unusedVariableError(const Token *tok, const std::string &varname)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (!mSettings->severity.isEnabled(Severity::style))
         return;
 
@@ -1407,6 +1487,9 @@ void CheckUnusedVar::unusedVariableError(const Token *tok, const std::string &va
 
 void CheckUnusedVar::allocatedButUnusedVariableError(const Token *tok, const std::string &varname)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (!mSettings->severity.isEnabled(Severity::style))
         return;
 
@@ -1415,6 +1498,9 @@ void CheckUnusedVar::allocatedButUnusedVariableError(const Token *tok, const std
 
 void CheckUnusedVar::unreadVariableError(const Token *tok, const std::string &varname, bool modified)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (!mSettings->severity.isEnabled(Severity::style))
         return;
 
@@ -1426,6 +1512,9 @@ void CheckUnusedVar::unreadVariableError(const Token *tok, const std::string &va
 
 void CheckUnusedVar::unassignedVariableError(const Token *tok, const std::string &varname)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (!mSettings->severity.isEnabled(Severity::style))
         return;
 
@@ -1437,6 +1526,9 @@ void CheckUnusedVar::unassignedVariableError(const Token *tok, const std::string
 //---------------------------------------------------------------------------
 void CheckUnusedVar::checkStructMemberUsage()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (!mSettings->severity.isEnabled(Severity::style))
         return;
 
@@ -1548,11 +1640,17 @@ void CheckUnusedVar::checkStructMemberUsage()
 
 void CheckUnusedVar::unusedStructMemberError(const Token* tok, const std::string& structname, const std::string& varname, const std::string& prefix)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     reportError(tok, Severity::style, "unusedStructMember", "$symbol:" + structname + "::" + varname + '\n' + prefix + " member '$symbol' is never used.", CWE563, Certainty::normal);
 }
 
 bool CheckUnusedVar::isRecordTypeWithoutSideEffects(const Type* type)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     // a type that has no side effects (no constructors and no members with constructors)
     /** @todo false negative: check constructors for side effects */
     const std::pair<std::map<const Type *,bool>::iterator,bool> found=mIsRecordTypeWithoutSideEffectsMap.insert(
@@ -1629,6 +1727,9 @@ bool CheckUnusedVar::isRecordTypeWithoutSideEffects(const Type* type)
 
 bool CheckUnusedVar::isVariableWithoutSideEffects(const Variable& var)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (var.isPointer())
         return true;
 
@@ -1649,6 +1750,9 @@ bool CheckUnusedVar::isVariableWithoutSideEffects(const Variable& var)
 
 bool CheckUnusedVar::isEmptyType(const Type* type)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     // a type that has no variables and no constructor
 
     const std::pair<std::map<const Type *,bool>::iterator,bool> found=mIsEmptyTypeMap.insert(
@@ -1671,6 +1775,9 @@ bool CheckUnusedVar::isEmptyType(const Type* type)
 bool CheckUnusedVar::isFunctionWithoutSideEffects(const Function& func, const Token* functionUsageToken,
                                                   std::list<const Function*> checkedFuncs)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     // no body to analyze
     if (!func.hasBody()) {
         return false;
@@ -1733,6 +1840,9 @@ bool CheckUnusedVar::isFunctionWithoutSideEffects(const Function& func, const To
             const Variable* returnVariable = returnValueToken->variable();
             if (returnValueToken->isLiteral() ||
                 (returnVariable && isVariableWithoutSideEffects(*returnVariable))) {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
                 continue;
             }
             sideEffectReturnFound = true;

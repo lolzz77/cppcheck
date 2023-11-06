@@ -1,3 +1,5 @@
+#include <stdio.h>
+#include <pthread.h>
 /*
  * Cppcheck - A tool for static C/C++ code analysis
  * Copyright (C) 2007-2023 Cppcheck team.
@@ -45,6 +47,9 @@ private:
     Settings settings = settingsBuilder().library("std.cfg").build();
 
     void run() override {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         // strcpy, abort cfg
         constexpr char cfg[] = "<?xml version=\"1.0\"?>\n"
                                "<def>\n"
@@ -164,36 +169,60 @@ private:
     }
 
     static bool isNotTokValue(const ValueFlow::Value &val) {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         return !val.isTokValue();
     }
 
     // cppcheck-suppress unusedPrivateFunction
     static bool isNotLifetimeValue(const ValueFlow::Value& val) {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         return !val.isLifetimeValue();
     }
 
     static bool isNotUninitValue(const ValueFlow::Value& val) {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         return !val.isUninitValue();
     }
 
     static bool isNotPossible(const ValueFlow::Value& val) {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         return !val.isPossible();
     }
 
     static bool isNotKnown(const ValueFlow::Value& val) {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         return !val.isKnown();
     }
 
     static bool isNotInconclusive(const ValueFlow::Value& val) {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         return !val.isInconclusive();
     }
 
     static bool isNotImpossible(const ValueFlow::Value& val) {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         return !val.isImpossible();
     }
 
 #define testValueOfXKnown(...) testValueOfXKnown_(__FILE__, __LINE__, __VA_ARGS__)
     bool testValueOfXKnown_(const char* file, int line, const char code[], unsigned int linenr, int value) {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         // Tokenize..
         Tokenizer tokenizer(&settings, this);
         std::istringstream istr(code);
@@ -216,6 +245,9 @@ private:
     }
 
     bool testValueOfXKnown_(const char* file, int line, const char code[], unsigned int linenr, const std::string& expr, int value) {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         // Tokenize..
         Tokenizer tokenizer(&settings, this);
         std::istringstream istr(code);
@@ -239,6 +271,9 @@ private:
 
 #define testValueOfXImpossible(...) testValueOfXImpossible_(__FILE__, __LINE__, __VA_ARGS__)
     bool testValueOfXImpossible_(const char* file, int line, const char code[], unsigned int linenr, int value) {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         // Tokenize..
         Tokenizer tokenizer(&settings, this);
         std::istringstream istr(code);
@@ -262,6 +297,9 @@ private:
 
     bool testValueOfXImpossible_(const char* file, int line, const char code[], unsigned int linenr, const std::string& expr, int value)
     {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         // Tokenize..
         Tokenizer tokenizer(&settings, this);
         std::istringstream istr(code);
@@ -285,6 +323,9 @@ private:
 
 #define testValueOfXInconclusive(code, linenr, value) testValueOfXInconclusive_(code, linenr, value, __FILE__, __LINE__)
     bool testValueOfXInconclusive_(const char code[], unsigned int linenr, int value, const char* file, int line) {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         // Tokenize..
         Tokenizer tokenizer(&settings, this);
         std::istringstream istr(code);
@@ -329,6 +370,9 @@ private:
 
     bool testValueOfX_(const char* file, int line, const char code[], unsigned int linenr, const std::string& expr, int value)
     {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         // Tokenize..
         Tokenizer tokenizer(&settings, this);
         std::istringstream istr(code);
@@ -347,6 +391,9 @@ private:
     }
 
     bool testValueOfX_(const char* file, int line, const char code[], unsigned int linenr, double value, double diff) {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         // Tokenize..
         Tokenizer tokenizer(&settings, this);
         std::istringstream istr(code);
@@ -390,6 +437,9 @@ private:
     }
 
     bool testValueOfX_(const char* file, int line, const char code[], unsigned int linenr, const char value[], ValueFlow::Value::ValueType type) {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         // Tokenize..
         Tokenizer tokenizer(&settings, this);
         std::istringstream istr(code);
@@ -429,6 +479,9 @@ private:
     }
 
     bool testValueOfX_(const char* file, int line, const char code[], unsigned int linenr, int value, ValueFlow::Value::ValueType type) {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         // Tokenize..
         Tokenizer tokenizer(&settings, this);
         std::istringstream istr(code);
@@ -447,6 +500,9 @@ private:
     }
 
     bool testValueOfX_(const char* file, int line, const char code[], unsigned int linenr, ValueFlow::Value::MoveKind moveKind) {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         // Tokenize..
         Tokenizer tokenizer(&settings, this);
         std::istringstream istr(code);
@@ -466,6 +522,9 @@ private:
 
 #define testConditionalValueOfX(code, linenr, value) testConditionalValueOfX_(code, linenr, value, __FILE__, __LINE__)
     bool testConditionalValueOfX_(const char code[], unsigned int linenr, int value, const char* file, int line) {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         // Tokenize..
         Tokenizer tokenizer(&settings, this);
         std::istringstream istr(code);
@@ -485,6 +544,9 @@ private:
 
 #define bailout(...) bailout_(__FILE__, __LINE__, __VA_ARGS__)
     void bailout_(const char* file, int line, const char code[]) {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const Settings s = settingsBuilder().debugwarnings().build();
         errout.str("");
 
@@ -555,6 +617,9 @@ private:
     }
 
     void valueFlowNumber() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         ASSERT_EQUALS(123, valueOfTok("x=123;", "123").intvalue);
         ASSERT_EQUALS_DOUBLE(192.0, valueOfTok("x=0x0.3p10;", "0x0.3p10").floatValue, 1e-5); // 3 * 16^-1 * 2^10 = 192
         ASSERT(std::fabs(valueOfTok("x=0.5;", "0.5").floatValue - 0.5) < 0.1);
@@ -577,6 +642,9 @@ private:
     }
 
     void valueFlowString() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char *code;
 
         // valueFlowAfterAssign
@@ -597,6 +665,9 @@ private:
     }
 
     void valueFlowPointerAlias() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char *code;
         std::list<ValueFlow::Value> values;
 
@@ -630,6 +701,9 @@ private:
     }
 
     void valueFlowLifetime() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char *code;
         std::vector<std::string> lifetimes;
 
@@ -727,6 +801,9 @@ private:
     }
 
     void valueFlowArrayElement() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char *code;
 
         code  = "void f() {\n"
@@ -782,6 +859,9 @@ private:
     }
 
     void valueFlowMove() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char *code;
 
         code = "void f() {\n"
@@ -879,6 +959,9 @@ private:
     }
 
     void valueFlowCalculations() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char *code;
 
         // Different operators
@@ -1140,6 +1223,9 @@ private:
     }
 
     void valueFlowSizeof() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char *code;
         std::list<ValueFlow::Value> values;
 
@@ -1381,6 +1467,9 @@ private:
 
     void valueFlowComma()
     {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char* code;
         std::list<ValueFlow::Value> values;
 
@@ -1405,6 +1494,9 @@ private:
     }
 
     void valueFlowErrorPath() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char *code;
 
         code = "void f() {\n"
@@ -1448,6 +1540,9 @@ private:
     }
 
     void valueFlowBeforeCondition() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char *code;
 
         code = "void f(int x) {\n"
@@ -1782,6 +1877,9 @@ private:
     }
 
     void valueFlowBeforeConditionGlobalVariables() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char *code;
 
         // handle global variables
@@ -1803,6 +1901,9 @@ private:
     }
 
     void valueFlowBeforeConditionSwitch() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         // bailout: switch
         // TODO : handle switch/goto more intelligently
         bailout("void f(int x, int y) {\n"
@@ -1827,6 +1928,9 @@ private:
     }
 
     void valueFlowBeforeConditionMacro() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         // bailout: condition is a expanded macro
         bailout("#define M  if (x==123) {}\n"
                 "void f(int x) {\n"
@@ -1850,6 +1954,9 @@ private:
     }
 
     void valueFlowBeforeConditionGoto() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         // bailout: goto label (TODO: handle gotos more intelligently)
         bailout("void f(int x) {\n"
                 "    if (x == 123) { goto out; }\n"
@@ -1876,6 +1983,9 @@ private:
     }
 
     void valueFlowBeforeConditionForward() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char* code;
 
         code = "void f(int a) {\n"
@@ -1895,6 +2005,9 @@ private:
 
     void valueFlowBeforeConditionConstructor()
     {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char* code;
 
         code = "struct Fred {\n"
@@ -1918,6 +2031,9 @@ private:
     }
 
     void valueFlowAfterAssign() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char *code;
 
         code = "void f() {\n"
@@ -2694,6 +2810,9 @@ private:
 
     void valueFlowAfterSwap()
     {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char* code;
 
         code = "int f() {\n"
@@ -2738,6 +2857,9 @@ private:
     }
 
     void valueFlowAfterCondition() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char *code;
         // in if
         code = "void f(int x) {\n"
@@ -3307,6 +3429,9 @@ private:
 
     void valueFlowAfterConditionTernary()
     {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char* code;
 
         code = "auto f(int x) {\n"
@@ -3354,6 +3479,9 @@ private:
     }
 
     void valueFlowAfterConditionExpr() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char* code;
 
         code = "void f(int* p) {\n"
@@ -3452,6 +3580,9 @@ private:
     }
 
     void valueFlowAfterConditionSeveralNot() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char *code;
 
         code = "int f(int x, int y) {\n"
@@ -3483,6 +3614,9 @@ private:
     }
 
     void valueFlowForwardCompoundAssign() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char *code;
 
         code = "int f() {\n"
@@ -3532,6 +3666,9 @@ private:
     }
 
     void valueFlowForwardCorrelatedVariables() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char *code;
 
         code = "void f(int x = 0) {\n"
@@ -3558,6 +3695,9 @@ private:
     }
 
     void valueFlowForwardModifiedVariables() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char *code;
 
         code = "void f(bool b) {\n"
@@ -3579,6 +3719,9 @@ private:
     }
 
     void valueFlowForwardFunction() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char *code;
 
         code = "class C {\n"
@@ -3626,6 +3769,9 @@ private:
     }
 
     void valueFlowForwardTernary() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char *code;
 
         code = "int f() {\n"
@@ -3660,6 +3806,9 @@ private:
     }
 
     void valueFlowForwardLambda() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char *code;
 
         code = "void f() {\n"
@@ -3690,6 +3839,9 @@ private:
     }
 
     void valueFlowForwardTryCatch() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char *code;
 
         code = "void g1();\n"
@@ -3724,6 +3876,9 @@ private:
     }
 
     void valueFlowBitAnd() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char *code;
 
         code = "int f(int a) {\n"
@@ -3749,6 +3904,9 @@ private:
     }
 
     void valueFlowForwardInconclusiveImpossible() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char *code;
 
         code = "void foo() {\n"
@@ -3763,6 +3921,9 @@ private:
 
     void valueFlowForwardConst()
     {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char* code;
 
         code = "int f() {\n"
@@ -3818,6 +3979,9 @@ private:
 
     void valueFlowForwardAfterCondition()
     {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char* code;
 
         code = "int g();\n"
@@ -3867,6 +4031,9 @@ private:
     }
 
     void valueFlowRightShift() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char *code;
         /* Set some temporary fixed values to simplify testing */
         Settings s = settings;
@@ -3948,6 +4115,9 @@ private:
     }
 
     void valueFlowFwdAnalysis() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char *code;
         std::list<ValueFlow::Value> values;
 
@@ -4040,6 +4210,9 @@ private:
     }
 
     void valueFlowSwitchVariable() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char *code;
         code = "void f(int x) {\n"
                "    a = x - 1;\n"  // <- x can be 14
@@ -4062,6 +4235,9 @@ private:
     }
 
     void valueFlowForLoop() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char *code;
         ValueFlow::Value value;
 
@@ -4417,6 +4593,9 @@ private:
     }
 
     void valueFlowSubFunction() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char *code;
 
         code = "int f(int size) {\n"
@@ -4540,6 +4719,9 @@ private:
     }
 
     void valueFlowFunctionReturn() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char *code;
 
         code = "int f1(int x) {\n"
@@ -4730,6 +4912,9 @@ private:
     }
 
     void valueFlowFunctionDefaultParameter() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char *code;
 
         code = "class continuous_src_time {\n"
@@ -4739,6 +4924,9 @@ private:
     }
 
     bool isNotKnownValues(const char code[], const char str[]) {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const auto& values = tokenValues(code, str);
         return std::none_of(values.cbegin(), values.cend(), [](const ValueFlow::Value& v) {
             return v.isKnown();
@@ -4746,6 +4934,9 @@ private:
     }
 
     void knownValue() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char *code;
         ValueFlow::Value value;
 
@@ -5147,11 +5338,17 @@ private:
     }
 
     void valueFlowSizeofForwardDeclaredEnum() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char *code = "enum E; sz=sizeof(E);";
         valueOfTok(code, "="); // Don't crash (#7775)
     }
 
     void valueFlowGlobalVar() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char *code;
 
         code = "int x;\n"
@@ -5178,6 +5375,9 @@ private:
     }
 
     void valueFlowGlobalConstVar() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char* code;
 
         code = "const int x = 321;\n"
@@ -5201,6 +5401,9 @@ private:
     }
 
     void valueFlowGlobalStaticVar() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char *code;
 
         code = "static int x = 321;\n"
@@ -5246,6 +5449,9 @@ private:
     }
 
     void valueFlowInlineAssembly() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char* code = "void f() {\n"
                            "    int x = 42;\n"
                            "    asm(\"\");\n"
@@ -5255,6 +5461,9 @@ private:
     }
 
     void valueFlowSameExpression() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char* code;
 
         code = "void f(int a) {\n"
@@ -5283,6 +5492,9 @@ private:
     }
 
     void valueFlowUninit() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char* code;
         std::list<ValueFlow::Value> values;
 
@@ -5627,6 +5839,9 @@ private:
     }
 
     void valueFlowConditionExpressions() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char* code;
         std::list<ValueFlow::Value> values;
 
@@ -5928,6 +6143,9 @@ private:
     }
 
     void valueFlowContainerSize() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char *code;
 
         LOAD_LIB_2(settings.library, "std.cfg");
@@ -6714,6 +6932,9 @@ private:
 
     void valueFlowContainerElement()
     {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char* code;
 
         LOAD_LIB_2(settings.library, "std.cfg");
@@ -6741,6 +6962,9 @@ private:
     }
 
     void valueFlowDynamicBufferSize() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char *code;
 
         LOAD_LIB_2(settings.library, "std.cfg");
@@ -6781,6 +7005,9 @@ private:
     }
 
     void valueFlowSafeFunctionParameterValues() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char *code;
         std::list<ValueFlow::Value> values;
         Settings s = settingsBuilder().library("std.cfg").build();
@@ -6832,6 +7059,9 @@ private:
 
 
     void valueFlowUnknownFunctionReturn() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char *code;
         std::list<ValueFlow::Value> values;
         Settings s = settingsBuilder().library("std.cfg").build();
@@ -6845,6 +7075,9 @@ private:
     }
 
     void valueFlowPointerAliasDeref() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char* code;
 
         code = "int f() {\n"
@@ -6857,6 +7090,9 @@ private:
     }
 
     void valueFlowCrashIncompleteCode() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char* code;
 
         code = "void SlopeFloor::setAttr(const Value &val) {\n"
@@ -6904,6 +7140,9 @@ private:
     }
 
     void valueFlowCrash() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char* code;
 
         code = "void f(int x) {\n"
@@ -7229,6 +7468,9 @@ private:
     }
 
     void valueFlowHang() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char* code;
         // #9659
         code = "float arr1[4][4] = {0.0};\n"
@@ -7492,6 +7734,9 @@ private:
     }
 
     void valueFlowUnknownMixedOperators() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char *code= "int f(int a, int b, bool x) {\n"
                           "  if (a == 1 && (!(b == 2 && x))) {\n"
                           "  } else {\n"
@@ -7507,6 +7752,9 @@ private:
 
     void valueFlowSolveExpr()
     {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char* code;
         code = "int f(int x) {\n"
                "    if ((64 - x) == 8)\n"
@@ -7559,6 +7807,9 @@ private:
     }
 
     void valueFlowIdempotent() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char *code;
 
         code = "void f(bool a, bool b) {\n"
@@ -7608,6 +7859,9 @@ private:
     }
 
     void valueFlowUnsigned() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char *code;
 
         code = "auto f(uint32_t i) {\n"
@@ -7659,6 +7913,9 @@ private:
     }
 
     void valueFlowMod() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char *code;
 
         code = "auto f(int i) {\n"
@@ -7677,6 +7934,9 @@ private:
 
     void valueFlowNotNull()
     {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char* code;
 
         code = "int f(const std::string &str) {\n"
@@ -7713,6 +7973,9 @@ private:
     }
 
     void valueFlowSymbolic() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char* code;
 
         code = "int f(int i) {\n"
@@ -7988,6 +8251,9 @@ private:
 
     void valueFlowSymbolicIdentity()
     {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char* code;
 
         code = "void f(int a) {\n"
@@ -8053,6 +8319,9 @@ private:
 
     void valueFlowSymbolicStrlen()
     {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char* code;
 
         code = "int f(char *s) {\n"
@@ -8091,6 +8360,9 @@ private:
 
     void valueFlowSmartPointer()
     {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char* code;
 
         code = "int* df(int* expr);\n"
@@ -8104,6 +8376,9 @@ private:
 
     void valueFlowImpossibleMinMax()
     {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char* code;
 
         code = "void f(int a, int b) {\n"
@@ -8165,6 +8440,9 @@ private:
 
     void valueFlowImpossibleIncDec()
     {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char* code;
 
         code = "int f() {\n"
@@ -8190,6 +8468,9 @@ private:
 
     void valueFlowImpossibleUnknownConstant()
     {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char* code;
 
         code = "void f(bool b) {\n"
@@ -8203,6 +8484,9 @@ private:
 
     void valueFlowContainerEqual()
     {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char* code;
 
         code = "bool f() {\n"
@@ -8254,6 +8538,9 @@ private:
     }
 
     void performanceIfCount() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         Settings s(settings);
         s.performanceValueFlowMaxIfCount = 1;
 

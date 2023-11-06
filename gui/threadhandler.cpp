@@ -1,3 +1,5 @@
+#include <stdio.h>
+#include <pthread.h>
 /*
  * Cppcheck - A tool for static C/C++ code analysis
  * Copyright (C) 2007-2023 Cppcheck team.
@@ -48,6 +50,9 @@ ThreadHandler::~ThreadHandler()
 
 void ThreadHandler::clearFiles()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     mLastFiles.clear();
     mResults.clearFiles();
     mAnalyseWholeProgram = false;
@@ -57,18 +62,27 @@ void ThreadHandler::clearFiles()
 
 void ThreadHandler::setFiles(const QStringList &files)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     mResults.setFiles(files);
     mLastFiles = files;
 }
 
 void ThreadHandler::setProject(const ImportProject &prj)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     mResults.setProject(prj);
     mLastFiles.clear();
 }
 
 void ThreadHandler::setCheckFiles(bool all)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (mRunningThreadCount == 0) {
         mResults.setFiles(getReCheckFiles(all));
     }
@@ -76,6 +90,9 @@ void ThreadHandler::setCheckFiles(bool all)
 
 void ThreadHandler::setCheckFiles(const QStringList& files)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (mRunningThreadCount == 0) {
         mResults.setFiles(files);
     }
@@ -83,6 +100,9 @@ void ThreadHandler::setCheckFiles(const QStringList& files)
 
 void ThreadHandler::check(const Settings &settings)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (mResults.getFileCount() == 0 || mRunningThreadCount > 0 || settings.jobs == 0) {
         qDebug() << "Can't start checking if there's no files to check or if check is in progress.";
         emit done();
@@ -121,11 +141,17 @@ void ThreadHandler::check(const Settings &settings)
 
 bool ThreadHandler::isChecking() const
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     return mRunningThreadCount > 0;
 }
 
 void ThreadHandler::setThreadCount(const int count)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (mRunningThreadCount > 0 ||
         count == mThreads.size() ||
         count <= 0) {
@@ -147,6 +173,9 @@ void ThreadHandler::setThreadCount(const int count)
 
 void ThreadHandler::removeThreads()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     for (CheckThread* thread : mThreads) {
         if (thread->isRunning()) {
             thread->terminate();
@@ -165,6 +194,9 @@ void ThreadHandler::removeThreads()
 
 void ThreadHandler::threadDone()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (mRunningThreadCount == 1 && mAnalyseWholeProgram) {
         mThreads[0]->analyseWholeProgram(mLastFiles);
         mAnalyseWholeProgram = false;
@@ -187,6 +219,9 @@ void ThreadHandler::threadDone()
 
 void ThreadHandler::stop()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     mCheckStartTime = QDateTime();
     mAnalyseWholeProgram = false;
     for (CheckThread* thread : mThreads) {
@@ -196,6 +231,9 @@ void ThreadHandler::stop()
 
 void ThreadHandler::initialize(const ResultsView *view)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     connect(&mResults, &ThreadResult::progress,
             view, &ResultsView::progress);
 
@@ -211,31 +249,49 @@ void ThreadHandler::initialize(const ResultsView *view)
 
 void ThreadHandler::loadSettings(const QSettings &settings)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     setThreadCount(settings.value(SETTINGS_CHECK_THREADS, 1).toInt());
 }
 
 void ThreadHandler::saveSettings(QSettings &settings) const
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     settings.setValue(SETTINGS_CHECK_THREADS, mThreads.size());
 }
 
 bool ThreadHandler::hasPreviousFiles() const
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     return !mLastFiles.isEmpty();
 }
 
 int ThreadHandler::getPreviousFilesCount() const
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     return mLastFiles.size();
 }
 
 int ThreadHandler::getPreviousScanDuration() const
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     return mScanDuration;
 }
 
 QStringList ThreadHandler::getReCheckFiles(bool all) const
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (mLastCheckTime.isNull() || all)
         return mLastFiles;
 
@@ -252,6 +308,9 @@ QStringList ThreadHandler::getReCheckFiles(bool all) const
 
 bool ThreadHandler::needsReCheck(const QString &filename, std::set<QString> &modified, std::set<QString> &unmodified) const
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (modified.find(filename) != modified.end())
         return true;
 
@@ -292,10 +351,16 @@ bool ThreadHandler::needsReCheck(const QString &filename, std::set<QString> &mod
 
 QDateTime ThreadHandler::getCheckStartTime() const
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     return mCheckStartTime;
 }
 
 void ThreadHandler::setCheckStartTime(QDateTime checkStartTime)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     mCheckStartTime = std::move(checkStartTime);
 }

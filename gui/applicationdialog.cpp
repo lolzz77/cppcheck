@@ -1,3 +1,5 @@
+#include <stdio.h>
+#include <pthread.h>
 /*
  * Cppcheck - A tool for static C/C++ code analysis
  * Copyright (C) 2007-2023 Cppcheck team.
@@ -58,6 +60,9 @@ ApplicationDialog::~ApplicationDialog()
 
 void ApplicationDialog::browse()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     QString filter;
 #ifdef Q_OS_WIN
     // In Windows (almost) all executables have .exe extension
@@ -78,6 +83,9 @@ void ApplicationDialog::browse()
 
 void ApplicationDialog::ok()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (mUI->mName->text().isEmpty() || mUI->mPath->text().isEmpty()) {
         QMessageBox msg(QMessageBox::Warning,
                         tr("Cppcheck"),

@@ -1,3 +1,5 @@
+#include <stdio.h>
+#include <pthread.h>
 
 // Test library configuration for cairo.cfg
 //
@@ -11,6 +13,9 @@
 
 void validCode(cairo_surface_t *target)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     cairo_t * cairo1 = cairo_create(target);
     cairo_move_to(cairo1, 1.0, 2.0);
     cairo_line_to(cairo1, 5.0, 6.0);
@@ -19,6 +24,9 @@ void validCode(cairo_surface_t *target)
 
 void ignoredReturnValue(cairo_surface_t *target)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     // cppcheck-suppress ignoredReturnValue
     cairo_create(target);
     // cppcheck-suppress ignoredReturnValue

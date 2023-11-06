@@ -1,3 +1,5 @@
+#include <stdio.h>
+#include <pthread.h>
 /*
  * Cppcheck - A tool for static C/C++ code analysis
  * Copyright (C) 2007-2023 Cppcheck team.
@@ -45,6 +47,9 @@ static const CWE CWE398(398U);   // Indicator of Poor Code Quality
 
 void CheckPostfixOperator::postfixOperator()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (!mSettings->severity.isEnabled(Severity::performance))
         return;
 
@@ -79,6 +84,9 @@ void CheckPostfixOperator::postfixOperator()
 
 void CheckPostfixOperator::postfixOperatorError(const Token *tok)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     reportError(tok, Severity::performance, "postfixOperator",
                 "Prefer prefix ++/-- operators for non-primitive types.\n"
                 "Prefix ++/-- operators should be preferred for non-primitive types. "

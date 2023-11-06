@@ -1,3 +1,5 @@
+#include <stdio.h>
+#include <pthread.h>
 /*
  * Cppcheck - A tool for static C/C++ code analysis
  * Copyright (C) 2007-2023 Cppcheck team.
@@ -66,11 +68,17 @@ static const CWE CWE834(834U);   // Excessive Iteration
 
 static bool isElementAccessYield(Library::Container::Yield yield)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     return contains({Library::Container::Yield::ITEM, Library::Container::Yield::AT_INDEX}, yield);
 }
 
 static bool containerAppendsElement(const Library::Container* container, const Token* parent)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (Token::Match(parent, ". %name% (")) {
         const Library::Container::Action action = container->getAction(parent->strAt(1));
         if (contains({Library::Container::Action::INSERT,
@@ -86,6 +94,9 @@ static bool containerAppendsElement(const Library::Container* container, const T
 
 static bool containerYieldsElement(const Library::Container* container, const Token* parent)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (Token::Match(parent, ". %name% (")) {
         const Library::Container::Yield yield = container->getYield(parent->strAt(1));
         if (isElementAccessYield(yield))
@@ -96,6 +107,9 @@ static bool containerYieldsElement(const Library::Container* container, const To
 
 static bool containerPopsElement(const Library::Container* container, const Token* parent)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (Token::Match(parent, ". %name% (")) {
         const Library::Container::Action action = container->getAction(parent->strAt(1));
         if (contains({ Library::Container::Action::POP }, action))
@@ -106,6 +120,9 @@ static bool containerPopsElement(const Library::Container* container, const Toke
 
 static const Token* getContainerIndex(const Library::Container* container, const Token* parent)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (Token::Match(parent, ". %name% (")) {
         const Library::Container::Yield yield = container->getYield(parent->strAt(1));
         if (yield == Library::Container::Yield::AT_INDEX && !Token::simpleMatch(parent->tokAt(2), "( )"))
@@ -120,6 +137,9 @@ static const Token* getContainerIndex(const Library::Container* container, const
 
 static const Token* getContainerFromSize(const Library::Container* container, const Token* tok)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (!tok)
         return nullptr;
     if (Token::Match(tok->tokAt(-2), ". %name% (")) {
@@ -132,6 +152,9 @@ static const Token* getContainerFromSize(const Library::Container* container, co
 
 void CheckStl::outOfBounds()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     logChecker("CheckStl::outOfBounds");
 
     for (const Scope *function : mTokenizer->getSymbolDatabase()->functionScopes) {
@@ -220,6 +243,9 @@ static std::string indexValueString(const ValueFlow::Value& indexValue, const st
 
 void CheckStl::outOfBoundsError(const Token *tok, const std::string &containerName, const ValueFlow::Value *containerSize, const std::string &index, const ValueFlow::Value *indexValue)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     // Do not warn if both the container size and index value are possible
     if (containerSize && indexValue && containerSize->isPossible() && indexValue->isPossible())
         return;
@@ -279,6 +305,9 @@ void CheckStl::outOfBoundsError(const Token *tok, const std::string &containerNa
 
 bool CheckStl::isContainerSize(const Token *containerToken, const Token *expr) const
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (!Token::simpleMatch(expr, "( )"))
         return false;
     if (!Token::Match(expr->astOperand1(), ". %name% ("))
@@ -290,6 +319,9 @@ bool CheckStl::isContainerSize(const Token *containerToken, const Token *expr) c
 
 bool CheckStl::isContainerSizeGE(const Token * containerToken, const Token *expr) const
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (!expr)
         return false;
     if (isContainerSize(containerToken, expr))
@@ -319,6 +351,9 @@ bool CheckStl::isContainerSizeGE(const Token * containerToken, const Token *expr
 
 void CheckStl::outOfBoundsIndexExpression()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     logChecker("CheckStl::outOfBoundsIndexExpression");
     for (const Scope *function : mTokenizer->getSymbolDatabase()->functionScopes) {
         for (const Token *tok = function->bodyStart; tok != function->bodyEnd; tok = tok->next()) {
@@ -339,6 +374,9 @@ void CheckStl::outOfBoundsIndexExpression()
 
 void CheckStl::outOfBoundsIndexExpressionError(const Token *tok, const Token *index)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     const std::string varname = tok ? tok->str() : std::string("var");
     const std::string i = index ? index->expressionString() : std::string(varname + ".size()");
 
@@ -357,11 +395,17 @@ void CheckStl::outOfBoundsIndexExpressionError(const Token *tok, const Token *in
 // Error message for bad iterator usage..
 void CheckStl::invalidIteratorError(const Token *tok, const std::string &iteratorName)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     reportError(tok, Severity::error, "invalidIterator1", "$symbol:"+iteratorName+"\nInvalid iterator: $symbol", CWE664, Certainty::normal);
 }
 
 void CheckStl::iteratorsError(const Token* tok, const std::string& containerName1, const std::string& containerName2)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     reportError(tok, Severity::error, "iterators1",
                 "$symbol:" + containerName1 + "\n"
                 "$symbol:" + containerName2 + "\n"
@@ -370,6 +414,9 @@ void CheckStl::iteratorsError(const Token* tok, const std::string& containerName
 
 void CheckStl::iteratorsError(const Token* tok, const Token* containerTok, const std::string& containerName1, const std::string& containerName2)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     std::list<const Token*> callstack = { tok, containerTok };
     reportError(callstack, Severity::error, "iterators2",
                 "$symbol:" + containerName1 + "\n"
@@ -379,6 +426,9 @@ void CheckStl::iteratorsError(const Token* tok, const Token* containerTok, const
 
 void CheckStl::iteratorsError(const Token* tok, const Token* containerTok, const std::string& containerName)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     std::list<const Token*> callstack = { tok, containerTok };
     reportError(callstack,
                 Severity::error,
@@ -393,6 +443,9 @@ void CheckStl::iteratorsError(const Token* tok, const Token* containerTok, const
 // Error message used when dereferencing an iterator that has been erased..
 void CheckStl::dereferenceErasedError(const Token *erased, const Token* deref, const std::string &itername, bool inconclusive)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (erased) {
         std::list<const Token*> callstack = { deref, erased };
         reportError(callstack, Severity::error, "eraseDereference",
@@ -411,6 +464,9 @@ void CheckStl::dereferenceErasedError(const Token *erased, const Token* deref, c
 
 static const Token *skipMembers(const Token *tok)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     while (Token::Match(tok, "%name% ."))
         tok = tok->tokAt(2);
     return tok;
@@ -418,6 +474,9 @@ static const Token *skipMembers(const Token *tok)
 
 static bool isIterator(const Variable *var, bool& inconclusiveType)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     // Check that its an iterator
     if (!var || !var->isLocal() || !Token::Match(var->typeEndToken(), "iterator|const_iterator|reverse_iterator|const_reverse_iterator|auto"))
         return false;
@@ -454,6 +513,9 @@ static std::string getContainerName(const Token *containerToken)
 
 static bool isVector(const Token* tok)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (!tok)
         return false;
     const Variable *var = tok->variable();
@@ -463,6 +525,9 @@ static bool isVector(const Token* tok)
 
 void CheckStl::iterators()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     logChecker("CheckStl::iterators");
 
     const SymbolDatabase *symbolDatabase = mTokenizer->getSymbolDatabase();
@@ -648,6 +713,9 @@ void CheckStl::iterators()
 
 void CheckStl::mismatchingContainerIteratorError(const Token* tok, const Token* iterTok)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     const std::string container(tok ? tok->expressionString() : std::string("v1"));
     const std::string iter(iterTok ? iterTok->expressionString() : std::string("it"));
     reportError(tok,
@@ -661,6 +729,9 @@ void CheckStl::mismatchingContainerIteratorError(const Token* tok, const Token* 
 // Error message for bad iterator usage..
 void CheckStl::mismatchingContainersError(const Token* tok1, const Token* tok2)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     const std::string expr1(tok1 ? tok1->expressionString() : std::string("v1"));
     const std::string expr2(tok2 ? tok2->expressionString() : std::string("v2"));
     reportError(tok1,
@@ -673,6 +744,9 @@ void CheckStl::mismatchingContainersError(const Token* tok1, const Token* tok2)
 
 void CheckStl::mismatchingContainerExpressionError(const Token *tok1, const Token *tok2)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     const std::string expr1(tok1 ? tok1->expressionString() : std::string("v1"));
     const std::string expr2(tok2 ? tok2->expressionString() : std::string("v2"));
     reportError(tok1, Severity::warning, "mismatchingContainerExpression",
@@ -682,11 +756,17 @@ void CheckStl::mismatchingContainerExpressionError(const Token *tok1, const Toke
 
 void CheckStl::sameIteratorExpressionError(const Token *tok)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     reportError(tok, Severity::style, "sameIteratorExpression", "Same iterators expression are used for algorithm.", CWE664, Certainty::normal);
 }
 
 static const Token* getAddressContainer(const Token* tok)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (Token::simpleMatch(tok, "[") && tok->astOperand1())
         return tok->astOperand1();
     return tok;
@@ -697,6 +777,9 @@ static bool isSameIteratorContainerExpression(const Token* tok1,
                                               const Library& library,
                                               ValueFlow::Value::LifetimeKind kind = ValueFlow::Value::LifetimeKind::Iterator)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (isSameExpression(true, false, tok1, tok2, library, false, false)) {
         return !astIsContainerOwned(tok1) || !isTemporary(true, tok1, &library);
     }
@@ -721,6 +804,9 @@ static ValueFlow::Value getLifetimeIteratorValue(const Token* tok, MathLib::bigi
 
 bool CheckStl::checkIteratorPair(const Token* tok1, const Token* tok2)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (!tok1)
         return false;
     if (!tok2)
@@ -767,6 +853,9 @@ struct ArgIteratorInfo {
 
 void CheckStl::mismatchingContainers()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     logChecker("CheckStl::misMatchingContainers");
 
     // Check if different containers are used in various calls of standard functions
@@ -827,6 +916,9 @@ void CheckStl::mismatchingContainers()
 
 void CheckStl::mismatchingContainerIterator()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     logChecker("CheckStl::misMatchingContainerIterator");
 
     // Check if different containers are used in various calls of standard functions
@@ -874,6 +966,9 @@ void CheckStl::mismatchingContainerIterator()
 
 static const Token* getInvalidMethod(const Token* tok)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (!astIsLHS(tok))
         return nullptr;
     if (Token::Match(tok->astParent(), ". assign|clear|swap"))
@@ -923,11 +1018,17 @@ struct InvalidContainerAnalyzer {
         std::unordered_map<int, Reference> expressions;
 
         void add(const std::vector<Reference>& refs) {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
             for (const Reference& r : refs) {
                 add(r);
             }
         }
         void add(const Reference& r) {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
             if (!r.tok)
                 return;
             expressions.insert(std::make_pair(r.tok->exprId(), r));
@@ -994,6 +1095,9 @@ struct InvalidContainerAnalyzer {
     }
 
     void analyze(const SymbolDatabase* symboldatabase) {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         for (const Scope* scope : symboldatabase->functionScopes) {
             const Function* f = scope->function;
             if (!f)
@@ -1012,6 +1116,9 @@ struct InvalidContainerAnalyzer {
 
 static const Token* getLoopContainer(const Token* tok)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (!Token::simpleMatch(tok, "for ("))
         return nullptr;
     const Token* sepTok = tok->next()->astOperand2();
@@ -1055,6 +1162,9 @@ static const ValueFlow::Value* getInnerLifetime(const Token* tok,
 
 static const Token* endOfExpression(const Token* tok)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (!tok)
         return nullptr;
     const Token* parent = tok->astParent();
@@ -1070,6 +1180,9 @@ static const Token* endOfExpression(const Token* tok)
 
 void CheckStl::invalidContainer()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     logChecker("CheckStl::invalidContainer");
     const SymbolDatabase *symbolDatabase = mTokenizer->getSymbolDatabase();
     const Library& library = mSettings->library;
@@ -1180,6 +1293,9 @@ void CheckStl::invalidContainer()
 
 void CheckStl::invalidContainerLoopError(const Token* tok, const Token* loopTok, ErrorPath errorPath)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     const std::string method = tok ? tok->str() : "erase";
     errorPath.emplace_back(loopTok, "Iterating container here.");
 
@@ -1205,6 +1321,9 @@ void CheckStl::invalidContainerError(const Token *tok, const Token * /*contTok*/
 
 void CheckStl::invalidContainerReferenceError(const Token* tok, const Token* contTok, ErrorPath errorPath)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     std::string name = contTok ? contTok->expressionString() : "x";
     std::string msg = "Reference to " + name;
     errorPath.emplace_back(tok, "");
@@ -1213,6 +1332,9 @@ void CheckStl::invalidContainerReferenceError(const Token* tok, const Token* con
 
 void CheckStl::stlOutOfBounds()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     logChecker("CheckStl::stlOutOfBounds");
 
     const SymbolDatabase* const symbolDatabase = mTokenizer->getSymbolDatabase();
@@ -1299,6 +1421,9 @@ void CheckStl::stlOutOfBounds()
 
 void CheckStl::stlOutOfBoundsError(const Token *tok, const std::string &num, const std::string &var, bool at)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (at)
         reportError(tok, Severity::error, "stlOutOfBounds", "$symbol:" + var + "\nWhen " + num + "==$symbol.size(), $symbol.at(" + num + ") is out of bounds.", CWE788, Certainty::normal);
     else
@@ -1307,6 +1432,9 @@ void CheckStl::stlOutOfBoundsError(const Token *tok, const std::string &num, con
 
 void CheckStl::negativeIndex()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     logChecker("CheckStl::negativeIndex");
 
     // Negative index is out of bounds..
@@ -1331,6 +1459,9 @@ void CheckStl::negativeIndex()
 
 void CheckStl::negativeIndexError(const Token *tok, const ValueFlow::Value &index)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     const ErrorPath errorPath = getErrorPath(tok, &index, "Negative array index");
     std::ostringstream errmsg;
     if (index.condition)
@@ -1345,6 +1476,9 @@ void CheckStl::negativeIndexError(const Token *tok, const ValueFlow::Value &inde
 
 void CheckStl::erase()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     logChecker("CheckStl::erase");
 
     const SymbolDatabase* const symbolDatabase = mTokenizer->getSymbolDatabase();
@@ -1366,6 +1500,9 @@ void CheckStl::erase()
 
 void CheckStl::eraseCheckLoopVar(const Scope &scope, const Variable *var)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     bool inconclusiveType=false;
     if (!isIterator(var, inconclusiveType))
         return;
@@ -1410,6 +1547,9 @@ void CheckStl::eraseCheckLoopVar(const Scope &scope, const Variable *var)
 
 void CheckStl::stlBoundaries()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     logChecker("CheckStl::stlBoundaries");
 
     const SymbolDatabase* const symbolDatabase = mTokenizer->getSymbolDatabase();
@@ -1435,6 +1575,9 @@ void CheckStl::stlBoundaries()
 // Error message for bad boundary usage..
 void CheckStl::stlBoundariesError(const Token *tok)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     reportError(tok, Severity::error, "stlBoundaries",
                 "Dangerous comparison using operator< on iterator.\n"
                 "Iterator compared with operator<. This is dangerous since the order of items in the "
@@ -1443,6 +1586,9 @@ void CheckStl::stlBoundariesError(const Token *tok)
 
 static bool if_findCompare(const Token * const tokBack, bool stdStringLike)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     const Token *tok = tokBack->astParent();
     if (!tok)
         return true;
@@ -1464,6 +1610,9 @@ static bool if_findCompare(const Token * const tokBack, bool stdStringLike)
 
 void CheckStl::if_find()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     const bool printWarning = mSettings->severity.isEnabled(Severity::warning);
     const bool printPerformance = mSettings->severity.isEnabled(Severity::performance);
     if (!printWarning && !printPerformance)
@@ -1541,6 +1690,9 @@ void CheckStl::if_find()
 
 void CheckStl::if_findError(const Token *tok, bool str)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (str && mSettings->standards.cpp >= Standards::CPP20)
         reportError(tok, Severity::performance, "stlIfStrFind",
                     "Inefficient usage of string::find() in condition; string::starts_with() could be faster.\n"
@@ -1575,6 +1727,9 @@ static std::pair<const Token *, const Token *> isMapFind(const Token *tok)
 
 static const Token* skipLocalVars(const Token* const tok)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (!tok)
         return tok;
     if (Token::simpleMatch(tok, "{"))
@@ -1612,6 +1767,9 @@ static const Token* skipLocalVars(const Token* const tok)
 
 static const Token *findInsertValue(const Token *tok, const Token *containerTok, const Token *keyTok, const Library &library)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     const Token *startTok = skipLocalVars(tok);
     const Token *top = startTok->astTop();
 
@@ -1646,6 +1804,9 @@ static const Token *findInsertValue(const Token *tok, const Token *containerTok,
 
 void CheckStl::checkFindInsert()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (!mSettings->severity.isEnabled(Severity::performance))
         return;
 
@@ -1692,6 +1853,9 @@ void CheckStl::checkFindInsert()
 
 void CheckStl::checkFindInsertError(const Token *tok)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     std::string replaceExpr;
     if (tok && Token::simpleMatch(tok->astParent(), "=") && tok == tok->astParent()->astOperand2() && Token::simpleMatch(tok->astParent()->astOperand1(), "[")) {
         if (mSettings->standards.cpp < Standards::CPP11)
@@ -1716,6 +1880,9 @@ void CheckStl::checkFindInsertError(const Token *tok)
  */
 static bool isCpp03ContainerSizeSlow(const Token *tok)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (!tok)
         return false;
     const Variable* var = tok->variable();
@@ -1724,6 +1891,9 @@ static bool isCpp03ContainerSizeSlow(const Token *tok)
 
 void CheckStl::size()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (!mSettings->severity.isEnabled(Severity::performance))
         return;
 
@@ -1773,6 +1943,9 @@ void CheckStl::size()
 
 void CheckStl::sizeError(const Token *tok)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     const std::string varname = tok ? tok->str() : std::string("list");
     reportError(tok, Severity::performance, "stlSize",
                 "$symbol:" + varname + "\n"
@@ -1785,6 +1958,9 @@ void CheckStl::sizeError(const Token *tok)
 
 void CheckStl::redundantCondition()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (!mSettings->severity.isEnabled(Severity::style))
         return;
 
@@ -1818,6 +1994,9 @@ void CheckStl::redundantCondition()
 
 void CheckStl::redundantIfRemoveError(const Token *tok)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     reportError(tok, Severity::style, "redundantIfRemove",
                 "Redundant checking of STL container element existence before removing it.\n"
                 "Redundant checking of STL container element existence before removing it. "
@@ -1826,6 +2005,9 @@ void CheckStl::redundantIfRemoveError(const Token *tok)
 
 void CheckStl::missingComparison()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (!mSettings->severity.isEnabled(Severity::warning))
         return;
 
@@ -1890,6 +2072,9 @@ void CheckStl::missingComparison()
 
 void CheckStl::missingComparisonError(const Token *incrementToken1, const Token *incrementToken2)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     std::list<const Token*> callstack = { incrementToken1,incrementToken2 };
 
     std::ostringstream errmsg;
@@ -1910,6 +2095,9 @@ void CheckStl::missingComparisonError(const Token *incrementToken1, const Token 
 
 static bool isLocal(const Token *tok)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     const Variable *var = tok->variable();
     return var && !var->isStatic() && var->isLocal();
 }
@@ -1922,6 +2110,9 @@ namespace {
 
 void CheckStl::string_c_str()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     const bool printInconclusive = mSettings->certainty.isEnabled(Certainty::inconclusive);
     const bool printPerformance = mSettings->severity.isEnabled(Severity::performance);
 
@@ -2124,24 +2315,36 @@ void CheckStl::string_c_str()
 
 void CheckStl::string_c_strThrowError(const Token* tok)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     reportError(tok, Severity::error, "stlcstrthrow", "Dangerous usage of c_str(). The value returned by c_str() is invalid after throwing exception.\n"
                 "Dangerous usage of c_str(). The string is destroyed after the c_str() call so the thrown pointer is invalid.");
 }
 
 void CheckStl::string_c_strError(const Token* tok)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     reportError(tok, Severity::error, "stlcstr", "Dangerous usage of c_str(). The value returned by c_str() is invalid after this call.\n"
                 "Dangerous usage of c_str(). The c_str() return value is only valid until its string is deleted.", CWE664, Certainty::normal);
 }
 
 void CheckStl::string_c_strReturn(const Token* tok)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     reportError(tok, Severity::performance, "stlcstrReturn", "Returning the result of c_str() in a function that returns std::string is slow and redundant.\n"
                 "The conversion from const char* as returned by c_str() to std::string creates an unnecessary string copy. Solve that by directly returning the string.", CWE704, Certainty::normal);
 }
 
 void CheckStl::string_c_strParam(const Token* tok, nonneg int number, const std::string& argtype)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     std::ostringstream oss;
     oss << "Passing the result of c_str() to a function that takes " << argtype << " as argument no. " << number << " is slow and redundant.\n"
         "The conversion from const char* as returned by c_str() to " << argtype << " creates an unnecessary string copy or length calculation. Solve that by directly passing the string.";
@@ -2150,6 +2353,9 @@ void CheckStl::string_c_strParam(const Token* tok, nonneg int number, const std:
 
 void CheckStl::string_c_strConstructor(const Token* tok, const std::string& argtype)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     std::string msg = "Constructing a " + argtype + " from the result of c_str() is slow and redundant.\n"
                       "Constructing a " + argtype + " from const char* requires a call to strlen(). Solve that by directly passing the string.";
     reportError(tok, Severity::performance, "stlcstrConstructor", msg, CWE704, Certainty::normal);
@@ -2157,6 +2363,9 @@ void CheckStl::string_c_strConstructor(const Token* tok, const std::string& argt
 
 void CheckStl::string_c_strAssignment(const Token* tok, const std::string& argtype)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     std::string msg = "Assigning the result of c_str() to a " + argtype + " is slow and redundant.\n"
                       "Assigning a const char* to a " + argtype + " requires a call to strlen(). Solve that by directly assigning the string.";
     reportError(tok, Severity::performance, "stlcstrAssignment", msg, CWE704, Certainty::normal);
@@ -2164,6 +2373,9 @@ void CheckStl::string_c_strAssignment(const Token* tok, const std::string& argty
 
 void CheckStl::string_c_strConcat(const Token* tok)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     std::string msg = "Concatenating the result of c_str() and a std::string is slow and redundant.\n"
                       "Concatenating a const char* with a std::string requires a call to strlen(). Solve that by directly concatenating the strings.";
     reportError(tok, Severity::performance, "stlcstrConcat", msg, CWE704, Certainty::normal);
@@ -2171,6 +2383,9 @@ void CheckStl::string_c_strConcat(const Token* tok)
 
 void CheckStl::string_c_strStream(const Token* tok)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     std::string msg = "Passing the result of c_str() to a stream is slow and redundant.\n"
                       "Passing a const char* to a stream requires a call to strlen(). Solve that by directly passing the string.";
     reportError(tok, Severity::performance, "stlcstrStream", msg, CWE704, Certainty::normal);
@@ -2192,6 +2407,9 @@ namespace {
 
 void CheckStl::uselessCalls()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     const bool printPerformance = mSettings->severity.isEnabled(Severity::performance);
     const bool printWarning = mSettings->severity.isEnabled(Severity::warning);
     if (!printPerformance && !printWarning)
@@ -2253,6 +2471,9 @@ void CheckStl::uselessCalls()
 
 void CheckStl::uselessCallsReturnValueError(const Token *tok, const std::string &varname, const std::string &function)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     std::ostringstream errmsg;
     errmsg << "$symbol:" << varname << '\n';
     errmsg << "$symbol:" << function << '\n';
@@ -2266,6 +2487,9 @@ void CheckStl::uselessCallsReturnValueError(const Token *tok, const std::string 
 
 void CheckStl::uselessCallsSwapError(const Token *tok, const std::string &varname)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     reportError(tok, Severity::performance, "uselessCallsSwap",
                 "$symbol:" + varname + "\n"
                 "It is inefficient to swap a object with itself by calling '$symbol.swap($symbol)'\n"
@@ -2276,6 +2500,9 @@ void CheckStl::uselessCallsSwapError(const Token *tok, const std::string &varnam
 
 void CheckStl::uselessCallsSubstrError(const Token *tok, SubstrErrorType type)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     std::string msg = "Ineffective call of function 'substr' because ";
     switch (type) {
     case SubstrErrorType::EMPTY:
@@ -2296,17 +2523,26 @@ void CheckStl::uselessCallsSubstrError(const Token *tok, SubstrErrorType type)
 
 void CheckStl::uselessCallsConstructorError(const Token *tok)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     const std::string msg = "Inefficient constructor call: container '" + tok->str() + "' is assigned a partial copy of itself. Use erase() or resize() instead.";
     reportError(tok, Severity::performance, "uselessCallsConstructor", msg, CWE398, Certainty::normal);
 }
 
 void CheckStl::uselessCallsEmptyError(const Token *tok)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     reportError(tok, Severity::warning, "uselessCallsEmpty", "Ineffective call of function 'empty()'. Did you intend to call 'clear()' instead?", CWE398, Certainty::normal);
 }
 
 void CheckStl::uselessCallsRemoveError(const Token *tok, const std::string& function)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     reportError(tok, Severity::warning, "uselessCallsRemove",
                 "$symbol:" + function + "\n"
                 "Return value of std::$symbol() ignored. Elements remain in container.\n"
@@ -2318,6 +2554,9 @@ void CheckStl::uselessCallsRemoveError(const Token *tok, const std::string& func
 // E.g.  if (*i && i != str.end()) { }
 void CheckStl::checkDereferenceInvalidIterator()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (!mSettings->severity.isEnabled(Severity::warning))
         return;
 
@@ -2382,6 +2621,9 @@ void CheckStl::checkDereferenceInvalidIterator()
 
 void CheckStl::checkDereferenceInvalidIterator2()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     const bool printInconclusive = (mSettings->certainty.isEnabled(Certainty::inconclusive));
 
     logChecker("CheckStl::checkDereferenceInvalidIterator2");
@@ -2479,6 +2721,9 @@ void CheckStl::checkDereferenceInvalidIterator2()
 
 void CheckStl::dereferenceInvalidIteratorError(const Token* tok, const ValueFlow::Value *value, bool inconclusive)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     const std::string& varname = tok ? tok->expressionString() : "var";
     const std::string errmsgcond("$symbol:" + varname + '\n' + ValueFlow::eitherTheConditionIsRedundant(value ? value->condition : nullptr) + " or there is possible dereference of an invalid iterator: $symbol.");
     if (!tok || !value) {
@@ -2508,6 +2753,9 @@ void CheckStl::dereferenceInvalidIteratorError(const Token* tok, const ValueFlow
 
 void CheckStl::dereferenceInvalidIteratorError(const Token* deref, const std::string &iterName)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     reportError(deref, Severity::warning,
                 "derefInvalidIterator",
                 "$symbol:" + iterName + "\n"
@@ -2517,12 +2765,18 @@ void CheckStl::dereferenceInvalidIteratorError(const Token* deref, const std::st
 
 void CheckStl::useStlAlgorithmError(const Token *tok, const std::string &algoName)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     reportError(tok, Severity::style, "useStlAlgorithm",
                 "Consider using " + algoName + " algorithm instead of a raw loop.", CWE398, Certainty::normal);
 }
 
 static bool isEarlyExit(const Token *start)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (start->str() != "{")
         return false;
     const Token *endToken = start->link();
@@ -2539,6 +2793,9 @@ static bool isEarlyExit(const Token *start)
 
 static const Token *singleStatement(const Token *start)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (start->str() != "{")
         return nullptr;
     const Token *endToken = start->link();
@@ -2552,6 +2809,9 @@ static const Token *singleStatement(const Token *start)
 
 static const Token *singleAssignInScope(const Token *start, nonneg int varid, bool &input, const Settings* settings)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     const Token *endStatement = singleStatement(start);
     if (!endStatement)
         return nullptr;
@@ -2568,6 +2828,9 @@ static const Token *singleAssignInScope(const Token *start, nonneg int varid, bo
 
 static const Token *singleMemberCallInScope(const Token *start, nonneg int varid, bool &input, const Settings* settings)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (start->str() != "{")
         return nullptr;
     const Token *endToken = start->link();
@@ -2590,6 +2853,9 @@ static const Token *singleMemberCallInScope(const Token *start, nonneg int varid
 
 static const Token *singleIncrementInScope(const Token *start, nonneg int varid, bool &input)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (start->str() != "{")
         return nullptr;
     const Token *varTok = nullptr;
@@ -2605,6 +2871,9 @@ static const Token *singleIncrementInScope(const Token *start, nonneg int varid,
 
 static const Token *singleConditionalInScope(const Token *start, nonneg int varid, const Settings* settings)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (start->str() != "{")
         return nullptr;
     const Token *endToken = start->link();
@@ -2627,6 +2896,9 @@ static const Token *singleConditionalInScope(const Token *start, nonneg int vari
 
 static bool addByOne(const Token *tok, nonneg int varid)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (Token::Match(tok, "+= %any% ;") &&
         tok->tokAt(1)->hasKnownIntValue() &&
         tok->tokAt(1)->getValue(1)) {
@@ -2642,6 +2914,9 @@ static bool addByOne(const Token *tok, nonneg int varid)
 
 static bool accumulateBoolLiteral(const Token *tok, nonneg int varid)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (Token::Match(tok, "%assign% %bool% ;") &&
         tok->tokAt(1)->hasKnownIntValue()) {
         return true;
@@ -2655,6 +2930,9 @@ static bool accumulateBoolLiteral(const Token *tok, nonneg int varid)
 
 static bool accumulateBool(const Token *tok, nonneg int varid)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     // Missing %oreq% so we have to check both manually
     if (Token::simpleMatch(tok, "&=") || Token::simpleMatch(tok, "|=")) {
         return true;
@@ -2667,6 +2945,9 @@ static bool accumulateBool(const Token *tok, nonneg int varid)
 
 static bool hasVarIds(const Token *tok, nonneg int var1, nonneg int var2)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (tok->astOperand1()->varId() == tok->astOperand2()->varId())
         return false;
     if (tok->astOperand1()->varId() == var1 || tok->astOperand1()->varId() == var2) {
@@ -2712,6 +2993,9 @@ namespace {
         explicit LoopAnalyzer(const Token* tok, const Settings* psettings)
             : bodyTok(tok->next()->link()->next()), settings(psettings)
         {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
             const Token* splitTok = tok->next()->astOperand2();
             if (Token::simpleMatch(splitTok, ":") && splitTok->previous()->varId() != 0) {
                 loopVar = splitTok->previous();
@@ -2721,11 +3005,17 @@ namespace {
             }
         }
         bool isLoopVarChanged() const {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
             return varsChanged.count(loopVar->varId()) > 0;
         }
 
         bool isModified(const Token* tok) const
         {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
             if (tok->variable() && tok->variable()->isConst())
                 return false;
             int n = 1 + (astIsPointer(tok) ? 1 : 0);
@@ -2744,6 +3034,9 @@ namespace {
         template<class Predicate, class F>
         void findTokens(Predicate pred, F f) const
         {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
             for (const Token* tok = bodyTok; precedes(tok, bodyTok->link()); tok = tok->next()) {
                 if (pred(tok))
                     f(tok);
@@ -2753,6 +3046,9 @@ namespace {
         template<class Predicate>
         const Token* findToken(Predicate pred) const
         {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
             for (const Token* tok = bodyTok; precedes(tok, bodyTok->link()); tok = tok->next()) {
                 if (pred(tok))
                     return tok;
@@ -2762,12 +3058,21 @@ namespace {
 
         bool hasGotoOrBreak() const
         {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
             return findToken([](const Token* tok) {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
                 return Token::Match(tok, "goto|break");
             });
         }
 
         bool valid() const {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
             return bodyTok && loopVar;
         }
 
@@ -2805,6 +3110,9 @@ namespace {
 
         bool isLocalVar(const Variable* var) const
         {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
             if (!var)
                 return false;
             if (var->isPointer() || var->isReference())
@@ -2818,6 +3126,9 @@ namespace {
     private:
         void findChangedVariables()
         {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
             std::set<nonneg int> vars;
             for (const Token* tok = bodyTok; precedes(tok, bodyTok->link()); tok = tok->next()) {
                 if (tok->varId() == 0)
@@ -2839,6 +3150,9 @@ namespace {
 
 void CheckStl::useStlAlgorithm()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (!mSettings->severity.isEnabled(Severity::style))
         return;
 
@@ -3040,6 +3354,9 @@ void CheckStl::useStlAlgorithm()
 
 void CheckStl::knownEmptyContainerError(const Token *tok, const std::string& algo)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     const std::string var = tok ? tok->expressionString() : std::string("var");
 
     std::string msg;
@@ -3056,6 +3373,9 @@ void CheckStl::knownEmptyContainerError(const Token *tok, const std::string& alg
 
 static bool isKnownEmptyContainer(const Token* tok)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (!tok)
         return false;
     return std::any_of(tok->values().begin(), tok->values().end(), [&](const ValueFlow::Value& v) {
@@ -3071,6 +3391,9 @@ static bool isKnownEmptyContainer(const Token* tok)
 
 void CheckStl::knownEmptyContainer()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (!mSettings->severity.isEnabled(Severity::style))
         return;
     logChecker("CheckStl::knownEmptyContainer"); // style
@@ -3114,18 +3437,27 @@ void CheckStl::knownEmptyContainer()
 
 static bool isMutex(const Variable* var)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     const Token* tok = Token::typeDecl(var->nameToken()).first;
     return Token::Match(tok, "std :: mutex|recursive_mutex|timed_mutex|recursive_timed_mutex|shared_mutex");
 }
 
 static bool isLockGuard(const Variable* var)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     const Token* tok = Token::typeDecl(var->nameToken()).first;
     return Token::Match(tok, "std :: lock_guard|unique_lock|scoped_lock|shared_lock");
 }
 
 static bool isLocalMutex(const Variable* var, const Scope* scope)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (!var)
         return false;
     if (isLockGuard(var))
@@ -3135,6 +3467,9 @@ static bool isLocalMutex(const Variable* var, const Scope* scope)
 
 void CheckStl::globalLockGuardError(const Token* tok)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     reportError(tok, Severity::warning,
                 "globalLockGuard",
                 "Lock guard is defined globally. Lock guards are intended to be local. A global lock guard could lead to a deadlock since it won't unlock until the end of the program.", CWE833, Certainty::normal);
@@ -3142,6 +3477,9 @@ void CheckStl::globalLockGuardError(const Token* tok)
 
 void CheckStl::localMutexError(const Token* tok)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     reportError(tok, Severity::warning,
                 "localMutex",
                 "The lock is ineffective because the mutex is locked at the same scope as the mutex itself.", CWE667, Certainty::normal);
@@ -3149,6 +3487,9 @@ void CheckStl::localMutexError(const Token* tok)
 
 void CheckStl::checkMutexes()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (!mSettings->severity.isEnabled(Severity::warning))
         return;
     logChecker("CheckStl::checkMutexes"); // warning

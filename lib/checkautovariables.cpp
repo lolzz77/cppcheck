@@ -1,3 +1,5 @@
+#include <stdio.h>
+#include <pthread.h>
 /*
  * Cppcheck - A tool for static C/C++ code analysis
  * Copyright (C) 2007-2023 Cppcheck team.
@@ -51,36 +53,54 @@ static const CWE CWE590(590U);  // Free of Memory not on the Heap
 
 static bool isPtrArg(const Token *tok)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     const Variable *var = tok->variable();
     return (var && var->isArgument() && var->isPointer());
 }
 
 static bool isArrayArg(const Token *tok, const Settings* settings)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     const Variable *var = tok->variable();
     return (var && var->isArgument() && var->isArray() && !settings->library.isentrypoint(var->scope()->className));
 }
 
 static bool isArrayVar(const Token *tok)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     const Variable *var = tok->variable();
     return (var && var->isArray() && !var->isArgument());
 }
 
 static bool isRefPtrArg(const Token *tok)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     const Variable *var = tok->variable();
     return (var && var->isArgument() && var->isReference() && var->isPointer());
 }
 
 static bool isNonReferenceArg(const Token *tok)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     const Variable *var = tok->variable();
     return (var && var->isArgument() && !var->isReference() && (var->isPointer() || (var->valueType() && var->valueType()->type >= ValueType::Type::CONTAINER) || var->type()));
 }
 
 static bool isAutoVar(const Token *tok)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     const Variable *var = tok->variable();
 
     if (!var || !var->isLocal() || var->isStatic())
@@ -105,6 +125,9 @@ static bool isAutoVar(const Token *tok)
 
 static bool isAutoVarArray(const Token *tok)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (!tok)
         return false;
 
@@ -145,6 +168,9 @@ static bool isAutoVarArray(const Token *tok)
 
 static bool isLocalContainerBuffer(const Token* tok)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (!tok)
         return false;
 
@@ -168,6 +194,9 @@ static bool isLocalContainerBuffer(const Token* tok)
 
 static bool isAddressOfLocalVariable(const Token *expr)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (!expr)
         return false;
     if (Token::Match(expr, "+|-"))
@@ -191,6 +220,9 @@ static bool isAddressOfLocalVariable(const Token *expr)
 
 static bool variableIsUsedInScope(const Token* start, nonneg int varId, const Scope *scope)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (!start) // Ticket #5024
         return false;
 
@@ -208,6 +240,9 @@ static bool variableIsUsedInScope(const Token* start, nonneg int varId, const Sc
 
 void CheckAutoVariables::assignFunctionArg()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     const bool printStyle = mSettings->severity.isEnabled(Severity::style);
     const bool printWarning = mSettings->severity.isEnabled(Severity::warning);
     if (!printStyle && !printWarning)
@@ -238,11 +273,17 @@ void CheckAutoVariables::assignFunctionArg()
 }
 
 static bool isAutoVariableRHS(const Token* tok) {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     return isAddressOfLocalVariable(tok) || isAutoVarArray(tok) || isLocalContainerBuffer(tok);
 }
 
 static bool hasOverloadedAssignment(const Token* tok, bool c, bool& inconclusive)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     inconclusive = false;
     if (c)
         return false;
@@ -263,6 +304,9 @@ static bool hasOverloadedAssignment(const Token* tok, bool c, bool& inconclusive
 
 void CheckAutoVariables::autoVariables()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     logChecker("CheckAutoVariables::autoVariables");
 
     const bool printInconclusive = mSettings->certainty.isEnabled(Certainty::inconclusive);
@@ -325,6 +369,9 @@ void CheckAutoVariables::autoVariables()
 
 bool CheckAutoVariables::checkAutoVariableAssignment(const Token *expr, bool inconclusive, const Token *startToken)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (!startToken)
         startToken = Token::findsimplematch(expr, "=")->next();
     for (const Token *tok = startToken; tok; tok = tok->next()) {
@@ -366,6 +413,9 @@ bool CheckAutoVariables::checkAutoVariableAssignment(const Token *expr, bool inc
 
 void CheckAutoVariables::errorAutoVariableAssignment(const Token *tok, bool inconclusive)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (!inconclusive) {
         reportError(tok, Severity::error, "autoVariables",
                     "Address of local auto-variable assigned to a function parameter.\n"
@@ -387,6 +437,9 @@ void CheckAutoVariables::errorAutoVariableAssignment(const Token *tok, bool inco
 
 void CheckAutoVariables::errorUselessAssignmentArg(const Token *tok)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     reportError(tok,
                 Severity::style,
                 "uselessAssignmentArg",
@@ -395,6 +448,9 @@ void CheckAutoVariables::errorUselessAssignmentArg(const Token *tok)
 
 void CheckAutoVariables::errorUselessAssignmentPtrArg(const Token *tok)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     reportError(tok,
                 Severity::warning,
                 "uselessAssignmentPtrArg",
@@ -403,6 +459,9 @@ void CheckAutoVariables::errorUselessAssignmentPtrArg(const Token *tok)
 
 bool CheckAutoVariables::diag(const Token* tokvalue)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (!tokvalue)
         return true;
     return !mDiagDanglingTemp.insert(tokvalue).second;
@@ -412,6 +471,9 @@ bool CheckAutoVariables::diag(const Token* tokvalue)
 
 static bool isInScope(const Token * tok, const Scope * scope)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (!tok)
         return false;
     if (!scope)
@@ -437,6 +499,9 @@ static bool isInScope(const Token * tok, const Scope * scope)
 
 static bool isDeadScope(const Token * tok, const Scope * scope)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (!tok)
         return false;
     if (!scope)
@@ -451,6 +516,9 @@ static bool isDeadScope(const Token * tok, const Scope * scope)
 
 static int getPointerDepth(const Token *tok)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (!tok)
         return 0;
     if (tok->valueType())
@@ -465,6 +533,9 @@ static int getPointerDepth(const Token *tok)
 
 static bool isDeadTemporary(bool cpp, const Token* tok, const Token* expr, const Library* library)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (!isTemporary(cpp, tok, library))
         return false;
     if (expr) {
@@ -483,6 +554,9 @@ static bool isDeadTemporary(bool cpp, const Token* tok, const Token* expr, const
 
 static bool isEscapedReference(const Variable* var)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (!var)
         return false;
     if (!var->isReference())
@@ -498,6 +572,9 @@ static bool isEscapedReference(const Variable* var)
 
 static bool isDanglingSubFunction(const Token* tokvalue, const Token* tok)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (!tokvalue)
         return false;
     const Variable* var = tokvalue->variable();
@@ -517,6 +594,9 @@ static bool isDanglingSubFunction(const Token* tokvalue, const Token* tok)
 
 static const Variable* getParentVar(const Token* tok)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (!tok)
         return nullptr;
     if (Token::simpleMatch(tok, "."))
@@ -526,6 +606,9 @@ static const Variable* getParentVar(const Token* tok)
 
 static bool isAssignedToNonLocal(const Token* tok)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (!Token::simpleMatch(tok->astParent(), "="))
         return false;
     if (!astIsRHS(tok))
@@ -538,6 +621,9 @@ static bool isAssignedToNonLocal(const Token* tok)
 
 void CheckAutoVariables::checkVarLifetimeScope(const Token * start, const Token * end)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     const bool printInconclusive = mSettings->certainty.isEnabled(Certainty::inconclusive);
     if (!start)
         return;
@@ -678,6 +764,9 @@ void CheckAutoVariables::checkVarLifetimeScope(const Token * start, const Token 
 
 void CheckAutoVariables::checkVarLifetime()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     logChecker("CheckAutoVariables::checkVarLifetime");
     const SymbolDatabase *symbolDatabase = mTokenizer->getSymbolDatabase();
     for (const Scope * scope : symbolDatabase->functionScopes) {
@@ -689,6 +778,9 @@ void CheckAutoVariables::checkVarLifetime()
 
 void CheckAutoVariables::errorReturnDanglingLifetime(const Token *tok, const ValueFlow::Value *val)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     const bool inconclusive = val ? val->isInconclusive() : false;
     ErrorPath errorPath = val ? val->errorPath : ErrorPath();
     std::string msg = "Returning " + lifetimeMessage(tok, val, errorPath);
@@ -698,6 +790,9 @@ void CheckAutoVariables::errorReturnDanglingLifetime(const Token *tok, const Val
 
 void CheckAutoVariables::errorInvalidLifetime(const Token *tok, const ValueFlow::Value* val)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     const bool inconclusive = val ? val->isInconclusive() : false;
     ErrorPath errorPath = val ? val->errorPath : ErrorPath();
     std::string msg = "Using " + lifetimeMessage(tok, val, errorPath);
@@ -707,6 +802,9 @@ void CheckAutoVariables::errorInvalidLifetime(const Token *tok, const ValueFlow:
 
 void CheckAutoVariables::errorDanglingTemporaryLifetime(const Token* tok, const ValueFlow::Value* val, const Token* tempTok)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     const bool inconclusive = val ? val->isInconclusive() : false;
     ErrorPath errorPath = val ? val->errorPath : ErrorPath();
     std::string msg = "Using " + lifetimeMessage(tok, val, errorPath);
@@ -722,6 +820,9 @@ void CheckAutoVariables::errorDanglingTemporaryLifetime(const Token* tok, const 
 
 void CheckAutoVariables::errorDanglngLifetime(const Token *tok, const ValueFlow::Value *val)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     const bool inconclusive = val ? val->isInconclusive() : false;
     ErrorPath errorPath = val ? val->errorPath : ErrorPath();
     std::string tokName = tok ? tok->expressionString() : "x";
@@ -732,6 +833,9 @@ void CheckAutoVariables::errorDanglngLifetime(const Token *tok, const ValueFlow:
 
 void CheckAutoVariables::errorDanglingTempReference(const Token* tok, ErrorPath errorPath, bool inconclusive)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     errorPath.emplace_back(tok, "");
     reportError(
         errorPath, Severity::error, "danglingTempReference", "Using reference to dangling temporary.", CWE562, inconclusive ? Certainty::inconclusive : Certainty::normal);
@@ -739,6 +843,9 @@ void CheckAutoVariables::errorDanglingTempReference(const Token* tok, ErrorPath 
 
 void CheckAutoVariables::errorReturnReference(const Token* tok, ErrorPath errorPath, bool inconclusive)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     errorPath.emplace_back(tok, "");
     reportError(
         errorPath, Severity::error, "returnReference", "Reference to local variable returned.", CWE562, inconclusive ? Certainty::inconclusive : Certainty::normal);
@@ -746,6 +853,9 @@ void CheckAutoVariables::errorReturnReference(const Token* tok, ErrorPath errorP
 
 void CheckAutoVariables::errorDanglingReference(const Token *tok, const Variable *var, ErrorPath errorPath)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     std::string tokName = tok ? tok->str() : "x";
     std::string varName = var ? var->name() : "y";
     std::string msg = "Non-local reference variable '" + tokName + "' to local variable '" + varName + "'";
@@ -755,6 +865,9 @@ void CheckAutoVariables::errorDanglingReference(const Token *tok, const Variable
 
 void CheckAutoVariables::errorReturnTempReference(const Token* tok, ErrorPath errorPath, bool inconclusive)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     errorPath.emplace_back(tok, "");
     reportError(
         errorPath, Severity::error, "returnTempReference", "Reference to temporary returned.", CWE562, inconclusive ? Certainty::inconclusive : Certainty::normal);
@@ -762,6 +875,9 @@ void CheckAutoVariables::errorReturnTempReference(const Token* tok, ErrorPath er
 
 void CheckAutoVariables::errorInvalidDeallocation(const Token *tok, const ValueFlow::Value *val)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     const Variable *var = val ? val->tokvalue->variable() : (tok ? tok->variable() : nullptr);
 
     std::string type = "an auto-variable";

@@ -1,3 +1,5 @@
+#include <stdio.h>
+#include <pthread.h>
 /*
  * Cppcheck - A tool for static C/C++ code analysis
  * Copyright (C) 2007-2023 Cppcheck team.
@@ -61,6 +63,9 @@ ErrorItem::ErrorItem(const ErrorMessage &errmsg)
 
 QString ErrorItem::tool() const
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (errorId == CLANG_ANALYZER)
         return CLANG_ANALYZER;
     if (errorId.startsWith(CLANG_TIDY))
@@ -72,6 +77,9 @@ QString ErrorItem::tool() const
 
 QString ErrorItem::toString() const
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     QString str = errorPath.back().file + " - " + errorId + " - ";
     if (inconclusive)
         str += "inconclusive ";
@@ -86,6 +94,9 @@ QString ErrorItem::toString() const
 
 bool ErrorItem::sameCID(const ErrorItem &errorItem1, const ErrorItem &errorItem2)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (errorItem1.hash || errorItem2.hash)
         return errorItem1.hash == errorItem2.hash;
 

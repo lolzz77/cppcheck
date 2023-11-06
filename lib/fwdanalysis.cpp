@@ -1,3 +1,5 @@
+#include <stdio.h>
+#include <pthread.h>
 /*
  * Cppcheck - A tool for static C/C++ code analysis
  * Copyright (C) 2007-2023 Cppcheck team.
@@ -32,6 +34,9 @@
 
 static bool isUnchanged(const Token *startToken, const Token *endToken, const std::set<nonneg int> &exprVarIds, bool local)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     for (const Token *tok = startToken; tok != endToken; tok = tok->next()) {
         if (!local && Token::Match(tok, "%name% (") && !Token::simpleMatch(tok->linkAt(1), ") {"))
             // TODO: this is a quick bailout
@@ -57,6 +62,9 @@ static bool isUnchanged(const Token *startToken, const Token *endToken, const st
 
 static bool hasFunctionCall(const Token *tok)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (!tok)
         return false;
     if (Token::Match(tok, "%name% ("))
@@ -67,6 +75,9 @@ static bool hasFunctionCall(const Token *tok)
 
 static bool hasGccCompoundStatement(const Token *tok)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (!tok)
         return false;
     if (tok->str() == "{" && Token::simpleMatch(tok->previous(), "( {"))
@@ -76,11 +87,17 @@ static bool hasGccCompoundStatement(const Token *tok)
 
 static bool nonLocal(const Variable* var, bool deref)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     return !var || (!var->isLocal() && !var->isArgument()) || (deref && var->isArgument() && var->isPointer()) || var->isStatic() || var->isReference() || var->isExtern();
 }
 
 static bool hasVolatileCastOrVar(const Token *expr)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     bool ret = false;
     visitAstNodes(expr,
                   [&ret](const Token *tok) {
@@ -397,6 +414,9 @@ FwdAnalysis::Result FwdAnalysis::checkRecursive(const Token *expr, const Token *
 
 bool FwdAnalysis::isGlobalData(const Token *expr) const
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     return ::isGlobalData(expr, mCpp);
 }
 
@@ -467,6 +487,9 @@ FwdAnalysis::Result FwdAnalysis::check(const Token* expr, const Token* startToke
 
 bool FwdAnalysis::hasOperand(const Token *tok, const Token *lhs) const
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (!tok)
         return false;
     if (isSameExpression(mCpp, false, tok, lhs, mLibrary, false, false, nullptr))
@@ -485,6 +508,9 @@ const Token *FwdAnalysis::reassign(const Token *expr, const Token *startToken, c
 
 bool FwdAnalysis::unusedValue(const Token *expr, const Token *startToken, const Token *endToken)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (isEscapedAlias(expr))
         return false;
     if (hasVolatileCastOrVar(expr))
@@ -498,6 +524,9 @@ bool FwdAnalysis::unusedValue(const Token *expr, const Token *startToken, const 
 
 bool FwdAnalysis::possiblyAliased(const Token *expr, const Token *startToken) const
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (expr->isUnaryOp("*") && !expr->astOperand1()->isUnaryOp("&"))
         return true;
 
@@ -549,6 +578,9 @@ bool FwdAnalysis::possiblyAliased(const Token *expr, const Token *startToken) co
 
 bool FwdAnalysis::isEscapedAlias(const Token* expr)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     for (const Token *subexpr = expr; subexpr; subexpr = subexpr->astOperand1()) {
         for (const ValueFlow::Value &val : subexpr->values()) {
             if (!val.isLocalLifetimeValue())

@@ -1,3 +1,5 @@
+#include <stdio.h>
+#include <pthread.h>
 /*
  * Cppcheck - A tool for static C/C++ code analysis
  * Copyright (C) 2007-2023 Cppcheck team.
@@ -90,6 +92,9 @@ CppcheckLibraryData::Function *LibraryDialog::currentFunction()
 
 void LibraryDialog::openCfg()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     const QString datadir = getDataDir();
 
     QString selectedFilter;
@@ -146,6 +151,9 @@ void LibraryDialog::openCfg()
 
 void LibraryDialog::saveCfg()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (mFileName.isNull())
         return;
     QFile file(mFileName);
@@ -165,6 +173,9 @@ void LibraryDialog::saveCfg()
 
 void LibraryDialog::saveCfgAs()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     const QString filter(tr("Library files (*.cfg)"));
     const QString path = Path::getPathFromFilename(mFileName.toStdString()).c_str();
     QString selectedFile = QFileDialog::getSaveFileName(this,
@@ -183,6 +194,9 @@ void LibraryDialog::saveCfgAs()
 
 void LibraryDialog::addFunction()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     LibraryAddFunctionDialog *d = new LibraryAddFunctionDialog;
     if (d->exec() == QDialog::Accepted && !d->functionName().isEmpty()) {
 
@@ -206,6 +220,9 @@ void LibraryDialog::addFunction()
 
 void LibraryDialog::editFunctionName(QListWidgetItem* item)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (mIgnoreChanges)
         return;
     QString functionName = item->text();
@@ -225,6 +242,9 @@ void LibraryDialog::editFunctionName(QListWidgetItem* item)
 
 void LibraryDialog::selectFunction()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     const CppcheckLibraryData::Function * const function = currentFunction();
 
     if (function == nullptr) {
@@ -269,6 +289,9 @@ void LibraryDialog::selectFunction()
 
 void LibraryDialog::sortFunctions(bool sort)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (sort) {
         mUi->functions->sortItems();
     } else {
@@ -288,6 +311,9 @@ void LibraryDialog::sortFunctions(bool sort)
 
 void LibraryDialog::filterFunctions(const QString& filter)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     QList<QListWidgetItem *> allItems = mUi->functions->findItems(QString(), Qt::MatchContains);
 
     if (filter.isEmpty()) {
@@ -303,6 +329,9 @@ void LibraryDialog::filterFunctions(const QString& filter)
 
 void LibraryDialog::changeFunction()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (mIgnoreChanges)
         return;
 
@@ -320,6 +349,9 @@ void LibraryDialog::changeFunction()
 
 void LibraryDialog::editArg()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     CppcheckLibraryData::Function *function = currentFunction();
     if (!function)
         return;
@@ -340,6 +372,9 @@ void LibraryDialog::editArg()
 
 QString LibraryDialog::getArgText(const CppcheckLibraryData::Function::Arg &arg)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     QString s("arg");
     if (arg.nr != CppcheckLibraryData::Function::Arg::ANY)
         s += QString::number(arg.nr);
@@ -358,6 +393,9 @@ QString LibraryDialog::getArgText(const CppcheckLibraryData::Function::Arg &arg)
 
 void LibraryDialog::updateArguments(const CppcheckLibraryData::Function &function)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     mUi->arguments->clear();
     for (const CppcheckLibraryData::Function::Arg &arg : function.args) {
         mUi->arguments->addItem(getArgText(arg));

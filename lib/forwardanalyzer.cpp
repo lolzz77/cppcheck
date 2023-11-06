@@ -1,3 +1,5 @@
+#include <stdio.h>
+#include <pthread.h>
 /*
  * Cppcheck - A tool for static C/C++ code analysis
  * Copyright (C) 2007-2023 Cppcheck team.
@@ -76,23 +78,41 @@ struct ForwardTraversal {
         bool escapeUnknown = false;
         bool active = false;
         bool isEscape() const {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
             return escape || escapeUnknown;
         }
         bool isConclusiveEscape() const {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
             return escape && !escapeUnknown;
         }
         bool isModified() const {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
             return action.isModified() && !isConclusiveEscape();
         }
         bool isInconclusive() const {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
             return action.isInconclusive() && !isConclusiveEscape();
         }
         bool isDead() const {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
             return action.isModified() || action.isInconclusive() || isEscape();
         }
     };
 
     bool stopUpdates() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         analyzeOnly = true;
         return actions.isModified();
     }
@@ -198,6 +218,9 @@ struct ForwardTraversal {
 
     template<class T, class F, REQUIRES("T must be a Token class", std::is_convertible<T*, const Token*> )>
     Progress traverseConditional(T* tok, F f, bool traverseUnknown) {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         if (Token::Match(tok, "?|&&|%oror%") && tok->astOperand1() && tok->astOperand2()) {
             T* condTok = tok->astOperand1();
             T* childTok = tok->astOperand2();
@@ -228,6 +251,9 @@ struct ForwardTraversal {
     }
 
     Progress update(Token* tok) {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         Analyzer::Action action = analyzer->analyze(tok, Analyzer::Direction::Forward);
         actions |= action;
         if (!action.isNone() && !analyzeOnly)
@@ -250,6 +276,9 @@ struct ForwardTraversal {
     }
 
     Progress updateRecursive(Token* tok) {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         auto f = [this](Token* tok2) {
             return update(tok2);
         };
@@ -305,14 +334,23 @@ struct ForwardTraversal {
     }
 
     static bool hasGoto(const Token* endBlock) {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         return Token::findsimplematch(endBlock->link(), "goto", endBlock);
     }
 
     static bool hasJump(const Token* endBlock) {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         return Token::findmatch(endBlock->link(), "goto|break", endBlock);
     }
 
     bool hasInnerReturnScope(const Token* start, const Token* end) const {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         for (const Token* tok=start; tok != end; tok = tok->previous()) {
             if (Token::simpleMatch(tok, "}")) {
                 const Token* ftok = nullptr;
@@ -325,6 +363,9 @@ struct ForwardTraversal {
     }
 
     bool isEscapeScope(const Token* endBlock, bool& unknown) const {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const Token* ftok = nullptr;
         const bool r = isReturnScope(endBlock, &settings.library, &ftok);
         if (!r && ftok)
@@ -353,6 +394,9 @@ struct ForwardTraversal {
     }
 
     bool checkBranch(Branch& branch) const {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         Analyzer::Action a = analyzeScope(branch.endBlock);
         branch.action = a;
         std::vector<ForwardTraversal> ft1 = tryForkUpdateScope(branch.endBlock, a.isModified());
@@ -379,6 +423,9 @@ struct ForwardTraversal {
     }
 
     bool reentersLoop(Token* endBlock, const Token* condTok, const Token* stepTok) const {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         if (!condTok)
             return true;
         if (Token::simpleMatch(condTok, ":"))
@@ -405,6 +452,9 @@ struct ForwardTraversal {
     }
 
     Progress updateInnerLoop(Token* endBlock, Token* stepTok, Token* condTok) {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         loopEnds.push_back(endBlock);
         OnExit oe{[&] {
                 loopEnds.pop_back();
@@ -455,6 +505,9 @@ struct ForwardTraversal {
         if (checkElse && isDoWhile &&
             (condTok->hasKnownIntValue() ||
              (!bodyAnalysis.isModified() && !condAnalysis.isModified() && condAnalysis.isRead()))) {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
             if (updateRange(endBlock->link(), endBlock) == Progress::Break)
                 return Break();
             return updateRecursive(condTok);
@@ -532,6 +585,9 @@ struct ForwardTraversal {
     }
 
     Progress updateScope(Token* endBlock) {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         return updateRange(endBlock->link(), endBlock);
     }
 
@@ -828,6 +884,9 @@ struct ForwardTraversal {
 
     static bool isFunctionCall(const Token* tok)
     {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         if (!Token::simpleMatch(tok, "("))
             return false;
         if (tok->isCast())
@@ -842,6 +901,9 @@ struct ForwardTraversal {
     }
 
     static Token* assignExpr(Token* tok) {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         while (tok->astParent() && astIsLHS(tok)) {
             if (tok->astParent()->isAssignmentOp())
                 return tok->astParent();
@@ -852,6 +914,9 @@ struct ForwardTraversal {
 
     static Token* callExpr(Token* tok)
     {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         while (tok->astParent() && astIsLHS(tok)) {
             if (!Token::Match(tok, "%name%|::|<|."))
                 break;
@@ -874,6 +939,9 @@ struct ForwardTraversal {
     }
 
     static bool isConditional(const Token* tok) {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const Token* parent = tok->astParent();
         while (parent && !Token::Match(parent, "%oror%|&&|:")) {
             tok = parent;
@@ -883,6 +951,9 @@ struct ForwardTraversal {
     }
 
     static Token* getStepTokFromEnd(Token* tok) {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         if (!Token::simpleMatch(tok, "}"))
             return nullptr;
         Token* end = tok->link()->previous();

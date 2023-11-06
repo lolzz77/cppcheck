@@ -1,3 +1,5 @@
+#include <stdio.h>
+#include <pthread.h>
 /*
  * Cppcheck - A tool for static C/C++ code analysis
  * Copyright (C) 2007-2023 Cppcheck team.
@@ -94,6 +96,9 @@ StatsDialog::~StatsDialog()
 
 void StatsDialog::setProject(const ProjectFile* projectFile)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (projectFile) {
         mUI->mProject->setText(projectFile->getRootPath());
         mUI->mPaths->setText(projectFile->getCheckPaths().join(";"));
@@ -136,16 +141,25 @@ void StatsDialog::setProject(const ProjectFile* projectFile)
 
 void StatsDialog::setPathSelected(const QString& path)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     mUI->mPath->setText(path);
 }
 
 void StatsDialog::setNumberOfFilesScanned(int num)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     mUI->mNumberOfFilesScanned->setText(QString::number(num));
 }
 
 void StatsDialog::setScanDuration(double seconds)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     // Factor the duration into units (days/hours/minutes/seconds)
     int secs = seconds;
     const int days = secs / (24 * 60 * 60);
@@ -174,6 +188,9 @@ void StatsDialog::setScanDuration(double seconds)
 }
 void StatsDialog::pdfExport()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     const QString Stat = QString(
         "<center><h1>%1   %2</h1></center>\n"
         "<font color=\"red\"><h3>%3   :   %4</h3></font>\n"
@@ -215,6 +232,9 @@ void StatsDialog::pdfExport()
 
 void StatsDialog::copyToClipboard()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     QClipboard *clipboard = QApplication::clipboard();
     if (!clipboard)
         return;
@@ -370,6 +390,9 @@ void StatsDialog::copyToClipboard()
 
 void StatsDialog::setStatistics(const CheckStatistics *stats)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     mStatistics = stats;
     mUI->mLblErrors->setText(QString::number(stats->getCount(CPPCHECK,ShowTypes::ShowErrors)));
     mUI->mLblWarnings->setText(QString::number(stats->getCount(CPPCHECK,ShowTypes::ShowWarnings)));
@@ -384,6 +407,9 @@ void StatsDialog::setStatistics(const CheckStatistics *stats)
 #ifdef QT_CHARTS_LIB
 QChartView *createChart(const QString &statsFile, const QString &tool)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     QChart *chart = new QChart;
     chart->addSeries(numberOfReports(statsFile, tool + "-error"));
     chart->addSeries(numberOfReports(statsFile, tool + "-warning"));
@@ -426,6 +452,9 @@ QChartView *createChart(const QString &statsFile, const QString &tool)
 
 QLineSeries *numberOfReports(const QString &fileName, const QString &severity)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     QLineSeries *series = new QLineSeries();
     series->setName(severity);
     QFile f(fileName);

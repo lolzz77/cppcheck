@@ -1,3 +1,5 @@
+#include <stdio.h>
+#include <pthread.h>
 /*
  * Cppcheck - A tool for static C/C++ code analysis
  * Copyright (C) 2007-2023 Cppcheck team.
@@ -97,6 +99,9 @@
 static const QString compile_commands_json("compile_commands.json");
 
 static QString fromNativePath(const QString& p) {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
 #ifdef Q_OS_WIN
     QString ret(p);
     ret.replace('\\', '/');
@@ -315,6 +320,9 @@ MainWindow::~MainWindow()
 
 void MainWindow::handleCLIParams(const QStringList &params)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     int index;
     if (params.contains("-p")) {
         index = params.indexOf("-p");
@@ -346,6 +354,9 @@ void MainWindow::handleCLIParams(const QStringList &params)
 
 void MainWindow::loadSettings()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     // Window/dialog sizes
     if (mSettings->value(SETTINGS_WINDOW_MAXIMIZED, false).toBool()) {
         showMaximized();
@@ -428,6 +439,9 @@ void MainWindow::loadSettings()
 
 void MainWindow::saveSettings() const
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     // Window/dialog sizes
     mSettings->setValue(SETTINGS_WINDOW_WIDTH, size().width());
     mSettings->setValue(SETTINGS_WINDOW_HEIGHT, size().height());
@@ -484,6 +498,9 @@ void MainWindow::saveSettings() const
 
 void MainWindow::doAnalyzeProject(ImportProject p, const bool checkLibrary, const bool checkConfiguration)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     clearResults();
 
     mIsLogfileLoaded = false;
@@ -548,6 +565,9 @@ void MainWindow::doAnalyzeProject(ImportProject p, const bool checkLibrary, cons
 
 void MainWindow::doAnalyzeFiles(const QStringList &files, const bool checkLibrary, const bool checkConfiguration)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (files.isEmpty()) {
         return;
     }
@@ -600,6 +620,9 @@ void MainWindow::doAnalyzeFiles(const QStringList &files, const bool checkLibrar
         checkSettings.loadSummaries();
         std::list<std::string> sourcefiles;
         std::transform(fileNames.cbegin(), fileNames.cend(), std::back_inserter(sourcefiles), [](const QString& s) {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
             return s.toStdString();
         });
         AnalyzerInformation::writeFilesTxt(checkSettings.buildDir, sourcefiles, checkSettings.userDefines, checkSettings.fileSettings);
@@ -612,6 +635,9 @@ void MainWindow::doAnalyzeFiles(const QStringList &files, const bool checkLibrar
 
 void MainWindow::analyzeCode(const QString& code, const QString& filename)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     // Initialize dummy ThreadResult as ErrorLogger
     ThreadResult result;
     result.setFiles(QStringList(filename));
@@ -642,6 +668,9 @@ void MainWindow::analyzeCode(const QString& code, const QString& filename)
 
 QStringList MainWindow::selectFilesToAnalyze(QFileDialog::FileMode mode)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (mProjectFile) {
         QMessageBox msgBox(this);
         msgBox.setWindowTitle(tr("Cppcheck"));
@@ -698,6 +727,9 @@ QStringList MainWindow::selectFilesToAnalyze(QFileDialog::FileMode mode)
 
 void MainWindow::analyzeFiles()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     Settings::terminate(false);
 
     QStringList selected = selectFilesToAnalyze(QFileDialog::ExistingFiles);
@@ -735,6 +767,9 @@ void MainWindow::analyzeFiles()
 
 void MainWindow::analyzeDirectory()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     QStringList dir = selectFilesToAnalyze(QFileDialog::Directory);
     if (dir.isEmpty())
         return;
@@ -792,6 +827,9 @@ void MainWindow::analyzeDirectory()
 
 void MainWindow::addIncludeDirs(const QStringList &includeDirs, Settings &result)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     for (const QString& dir : includeDirs) {
         QString incdir;
         if (!QDir::isAbsolutePath(dir))
@@ -856,6 +894,9 @@ Library::Error MainWindow::loadLibrary(Library *library, const QString &filename
 
 bool MainWindow::tryLoadLibrary(Library *library, const QString& filename)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     const Library::Error error = loadLibrary(library, filename);
     if (error.errorcode != Library::ErrorCode::OK) {
         if (error.errorcode == Library::ErrorCode::UNKNOWN_ELEMENT) {
@@ -905,6 +946,9 @@ bool MainWindow::tryLoadLibrary(Library *library, const QString& filename)
 
 Settings MainWindow::getCppcheckSettings()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     saveSettings(); // Save settings
 
     Settings result;
@@ -1079,6 +1123,9 @@ Settings MainWindow::getCppcheckSettings()
 
 void MainWindow::analysisDone()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (mExiting) {
         close();
         return;
@@ -1129,6 +1176,9 @@ void MainWindow::analysisDone()
 
 void MainWindow::checkLockDownUI()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     enableCheckButtons(false);
     mUI->mActionSettings->setEnabled(false);
     mUI->mActionOpenXML->setEnabled(false);
@@ -1150,6 +1200,9 @@ void MainWindow::checkLockDownUI()
 
 void MainWindow::programSettings()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     SettingsDialog dialog(mApplications, mTranslation, isCppcheckPremium(), this);
     if (dialog.exec() == QDialog::Accepted) {
         dialog.saveSettingValues();
@@ -1168,11 +1221,17 @@ void MainWindow::programSettings()
 
 void MainWindow::reAnalyzeModified()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     reAnalyze(false);
 }
 
 void MainWindow::reAnalyzeAll()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (mProjectFile)
         analyzeProject(mProjectFile);
     else
@@ -1181,18 +1240,27 @@ void MainWindow::reAnalyzeAll()
 
 void MainWindow::checkLibrary()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (mProjectFile)
         analyzeProject(mProjectFile, true);
 }
 
 void MainWindow::checkConfiguration()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (mProjectFile)
         analyzeProject(mProjectFile, false, true);
 }
 
 void MainWindow::reAnalyzeSelected(const QStringList& files)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (files.empty())
         return;
     if (mThread->isChecking())
@@ -1225,6 +1293,9 @@ void MainWindow::reAnalyzeSelected(const QStringList& files)
 
 void MainWindow::reAnalyze(bool all)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     const QStringList files = mThread->getReCheckFiles(all);
     if (files.empty())
         return;
@@ -1250,6 +1321,9 @@ void MainWindow::reAnalyze(bool all)
 
 void MainWindow::clearResults()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (mProjectFile && !mProjectFile->getBuildDir().isEmpty()) {
         QDir dir(QFileInfo(mProjectFile->getFilename()).absolutePath() + '/' + mProjectFile->getBuildDir());
         for (const QString& f: dir.entryList(QDir::Files)) {
@@ -1267,6 +1341,9 @@ void MainWindow::clearResults()
 
 void MainWindow::openResults()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (mUI->mResults->hasResults()) {
         QMessageBox msgBox(this);
         msgBox.setWindowTitle(tr("Cppcheck"));
@@ -1299,6 +1376,9 @@ void MainWindow::openResults()
 
 void MainWindow::loadResults(const QString &selectedFile)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (selectedFile.isEmpty())
         return;
     if (mProjectFile)
@@ -1314,12 +1394,18 @@ void MainWindow::loadResults(const QString &selectedFile)
 
 void MainWindow::loadResults(const QString &selectedFile, const QString &sourceDirectory)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     loadResults(selectedFile);
     mUI->mResults->setCheckDirectory(sourceDirectory);
 }
 
 void MainWindow::enableCheckButtons(bool enable)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     mUI->mActionStop->setEnabled(!enable);
     mUI->mActionAnalyzeFiles->setEnabled(enable);
 
@@ -1340,6 +1426,9 @@ void MainWindow::enableCheckButtons(bool enable)
 
 void MainWindow::enableResultsButtons()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     const bool enabled = mUI->mResults->hasResults();
     mUI->mActionClearResults->setEnabled(enabled);
     mUI->mActionSave->setEnabled(enabled);
@@ -1349,46 +1438,73 @@ void MainWindow::enableResultsButtons()
 
 void MainWindow::showStyle(bool checked)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     mUI->mResults->showResults(ShowTypes::ShowStyle, checked);
 }
 
 void MainWindow::showErrors(bool checked)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     mUI->mResults->showResults(ShowTypes::ShowErrors, checked);
 }
 
 void MainWindow::showWarnings(bool checked)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     mUI->mResults->showResults(ShowTypes::ShowWarnings, checked);
 }
 
 void MainWindow::showPortability(bool checked)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     mUI->mResults->showResults(ShowTypes::ShowPortability, checked);
 }
 
 void MainWindow::showPerformance(bool checked)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     mUI->mResults->showResults(ShowTypes::ShowPerformance, checked);
 }
 
 void MainWindow::showInformation(bool checked)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     mUI->mResults->showResults(ShowTypes::ShowInformation, checked);
 }
 
 void MainWindow::checkAll()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     toggleAllChecked(true);
 }
 
 void MainWindow::uncheckAll()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     toggleAllChecked(false);
 }
 
 void MainWindow::closeEvent(QCloseEvent *event)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     // Check that we aren't checking files
     if (!mThread->isChecking()) {
         saveSettings();
@@ -1418,6 +1534,9 @@ void MainWindow::closeEvent(QCloseEvent *event)
 
 void MainWindow::toggleAllChecked(bool checked)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     mUI->mActionShowStyle->setChecked(checked);
     showStyle(checked);
     mUI->mActionShowErrors->setChecked(checked);
@@ -1434,6 +1553,9 @@ void MainWindow::toggleAllChecked(bool checked)
 
 void MainWindow::about()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (!mCppcheckCfgAbout.isEmpty()) {
         QMessageBox msg(QMessageBox::Information,
                         tr("About"),
@@ -1450,6 +1572,9 @@ void MainWindow::about()
 
 void MainWindow::showLicense()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     FileViewDialog *dlg = new FileViewDialog(":COPYING", tr("License"), this);
     dlg->resize(570, 400);
     dlg->exec();
@@ -1457,6 +1582,9 @@ void MainWindow::showLicense()
 
 void MainWindow::showAuthors()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     FileViewDialog *dlg = new FileViewDialog(":AUTHORS", tr("Authors"), this);
     dlg->resize(350, 400);
     dlg->exec();
@@ -1464,11 +1592,17 @@ void MainWindow::showAuthors()
 
 void MainWindow::performSelectedFilesCheck(const QStringList &selectedFilesList)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     reAnalyzeSelected(selectedFilesList);
 }
 
 void MainWindow::save()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     QString selectedFilter;
     const QString filter(tr("XML files (*.xml);;Text files (*.txt);;CSV files (*.csv)"));
     QString selectedFile = QFileDialog::getSaveFileName(this,
@@ -1507,6 +1641,9 @@ void MainWindow::save()
 
 void MainWindow::complianceReport()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (!mUI->mResults->isSuccess()) {
         QMessageBox m(QMessageBox::Critical,
                       "Cppcheck",
@@ -1532,22 +1669,34 @@ void MainWindow::resultsAdded()
 
 void MainWindow::toggleMainToolBar()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     mUI->mToolBarMain->setVisible(mUI->mActionToolBarMain->isChecked());
 }
 
 void MainWindow::toggleViewToolBar()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     mUI->mToolBarView->setVisible(mUI->mActionToolBarView->isChecked());
 }
 
 void MainWindow::toggleFilterToolBar()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     mUI->mToolBarFilter->setVisible(mUI->mActionToolBarFilter->isChecked());
     mLineEditFilter->clear(); // Clearing the filter also disables filtering
 }
 
 void MainWindow::formatAndSetTitle(const QString &text)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     QString nameWithVersion = QString("Cppcheck %1").arg(CppCheck::version());
 
     QString extraVersion = CppCheck::extraVersion();
@@ -1568,6 +1717,9 @@ void MainWindow::formatAndSetTitle(const QString &text)
 
 void MainWindow::setLanguage(const QString &code)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     const QString currentLang = mTranslation->getCurrentLanguage();
     if (currentLang == code)
         return;
@@ -1586,6 +1738,9 @@ void MainWindow::setLanguage(const QString &code)
 
 void MainWindow::aboutToShowViewMenu()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     mUI->mActionToolBarMain->setChecked(mUI->mToolBarMain->isVisible());
     mUI->mActionToolBarView->setChecked(mUI->mToolBarView->isVisible());
     mUI->mActionToolBarFilter->setChecked(mUI->mToolBarFilter->isVisible());
@@ -1593,6 +1748,9 @@ void MainWindow::aboutToShowViewMenu()
 
 void MainWindow::stopAnalysis()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     mThread->stop();
     mUI->mResults->stopAnalysis();
     mUI->mResults->disableProgressbar();
@@ -1604,17 +1762,26 @@ void MainWindow::stopAnalysis()
 
 void MainWindow::openHelpContents()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     openOnlineHelp();
 }
 
 void MainWindow::openOnlineHelp()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     HelpDialog *helpDialog = new HelpDialog;
     helpDialog->showMaximized();
 }
 
 void MainWindow::openProjectFile()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     const QString filter = tr("Project files (*.cppcheck);;All files(*.*)");
     const QString filepath = QFileDialog::getOpenFileName(this,
                                                           tr("Select Project File"),
@@ -1632,6 +1799,9 @@ void MainWindow::openProjectFile()
 
 void MainWindow::showScratchpad()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (!mScratchPad)
         mScratchPad = new ScratchPad(*this);
 
@@ -1643,6 +1813,9 @@ void MainWindow::showScratchpad()
 
 void MainWindow::loadProjectFile(const QString &filePath)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     QFileInfo inf(filePath);
     const QString filename = inf.fileName();
     formatAndSetTitle(tr("Project:") + ' ' + filename);
@@ -1660,6 +1833,9 @@ void MainWindow::loadProjectFile(const QString &filePath)
 
 QString MainWindow::getLastResults() const
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (!mProjectFile || mProjectFile->getBuildDir().isEmpty())
         return QString();
     return QFileInfo(mProjectFile->getFilename()).absolutePath() + '/' + mProjectFile->getBuildDir() + "/lastResults.xml";
@@ -1667,6 +1843,9 @@ QString MainWindow::getLastResults() const
 
 bool MainWindow::loadLastResults()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     const QString &lastResults = getLastResults();
     if (lastResults.isEmpty())
         return false;
@@ -1681,6 +1860,9 @@ bool MainWindow::loadLastResults()
 
 void MainWindow::analyzeProject(const ProjectFile *projectFile, const bool checkLibrary, const bool checkConfiguration)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     Settings::terminate(false);
 
     QFileInfo inf(projectFile->getFilename());
@@ -1733,6 +1915,9 @@ void MainWindow::analyzeProject(const ProjectFile *projectFile, const bool check
             prjfile = inf.canonicalPath() + '/' + projectFile->getImportProject();
         }
         try {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
 
             const ImportProject::Type result = p.import(prjfile.toStdString());
 
@@ -1795,6 +1980,9 @@ void MainWindow::analyzeProject(const ProjectFile *projectFile, const bool check
 
 void MainWindow::newProjectFile()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     const QString filter = tr("Project files (*.cppcheck)");
     QString filepath = QFileDialog::getSaveFileName(this,
                                                     tr("Select Project Filename"),
@@ -1830,6 +2018,9 @@ void MainWindow::newProjectFile()
 
 void MainWindow::closeProjectFile()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     delete mProjectFile;
     mProjectFile = nullptr;
     mUI->mResults->clear(true);
@@ -1840,6 +2031,9 @@ void MainWindow::closeProjectFile()
 
 void MainWindow::editProjectFile()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (!mProjectFile) {
         QMessageBox msg(QMessageBox::Critical,
                         tr("Cppcheck"),
@@ -1859,6 +2053,9 @@ void MainWindow::editProjectFile()
 
 void MainWindow::showStatistics()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     StatsDialog statsDialog(this);
 
     // Show a dialog with the previous scan statistics and project information
@@ -1873,17 +2070,26 @@ void MainWindow::showStatistics()
 
 void MainWindow::showLibraryEditor()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     LibraryDialog libraryDialog(this);
     libraryDialog.exec();
 }
 
 void MainWindow::filterResults()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     mUI->mResults->filterResults(mLineEditFilter->text());
 }
 
 void MainWindow::enableProjectActions(bool enable)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     mUI->mActionCloseProjectFile->setEnabled(enable);
     mUI->mActionEditProjectFile->setEnabled(enable);
     mUI->mActionCheckLibrary->setEnabled(enable);
@@ -1892,12 +2098,18 @@ void MainWindow::enableProjectActions(bool enable)
 
 void MainWindow::enableProjectOpenActions(bool enable)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     mUI->mActionNewProjectFile->setEnabled(enable);
     mUI->mActionOpenProjectFile->setEnabled(enable);
 }
 
 void MainWindow::openRecentProject()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     QAction *action = qobject_cast<QAction *>(sender());
     if (!action)
         return;
@@ -1931,6 +2143,9 @@ void MainWindow::openRecentProject()
 
 void MainWindow::updateMRUMenuItems()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     for (QAction* recentProjectAct : mRecentProjectActs) {
         if (recentProjectAct != nullptr)
             mUI->mMenuFile->removeAction(recentProjectAct);
@@ -1966,6 +2181,9 @@ void MainWindow::updateMRUMenuItems()
 
 void MainWindow::addProjectMRU(const QString &project)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     QStringList files = mSettings->value(SETTINGS_MRU_PROJECTS).toStringList();
     files.removeAll(project);
     files.prepend(project);
@@ -1978,6 +2196,9 @@ void MainWindow::addProjectMRU(const QString &project)
 
 void MainWindow::removeProjectMRU(const QString &project)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     QStringList files = mSettings->value(SETTINGS_MRU_PROJECTS).toStringList();
     files.removeAll(project);
 
@@ -1987,6 +2208,9 @@ void MainWindow::removeProjectMRU(const QString &project)
 
 void MainWindow::selectPlatform()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     QAction *action = qobject_cast<QAction *>(sender());
     if (action) {
         const Platform::Type platform = (Platform::Type) action->data().toInt();
@@ -1996,6 +2220,9 @@ void MainWindow::selectPlatform()
 
 void MainWindow::suppressIds(QStringList ids)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (!mProjectFile)
         return;
     ids.removeDuplicates();
@@ -2021,6 +2248,9 @@ void MainWindow::suppressIds(QStringList ids)
 }
 
 static int getVersion(const QString& nameWithVersion) {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     int ret = 0;
     int v = 0;
     int dot = 0;
@@ -2048,6 +2278,9 @@ static int getVersion(const QString& nameWithVersion) {
 }
 
 void MainWindow::replyFinished(QNetworkReply *reply) {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     reply->deleteLater();
     if (reply->error()) {
         mUI->mLayoutInformation->deleteLater();
@@ -2085,6 +2318,9 @@ void MainWindow::replyFinished(QNetworkReply *reply) {
 }
 
 void MainWindow::hideInformation() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     int version = getVersion(mUI->mLabelInformation->text());
     mSettings->setValue(SETTINGS_CHECK_VERSION, version);
     mUI->mLabelInformation->setVisible(false);
@@ -2093,6 +2329,9 @@ void MainWindow::hideInformation() {
 }
 
 bool MainWindow::isCppcheckPremium() const {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     return mCppcheckCfgProductName.startsWith("Cppcheck Premium ");
 }
 

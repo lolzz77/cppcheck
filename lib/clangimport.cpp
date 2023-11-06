@@ -1,3 +1,5 @@
+#include <stdio.h>
+#include <pthread.h>
 /*
  * Cppcheck - A tool for static C/C++ code analysis
  * Copyright (C) 2007-2023 Cppcheck team.
@@ -210,6 +212,9 @@ namespace clangimport {
             Decl(Token *def, Function *function) : def(def), function(function) {}
             Decl(Token *def, Enumerator *enumerator) : def(def), enumerator(enumerator) {}
             void ref(Token *tok) const {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
                 if (enumerator)
                     tok->enumerator(enumerator);
                 if (function)
@@ -232,6 +237,9 @@ namespace clangimport {
         int enumValue = 0;
 
         void enumDecl(const std::string &addr, Token *nameToken, Enumerator *enumerator) {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
             Decl decl(nameToken, enumerator);
             mDeclMap.insert(std::pair<std::string, Decl>(addr, decl));
             nameToken->enumerator(enumerator);
@@ -239,6 +247,9 @@ namespace clangimport {
         }
 
         void funcDecl(const std::string &addr, Token *nameToken, Function *function) {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
             Decl decl(nameToken, function);
             mDeclMap.insert(std::pair<std::string, Decl>(addr, decl));
             nameToken->function(function);
@@ -246,11 +257,17 @@ namespace clangimport {
         }
 
         void scopeDecl(const std::string &addr, Scope *scope) {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
             Decl decl(scope);
             mDeclMap.insert(std::pair<std::string, Decl>(addr, decl));
         }
 
         void varDecl(const std::string &addr, Token *def, Variable *var) {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
             Decl decl(def, var);
             mDeclMap.insert(std::pair<std::string, Decl>(addr, decl));
             def->varId(++mVarId);
@@ -261,6 +278,9 @@ namespace clangimport {
         }
 
         void replaceVarDecl(const Variable *from, Variable *to) {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
             for (auto &it: mDeclMap) {
                 Decl &decl = it.second;
                 if (decl.var == from)
@@ -269,6 +289,9 @@ namespace clangimport {
         }
 
         void ref(const std::string &addr, Token *tok) {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
             auto it = mDeclMap.find(addr);
             if (it != mDeclMap.end())
                 it->second.ref(tok);
@@ -287,10 +310,16 @@ namespace clangimport {
         }
 
         bool hasDecl(const std::string &addr) const {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
             return mDeclMap.find(addr) != mDeclMap.end();
         }
 
         const Scope *getScope(const std::string &addr) {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
             auto it = mDeclMap.find(addr);
             return (it == mDeclMap.end() ? nullptr : it->second.scope);
         }
@@ -301,6 +330,9 @@ namespace clangimport {
         std::map<const Scope *, AccessControl> scopeAccessControl;
     private:
         void notFound(const std::string &addr) {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
             auto it = mNotFound.find(addr);
             if (it != mNotFound.end()) {
                 for (Token *reftok: it->second)
@@ -329,6 +361,9 @@ namespace clangimport {
 
         void dumpAst(int num = 0, int indent = 0) const;
         void createTokens1(TokenList *tokenList) {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
             //dumpAst();
             if (!tokenList->back())
                 setLocations(tokenList, 0, 1, 1);
@@ -341,6 +376,9 @@ namespace clangimport {
         }
 
         AstNodePtr getChild(int c) {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
             if (c >= children.size()) {
                 std::ostringstream err;
                 err << "ClangImport: AstNodePtr::getChild(" << c << ") out of bounds. children.size=" << children.size() << " " << nodeType;
@@ -1512,6 +1550,9 @@ Token * clangimport::AstNode::createTokensVarDecl(TokenList *tokenList)
 
 static void setTypes(TokenList *tokenList)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     for (Token *tok = tokenList->front(); tok; tok = tok->next()) {
         if (Token::simpleMatch(tok, "sizeof (")) {
             for (Token *typeToken = tok->tokAt(2); typeToken->str() != ")"; typeToken = typeToken->next()) {
@@ -1525,6 +1566,9 @@ static void setTypes(TokenList *tokenList)
 
 static void setValues(const Tokenizer *tokenizer, const SymbolDatabase *symbolDatabase)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     const Settings * const settings = tokenizer->getSettings();
 
     for (const Scope& scope : symbolDatabase->scopeList) {
@@ -1565,6 +1609,9 @@ static void setValues(const Tokenizer *tokenizer, const SymbolDatabase *symbolDa
 
 void clangimport::parseClangAstDump(Tokenizer *tokenizer, std::istream &f)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     TokenList *tokenList = &tokenizer->list;
 
     tokenizer->createSymbolDatabase();

@@ -1,3 +1,5 @@
+#include <stdio.h>
+#include <pthread.h>
 /*
  * Cppcheck - A tool for static C/C++ code analysis
  * Copyright (C) 2007-2023 Cppcheck team.
@@ -36,6 +38,9 @@ public:
 private:
 
     void run() override {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         TEST_CASE(findLambdaEndTokenTest);
         TEST_CASE(findLambdaStartTokenTest);
         TEST_CASE(isNullOperandTest);
@@ -60,6 +65,9 @@ private:
     }
 
     void findLambdaEndTokenTest() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const Token* nullTok = nullptr;
         ASSERT(nullptr == (::findLambdaEndToken)(nullTok));
         ASSERT_EQUALS(false, findLambdaEndToken("void f() { }"));
@@ -89,6 +97,9 @@ private:
 
 #define findLambdaStartToken(code) findLambdaStartToken_(code, __FILE__, __LINE__)
     bool findLambdaStartToken_(const char code[], const char* file, int line) {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const Settings settings;
         Tokenizer tokenizer(&settings, this);
         std::istringstream istr(code);
@@ -98,6 +109,9 @@ private:
     }
 
     void findLambdaStartTokenTest() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         ASSERT(nullptr == (::findLambdaStartToken)(nullptr));
         ASSERT_EQUALS(false, findLambdaStartToken("void f() { }"));
         ASSERT_EQUALS(true, findLambdaStartToken("[]{ }"));
@@ -122,6 +136,9 @@ private:
 
 #define isNullOperand(code) isNullOperand_(code, __FILE__, __LINE__)
     bool isNullOperand_(const char code[], const char* file, int line) {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const Settings settings;
         Tokenizer tokenizer(&settings, this);
         std::istringstream istr(code);
@@ -130,6 +147,9 @@ private:
     }
 
     void isNullOperandTest() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         ASSERT_EQUALS(true, isNullOperand("(void*)0;"));
         ASSERT_EQUALS(true, isNullOperand("(void*)0U;"));
         ASSERT_EQUALS(true, isNullOperand("(void*)0x0LL;"));
@@ -144,6 +164,9 @@ private:
 
 #define isReturnScope(code, offset) isReturnScope_(code, offset, __FILE__, __LINE__)
     bool isReturnScope_(const char code[], int offset, const char* file, int line) {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const Settings settings;
         Tokenizer tokenizer(&settings, this);
         std::istringstream istr(code);
@@ -155,6 +178,9 @@ private:
     }
 
     void isReturnScopeTest() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         ASSERT_EQUALS(true, isReturnScope("void f() { if (a) { return; } }", -2));
         ASSERT_EQUALS(true, isReturnScope("int f() { if (a) { return {}; } }", -2));                        // #8891
         ASSERT_EQUALS(true, isReturnScope("std::string f() { if (a) { return std::string{}; } }", -2));     // #8891
@@ -175,6 +201,9 @@ private:
 
 #define isSameExpression(...) isSameExpression_(__FILE__, __LINE__, __VA_ARGS__)
     bool isSameExpression_(const char* file, int line, const char code[], const char tokStr1[], const char tokStr2[]) {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const Settings settings;
         Library library;
         Tokenizer tokenizer(&settings, this);
@@ -186,6 +215,9 @@ private:
     }
 
     void isSameExpressionTest() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         ASSERT_EQUALS(true,  isSameExpression("x = 1 + 1;", "1", "1"));
         ASSERT_EQUALS(false, isSameExpression("x = 1 + 1u;", "1", "1u"));
         ASSERT_EQUALS(true,  isSameExpression("x = 1.0 + 1.0;", "1.0", "1.0"));
@@ -214,6 +246,9 @@ private:
 
 #define isVariableChanged(code, startPattern, endPattern) isVariableChanged_(code, startPattern, endPattern, __FILE__, __LINE__)
     bool isVariableChanged_(const char code[], const char startPattern[], const char endPattern[], const char* file, int line) {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const Settings settings;
         Tokenizer tokenizer(&settings, this);
         std::istringstream istr(code);
@@ -224,6 +259,9 @@ private:
     }
 
     void isVariableChangedTest() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         // #8211 - no lhs for >> , do not crash
         isVariableChanged("void f() {\n"
                           "  int b;\n"
@@ -247,6 +285,9 @@ private:
 
 #define isVariableChangedByFunctionCall(code, pattern, inconclusive) isVariableChangedByFunctionCall_(code, pattern, inconclusive, __FILE__, __LINE__)
     bool isVariableChangedByFunctionCall_(const char code[], const char pattern[], bool *inconclusive, const char* file, int line) {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const Settings settings;
         Tokenizer tokenizer(&settings, this);
         std::istringstream istr(code);
@@ -258,6 +299,9 @@ private:
     }
 
     void isVariableChangedByFunctionCallTest() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char *code;
         bool inconclusive;
 
@@ -390,6 +434,9 @@ private:
                               const char* file,
                               int line)
     {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const Settings settings = settingsBuilder().library("std.cfg").build();
         Tokenizer tokenizer(&settings, this);
         std::istringstream istr(code);
@@ -402,6 +449,9 @@ private:
 
     void isExpressionChangedTest()
     {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         ASSERT_EQUALS(true, isExpressionChanged("void f(std::map<int, int>& m) { m[0]; }", "m [", "{", "}"));
         ASSERT_EQUALS(false, isExpressionChanged("void f(const A& a) { a.f(); }", "a .", "{", "}"));
 
@@ -422,6 +472,9 @@ private:
 
 #define nextAfterAstRightmostLeaf(code, parentPattern, rightPattern) nextAfterAstRightmostLeaf_(code, parentPattern, rightPattern, __FILE__, __LINE__)
     bool nextAfterAstRightmostLeaf_(const char code[], const char parentPattern[], const char rightPattern[], const char* file, int line) {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const Settings settings;
         Tokenizer tokenizer(&settings, this);
         std::istringstream istr(code);
@@ -431,6 +484,9 @@ private:
     }
 
     void nextAfterAstRightmostLeafTest() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         ASSERT_EQUALS(true, nextAfterAstRightmostLeaf("void f(int a, int b) { int x = a + b; }", "=", "; }"));
         ASSERT_EQUALS(true, nextAfterAstRightmostLeaf("int * g(int); void f(int a, int b) { int x = g(a); }", "=", "; }"));
         ASSERT_EQUALS(true, nextAfterAstRightmostLeaf("int * g(int); void f(int a, int b) { int x = g(a)[b]; }", "=", "; }"));
@@ -447,6 +503,9 @@ private:
     enum class Result {False, True, Fail};
 
     Result isUsedAsBool(const char code[], const char pattern[]) {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const Settings settings;
         Tokenizer tokenizer(&settings, this);
         std::istringstream istr(code);
@@ -459,6 +518,9 @@ private:
     }
 
     void isUsedAsBool() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         ASSERT(Result::True == isUsedAsBool("void f() { bool b = true; }", "b"));
         ASSERT(Result::False ==isUsedAsBool("void f() { int i = true; }", "i"));
         ASSERT(Result::True == isUsedAsBool("void f() { int i; if (i) {} }", "i )"));

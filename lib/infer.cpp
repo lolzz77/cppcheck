@@ -1,3 +1,5 @@
+#include <stdio.h>
+#include <pthread.h>
 /*
  * Cppcheck - A tool for static C/C++ code analysis
  * Copyright (C) 2007-2023 Cppcheck team.
@@ -103,14 +105,23 @@ struct Interval {
     }
 
     bool isScalar() const {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         return minvalue.size() == 1 && minvalue == maxvalue;
     }
 
     bool empty() const {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         return minvalue.empty() && maxvalue.empty();
     }
 
     bool isScalarOrEmpty() const {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         return empty() || isScalar();
     }
 
@@ -139,6 +150,9 @@ struct Interval {
     template<class Predicate>
     static Interval fromValues(const std::list<ValueFlow::Value>& values, Predicate predicate)
     {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         Interval result;
         const ValueFlow::Value* minValue = getCompareValue(values, predicate, std::less<MathLib::bigint>{});
         if (minValue) {
@@ -163,6 +177,9 @@ struct Interval {
 
     static Interval fromValues(const std::list<ValueFlow::Value>& values)
     {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         return Interval::fromValues(values, [](const ValueFlow::Value&) {
             return true;
         });
@@ -257,6 +274,9 @@ std::string toString(const Interval& i) {
 
 static void addToErrorPath(ValueFlow::Value& value, const std::vector<const ValueFlow::Value*>& refs)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     std::unordered_set<const Token*> locations;
     for (const ValueFlow::Value* ref : refs) {
         if (ref->condition && !value.condition)
@@ -278,6 +298,9 @@ static void addToErrorPath(ValueFlow::Value& value, const std::vector<const Valu
 
 static void setValueKind(ValueFlow::Value& value, const std::vector<const ValueFlow::Value*>& refs)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     bool isPossible = false;
     bool isInconclusive = false;
     for (const ValueFlow::Value* ref : refs) {
@@ -296,6 +319,9 @@ static void setValueKind(ValueFlow::Value& value, const std::vector<const ValueF
 
 static bool inferNotEqual(const std::list<ValueFlow::Value>& values, MathLib::bigint x)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     return std::any_of(values.cbegin(), values.cend(), [&](const ValueFlow::Value& value) {
         return value.isImpossible() && value.intvalue == x;
     });

@@ -1,3 +1,5 @@
+#include <stdio.h>
+#include <pthread.h>
 /*
  * Cppcheck - A tool for static C/C++ code analysis
  * Copyright (C) 2007-2023 Cppcheck team.
@@ -72,6 +74,9 @@ private:
     Preprocessor preprocessor0{settings0, this};
 
     void run() override {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
 
         // The bug that started the whole work with the new preprocessor
         TEST_CASE(Bug2190219);
@@ -317,6 +322,9 @@ private:
     }
 
     void Bug2190219() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char filedata[] = "#ifdef __cplusplus\n"
                                 "cpp\n"
                                 "#else\n"
@@ -346,6 +354,9 @@ private:
     }
 
     void error1() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char filedata[] = "#ifdef A\n"
                                 ";\n"
                                 "#else\n"
@@ -355,6 +366,9 @@ private:
     }
 
     void error2() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char filedata1[] = "#ifndef A\n"
                                  "#error\n"
                                  "#endif\n";
@@ -367,6 +381,9 @@ private:
     }
 
     void error3() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         errout.str("");
         Settings settings;
         settings.userDefines = "__cplusplus";
@@ -378,6 +395,9 @@ private:
 
     // Ticket #2919 - wrong filename reported for #error
     void error4() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         // In included file
         {
             errout.str("");
@@ -402,6 +422,9 @@ private:
     }
 
     void error5() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         errout.str("");
         Settings settings;
         settings.userDefines = "FOO";
@@ -413,6 +436,9 @@ private:
     }
 
     void error6() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char filedata1[] = "#ifdef A\n"
                                  "#else\n"
                                  "#error 1\n"
@@ -457,6 +483,9 @@ private:
     }
 
     void error8() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char filedata[] = "#ifdef A\n"
                                 "#ifdef B\n"
                                 "#endif\n"
@@ -470,6 +499,9 @@ private:
     }
 
     void setPlatformInfo() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         // read code with simplecpp..
         const char filedata[] = "#if sizeof(long) == 4\n"
                                 "1\n"
@@ -498,6 +530,9 @@ private:
     }
 
     void includeguard1() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         // Handling include guards..
         const char filedata[] = "#file \"abc.h\"\n"
                                 "#ifndef abcH\n"
@@ -510,6 +545,9 @@ private:
     }
 
     void includeguard2() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         // Handling include guards..
         const char filedata[] = "#file \"abc.h\"\n"
                                 "foo\n"
@@ -522,6 +560,9 @@ private:
 
 
     void ifdefwithfile() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         // Handling include guards..
         const char filedata[] = "#ifdef ABC\n"
                                 "#file \"abc.h\"\n"
@@ -541,6 +582,9 @@ private:
     }
 
     void if0() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char filedata[] = " # if /* comment */  0 // comment\n"
                                 "#ifdef WIN32\n"
                                 "#endif\n"
@@ -549,6 +593,9 @@ private:
     }
 
     void if1() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char filedata[] = " # if /* comment */  1 // comment\n"
                                 "ABC\n"
                                 " # endif \n";
@@ -557,6 +604,9 @@ private:
 
 
     void elif() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         {
             const char filedata[] = "#if DEF1\n"
                                     "ABC\n"
@@ -579,6 +629,9 @@ private:
     }
 
     void if_cond1() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char filedata[] = "#if LIBVER>100\n"
                                 "    A\n"
                                 "#else\n"
@@ -588,6 +641,9 @@ private:
     }
 
     void if_cond2() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char filedata[] = "#ifdef A\n"
                                 "a\n"
                                 "#endif\n"
@@ -603,6 +659,9 @@ private:
     }
 
     void if_cond2b() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char filedata[] = "#ifndef A\n"
                                 "!a\n"
                                 "#ifdef B\n"
@@ -615,6 +674,9 @@ private:
     }
 
     void if_cond2c() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char filedata[] = "#ifndef A\n"
                                 "!a\n"
                                 "#ifdef B\n"
@@ -629,6 +691,9 @@ private:
     }
 
     void if_cond2d() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char filedata[] = "#ifndef A\n"
                                 "!a\n"
                                 "#ifdef B\n"
@@ -648,6 +713,9 @@ private:
     }
 
     void if_cond2e() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char filedata[] = "#if !defined(A)\n"
                                 "!a\n"
                                 "#elif !defined(B)\n"
@@ -657,6 +725,9 @@ private:
     }
 
     void if_cond3() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char filedata[] = "#ifdef A\n"
                                 "a\n"
                                 "#if defined(B) && defined(C)\n"
@@ -667,6 +738,9 @@ private:
     }
 
     void if_cond4() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         {
             const char filedata[] = "#define A\n"
                                     "#define B\n"
@@ -712,6 +786,9 @@ private:
     }
 
     void if_cond5() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char filedata[] = "#if defined(A) && defined(B)\n"
                                 "ab\n"
                                 "#endif\n"
@@ -723,6 +800,9 @@ private:
     }
 
     void if_cond6() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char filedata[] = "\n"
                                 "#if defined(A) && defined(B))\n"
                                 "#endif\n";
@@ -730,6 +810,9 @@ private:
     }
 
     void if_cond8() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char filedata[] = "#if defined(A) + defined(B) + defined(C) != 1\n"
                                 "#endif\n";
         TODO_ASSERT_EQUALS("\nA\n", "\nA;B;C\n", getConfigsStr(filedata));
@@ -737,6 +820,9 @@ private:
 
 
     void if_cond9() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char filedata[] = "#if !defined _A\n"
                                 "abc\n"
                                 "#endif\n";
@@ -744,6 +830,9 @@ private:
     }
 
     void if_cond10() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char filedata[] = "#if !defined(a) && !defined(b)\n"
                                 "#if defined(and)\n"
                                 "#endif\n"
@@ -755,6 +844,9 @@ private:
     }
 
     void if_cond11() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char filedata[] = "#if defined(L_fixunssfdi) && LIBGCC2_HAS_SF_MODE\n"
                                 "#if LIBGCC2_HAS_DF_MODE\n"
                                 "#elif FLT_MANT_DIG < W_TYPE_SIZE\n"
@@ -766,6 +858,9 @@ private:
     }
 
     void if_cond12() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char filedata[] = "#define A (1)\n"
                                 "#if A == 1\n"
                                 ";\n"
@@ -774,6 +869,9 @@ private:
     }
 
     void if_cond13() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char filedata[] = "#if ('A' == 0x41)\n"
                                 "123\n"
                                 "#endif\n";
@@ -781,6 +879,9 @@ private:
     }
 
     void if_cond14() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char filedata[] = "#if !(A)\n"
                                 "123\n"
                                 "#endif\n";
@@ -790,6 +891,9 @@ private:
 
 
     void if_or_1() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char filedata[] = "#if defined(DEF_10) || defined(DEF_11)\n"
                                 "a1;\n"
                                 "#endif\n";
@@ -797,6 +901,9 @@ private:
     }
 
     void if_or_2() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char filedata[] = "#if X || Y\n"
                                 "a1;\n"
                                 "#endif\n";
@@ -804,6 +911,9 @@ private:
     }
 
     void if_macro_eq_macro() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char *code = "#define A B\n"
                            "#define B 1\n"
                            "#define C 1\n"
@@ -816,6 +926,9 @@ private:
     }
 
     void ticket_3675() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char* code = "#ifdef YYSTACKSIZE\n"
                            "#define YYMAXDEPTH YYSTACKSIZE\n"
                            "#else\n"
@@ -830,6 +943,9 @@ private:
     }
 
     void ticket_3699() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char* code = "#define INLINE __forceinline\n"
                            "#define inline __forceinline\n"
                            "#define __forceinline inline\n"
@@ -852,6 +968,9 @@ private:
     }
 
     void macro_simple1() const {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         {
             const char filedata[] = "#define AAA(aa) f(aa)\n"
                                     "AAA(5);\n";
@@ -866,24 +985,36 @@ private:
     }
 
     void macro_simple2() const {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char filedata[] = "#define min(x,y) x<y?x:y\n"
                                 "min(a(),b());\n";
         ASSERT_EQUALS("\na ( ) < b ( ) ? a ( ) : b ( ) ;", OurPreprocessor::expandMacros(filedata));
     }
 
     void macro_simple3() const {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char filedata[] = "#define A 4\n"
                                 "A AA\n";
         ASSERT_EQUALS("\n4 AA", OurPreprocessor::expandMacros(filedata));
     }
 
     void macro_simple4() const {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char filedata[] = "#define TEMP_1 if( temp > 0 ) return 1;\n"
                                 "TEMP_1\n";
         ASSERT_EQUALS("\nif ( temp > 0 ) return 1 ;", OurPreprocessor::expandMacros(filedata));
     }
 
     void macro_simple5() const {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char filedata[] = "#define ABC if( temp > 0 ) return 1;\n"
                                 "\n"
                                 "void foo()\n"
@@ -895,18 +1026,27 @@ private:
     }
 
     void macro_simple6() const {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char filedata[] = "#define ABC (a+b+c)\n"
                                 "ABC\n";
         ASSERT_EQUALS("\n( a + b + c )", OurPreprocessor::expandMacros(filedata));
     }
 
     void macro_simple7() const {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char filedata[] = "#define ABC(str) str\n"
                                 "ABC(\"(\")\n";
         ASSERT_EQUALS("\n\"(\"", OurPreprocessor::expandMacros(filedata));
     }
 
     void macro_simple8() const {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char filedata[] = "#define ABC 123\n"
                                 "#define ABCD 1234\n"
                                 "ABC ABCD\n";
@@ -914,6 +1054,9 @@ private:
     }
 
     void macro_simple9() const {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char filedata[] = "#define ABC(a) f(a)\n"
                                 "ABC( \"\\\"\" );\n"
                                 "ABC( \"g\" );\n";
@@ -921,36 +1064,54 @@ private:
     }
 
     void macro_simple10() const {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char filedata[] = "#define ABC(t) t x\n"
                                 "ABC(unsigned long);\n";
         ASSERT_EQUALS("\nunsigned long x ;", OurPreprocessor::expandMacros(filedata));
     }
 
     void macro_simple11() const {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char filedata[] = "#define ABC(x) delete x\n"
                                 "ABC(a);\n";
         ASSERT_EQUALS("\ndelete a ;", OurPreprocessor::expandMacros(filedata));
     }
 
     void macro_simple12() const {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char filedata[] = "#define AB ab.AB\n"
                                 "AB.CD\n";
         ASSERT_EQUALS("\nab . AB . CD", OurPreprocessor::expandMacros(filedata));
     }
 
     void macro_simple13() const {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char filedata[] = "#define TRACE(x)\n"
                                 "TRACE(;if(a))\n";
         ASSERT_EQUALS("", OurPreprocessor::expandMacros(filedata));
     }
 
     void macro_simple14() const {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char filedata[] = "#define A \"  a  \"\n"
                                 "printf(A);\n";
         ASSERT_EQUALS("\nprintf ( \"  a  \" ) ;", OurPreprocessor::expandMacros(filedata));
     }
 
     void macro_simple15() const {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char filedata[] = "#define FOO\"foo\"\n"
                                 "FOO\n";
         ASSERT_EQUALS("\n\"foo\"", OurPreprocessor::expandMacros(filedata));
@@ -1005,6 +1166,9 @@ private:
     }
 
     void macroInMacro1() const {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         {
             const char filedata[] = "#define A(m) long n = m; n++;\n"
                                     "#define B(n) A(n)\n"
@@ -1091,6 +1255,9 @@ private:
     }
 
     void macroInMacro2() const {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char filedata[] = "#define A(x) a##x\n"
                                 "#define B 0\n"
                                 "A(B)\n";
@@ -1098,6 +1265,9 @@ private:
     }
 
     void macro_linenumbers() const {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char filedata[] = "#define AAA(a)\n"
                                 "AAA(5\n"
                                 "\n"
@@ -1112,12 +1282,18 @@ private:
     }
 
     void macro_nopar() const {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char filedata[] = "#define AAA( ) { NULL }\n"
                                 "AAA()\n";
         ASSERT_EQUALS("\n{ NULL }", OurPreprocessor::expandMacros(filedata));
     }
 
     void macro_incdec() const {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char filedata[] = "#define M1(X) 1+X\n"
                                 "#define M2(X) 2-X\n"
                                 "M1(+1) M2(-1)\n";
@@ -1125,6 +1301,9 @@ private:
     }
 
     void macro_switchCase() const {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         {
             // Make sure "case 2" doesn't become "case2"
             const char filedata[] = "#define A( b ) "
@@ -1171,12 +1350,18 @@ private:
     }
 
     void macro_NULL() const {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         // See ticket #4482 - UB when passing NULL to variadic function
         ASSERT_EQUALS("\n0", OurPreprocessor::expandMacros("#define null 0\nnull"));
         TODO_ASSERT_EQUALS("\nNULL", "\n0", OurPreprocessor::expandMacros("#define NULL 0\nNULL")); // TODO: Let the tokenizer handle NULL?
     }
 
     void string1() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char filedata[] = "int main()"
                                 "{"
                                 "    const char *a = \"#define A\";"
@@ -1192,6 +1377,9 @@ private:
     }
 
     void string2() const {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char filedata[] = "#define AAA 123\n"
                                 "str = \"AAA\"\n";
 
@@ -1200,6 +1388,9 @@ private:
     }
 
     void string3() const {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char filedata[] = "str(\";\");\n";
 
         // Compare results..
@@ -1208,6 +1399,9 @@ private:
 
 
     void preprocessor_undef() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         {
             const char filedata[] = "#define AAA int a;\n"
                                     "#undef AAA\n"
@@ -1229,6 +1423,9 @@ private:
     }
 
     void defdef() const {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char filedata[] = "#define AAA 123\n"
                                 "#define AAA 456\n"
                                 "#define AAA 789\n"
@@ -1239,6 +1436,9 @@ private:
     }
 
     void preprocessor_doublesharp() const {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         // simple testcase without ##
         const char filedata1[] = "#define TEST(var,val) var = val\n"
                                  "TEST(foo,20);\n";
@@ -1279,6 +1479,9 @@ private:
 
 
     void preprocessor_include_in_str() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char filedata[] = "int main()\n"
                                 "{\n"
                                 "const char *a = \"#include <string>\";\n"
@@ -1298,6 +1501,9 @@ private:
 
 
     void va_args_1() const {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char filedata[] = "#define DBG(fmt...) printf(fmt)\n"
                                 "DBG(\"[0x%lx-0x%lx)\", pstart, pend);\n";
 
@@ -1318,18 +1524,27 @@ private:
         }
      */
     void va_args_3() const {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char filedata[] = "#define FRED(...) { fred(__VA_ARGS__); }\n"
                                 "FRED(123)\n";
         ASSERT_EQUALS("\n{ fred ( 123 ) ; }", OurPreprocessor::expandMacros(filedata));
     }
 
     void va_args_4() const {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char filedata[] = "#define FRED(name, ...) name (__VA_ARGS__)\n"
                                 "FRED(abc, 123)\n";
         ASSERT_EQUALS("\nabc ( 123 )", OurPreprocessor::expandMacros(filedata));
     }
 
     void va_args_5() const {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char filedata1[] = "#define A(...) #__VA_ARGS__\n"
                                  "A(123)\n";
         ASSERT_EQUALS("\n\"123\"", OurPreprocessor::expandMacros(filedata1));
@@ -1342,6 +1557,9 @@ private:
 
 
     void multi_character_character() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char filedata[] = "#define FOO 'ABCD'\n"
                                 "int main()\n"
                                 "{\n"
@@ -1360,6 +1578,9 @@ private:
 
 
     void stringify() const {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char filedata[] = "#define STRINGIFY(x) #x\n"
                                 "STRINGIFY(abc)\n";
 
@@ -1370,6 +1591,9 @@ private:
     }
 
     void stringify2() const {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char filedata[] = "#define A(x) g(#x)\n"
                                 "A(abc);\n";
 
@@ -1380,6 +1604,9 @@ private:
     }
 
     void stringify3() const {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char filedata[] = "#define A(x) g(#x)\n"
                                 "A( abc);\n";
 
@@ -1390,6 +1617,9 @@ private:
     }
 
     void stringify4() const {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char filedata[] = "#define A(x) #x\n"
                                 "1 A(\n"
                                 "abc\n"
@@ -1402,12 +1632,18 @@ private:
     }
 
     void stringify5() const {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char filedata[] = "#define A(x) a(#x,x)\n"
                                 "A(foo(\"\\\"\"))\n";
         ASSERT_EQUALS("\na ( \"foo(\\\"\\\\\\\"\\\")\" , foo ( \"\\\"\" ) )", OurPreprocessor::expandMacros(filedata));
     }
 
     void pragma() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char filedata[] = "#pragma once\n"
                                 "void f()\n"
                                 "{\n"
@@ -1423,6 +1659,9 @@ private:
     }
 
     void pragma_asm_1() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char filedata[] = "#pragma asm\n"
                                 "    mov r1, 11\n"
                                 "#pragma endasm\n"
@@ -1442,6 +1681,9 @@ private:
     }
 
     void pragma_asm_2() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char filedata[] = "#pragma asm\n"
                                 "    mov @w1, 11\n"
                                 "#pragma endasm ( temp=@w1 )\n"
@@ -1457,6 +1699,9 @@ private:
     }
 
     void endifsemicolon() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char filedata[] = "void f() {\n"
                                 "#ifdef A\n"
                                 "#endif;\n"
@@ -1474,6 +1719,9 @@ private:
     }
 
     void handle_error() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         {
             const char filedata[] = "#define A \n"
                                     "#define B don't want to \\\n"
@@ -1493,6 +1741,9 @@ private:
     }
 
     void missing_doublequote() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         {
             const char filedata[] = "#define a\n"
                                     "#ifdef 1\n"
@@ -1568,6 +1819,9 @@ private:
 
 
     void define_part_of_func() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char filedata[] = "#define A g(\n"
                                 "void f() {\n"
                                 "  A );\n"
@@ -1584,6 +1838,9 @@ private:
     }
 
     void conditionalDefine() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char filedata[] = "#ifdef A\n"
                                 "#define N 10\n"
                                 "#else\n"
@@ -1603,6 +1860,9 @@ private:
     }
 
     void macro_parameters() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         errout.str("");
         const char filedata[] = "#define BC(a, b, c, arg...) \\\n"
                                 "AB(a, b, c, ## arg)\n"
@@ -1623,6 +1883,9 @@ private:
     }
 
     void newline_in_macro() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char filedata[] = "#define ABC(str) printf( str )\n"
                                 "void f()\n"
                                 "{\n"
@@ -1640,6 +1903,9 @@ private:
     }
 
     void ifdef_ifdefined() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char filedata[] = "#ifdef ABC\n"
                                 "A\n"
                                 "#endif\t\n"
@@ -1658,6 +1924,9 @@ private:
     }
 
     void define_if1() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         {
             const char filedata[] = "#define A 0\n"
                                     "#if A\n"
@@ -1675,6 +1944,9 @@ private:
     }
 
     void define_if2() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char filedata[] = "#define A 22\n"
                                 "#define B A\n"
                                 "#if (B==A) || (B==C)\n"
@@ -1684,6 +1956,9 @@ private:
     }
 
     void define_if3() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char filedata[] = "#define A 0\n"
                                 "#if (A==0)\n"
                                 "FOO\n"
@@ -1692,6 +1967,9 @@ private:
     }
 
     void define_if4() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char filedata[] = "#define X +123\n"
                                 "#if X==123\n"
                                 "FOO\n"
@@ -1747,6 +2025,9 @@ private:
     }
 
     void define_ifdef() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         {
             const char filedata[] = "#define ABC\n"
                                     "#ifndef ABC\n"
@@ -1827,6 +2108,9 @@ private:
     }
 
     void define_ifndef1() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char filedata[] = "#define A(x) (x)\n"
                                 "#ifndef A\n"
                                 ";\n"
@@ -1842,6 +2126,9 @@ private:
     }
 
     void define_ifndef2() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char filedata[] = "#ifdef A\n"
                                 "#define B char\n"
                                 "#endif\n"
@@ -1856,6 +2143,9 @@ private:
     }
 
     void ifndef_define() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char filedata[] = "#ifndef A\n"
                                 "#define A(x) x\n"
                                 "#endif\n"
@@ -1870,6 +2160,9 @@ private:
     }
 
     void undef_ifdef() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char filedata[] = "#undef A\n"
                                 "#ifdef A\n"
                                 "123\n"
@@ -1881,6 +2174,9 @@ private:
     }
 
     void redundant_config() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char filedata[] = "int main() {\n"
                                 "#ifdef FOO\n"
                                 "#ifdef BAR\n"
@@ -1910,6 +2206,9 @@ private:
 
 
     void endfile() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char filedata[] = "char a[] = \"#endfile\";\n"
                                 "char b[] = \"#endfile\";\n"
                                 "#include \"notfound.h\"\n";
@@ -1924,6 +2223,9 @@ private:
     }
 
     void dup_defines() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char filedata[] = "#ifdef A\n"
                                 "#define B\n"
                                 "#if defined(B) && defined(A)\n"
@@ -1947,6 +2249,9 @@ private:
     }
 
     void invalid_define_1() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         std::map<std::string, std::string> actual;
         preprocess("#define =\n", actual); // don't hang
     }
@@ -1957,6 +2262,9 @@ private:
     }
 
     void inline_suppressions() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         errout.str("");
 
         Settings settings;
@@ -1993,6 +2301,9 @@ private:
     }
 
     void predefine1() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const std::string src("#if defined X || Y\n"
                               "Fred & Wilma\n"
                               "#endif\n");
@@ -2002,6 +2313,9 @@ private:
     }
 
     void predefine2() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const std::string src("#if defined(X) && Y\n"
                               "Fred & Wilma\n"
                               "#endif\n");
@@ -2017,6 +2331,9 @@ private:
     }
 
     void predefine3() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         // #2871 - define in source is not used if -D is used
         const char code[] = "#define X 1\n"
                             "#define Y X\n"
@@ -2028,6 +2345,9 @@ private:
     }
 
     void predefine4() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         // #3577
         const char code[] = "char buf[X];\n";
         const std::string actual = PreprocessorHelper::getcode(preprocessor0, code, "X=123", "test.c");
@@ -2048,6 +2368,9 @@ private:
     }
 
     void invalidElIf() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         // #2942 - segfault
         const char code[] = "#elif (){\n";
         const std::string actual = PreprocessorHelper::getcode(preprocessor0, code, "TEST", "test.c");
@@ -2055,6 +2378,9 @@ private:
     }
 
     void getConfigs1() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char filedata[] = "#ifdef  WIN32 \n"
                                 "    abcdef\n"
                                 "#else  \n"
@@ -2065,6 +2391,9 @@ private:
     }
 
     void getConfigs2() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char filedata[] = "# ifndef WIN32\n"
                                 "    \" # ifdef WIN32\" // a comment\n"
                                 "   #   else  \n"
@@ -2074,6 +2403,9 @@ private:
     }
 
     void getConfigs3() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char filedata[] = "#ifdef ABC\n"
                                 "a\n"
                                 "#ifdef DEF\n"
@@ -2086,6 +2418,9 @@ private:
     }
 
     void getConfigs4() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char filedata[] = "#ifdef ABC\n"
                                 "A\n"
                                 "#endif\t\n"
@@ -2096,6 +2431,9 @@ private:
     }
 
     void getConfigs5() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char filedata[] = "#ifdef ABC\n"
                                 "A\n"
                                 "#else\n"
@@ -2108,6 +2446,9 @@ private:
     }
 
     void getConfigs7() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char filedata[] = "#ifdef ABC\n"
                                 "A\n"
                                 "#ifdef ABC\n"
@@ -2118,6 +2459,9 @@ private:
     }
 
     void getConfigs7a() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char filedata[] = "#ifndef ABC\n"
                                 "A\n"
                                 "#ifndef ABC\n"
@@ -2128,6 +2472,9 @@ private:
     }
 
     void getConfigs7b() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char filedata[] = "#ifndef ABC\n"
                                 "A\n"
                                 "#ifdef ABC\n"
@@ -2138,6 +2485,9 @@ private:
     }
 
     void getConfigs7c() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char filedata[] = "#ifdef ABC\n"
                                 "A\n"
                                 "#ifndef ABC\n"
@@ -2148,6 +2498,9 @@ private:
     }
 
     void getConfigs7d() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char filedata[] = "#if defined(ABC)\n"
                                 "A\n"
                                 "#if defined(ABC)\n"
@@ -2158,6 +2511,9 @@ private:
     }
 
     void getConfigs7e() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char filedata[] = "#ifdef ABC\n"
                                 "#file \"test.h\"\n"
                                 "#ifndef test_h\n"
@@ -2171,6 +2527,9 @@ private:
     }
 
     void getConfigs8() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char filedata[] = "#if A == 1\n"
                                 "1\n"
                                 "#endif\n";
@@ -2197,6 +2556,9 @@ private:
     }
 
     void getConfigsError() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char filedata1[] = "#ifndef X\n"
                                  "#error \"!X\"\n"
                                  "#endif\n";
@@ -2211,6 +2573,9 @@ private:
     }
 
     void getConfigsD1() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char filedata[] = "#ifdef X\n"
                                 "#else\n"
                                 "#ifdef Y\n"
@@ -2221,6 +2586,9 @@ private:
     }
 
     void getConfigsU1() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char filedata[] = "#ifdef X\n"
                                 "#endif\n";
         ASSERT_EQUALS("\n", getConfigsStr(filedata, "-UX"));
@@ -2228,6 +2596,9 @@ private:
     }
 
     void getConfigsU2() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char filedata[] = "#ifndef X\n"
                                 "#endif\n";
         ASSERT_EQUALS("\n", getConfigsStr(filedata, "-UX"));
@@ -2235,6 +2606,9 @@ private:
     }
 
     void getConfigsU3() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char filedata[] = "#ifndef X\n"
                                 "Fred & Wilma\n"
                                 "#else\n"
@@ -2245,6 +2619,9 @@ private:
     }
 
     void getConfigsU4() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char filedata[] = "#if defined(X) || defined(Y) || defined(Z)\n"
                                 "#else\n"
                                 "#endif\n";
@@ -2253,6 +2630,9 @@ private:
     }
 
     void getConfigsU5() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char filedata[] = "#if X==1\n"
                                 "#endif\n";
         ASSERT_EQUALS("\n", getConfigsStr(filedata, "-UX"));
@@ -2260,6 +2640,9 @@ private:
     }
 
     void getConfigsU6() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char filedata[] = "#if X==0\n"
                                 "#endif\n";
         ASSERT_EQUALS("\nX=0\n", getConfigsStr(filedata, "-UX"));
@@ -2267,6 +2650,9 @@ private:
     }
 
     void getConfigsU7() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char code[] = "#ifndef Y\n"
                             "#else\n"
                             "#endif\n";
@@ -2287,6 +2673,9 @@ private:
     }
 
     void invalid_ifs() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char filedata[] = "#ifdef\n"
                                 "#endif\n"
                                 "#ifdef !\n"
@@ -2304,6 +2693,9 @@ private:
     }
 
     void garbage() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char filedata[] = "V\n"
                                 "#define X b   #endif #line 0 \"x\"  ;\n"
                                 "#if ! defined ( Y )    #endif";
@@ -2314,6 +2706,9 @@ private:
     }
 
     void wrongPathOnErrorDirective() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         errout.str("");
         Settings settings;
         settings.userDefines = "foo";
@@ -2324,6 +2719,9 @@ private:
     }
 
     void testDirectiveIncludeTypes() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char filedata[] = "#define macro some definition\n"
                                 "#undef macro\n"
                                 "#ifdef macro\n"
@@ -2362,6 +2760,9 @@ private:
     }
 
     void testDirectiveIncludeLocations() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char filedata[] = "#define macro1 val\n"
                                 "#file \"inc1.h\"\n"
                                 "#define macro2 val\n"
@@ -2389,6 +2790,9 @@ private:
     }
 
     void testDirectiveIncludeComments() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char filedata[] = "#ifdef macro2 /* this will be removed */\n"
                                 "#else /* this will be removed too */\n"
                                 "#endif /* this will also be removed */\n";
@@ -2407,6 +2811,9 @@ private:
 
     // test for existing local include
     void testMissingInclude() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         Settings settings;
         settings.clearIncludeCache = true;
         settings.severity.clear();
@@ -2426,6 +2833,9 @@ private:
 
     // test for missing local include
     void testMissingInclude2() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         Settings settings;
         settings.clearIncludeCache = true;
         settings.severity.clear();
@@ -2443,6 +2853,9 @@ private:
 
     // test for missing local include - no include path given
     void testMissingInclude3() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         Settings settings;
         settings.clearIncludeCache = true;
         settings.severity.clear();
@@ -2462,6 +2875,9 @@ private:
 
     // test for existing local include - include path provided
     void testMissingInclude4() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         Settings settings;
         settings.clearIncludeCache = true;
         settings.severity.clear();
@@ -2482,6 +2898,9 @@ private:
 
     // test for existing local include - absolute path
     void testMissingInclude5() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         Settings settings;
         settings.clearIncludeCache = true;
         settings.severity.clear();
@@ -2502,6 +2921,9 @@ private:
 
     // test for missing local include - absolute path
     void testMissingInclude6() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         Settings settings;
         settings.clearIncludeCache = true;
         settings.severity.clear();
@@ -2521,6 +2943,9 @@ private:
 
     // test for missing system include - system includes are not searched for in relative path
     void testMissingSystemInclude() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         Settings settings;
         settings.clearIncludeCache = true;
         settings.severity.clear();
@@ -2540,6 +2965,9 @@ private:
 
     // test for missing system include
     void testMissingSystemInclude2() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         Settings settings;
         settings.clearIncludeCache = true;
         settings.severity.clear();
@@ -2557,6 +2985,9 @@ private:
 
     // test for existing system include in system include path
     void testMissingSystemInclude3() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         Settings settings;
         settings.clearIncludeCache = true;
         settings.severity.clear();
@@ -2578,6 +3009,9 @@ private:
 
     // test for existing system include - absolute path
     void testMissingSystemInclude4() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         Settings settings;
         settings.clearIncludeCache = true;
         settings.severity.clear();
@@ -2598,6 +3032,9 @@ private:
 
     // test for missing system include - absolute path
     void testMissingSystemInclude5() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         Settings settings;
         settings.clearIncludeCache = true;
         settings.severity.clear();
@@ -2617,6 +3054,9 @@ private:
 
     // test for missing local and system include
     void testMissingIncludeMixed() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         Settings settings;
         settings.clearIncludeCache = true;
         settings.severity.clear();
@@ -2641,6 +3081,9 @@ private:
     }
 
     void testMissingIncludeCheckConfig() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         Settings settings;
         settings.clearIncludeCache = true;
         settings.severity.clear();
@@ -2684,6 +3127,9 @@ private:
     }
 
     void limitsDefines() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         // #11928 / #10045
         const char code[] = "void f(long l) {\n"
                             "  if (l > INT_MAX) {}\n"

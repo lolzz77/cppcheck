@@ -1,3 +1,5 @@
+#include <stdio.h>
+#include <pthread.h>
 /*
  * Cppcheck - A tool for static C/C++ code analysis
  * Copyright (C) 2007-2023 Cppcheck team.
@@ -54,6 +56,9 @@ private:
     }
 
     void run() override {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         TEST_CASE(test1);
         TEST_CASE(test2);
         TEST_CASE(test3);
@@ -86,6 +91,9 @@ private:
     }
 
     void test1() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("void foo()\n"
               "{\n"
               "    const char def[] =\n"
@@ -96,6 +104,9 @@ private:
     }
 
     void test2() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("void foo()\n"
               "{\n"
               "    \"abc\";\n"
@@ -105,6 +116,9 @@ private:
     }
 
     void test3() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("void foo()\n"
               "{\n"
               "    const char *str[] = { \"abc\" };\n"
@@ -114,6 +128,9 @@ private:
     }
 
     void test4() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("void foo()\n"
               "{\n"
               "const char *a =\n"
@@ -128,6 +145,9 @@ private:
     }
 
     void test5() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("void foo()\n"
               "{\n"
               "    50;\n"
@@ -137,6 +157,9 @@ private:
     }
 
     void test6() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         // don't crash
         check("void f() {\n"
               "  1 == (two + three);\n"
@@ -162,6 +185,9 @@ private:
     }
 
     void test_numeric() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("struct P {\n"
               "    double a;\n"
               "    double b;\n"
@@ -186,11 +212,17 @@ private:
     }
 
     void intarray() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("int arr[] = { 100/2, 1*100 };");
         ASSERT_EQUALS("", errout.str());
     }
 
     void structarraynull() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("struct st arr[] = {\n"
               "    { 100/2, 1*100 }\n"
               "    { 90, 70 }\n"
@@ -199,6 +231,9 @@ private:
     }
 
     void structarray() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("struct st arr[] = {\n"
               "    { 100/2, 1*100 }\n"
               "    { 90, 70 }\n"
@@ -207,6 +242,9 @@ private:
     }
 
     void conditionalcall() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("void f() {\n"
               "    0==x ? X() : Y();\n"
               "}");
@@ -214,6 +252,9 @@ private:
     }
 
     void structinit() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         // #2462 - C++11 struct initialization
         check("void f() {\n"
               "    ABC abc{1,2,3};\n"
@@ -246,6 +287,9 @@ private:
     }
 
     void returnstruct() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("struct s foo() {\n"
               "    return (struct s){0,0};\n"
               "}");
@@ -267,6 +311,9 @@ private:
     }
 
     void cast() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("void f() {\n"
               "    ((struct foo *)(0x1234))->xy = 1;\n"
               "}");
@@ -285,6 +332,9 @@ private:
     }
 
     void increment() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("void f() {\n"
               "    int x = 1;\n"
               "    x++, x++;\n"
@@ -293,6 +343,9 @@ private:
     }
 
     void cpp11init() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("void f() {\n"
               "    int x{1};\n"
               "}");
@@ -305,6 +358,9 @@ private:
     }
 
     void cpp11init2() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("x<string> handlers{\n"
               "  { \"mode2\", []() { return 2; } },\n"
               "};");
@@ -312,6 +368,9 @@ private:
     }
 
     void cpp11init3() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("struct A { void operator()(int); };\n"
               "void f() {\n"
               "A{}(0);\n"
@@ -326,6 +385,9 @@ private:
     }
 
     void block() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("void f() {\n"
               "    ({ do_something(); 0; });\n"
               "}");
@@ -339,6 +401,9 @@ private:
     }
 
     void mapindex() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("void f() {\n"
               "  map[{\"1\",\"2\"}]=0;\n"
               "}");
@@ -346,6 +411,9 @@ private:
     }
 
     void commaoperator1() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("void foo(int,const char*,int);\n" // #8827
               "void f(int value) {\n"
               "    foo(42,\"test\",42),(value&42);\n"
@@ -361,6 +429,9 @@ private:
     }
 
     void commaoperator2() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("void f() {\n"
               "    for(unsigned int a=0, b; a<10; a++ ) {}\n"
               "}\n");
@@ -417,6 +488,9 @@ private:
 
     // #8451
     void redundantstmts() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("void f1(int x) {\n"
               "    1;\n"
               "    (1);\n"
@@ -713,6 +787,9 @@ private:
     }
 
     void vardecl() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         // #8984
         check("void f() { a::b *c = d(); }", true);
         ASSERT_EQUALS("", errout.str());
@@ -743,6 +820,9 @@ private:
     }
 
     void archive() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("void f(Archive &ar) {\n"
               "  ar & x;\n"
               "}", true);
@@ -755,11 +835,17 @@ private:
     }
 
     void ast() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("struct c { void a() const { for (int x=0; x;); } };", true);
         ASSERT_EQUALS("", errout.str());
     }
 
     void oror() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("void foo() {\n"
               "    params_given (params, \"overrides\") || (overrides = \"1\");\n"
               "}", true);

@@ -1,3 +1,5 @@
+#include <stdio.h>
+#include <pthread.h>
 /*
  * Cppcheck - A tool for static C/C++ code analysis
  * Copyright (C) 2007-2023 Cppcheck team.
@@ -69,6 +71,9 @@ XmlReportV2::~XmlReportV2()
 
 bool XmlReportV2::create()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (Report::create()) {
         mXmlWriter = new QXmlStreamWriter(Report::getFile());
         return true;
@@ -78,6 +83,9 @@ bool XmlReportV2::create()
 
 bool XmlReportV2::open()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (Report::open()) {
         mXmlReader = new QXmlStreamReader(Report::getFile());
         return true;
@@ -87,6 +95,9 @@ bool XmlReportV2::open()
 
 void XmlReportV2::writeHeader()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     mXmlWriter->setAutoFormatting(true);
     mXmlWriter->writeStartDocument();
     mXmlWriter->writeStartElement(ResultElementName);
@@ -99,6 +110,9 @@ void XmlReportV2::writeHeader()
 
 void XmlReportV2::writeFooter()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     mXmlWriter->writeEndElement(); // errors
     mXmlWriter->writeEndElement(); // results
     mXmlWriter->writeEndDocument();
@@ -106,6 +120,9 @@ void XmlReportV2::writeFooter()
 
 void XmlReportV2::writeError(const ErrorItem &error)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     /*
        Error example from the core program in xml
        <error id="mismatchAllocDealloc" severity="error" msg="Mismatching allocation and deallocation: k"
@@ -198,6 +215,9 @@ QList<ErrorItem> XmlReportV2::read()
 
 ErrorItem XmlReportV2::readError(const QXmlStreamReader *reader)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     /*
        Error example from the core program in xml
        <error id="mismatchAllocDealloc" severity="error" msg="Mismatching allocation and deallocation: k"

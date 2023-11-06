@@ -1,3 +1,5 @@
+#include <stdio.h>
+#include <pthread.h>
 /*
  * Cppcheck - A tool for static C/C++ code analysis
  * Copyright (C) 2007-2023 Cppcheck team.
@@ -36,6 +38,9 @@ private:
     const Settings settings = settingsBuilder().severity(Severity::style).build();
 
     void run() override {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         TEST_CASE(incondition);
         TEST_CASE(return1);
         TEST_CASE(return2);
@@ -106,6 +111,9 @@ private:
     }
 
     void incondition() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("int f1()\n"
               "{\n"
               "    if (f1())\n"
@@ -115,6 +123,9 @@ private:
     }
 
     void return1() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("int f1()\n"
               "{\n"
               "    return f1();\n"
@@ -123,6 +134,9 @@ private:
     }
 
     void return2() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("char * foo()\n"
               "{\n"
               "    return *foo();\n"
@@ -131,6 +145,9 @@ private:
     }
 
     void return3() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("typedef void (*VoidFunc)();\n" // #9602
               "void sayHello() {\n"
               "  printf(\"Hello World\\n\");\n"
@@ -149,6 +166,9 @@ private:
     }
 
     void callback1() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("void f1()\n"
               "{\n"
               "    void (*f)() = cond ? f1 : NULL;\n"
@@ -170,6 +190,9 @@ private:
     }
 
     void else1() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("void f1()\n"
               "{\n"
               "    if (cond) ;\n"
@@ -179,6 +202,9 @@ private:
     }
 
     void functionpointer() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("void foo() { }\n"
               "int main() {\n"
               "    f(&foo);\n"
@@ -231,6 +257,9 @@ private:
     }
 
     void template1() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("template<class T> void foo() { }\n"
               "\n"
               "int main()\n"
@@ -242,6 +271,9 @@ private:
     }
 
     void template2() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("void f() { }\n"
               "\n"
               "template<class T> void g()\n"
@@ -305,6 +337,9 @@ private:
     void template7()
     { // #9766
         check("void f() {\n"
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
               "    std::array<std::array<double,3>,3> array;\n"
               "}\n");
         ASSERT_EQUALS("[test.cpp:1]: (style) The function 'f' is never used.\n", errout.str());
@@ -339,6 +374,9 @@ private:
     }
 
     void template9() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("template<class T>\n" // #7739
               "void f(T const& t) {}\n"
               "template<class T>\n"
@@ -361,6 +399,9 @@ private:
     }
 
     void template10() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("template<typename T>\n" // #12013, don't crash
               "struct S {\n"
               "    static const int digits = std::numeric_limits<T>::digits;\n"
@@ -370,11 +411,17 @@ private:
     }
 
     void throwIsNotAFunction() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("struct A {void f() const throw () {}}; int main() {A a; a.f();}");
         ASSERT_EQUALS("", errout.str());
     }
 
     void unusedError() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("void foo() {}\n"
               "int main()");
         ASSERT_EQUALS("[test.cpp:1]: (style) The function 'foo' is never used.\n", errout.str());
@@ -393,11 +440,17 @@ private:
     }
 
     void unusedMain() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("int main() { }");
         ASSERT_EQUALS("", errout.str());
     }
 
     void initializationIsNotAFunction() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("struct B: N::A {\n"
               "  B(): N::A() {};\n"
               "};");
@@ -405,6 +458,9 @@ private:
     }
 
     void operator1() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("struct Foo { void operator()(int a) {} };");
         ASSERT_EQUALS("", errout.str());
 
@@ -426,6 +482,9 @@ private:
     }
 
     void returnRef() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("int& foo() {return x;}");
         ASSERT_EQUALS("[test.cpp:1]: (style) The function 'foo' is never used.\n", errout.str());
     }
@@ -483,6 +542,9 @@ private:
     }
 
     void initializer_list() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("int foo() { return 0; }\n"
               "struct A {\n"
               "    A() : m_i(foo())\n"
@@ -504,6 +566,9 @@ private:
     }
 
     void member_function_ternary() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("struct Foo {\n"
               "    void F1() {}\n"
               "    void F2() {}\n"
@@ -518,6 +583,9 @@ private:
     }
 
     void boost() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("static void _xy(const char *b, const char *e)\n"
               "{}\n"
               "parse(line, blanks_p >> ident[&_xy] >> blanks_p >> eol_p).full");
@@ -537,6 +605,9 @@ private:
     }
 
     void multipleFiles() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         Tokenizer tokenizer(&settings, this);
         CheckUnusedFunctions c(&tokenizer, &settings, nullptr);
 
@@ -566,6 +637,9 @@ private:
     }
 
     void lineNumber() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("void foo();\n"
               "void bar() {}\n"
               "int main() {}");
@@ -573,6 +647,9 @@ private:
     }
 
     void ignore_declaration() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("void f();\n"
               "void f() {}");
         ASSERT_EQUALS("[test.cpp:2]: (style) The function 'f' is never used.\n", errout.str());
@@ -583,6 +660,9 @@ private:
     }
 
     void operatorOverload() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("class A {\n"
               "private:\n"
               "    friend std::ostream & operator<<(std::ostream &, const A&);\n"
@@ -645,6 +725,9 @@ private:
     }
 
     void entrypointsWin() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("int WinMain() { }");
         ASSERT_EQUALS("[test.cpp:1]: (style) The function 'WinMain' is never used.\n", errout.str());
 
@@ -661,6 +744,9 @@ private:
     }
 
     void entrypointsWinU() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("int wWinMain() { }");
         ASSERT_EQUALS("[test.cpp:1]: (style) The function 'wWinMain' is never used.\n", errout.str());
 
@@ -677,6 +763,9 @@ private:
     }
 
     void entrypointsUnix() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("int _init() { }\n"
               "int _fini() { }\n");
         ASSERT_EQUALS("[test.cpp:1]: (style) The function '_init' is never used.\n"
@@ -692,6 +781,9 @@ private:
     // TODO: fails because the location information is not be preserved by PreprocessorHelper::getcode()
     void includes()
     {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         // #11483
         const char inc[] = "class A {\n"
                            "public:\n"

@@ -1,3 +1,5 @@
+#include <stdio.h>
+#include <pthread.h>
 /*
  * Cppcheck - A tool for static C/C++ code analysis
  * Copyright (C) 2007-2023 Cppcheck team.
@@ -54,12 +56,18 @@ public:
 
     void reportOut(const std::string &outmsg, Color c) override
     {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         std::lock_guard<std::mutex> lg(mReportSync);
 
         mErrorLogger.reportOut(outmsg, c);
     }
 
     void reportErr(const ErrorMessage &msg) override {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         if (!mThreadExecutor.hasToLog(msg))
             return;
 
@@ -68,6 +76,9 @@ public:
     }
 
     void reportStatus(std::size_t fileindex, std::size_t filecount, std::size_t sizedone, std::size_t sizetotal) {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         std::lock_guard<std::mutex> lg(mReportSync);
         mThreadExecutor.reportStatus(fileindex, filecount, sizedone, sizetotal);
     }
@@ -94,6 +105,9 @@ public:
     }
 
     bool next(const std::string *&file, const FileSettings *&fs, std::size_t &fileSize) {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         std::lock_guard<std::mutex> l(mFileSync);
         if (mItNextFile != mFiles.end()) {
             file = &mItNextFile->first;
@@ -114,6 +128,9 @@ public:
     }
 
     unsigned int check(ErrorLogger &errorLogger, const std::string *file, const FileSettings *fs) const {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         CppCheck fileChecker(errorLogger, false, mExecuteCommand);
         fileChecker.settings() = mSettings; // this is a copy
 
@@ -132,6 +149,9 @@ public:
     }
 
     void status(std::size_t fileSize) {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         std::lock_guard<std::mutex> l(mFileSync);
         mProcessedSize += fileSize;
         mProcessedFiles++;

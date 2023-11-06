@@ -1,3 +1,5 @@
+#include <stdio.h>
+#include <pthread.h>
 /*
  * Cppcheck - A tool for static C/C++ code analysis
  * Copyright (C) 2007-2023 Cppcheck team.
@@ -91,6 +93,9 @@ CheckThread::CheckThread(ThreadResult &result) :
 
 void CheckThread::check(const Settings &settings)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     mFiles.clear();
     mCppcheck.settings() = settings;
     start();
@@ -98,6 +103,9 @@ void CheckThread::check(const Settings &settings)
 
 void CheckThread::analyseWholeProgram(const QStringList &files)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     mFiles = files;
     mAnalyseWholeProgram = true;
     start();
@@ -106,6 +114,9 @@ void CheckThread::analyseWholeProgram(const QStringList &files)
 // cppcheck-suppress unusedFunction - TODO: false positive
 void CheckThread::run()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     mState = Running;
 
     if (!mFiles.isEmpty() || mAnalyseWholeProgram) {
@@ -153,6 +164,9 @@ void CheckThread::run()
 
 void CheckThread::runAddonsAndTools(const FileSettings *fileSettings, const QString &fileName)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     for (const QString& addon : mAddonsAndTools) {
         if (addon == CLANG_ANALYZER || addon == CLANG_TIDY) {
             if (!fileSettings)
@@ -306,12 +320,18 @@ void CheckThread::runAddonsAndTools(const FileSettings *fileSettings, const QStr
 
 void CheckThread::stop()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     mState = Stopping;
     Settings::terminate();
 }
 
 void CheckThread::parseClangErrors(const QString &tool, const QString &file0, QString err)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     QList<ErrorItem> errorItems;
     ErrorItem errorItem;
     static const QRegularExpression r1("^(.+):([0-9]+):([0-9]+): (note|warning|error|fatal error): (.*)$");
@@ -411,6 +431,9 @@ void CheckThread::parseClangErrors(const QString &tool, const QString &file0, QS
 
 bool CheckThread::isSuppressed(const Suppressions::ErrorMessage &errorMessage) const
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     return std::any_of(mSuppressions.cbegin(), mSuppressions.cend(), [&](const Suppressions::Suppression& s) {
         return s.isSuppressed(errorMessage);
     });
@@ -418,6 +441,9 @@ bool CheckThread::isSuppressed(const Suppressions::ErrorMessage &errorMessage) c
 
 QString CheckThread::clangCmd()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     QString path = QSettings().value(SETTINGS_CLANG_PATH,QString()).toString();
     if (!path.isEmpty())
         path += '/';
@@ -443,6 +469,9 @@ QString CheckThread::clangCmd()
 
 QString CheckThread::clangTidyCmd()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     QString path = QSettings().value(SETTINGS_CLANG_PATH,QString()).toString();
     if (!path.isEmpty())
         path += '/';

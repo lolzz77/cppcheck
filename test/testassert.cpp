@@ -1,3 +1,5 @@
+#include <stdio.h>
+#include <pthread.h>
 /*
  * Cppcheck - A tool for static C/C++ code analysis
  * Copyright (C) 2007-2023 Cppcheck team.
@@ -48,6 +50,9 @@ private:
     }
 
     void run() override {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         TEST_CASE(assignmentInAssert);
         TEST_CASE(functionCallInAssert);
         TEST_CASE(memberFunctionCallInAssert);
@@ -57,6 +62,9 @@ private:
 
 
     void safeFunctionCallInAssert() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check(
             "int a;\n"
             "bool b = false;\n"
@@ -77,6 +85,9 @@ private:
     }
 
     void functionCallInAssert() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check(
             "int a;\n"
             "int foo() {\n"
@@ -144,6 +155,9 @@ private:
     }
 
     void memberFunctionCallInAssert() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("struct SquarePack {\n"
               "   void Foo();\n"
               "};\n"
@@ -177,6 +191,9 @@ private:
     }
 
     void assignmentInAssert() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("void f() {\n"
               "    int a; a = 0;\n"
               "    assert(a = 2);\n"
@@ -242,6 +259,9 @@ private:
     }
 
     void crash() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("void foo() {\n"
               "  assert(sizeof(struct { int a[x++]; })==sizeof(int));\n"
               "}");

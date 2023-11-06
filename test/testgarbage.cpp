@@ -1,3 +1,5 @@
+#include <stdio.h>
+#include <pthread.h>
 /*
  * Cppcheck - A tool for static C/C++ code analysis
  * Copyright (C) 2007-2023 Cppcheck team.
@@ -37,6 +39,9 @@ private:
     Settings settings = settingsBuilder().debugwarnings().build();
 
     void run() override {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         settings.severity.fill();
         settings.certainty.fill();
 
@@ -317,6 +322,9 @@ private:
 
 
     void final_class_x() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
 
         const char code[] = "class __declspec(dllexport) x final { };";
         {
@@ -329,6 +337,9 @@ private:
     }
 
     void wrong_syntax1() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         {
             const char code[] ="TR(kvmpio, PROTO(int rw), ARGS(rw), TP_(aa->rw;))";
             ASSERT_THROW(checkCode(code), InternalError);
@@ -387,6 +398,9 @@ private:
     }
 
     void wrong_syntax_if_macro() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         // #2518 #4171
         ASSERT_THROW(checkCode("void f() { if MACRO(); }"), InternalError);
 
@@ -398,6 +412,9 @@ private:
     }
 
     void wrong_syntax_class_x_y() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         // #3585
         const char code[] = "class x y { };";
 
@@ -418,11 +435,17 @@ private:
     }
 
     void wrong_syntax_anonymous_struct() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         ASSERT_THROW(checkCode("struct { int x; } = {0};"), InternalError);
         ASSERT_THROW(checkCode("struct { int x; } * = {0};"), InternalError);
     }
 
     void syntax_case_default() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         ASSERT_THROW(checkCode("void f() {switch (n) { case: z(); break;}}"), InternalError);
 
         ASSERT_THROW(checkCode("void f() {switch (n) { case;: z(); break;}}"), InternalError);
@@ -446,6 +469,9 @@ private:
     }
 
     void garbageCode1() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         checkCode("struct x foo_t; foo_t typedef y;");
     }
 
@@ -471,6 +497,9 @@ private:
     }
 
     void garbageCode7() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         ASSERT_THROW(checkCode("1 (int j) { return return (c) * sizeof } y[1];"), InternalError);
         ASSERT_THROW(checkCode("foo(Args&&...) fn void = { } auto template<typename... bar(Args&&...)"), InternalError);
     }
@@ -488,6 +517,9 @@ private:
     }
 
     void garbageCode9() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         TODO_ASSERT_THROW(checkCode("enum { e = { } } ( ) { { enum { } } } { e } "), InternalError);
     }
 
@@ -500,6 +532,9 @@ private:
     }
 
     void garbageCode13() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         checkCode("struct C {} {} x");
     }
 
@@ -508,25 +543,40 @@ private:
     }
 
     void garbageCode16() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         checkCode("{ } A() { delete }"); // #6080
     }
 
     void garbageCode17() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         ASSERT_THROW(checkCode("void h(int l) {\n"
                                "    while\n" // Don't crash (#3870)
                                "}"), InternalError);
     }
 
     void garbageCode18() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         ASSERT_THROW(checkCode("switch(){case}"), InternalError);
     }
 
     void garbageCode20() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         // #3953 (valgrind errors on garbage code)
         ASSERT_EQUALS("void f ( 0 * ) ;", checkCode("void f ( 0 * ) ;"));
     }
 
     void garbageCode21() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         // Ticket #3486 - Don't crash garbage code
         ASSERT_THROW(checkCode("void f()\n"
                                "{\n"
@@ -538,6 +588,9 @@ private:
     }
 
     void garbageCode22() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         // Ticket #3480 - Don't crash garbage code
         ASSERT_THROW(checkCode("int f()\n"
                                "{\n"
@@ -546,6 +599,9 @@ private:
     }
 
     void garbageCode23() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         //garbage code : don't crash (#3481)
         ASSERT_THROW_EQUALS(checkCode("{\n"
                                       "    if (1) = x\n"
@@ -556,6 +612,9 @@ private:
     }
 
     void garbageCode24() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         // don't crash (example from #6361)
         ASSERT_THROW(checkCode("float buffer[64];\n"
                                "main (void)\n"
@@ -567,6 +626,9 @@ private:
     }
 
     void garbageCode25() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         // Ticket #2386 - Segmentation fault upon strange syntax
         ASSERT_THROW(checkCode("void f() {\n"
                                "    switch ( x ) {\n"
@@ -576,6 +638,9 @@ private:
     }
 
     void garbageCode26() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         // See tickets #2518 #2555 #4171
         ASSERT_THROW(checkCode("void f() {\n"
                                "    switch MAKEWORD(1)\n"
@@ -587,12 +652,18 @@ private:
     }
 
     void garbageCode27() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         ASSERT_THROW(checkCode("int f() {\n"
                                "    return if\n"
                                "}"), InternalError);
     }
 
     void garbageCode28() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         // 5702
         checkCode("struct R1 {\n"
                   "  int a;\n"
@@ -601,6 +672,9 @@ private:
     }
 
     void garbageCode30() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         // simply survive - a syntax error would be even better (#5867)
         checkCode("void f(int x) {\n"
                   " x = 42\n"
@@ -608,6 +682,9 @@ private:
     }
 
     void garbageCode31() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         ASSERT_THROW(checkCode("typedef struct{}x[([],)]typedef e y;(y,x 0){}"), InternalError);
     }
 
@@ -617,6 +694,9 @@ private:
 
     // Bug #6626 crash: Token::astOperand2() const ( do while )
     void garbageCode34() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char code[] = "void foo(void) {\n"
                             " do\n"
                             " while (0);\n"
@@ -625,6 +705,9 @@ private:
     }
 
     void garbageCode35() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         // ticket #2604 segmentation fault
         ASSERT_THROW(checkCode("sizeof <= A"), InternalError);
     }
@@ -639,6 +722,9 @@ private:
     }
 
     void garbageCode37() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         // #5166 segmentation fault (invalid code) in lib/checkother.cpp:329 ( void * f { } void b ( ) { * f } )
         checkCode("void * f { } void b ( ) { * f }");
     }
@@ -978,6 +1064,9 @@ private:
     }
 
     void garbageCode123() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         checkCode("namespace pr16989 {\n"
                   "    class C {\n"
                   "        C tpl_mem(T *) { return }\n"
@@ -986,12 +1075,18 @@ private:
     }
 
     void garbageCode125() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         ASSERT_THROW(checkCode("{ T struct B : T valueA_AA ; } T : [ T > ( ) { B } template < T > struct A < > : ] { ( ) { return valueA_AC struct { : } } b A < int > AC ( ) a_aa.M ; ( ) ( ) }"), InternalError);
         ASSERT_THROW(checkCode("template < Types > struct S :{ ( S < ) S >} { ( ) { } } ( ) { return S < void > ( ) }"),
                      InternalError);
     }
 
     void garbageCode126() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         ASSERT_THROW(checkCode("{ } float __ieee754_sinhf ( float x ) { float t , , do { gf_u ( jx ) { } ( 0 ) return ; ( ) { } t } ( 0x42b17180 ) { } }"),
                      InternalError);
     }
@@ -1009,21 +1104,33 @@ private:
     }
 
     void garbageCode128() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         TODO_ASSERT_THROW(checkCode("enum { FOO = ( , ) } {{ }} enum {{ FOO << = } ( ) } {{ }} ;"),
                           InternalError);
     }
 
     void garbageCode129() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         ASSERT_THROW(checkCode("operator - ( { } typedef typename x ; ( ) ) { ( { { ( ( ) ) } ( { } ) } ) }"),
                      InternalError);
     }
 
     void garbageCode130() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         TODO_ASSERT_THROW(checkCode("enum { FOO = ( , ){ } { { } } { { FOO} = } ( ) } { { } } enumL\" ( enumL\" { { FOO } ( ) } { { } } ;"),
                           InternalError);
     }
 
     void garbageCode131() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         ASSERT_THROW(checkCode("( void ) { ( ) } ( ) / { ( ) }"), InternalError);
         // actually the invalid code should trigger an syntax error...
     }
@@ -1033,6 +1140,9 @@ private:
     }
 
     void garbageCode133() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         ASSERT_THROW(checkCode("void f() {{}"), InternalError);
 
         ASSERT_THROW(checkCode("void f()) {}"), InternalError);
@@ -1085,6 +1195,9 @@ private:
     }
 
     void garbageCode134() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         // Ticket #5605, #5759, #5762, #5774, #5823, #6059
         ASSERT_THROW(checkCode("foo() template<typename T1 = T2 = typename = unused, T5 = = unused> struct tuple Args> tuple<Args...> { } main() { foo<int,int,int,int,int,int>(); }"), InternalError);
         ASSERT_THROW(checkCode("( ) template < T1 = typename = unused> struct Args { } main ( ) { foo < int > ( ) ; }"), InternalError);
@@ -1242,10 +1355,16 @@ private:
     }
 
     void garbageCode153() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         TODO_ASSERT_THROW(checkCode("enum { X = << { X } } { X X } enum { X = << { ( X ) } } { } X */"), InternalError);
     }
 
     void garbageCode154() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         checkCode("\"abc\"[];");
     }
 
@@ -1275,6 +1394,9 @@ private:
 
 
     void garbageCodeFuzzerClientMode1() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         ASSERT_THROW(checkCode("void f() { x= name2 & name3 name2 = | 0.1 , | 0.1 , | 0.1 name4 <= >( ); }"), InternalError);
         ASSERT_THROW(checkCode("void f() { x = , * [ | + 0xff | > 0xff]; }"), InternalError);
         ASSERT_THROW(checkCode("void f() {  x = , | 0xff , 0.1 < ; }"), InternalError);
@@ -1283,6 +1405,9 @@ private:
     }
 
     void garbageValueFlow() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         // #6089
         const char* code = "{} int foo(struct, x1, struct x2, x3, int, x5, x6, x7)\n"
                            "{\n"
@@ -1299,6 +1424,9 @@ private:
     }
 
     void garbageSymbolDatabase() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         checkCode("void f( { u = 1 ; } ) { }");
 
         ASSERT_THROW(checkCode("{ }; void namespace A::f; { g() { int } }"), InternalError);
@@ -1313,6 +1441,9 @@ private:
     }
 
     void garbageAST() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         ASSERT_THROW(checkCode("N 1024 float a[N], b[N + 3], c[N]; void N; (void) i;\n"
                                "int #define for (i = avx_test i < c[i]; i++)\n"
                                "b[i + 3] = a[i] * {}"), InternalError); // Don't hang (#5787)
@@ -1327,6 +1458,9 @@ private:
     }
 
     void templateSimplifierCrashes() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         checkCode( // #5950
             "struct A {\n"
             "  template <class T> operator T*();\n"
@@ -1400,62 +1534,98 @@ private:
                                 "{};"));
     }
     void garbageCode161() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         //7200
         ASSERT_THROW(checkCode("{ }{ if () try { } catch (...)} B : : ~B { }"), InternalError);
     }
 
     void garbageCode162() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         //7208
         ASSERT_THROW(checkCode("return <<  >>  x return <<  >>  x ", false), InternalError);
     }
 
     void garbageCode163() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         //7228
         ASSERT_THROW(checkCode("typedef s f[](){typedef d h(;f)}", false), InternalError);
     }
 
     void garbageCode164() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         //7234
         ASSERT_THROW(checkCode("class d{k p;}(){d::d():B<()}"), InternalError);
     }
 
     void garbageCode165() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         //7235
         ASSERT_THROW(checkCode("for(;..)", false),InternalError);
     }
 
     void garbageCode167() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         //7237
         ASSERT_THROW(checkCode("class D00i000{:D00i000::}i"),InternalError);
     }
 
     void garbageCode168() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         // 7246
         checkCode("long foo(void) { return *bar; }", false);
     }
 
     void garbageCode169() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         // 6713
         ASSERT_THROW(checkCode("( ) { ( ) ; { return } switch ( ) i\n"
                                "set case break ; default: ( ) }", false), InternalError);
     }
 
     void garbageCode170() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         // 7255
         ASSERT_THROW(checkCode("d i(){{f*s=typeid(()0,)}}", false), InternalError);
     }
 
     void garbageCode171() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         // 7270
         ASSERT_THROW(checkCode("(){case()?():}:", false), InternalError);
     }
 
     void garbageCode172() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         // #7357
         ASSERT_THROW(checkCode("p<e T=l[<]<>>,"), InternalError);
     }
 
     void garbageCode173() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         // #6781  heap corruption ;  TemplateSimplifier::simplifyTemplateInstantiations
         ASSERT_THROW(checkCode(" template < Types > struct S : >( S < ...Types... > S <) > { ( ) { } } ( ) { return S < void > ( ) }"), InternalError);
     }
@@ -1478,15 +1648,24 @@ private:
     }
 
     void garbageCode181() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         ASSERT_THROW(checkCode("int test() { int +; }"), InternalError);
     }
 
     // #4195 - segfault for "enum { int f ( ) { return = } r = f ( ) ; }"
     void garbageCode182() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         ASSERT_THROW(checkCode("enum { int f ( ) { return = } r = f ( ) ; }"), InternalError);
     }
     // #7505 - segfault
     void garbageCode183() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         ASSERT_THROW(checkCode("= { int } enum return { r = f() f(); }"), InternalError);
     }
 
@@ -1511,6 +1690,9 @@ private:
 
     // #8151 - segfault due to incorrect template syntax
     void garbageCode186() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         ASSERT_THROW(checkCode("A<B<><>C"), InternalError);
     }
 
@@ -1554,16 +1736,25 @@ private:
 
     // #8740
     void garbageCode193() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         ASSERT_THROW(checkCode("d f(){!=[]&&0()!=0}"), InternalError);
     }
 
     // #8384
     void garbageCode194() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         ASSERT_THROW(checkCode("{((()))(return 1||);}"), InternalError);
     }
 
     // #8709 - no garbage but to avoid stability regression
     void garbageCode195() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         checkCode("a b;\n"
                   "void c() {\n"
                   "  switch (d) { case b:; }\n"
@@ -1574,17 +1765,26 @@ private:
 
     // #8265
     void garbageCode196() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         ASSERT_THROW(checkCode("0|,0<<V"), InternalError);
         ASSERT_THROW(checkCode(";|4|<0;"), InternalError);
     }
 
     // #8385
     void garbageCode197() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         ASSERT_THROW(checkCode("(){e break,{(case)|{e:[()]}}}"), InternalError);
     }
 
     // #8383
     void garbageCode198() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         ASSERT_THROW(checkCode("void f(){\n"
                                "x= ={(continue continue { ( struct continue { ( ++ name5 name5 ) ( name5 name5 n\n"
                                "ame5 ( name5 struct ( name5 name5 < ) ) ( default ) { name4 != name5 name5 name5\n"
@@ -1595,21 +1795,33 @@ private:
 
     // #8752
     void garbageCode199() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         checkCode("d f(){e n00e0[]n00e0&" "0+f=0}");
     }
 
     // #8757
     void garbageCode200() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         ASSERT_THROW(checkCode("(){e break,{(case)!{e:[]}}}"), InternalError);
     }
 
     // #8873
     void garbageCode201() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         ASSERT_THROW(checkCode("void f() { std::string s=\"abc\"; return s + }"), InternalError);
     }
 
     // #8907
     void garbageCode202() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         ASSERT_THROW(checkCode("void f() { UNKNOWN_MACRO(return); }"), InternalError);
         ASSERT_THROW(checkCode("void f() { UNKNOWN_MACRO(throw); }"), InternalError);
     }
@@ -1620,10 +1832,16 @@ private:
     }
 
     void garbageCode204() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         ASSERT_THROW(checkCode("template <a, = b<>()> c; template <a> a as() {} as<c<>>();"), InternalError);
     }
 
     void garbageCode205() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         checkCode("class CodeSnippetsEvent : public wxCommandEvent {\n"
                   "public :\n"
                   "    CodeSnippetsEvent ( wxEventType commandType =  wxEventType , int id = 0 ) ;\n"
@@ -1643,6 +1861,9 @@ private:
     }
 
     void garbageCode206() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         ASSERT_EQUALS("[test.cpp:1] syntax error: operator", getSyntaxError("void foo() { for (auto operator new : int); }"));
         ASSERT_EQUALS("[test.cpp:1] syntax error: operator", getSyntaxError("void foo() { for (a operator== :) }"));
     }
@@ -1676,6 +1897,9 @@ private:
     }
 
     void garbageCode214() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         checkCode("THIS FILE CONTAINS VARIOUS TEXT");
     }
 
@@ -1711,6 +1935,9 @@ private:
         ASSERT_THROW(checkCode("(){(){{()}}return;{switch()0 case(){}break;l:()}}\n"), InternalError);  // don't crash
     }
     void garbageCode221() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         ASSERT_THROW(checkCode("struct A<0<;\n"), InternalError);  // don't crash
     }
     void garbageCode222() { // #10763
@@ -1721,6 +1948,9 @@ private:
     }
 
     void syntaxErrorFirstToken() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         ASSERT_THROW(checkCode("&operator(){[]};"), InternalError); // #7818
         ASSERT_THROW(checkCode("*(*const<> (size_t); foo) { } *(*const (size_t)() ; foo) { }"), InternalError); // #6858
         ASSERT_THROW(checkCode(">{ x while (y) z int = }"), InternalError); // #4175
@@ -1730,6 +1960,9 @@ private:
     }
 
     void syntaxErrorLastToken() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         ASSERT_THROW(checkCode("int *"), InternalError); // #7821
         ASSERT_THROW(checkCode("x[y]"), InternalError); // #2986
         ASSERT_THROW(checkCode("( ) &"), InternalError);
@@ -1772,6 +2005,9 @@ private:
     }
 
     void syntaxErrorCase() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         // case must be inside switch block
         ASSERT_THROW(checkCode("void f() { switch (a) {}; case 1: }"), InternalError); // #8184
         ASSERT_THROW(checkCode("struct V : { public case {} ; struct U : U  void { V *f (int x) (x) } }"), InternalError); // #5120
@@ -1782,6 +2018,9 @@ private:
     }
 
     void syntaxErrorFuzzerCliType1() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         ASSERT_THROW(checkCode("void f(){x=0,return return''[]()}"), InternalError);
         ASSERT_THROW(checkCode("void f(){x='0'++'0'(return)[];}"), InternalError); // #9063
         checkCode("void f(){*(int *)42=0;}"); // no syntax error
@@ -1791,6 +2030,9 @@ private:
     }
 
     void cliCode() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         // #8913
         ASSERT_NO_THROW(checkCode(
                             "public ref class LibCecSharp : public CecCallbackMethods {\n"
@@ -1802,10 +2044,16 @@ private:
     }
 
     void enumTrailingComma() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         ASSERT_THROW(checkCode("enum ssl_shutdown_t {ssl_shutdown_none = 0,ssl_shutdown_close_notify = , } ;"), InternalError); // #8079
     }
 
     void nonGarbageCode1() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         checkCode("template <class T> class List {\n"
                   "public:\n"
                   "   List();\n"

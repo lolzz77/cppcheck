@@ -1,3 +1,5 @@
+#include <stdio.h>
+#include <pthread.h>
 /*
  * Cppcheck - A tool for static C/C++ code analysis
  * Copyright (C) 2007-2023 Cppcheck team.
@@ -35,6 +37,9 @@ Platform::Platform()
 
 bool Platform::set(Type t)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     switch (t) {
     case Type::Unspecified: // unknown type sizes (sizes etc are set but are not known)
     case Type::Native: // same as system this code was compile on
@@ -152,6 +157,9 @@ bool Platform::set(Type t)
 
 bool Platform::set(const std::string& platformstr, std::string& errstr, const std::vector<std::string>& paths, bool verbose)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (platformstr == "win32A")
         set(Type::Win32A);
     else if (platformstr == "win32W")
@@ -191,6 +199,9 @@ bool Platform::set(const std::string& platformstr, std::string& errstr, const st
 
 bool Platform::loadFromFile(const char exename[], const std::string &filename, bool verbose)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     // TODO: only append .xml if missing
     // TODO: use native separators
     std::vector<std::string> filenames{
@@ -235,6 +246,9 @@ bool Platform::loadFromFile(const char exename[], const std::string &filename, b
 
 static unsigned int xmlTextAsUInt(const tinyxml2::XMLElement* node, bool& error)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     unsigned int retval = 0;
     if (node->QueryUnsignedText(&retval) != tinyxml2::XML_SUCCESS)
         error = true;
@@ -243,6 +257,9 @@ static unsigned int xmlTextAsUInt(const tinyxml2::XMLElement* node, bool& error)
 
 bool Platform::loadFromXmlDocument(const tinyxml2::XMLDocument *doc)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     const tinyxml2::XMLElement * const rootnode = doc->FirstChildElement();
 
     if (!rootnode || std::strcmp(rootnode->Name(), "platform") != 0)

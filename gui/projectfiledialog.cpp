@@ -1,3 +1,5 @@
+#include <stdio.h>
+#include <pthread.h>
 /*
  * Cppcheck - A tool for static C/C++ code analysis
  * Copyright (C) 2007-2023 Cppcheck team.
@@ -67,6 +69,9 @@ static constexpr char CODING_STANDARD_AUTOSAR[] = "autosar";
 /** Return paths from QListWidget */
 static QStringList getPaths(const QListWidget *list)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     const int count = list->count();
     QStringList paths;
     for (int i = 0; i < count; i++) {
@@ -90,6 +95,9 @@ static constexpr int numberOfBuiltinPlatforms = sizeof(builtinPlatforms) / sizeo
 
 QStringList ProjectFileDialog::getProjectConfigs(const QString &fileName)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (!fileName.endsWith(".sln") && !fileName.endsWith(".vcxproj"))
         return QStringList();
     QStringList ret;
@@ -254,6 +262,9 @@ ProjectFileDialog::~ProjectFileDialog()
 
 void ProjectFileDialog::loadSettings()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     QSettings settings;
     resize(settings.value(SETTINGS_PROJECT_DIALOG_WIDTH, 470).toInt(),
            settings.value(SETTINGS_PROJECT_DIALOG_HEIGHT, 330).toInt());
@@ -261,6 +272,9 @@ void ProjectFileDialog::loadSettings()
 
 void ProjectFileDialog::saveSettings() const
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     QSettings settings;
     settings.setValue(SETTINGS_PROJECT_DIALOG_WIDTH, size().width());
     settings.setValue(SETTINGS_PROJECT_DIALOG_HEIGHT, size().height());
@@ -268,6 +282,9 @@ void ProjectFileDialog::saveSettings() const
 
 static void updateAddonCheckBox(QCheckBox *cb, const ProjectFile *projectFile, const QString &dataDir, const QString &addon)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (projectFile)
         cb->setChecked(projectFile->getAddons().contains(addon));
     if (ProjectFile::getAddonFilePath(dataDir, addon).isEmpty()) {
@@ -278,6 +295,9 @@ static void updateAddonCheckBox(QCheckBox *cb, const ProjectFile *projectFile, c
 
 void ProjectFileDialog::checkAllVSConfigs()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (mUI->mChkAllVsConfigs->isChecked()) {
         for (int row = 0; row < mUI->mListVsConfigs->count(); ++row) {
             QListWidgetItem *item = mUI->mListVsConfigs->item(row);
@@ -289,6 +309,9 @@ void ProjectFileDialog::checkAllVSConfigs()
 
 void ProjectFileDialog::loadFromProjectFile(const ProjectFile *projectFile)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     setRootPath(projectFile->getRootPath());
     setBuildDir(projectFile->getBuildDir());
     setIncludepaths(projectFile->getIncludeDirs());
@@ -422,6 +445,9 @@ void ProjectFileDialog::loadFromProjectFile(const ProjectFile *projectFile)
 
 void ProjectFileDialog::saveToProjectFile(ProjectFile *projectFile) const
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     projectFile->setRootPath(getRootPath());
     projectFile->setBuildDir(getBuildDir());
     projectFile->setImportProject(getImportProject());
@@ -500,6 +526,9 @@ void ProjectFileDialog::saveToProjectFile(ProjectFile *projectFile) const
 
 void ProjectFileDialog::ok()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     saveToProjectFile(mProjectFile);
     mProjectFile->write();
     accept();
@@ -507,6 +536,9 @@ void ProjectFileDialog::ok()
 
 QString ProjectFileDialog::getExistingDirectory(const QString &caption, bool trailingSlash)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     const QFileInfo inf(mProjectFile->getFilename());
     const QString rootpath = inf.absolutePath();
     QString selectedDir = QFileDialog::getExistingDirectory(this,
@@ -532,6 +564,9 @@ QString ProjectFileDialog::getExistingDirectory(const QString &caption, bool tra
 
 void ProjectFileDialog::browseBuildDir()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     const QString dir(getExistingDirectory(tr("Select Cppcheck build dir"), false));
     if (!dir.isEmpty())
         mUI->mEditBuildDir->setText(dir);
@@ -539,6 +574,9 @@ void ProjectFileDialog::browseBuildDir()
 
 void ProjectFileDialog::updatePathsAndDefines()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     const QString &fileName = mUI->mEditImportProject->text();
     const bool importProject = !fileName.isEmpty();
     const bool hasConfigs = fileName.endsWith(".sln") || fileName.endsWith(".vcxproj");
@@ -563,12 +601,18 @@ void ProjectFileDialog::updatePathsAndDefines()
 
 void ProjectFileDialog::clearImportProject()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     mUI->mEditImportProject->clear();
     updatePathsAndDefines();
 }
 
 void ProjectFileDialog::browseImportProject()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     const QFileInfo inf(mProjectFile->getFilename());
     const QDir &dir = inf.absoluteDir();
     QMap<QString,QString> filters;
@@ -591,6 +635,9 @@ void ProjectFileDialog::browseImportProject()
 
 QStringList ProjectFileDialog::getProjectConfigurations() const
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     QStringList configs;
     for (int row = 0; row < mUI->mListVsConfigs->count(); ++row) {
         QListWidgetItem *item = mUI->mListVsConfigs->item(row);
@@ -602,6 +649,9 @@ QStringList ProjectFileDialog::getProjectConfigurations() const
 
 void ProjectFileDialog::setProjectConfigurations(const QStringList &configs)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     mUI->mListVsConfigs->clear();
     mUI->mListVsConfigs->setEnabled(!configs.isEmpty() && !mUI->mChkAllVsConfigs->isChecked());
     for (const QString &cfg : configs) {
@@ -613,11 +663,17 @@ void ProjectFileDialog::setProjectConfigurations(const QStringList &configs)
 
 QString ProjectFileDialog::getImportProject() const
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     return mUI->mEditImportProject->text();
 }
 
 void ProjectFileDialog::addIncludeDir(const QString &dir)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (dir.isEmpty())
         return;
 
@@ -629,6 +685,9 @@ void ProjectFileDialog::addIncludeDir(const QString &dir)
 
 void ProjectFileDialog::addCheckPath(const QString &path)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (path.isEmpty())
         return;
 
@@ -640,6 +699,9 @@ void ProjectFileDialog::addCheckPath(const QString &path)
 
 void ProjectFileDialog::addExcludePath(const QString &path)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (path.isEmpty())
         return;
 
@@ -651,6 +713,9 @@ void ProjectFileDialog::addExcludePath(const QString &path)
 
 QString ProjectFileDialog::getRootPath() const
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     QString root = mUI->mEditProjectRoot->text();
     root = root.trimmed();
     root = QDir::fromNativeSeparators(root);
@@ -659,16 +724,25 @@ QString ProjectFileDialog::getRootPath() const
 
 QString ProjectFileDialog::getBuildDir() const
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     return mUI->mEditBuildDir->text();
 }
 
 QStringList ProjectFileDialog::getIncludePaths() const
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     return getPaths(mUI->mListIncludeDirs);
 }
 
 QStringList ProjectFileDialog::getDefines() const
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
 #if (QT_VERSION >= QT_VERSION_CHECK(5, 14, 0))
     return mUI->mEditDefines->text().trimmed().split(QRegularExpression("\\s*;\\s*"), Qt::SkipEmptyParts);
 #else
@@ -678,6 +752,9 @@ QStringList ProjectFileDialog::getDefines() const
 
 QStringList ProjectFileDialog::getUndefines() const
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     const QString undefine = mUI->mEditUndefines->text().trimmed();
 #if (QT_VERSION >= QT_VERSION_CHECK(5, 14, 0))
     QStringList undefines = undefine.split(QRegularExpression("\\s*;\\s*"), Qt::SkipEmptyParts);
@@ -690,16 +767,25 @@ QStringList ProjectFileDialog::getUndefines() const
 
 QStringList ProjectFileDialog::getCheckPaths() const
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     return getPaths(mUI->mListCheckPaths);
 }
 
 QStringList ProjectFileDialog::getExcludedPaths() const
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     return getPaths(mUI->mListExcludedPaths);
 }
 
 QStringList ProjectFileDialog::getLibraries() const
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     QStringList libraries;
     for (int row = 0; row < mUI->mLibraries->count(); ++row) {
         QListWidgetItem *item = mUI->mLibraries->item(row);
@@ -711,21 +797,33 @@ QStringList ProjectFileDialog::getLibraries() const
 
 void ProjectFileDialog::setRootPath(const QString &root)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     mUI->mEditProjectRoot->setText(QDir::toNativeSeparators(root));
 }
 
 void ProjectFileDialog::setBuildDir(const QString &buildDir)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     mUI->mEditBuildDir->setText(buildDir);
 }
 
 void ProjectFileDialog::setImportProject(const QString &importProject)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     mUI->mEditImportProject->setText(importProject);
 }
 
 void ProjectFileDialog::setIncludepaths(const QStringList &includes)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     for (const QString& dir : includes) {
         addIncludeDir(dir);
     }
@@ -733,16 +831,25 @@ void ProjectFileDialog::setIncludepaths(const QStringList &includes)
 
 void ProjectFileDialog::setDefines(const QStringList &defines)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     mUI->mEditDefines->setText(defines.join(";"));
 }
 
 void ProjectFileDialog::setUndefines(const QStringList &undefines)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     mUI->mEditUndefines->setText(undefines.join(";"));
 }
 
 void ProjectFileDialog::setCheckPaths(const QStringList &paths)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     for (const QString& path : paths) {
         addCheckPath(path);
     }
@@ -750,6 +857,9 @@ void ProjectFileDialog::setCheckPaths(const QStringList &paths)
 
 void ProjectFileDialog::setExcludedPaths(const QStringList &paths)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     for (const QString& path : paths) {
         addExcludePath(path);
     }
@@ -757,6 +867,9 @@ void ProjectFileDialog::setExcludedPaths(const QStringList &paths)
 
 void ProjectFileDialog::setLibraries(const QStringList &libraries)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     for (int row = 0; row < mUI->mLibraries->count(); ++row) {
         QListWidgetItem *item = mUI->mLibraries->item(row);
         item->setCheckState(libraries.contains(item->text()) ? Qt::Checked : Qt::Unchecked);
@@ -765,12 +878,18 @@ void ProjectFileDialog::setLibraries(const QStringList &libraries)
 
 void ProjectFileDialog::addSingleSuppression(const Suppressions::Suppression &suppression)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     mSuppressions += suppression;
     mUI->mListSuppressions->addItem(QString::fromStdString(suppression.getText()));
 }
 
 void ProjectFileDialog::setSuppressions(const QList<Suppressions::Suppression> &suppressions)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     mUI->mListSuppressions->clear();
     QList<Suppressions::Suppression> new_suppressions = suppressions;
     mSuppressions.clear();
@@ -782,6 +901,9 @@ void ProjectFileDialog::setSuppressions(const QList<Suppressions::Suppression> &
 
 void ProjectFileDialog::addCheckPath()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     QString dir = getExistingDirectory(tr("Select a directory to check"), false);
     if (!dir.isEmpty())
         addCheckPath(dir);
@@ -789,12 +911,18 @@ void ProjectFileDialog::addCheckPath()
 
 void ProjectFileDialog::editCheckPath()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     QListWidgetItem *item = mUI->mListCheckPaths->currentItem();
     mUI->mListCheckPaths->editItem(item);
 }
 
 void ProjectFileDialog::removeCheckPath()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     const int row = mUI->mListCheckPaths->currentRow();
     QListWidgetItem *item = mUI->mListCheckPaths->takeItem(row);
     delete item;
@@ -802,6 +930,9 @@ void ProjectFileDialog::removeCheckPath()
 
 void ProjectFileDialog::addIncludeDir()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     const QString dir = getExistingDirectory(tr("Select include directory"), true);
     if (!dir.isEmpty())
         addIncludeDir(dir);
@@ -809,6 +940,9 @@ void ProjectFileDialog::addIncludeDir()
 
 void ProjectFileDialog::removeIncludeDir()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     const int row = mUI->mListIncludeDirs->currentRow();
     QListWidgetItem *item = mUI->mListIncludeDirs->takeItem(row);
     delete item;
@@ -816,17 +950,26 @@ void ProjectFileDialog::removeIncludeDir()
 
 void ProjectFileDialog::editIncludeDir()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     QListWidgetItem *item = mUI->mListIncludeDirs->currentItem();
     mUI->mListIncludeDirs->editItem(item);
 }
 
 void ProjectFileDialog::addExcludePath()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     addExcludePath(getExistingDirectory(tr("Select directory to ignore"), true));
 }
 
 void ProjectFileDialog::addExcludeFile()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     const QFileInfo inf(mProjectFile->getFilename());
     const QDir &dir = inf.absoluteDir();
     QMap<QString,QString> filters;
@@ -837,12 +980,18 @@ void ProjectFileDialog::addExcludeFile()
 
 void ProjectFileDialog::editExcludePath()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     QListWidgetItem *item = mUI->mListExcludedPaths->currentItem();
     mUI->mListExcludedPaths->editItem(item);
 }
 
 void ProjectFileDialog::removeExcludePath()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     const int row = mUI->mListExcludedPaths->currentRow();
     QListWidgetItem *item = mUI->mListExcludedPaths->takeItem(row);
     delete item;
@@ -850,6 +999,9 @@ void ProjectFileDialog::removeExcludePath()
 
 void ProjectFileDialog::moveIncludePathUp()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     int row = mUI->mListIncludeDirs->currentRow();
     QListWidgetItem *item = mUI->mListIncludeDirs->takeItem(row);
     row = row > 0 ? row - 1 : 0;
@@ -859,6 +1011,9 @@ void ProjectFileDialog::moveIncludePathUp()
 
 void ProjectFileDialog::moveIncludePathDown()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     int row = mUI->mListIncludeDirs->currentRow();
     QListWidgetItem *item = mUI->mListIncludeDirs->takeItem(row);
     const int count = mUI->mListIncludeDirs->count();
@@ -869,6 +1024,9 @@ void ProjectFileDialog::moveIncludePathDown()
 
 void ProjectFileDialog::addSuppression()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     NewSuppressionDialog dlg;
     if (dlg.exec() == QDialog::Accepted) {
         addSingleSuppression(dlg.getSuppression());
@@ -877,6 +1035,9 @@ void ProjectFileDialog::addSuppression()
 
 void ProjectFileDialog::removeSuppression()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     const int row = mUI->mListSuppressions->currentRow();
     QListWidgetItem *item = mUI->mListSuppressions->takeItem(row);
     if (!item)
@@ -905,6 +1066,9 @@ void ProjectFileDialog::editSuppression(const QModelIndex & /*index*/)
 
 int ProjectFileDialog::getSuppressionIndex(const QString &shortText) const
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     const std::string s = shortText.toStdString();
     for (int i = 0; i < mSuppressions.size(); ++i) {
         if (mSuppressions[i].getText() == s)
@@ -915,6 +1079,9 @@ int ProjectFileDialog::getSuppressionIndex(const QString &shortText) const
 
 void ProjectFileDialog::browseMisraFile()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     const QString fileName = QFileDialog::getOpenFileName(this,
                                                           tr("Select MISRA rule texts file"),
                                                           QDir::homePath(),

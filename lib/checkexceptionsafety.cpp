@@ -1,3 +1,5 @@
+#include <stdio.h>
+#include <pthread.h>
 /*
  * Cppcheck - A tool for static C/C++ code analysis
  * Copyright (C) 2007-2023 Cppcheck team.
@@ -45,6 +47,9 @@ static const CWE CWE480(480U);   // Use of Incorrect Operator
 
 void CheckExceptionSafety::destructors()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (!mSettings->severity.isEnabled(Severity::warning))
         return;
 
@@ -84,6 +89,9 @@ void CheckExceptionSafety::destructors()
 
 void CheckExceptionSafety::destructorsError(const Token * const tok, const std::string &className)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     reportError(tok, Severity::warning, "exceptThrowInDestructor",
                 "Class " + className + " is not safe, destructor throws exception\n"
                 "The class " + className + " is not safe because its destructor "
@@ -94,6 +102,9 @@ void CheckExceptionSafety::destructorsError(const Token * const tok, const std::
 
 void CheckExceptionSafety::deallocThrow()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (!mSettings->severity.isEnabled(Severity::warning))
         return;
 
@@ -157,6 +168,9 @@ void CheckExceptionSafety::deallocThrow()
 
 void CheckExceptionSafety::deallocThrowError(const Token * const tok, const std::string &varname)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     reportError(tok, Severity::warning, "exceptDeallocThrow", "Exception thrown in invalid state, '" +
                 varname + "' points at deallocated memory.", CWE398, Certainty::normal);
 }
@@ -169,6 +183,9 @@ void CheckExceptionSafety::deallocThrowError(const Token * const tok, const std:
 //---------------------------------------------------------------------------
 void CheckExceptionSafety::checkRethrowCopy()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (!mSettings->severity.isEnabled(Severity::style))
         return;
 
@@ -202,6 +219,9 @@ void CheckExceptionSafety::checkRethrowCopy()
 
 void CheckExceptionSafety::rethrowCopyError(const Token * const tok, const std::string &varname)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     reportError(tok, Severity::style, "exceptRethrowCopy",
                 "Throwing a copy of the caught exception instead of rethrowing the original exception.\n"
                 "Rethrowing an exception with 'throw " + varname + ";' creates an unnecessary copy of '" + varname + "'. "
@@ -213,6 +233,9 @@ void CheckExceptionSafety::rethrowCopyError(const Token * const tok, const std::
 //---------------------------------------------------------------------------
 void CheckExceptionSafety::checkCatchExceptionByValue()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (!mSettings->severity.isEnabled(Severity::style))
         return;
 
@@ -234,6 +257,9 @@ void CheckExceptionSafety::checkCatchExceptionByValue()
 
 void CheckExceptionSafety::catchExceptionByValueError(const Token *tok)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     reportError(tok, Severity::style,
                 "catchExceptionByValue", "Exception should be caught by reference.\n"
                 "The exception is caught by value. It could be caught "
@@ -286,6 +312,9 @@ static const Token * functionThrows(const Function * function)
 //--------------------------------------------------------------------------
 void CheckExceptionSafety::nothrowThrows()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     logChecker("CheckExceptionSafety::nothrowThrows");
 
     const SymbolDatabase* const symbolDatabase = mTokenizer->getSymbolDatabase();
@@ -321,6 +350,9 @@ void CheckExceptionSafety::nothrowThrows()
 
 void CheckExceptionSafety::noexceptThrowError(const Token * const tok)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     reportError(tok, Severity::error, "throwInNoexceptFunction", "Exception thrown in function declared not to throw exceptions.", CWE398, Certainty::normal);
 }
 
@@ -329,6 +361,9 @@ void CheckExceptionSafety::noexceptThrowError(const Token * const tok)
 //--------------------------------------------------------------------------
 void CheckExceptionSafety::unhandledExceptionSpecification()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (!mSettings->severity.isEnabled(Severity::style) || !mSettings->certainty.isEnabled(Certainty::inconclusive))
         return;
 
@@ -358,6 +393,9 @@ void CheckExceptionSafety::unhandledExceptionSpecification()
 
 void CheckExceptionSafety::unhandledExceptionSpecificationError(const Token * const tok1, const Token * const tok2, const std::string & funcname)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     const std::string str1(tok1 ? tok1->str() : "foo");
     const std::list<const Token*> locationList = { tok1, tok2 };
     reportError(locationList, Severity::style, "unhandledExceptionSpecification",
@@ -371,6 +409,9 @@ void CheckExceptionSafety::unhandledExceptionSpecificationError(const Token * co
 //--------------------------------------------------------------------------
 void CheckExceptionSafety::rethrowNoCurrentException()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     logChecker("CheckExceptionSafety::rethrowNoCurrentException");
     const SymbolDatabase* const symbolDatabase = mTokenizer->getSymbolDatabase();
     for (const Scope * scope : symbolDatabase->functionScopes) {
@@ -402,6 +443,9 @@ void CheckExceptionSafety::rethrowNoCurrentException()
 
 void CheckExceptionSafety::rethrowNoCurrentExceptionError(const Token *tok)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     reportError(tok, Severity::error, "rethrowNoCurrentException",
                 "Rethrowing current exception with 'throw;', it seems there is no current exception to rethrow."
                 " If there is no current exception this calls std::terminate()."

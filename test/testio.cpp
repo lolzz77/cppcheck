@@ -1,3 +1,5 @@
+#include <stdio.h>
+#include <pthread.h>
 /*
  * Cppcheck - A tool for static C/C++ code analysis
  * Copyright (C) 2007-2023 Cppcheck team.
@@ -38,6 +40,9 @@ private:
     Settings settings1 = settingsBuilder().library("std.cfg").library("windows.cfg").library("qt.cfg").build();
 
     void run() override {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         TEST_CASE(coutCerrMisusage);
 
         TEST_CASE(wrongMode_simple);
@@ -111,6 +116,9 @@ private:
     }
 
     void coutCerrMisusage() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check(
             "void foo() {\n"
             "  std::cout << std::cout;\n"
@@ -164,6 +172,9 @@ private:
 
 
     void wrongMode_simple() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         // Read mode
         check("void foo(FILE*& f) {\n"
               "    f = fopen(name, \"r\");\n"
@@ -377,6 +388,9 @@ private:
     }
 
     void wrongMode_complex() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("void foo(FILE* f) {\n"
               "    if(a) f = fopen(name, \"w\");\n"
               "    else  f = fopen(name, \"r\");\n"
@@ -403,6 +417,9 @@ private:
     }
 
     void useClosedFile() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("void foo(FILE*& f) {\n"
               "    fclose(f);\n"
               "    fwrite(buffer, 5, 6, f);\n"
@@ -552,6 +569,9 @@ private:
     }
 
     void fileIOwithoutPositioning() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("void foo(FILE* f) {\n"
               "    fwrite(buffer, 5, 6, f);\n"
               "    fread(buffer, 5, 6, f);\n"
@@ -657,6 +677,9 @@ private:
     }
 
     void seekOnAppendedFile() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("void foo() {\n"
               "    FILE* f = fopen(\"\", \"a+\");\n"
               "    fseek(f, 0, SEEK_SET);\n"
@@ -691,6 +714,9 @@ private:
     }
 
     void fflushOnInputStream() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("void foo()\n"
               "{\n"
               "    fflush(stdin);\n"
@@ -722,6 +748,9 @@ private:
     }
 
     void incompatibleFileOpen() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("void foo() {\n"
               "    FILE *f1 = fopen(\"tmp\", \"wt\");\n"
               "    FILE *f2 = fopen(\"tmp\", \"rt\");\n"
@@ -731,6 +760,9 @@ private:
 
 
     void testScanf1() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("void foo() {\n"
               "    int a, b;\n"
               "    FILE *file = fopen(\"test\", \"r\");\n"
@@ -749,6 +781,9 @@ private:
     }
 
     void testScanf2() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("void foo() {\n"
               "    scanf(\"%5s\", bar);\n" // Width specifier given
               "    scanf(\"%5[^~]\", bar);\n" // Width specifier given
@@ -922,6 +957,9 @@ private:
     testFormatStrWarnAkaWin32(__FILE__, __LINE__, TEST_PRINTF_CODE(FORMAT, TYPE), TEST_PRINTF_ERR_AKA_CPP(FORMAT, FORMATSTR, TYPE, AKATYPE_WIN32), true)
 
     void testScanfArgument() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("void foo() {\n"
               "    scanf(\"%1d\", &foo);\n"
               "    sscanf(bar, \"%1d\", &foo);\n"
@@ -2158,6 +2196,9 @@ private:
     }
 
     void testPrintfArgument() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("void foo() {\n"
               "    printf(\"%i\");\n"
               "    printf(\"%i%s\", 123);\n"
@@ -3342,6 +3383,9 @@ private:
     }
 
     void testPrintfArgumentVariables() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         TEST_PRINTF_NOWARN("%u", "unsigned int", "bool");
         TEST_PRINTF_WARN("%u", "unsigned int", "char");
         TEST_PRINTF_WARN("%u", "unsigned int", "signed char");
@@ -4111,6 +4155,9 @@ private:
 
 
     void testMicrosoftPrintfArgument() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("void foo() {\n"
               "    size_t s;\n"
               "    ptrdiff_t p;\n"
@@ -4251,6 +4298,9 @@ private:
     }
 
     void testMicrosoftScanfArgument() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("void foo() {\n"
               "    size_t s;\n"
               "    ptrdiff_t p;\n"
@@ -4401,6 +4451,9 @@ private:
     }
 
     void testMicrosoftSecurePrintfArgument() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("void foo() {\n"
               "    int i;\n"
               "    unsigned int u;\n"
@@ -4627,6 +4680,9 @@ private:
     }
 
     void testMicrosoftSecureScanfArgument() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("void foo() {\n"
               "    int i;\n"
               "    unsigned int u;\n"
@@ -4769,6 +4825,9 @@ private:
     }
 
     void testQStringFormatArguments() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("void foo(float f) {\n"
               "    QString string;\n"
               "    string.sprintf(\"%d\", f);\n"
@@ -4829,6 +4888,9 @@ private:
     }
 
     void testReturnValueTypeStdLib() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("void f() {\n"
               "   const char *s = \"0\";\n"
               "   printf(\"%ld%lld\", atol(s), atoll(s));\n"
@@ -4843,6 +4905,9 @@ private:
     }
 
     void testPrintfTypeAlias1() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("using INT = int;\n\n"
               "using PINT = INT *;\n"
               "using PCINT = const PINT;\n"

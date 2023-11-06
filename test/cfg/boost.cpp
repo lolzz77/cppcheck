@@ -1,3 +1,5 @@
+#include <stdio.h>
+#include <pthread.h>
 
 // Test library configuration for boost.cfg
 //
@@ -25,11 +27,17 @@ BOOST_NORETURN void boost_noreturn_test()
 
 void print_hello()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     printf("hello");
 }
 
 void valid_code(boost::function<void(void)> &pf_print_hello)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (BOOST_LIKELY(1)) {}
     if (BOOST_UNLIKELY(0)) {}
 
@@ -41,6 +49,9 @@ void valid_code(boost::function<void(void)> &pf_print_hello)
 
 void ignoredReturnValue()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     // cppcheck-suppress ignoredReturnValue
     boost::math::round(1.5);
     // cppcheck-suppress ignoredReturnValue
@@ -55,6 +66,9 @@ void ignoredReturnValue()
 
 void uninitvar()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     int intUninit1;
     int intUninit2;
     // cppcheck-suppress uninitvar
@@ -65,6 +79,9 @@ void uninitvar()
 
 void throwexception(int * buf)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (!buf)
         boost::throw_exception(std::bad_alloc());
     *buf = 0;
@@ -72,6 +89,9 @@ void throwexception(int * buf)
 
 void throwexception2(int * buf)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (!buf)
         BOOST_THROW_EXCEPTION(std::bad_alloc());
     *buf = 0;
@@ -79,6 +99,9 @@ void throwexception2(int * buf)
 
 void macros()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
 #define DECL(z, n, text) text ## n = n;
     BOOST_PP_REPEAT(5, DECL, int x)
 

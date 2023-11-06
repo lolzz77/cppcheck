@@ -1,3 +1,5 @@
+#include <stdio.h>
+#include <pthread.h>
 /*
  * Cppcheck - A tool for static C/C++ code analysis
  * Copyright (C) 2007-2023 Cppcheck team.
@@ -40,6 +42,9 @@ private:
     const Settings settings;
 
     void run() override {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         TEST_CASE(testFunctionReturnType);
         TEST_CASE(open);
     }
@@ -60,6 +65,9 @@ private:
     }
 
     void testFunctionReturnType() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         {
             const char code[] = "const char *foo()\n"
                                 "{ return 0; }";
@@ -89,6 +97,9 @@ private:
     }
 
     void open() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char code[] = "class A {\n"
                             "  static int open() {\n"
                             "    return 1;\n"
@@ -128,6 +139,9 @@ private:
 
 #define check(...) check_(__FILE__, __LINE__, __VA_ARGS__)
     void check_(const char* file, int line, const char code[]) {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         // Clear the error buffer..
         errout.str("");
 
@@ -143,6 +157,9 @@ private:
 
 
     void run() override {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         TEST_CASE(realloc1);
         TEST_CASE(realloc2);
         TEST_CASE(realloc3);
@@ -170,6 +187,9 @@ private:
     }
 
     void realloc1() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("void foo()\n"
               "{\n"
               "    char *a = (char *)malloc(10);\n"
@@ -179,6 +199,9 @@ private:
     }
 
     void realloc2() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("void foo()\n"
               "{\n"
               "    char *a = (char *)malloc(10);\n"
@@ -190,6 +213,9 @@ private:
     }
 
     void realloc3() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("void foo()\n"
               "{\n"
               "    char *a = 0;\n"
@@ -202,6 +228,9 @@ private:
     }
 
     void realloc4() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("void foo()\n"
               "{\n"
               "    static char *a = 0;\n"
@@ -216,6 +245,9 @@ private:
     }
 
     void realloc5() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("void foo()\n"
               "{\n"
               "    char *buf;\n"
@@ -231,6 +263,9 @@ private:
     }
 
     void realloc7() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("bool foo(size_t nLen, char* pData)\n"
               "{\n"
               "    pData = (char*) realloc(pData, sizeof(char) + (nLen + 1)*sizeof(char));\n"
@@ -245,6 +280,9 @@ private:
     }
 
     void realloc8() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("void foo()\n"
               "{\n"
               "    char *origBuf = m_buf;\n"
@@ -257,6 +295,9 @@ private:
     }
 
     void realloc9() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("void foo()\n"
               "{\n"
               "    x = realloc(x,100);\n"
@@ -265,6 +306,9 @@ private:
     }
 
     void realloc10() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("void foo() {\n"
               "    char *pa, *pb;\n"
               "    pa = pb = malloc(10);\n"
@@ -275,6 +319,9 @@ private:
     }
 
     void realloc11() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("void foo() {\n"
               "    char *p;\n"
               "    p = realloc(p, size);\n"
@@ -286,6 +333,9 @@ private:
     }
 
     void realloc12() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("void foo(int x)\n"
               "{\n"
               "    char *a = 0;\n"
@@ -297,6 +347,9 @@ private:
     }
 
     void realloc13() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("void foo()\n"
               "{\n"
               "    char **str;\n"
@@ -307,6 +360,9 @@ private:
     }
 
     void realloc14() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("void foo() {\n"
               "    char *p;\n"
               "    p = realloc(p, size + 1);\n"
@@ -318,6 +374,9 @@ private:
     }
 
     void realloc15() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("bool foo() {\n"
               "    char ** m_options;\n"
               "    m_options = (char**)realloc( m_options, 2 * sizeof(char*));\n"
@@ -329,6 +388,9 @@ private:
     }
 
     void realloc16() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("void f(char *zLine) {\n"
               "  zLine = realloc(zLine, 42);\n"
               "  if (zLine) {\n"
@@ -339,6 +401,9 @@ private:
     }
 
     void realloc17() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("void foo()\n"
               "{\n"
               "    void ***a = malloc(sizeof(a));\n"
@@ -348,6 +413,9 @@ private:
     }
 
     void realloc18() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("void foo()\n"
               "{\n"
               "    void *a = malloc(sizeof(a));\n"
@@ -357,6 +425,9 @@ private:
     }
 
     void realloc19() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("void foo()\n"
               "{\n"
               "    void *a = malloc(sizeof(a));\n"
@@ -366,6 +437,9 @@ private:
     }
 
     void realloc20() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("void foo()\n"
               "{\n"
               "    void *a = malloc(sizeof(a));\n"
@@ -375,6 +449,9 @@ private:
     }
 
     void realloc21() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("char *foo(char *bs0)\n"
               "{\n"
               "    char *bs = bs0;\n"
@@ -386,6 +463,9 @@ private:
     }
 
     void realloc22() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("void foo(char **bsp)\n"
               "{\n"
               "    char *bs = *bsp;\n"
@@ -397,6 +477,9 @@ private:
     }
 
     void realloc23() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("void foo(struct ABC *s)\n"
               "{\n"
               "    uint32_t *cigar = s->cigar;\n"
@@ -437,6 +520,9 @@ private:
     }
 
     void reallocarray1() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("void foo()\n"
               "{\n"
               "    char *a = (char *)malloc(10);\n"
@@ -467,6 +553,9 @@ private:
      * @param code Source code
      */
     void check_(const char* file, int line, const char code[]) {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         // Clear the error buffer..
         errout.str("");
 
@@ -481,6 +570,9 @@ private:
     }
 
     void run() override {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         TEST_CASE(class1);
         TEST_CASE(class2);
         TEST_CASE(class3);
@@ -522,6 +614,9 @@ private:
 
 
     void class1() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("class Fred\n"
               "{\n"
               "private:\n"
@@ -564,6 +659,9 @@ private:
     }
 
     void class2() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("class Fred\n"
               "{\n"
               "private:\n"
@@ -602,6 +700,9 @@ private:
     }
 
     void class3() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("class Token;\n"
               "\n"
               "class Tokenizer\n"
@@ -668,6 +769,9 @@ private:
     }
 
     void class4() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("struct ABC;\n"
               "class Fred\n"
               "{\n"
@@ -708,6 +812,9 @@ private:
     }
 
     void class6() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("class Fred\n"
               "{\n"
               "public:\n"
@@ -736,6 +843,9 @@ private:
     }
 
     void class7() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("class Fred\n"
               "{\n"
               "public:\n"
@@ -771,6 +881,9 @@ private:
     }
 
     void class8() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("class A\n"
               "{\n"
               "public:\n"
@@ -801,6 +914,9 @@ private:
     }
 
     void class9() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("class A\n"
               "{\n"
               "public:\n"
@@ -829,6 +945,9 @@ private:
     }
 
     void class10() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("class A\n"
               "{\n"
               "public:\n"
@@ -849,6 +968,9 @@ private:
     }
 
     void class11() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("class A\n"
               "{\n"
               "public:\n"
@@ -870,6 +992,9 @@ private:
     }
 
     void class12() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("class A\n"
               "{\n"
               "private:\n"
@@ -906,6 +1031,9 @@ private:
     }
 
     void class13() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("class A\n"
               "{\n"
               "private:\n"
@@ -942,6 +1070,9 @@ private:
     }
 
     void class14() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("class A\n"
               "{\n"
               "    int *p;\n"
@@ -1012,6 +1143,9 @@ private:
     }
 
     void class15() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("class A\n"
               "{\n"
               "    int *p;\n"
@@ -1079,6 +1213,9 @@ private:
     }
 
     void class16() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         // Ticket #1510
         check("class A\n"
               "{\n"
@@ -1092,6 +1229,9 @@ private:
     }
 
     void class17() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         // Ticket #1557
         check("class A {\n"
               "private:\n"
@@ -1135,6 +1275,9 @@ private:
     }
 
     void class18() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         // Ticket #853
         check("class  A : public x\n"
               "{\n"
@@ -1165,6 +1308,9 @@ private:
     }
 
     void class19() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         // Ticket #2219
         check("class Foo\n"
               "{\n"
@@ -1222,6 +1368,9 @@ private:
     }
 
     void class20() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("namespace ns1 {\n"
               "    class Fred\n"
               "    {\n"
@@ -1459,6 +1608,9 @@ private:
     }
 
     void staticvar() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("class A\n"
               "{\n"
               "private:\n"
@@ -1475,6 +1627,9 @@ private:
 
 
     void free_member_in_sub_func() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         // Member function
         check("class Tokenizer\n"
               "{\n"
@@ -1533,6 +1688,9 @@ private:
     }
 
     void mismatch1() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("class A\n"
               "{\n"
               "public:\n"
@@ -1618,6 +1776,9 @@ private:
     }
 
     void func1() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("class Fred\n"
               "{\n"
               "private:\n"
@@ -1644,6 +1805,9 @@ private:
     }
 
     void func2() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("class Fred\n"
               "{\n"
               "private:\n"
@@ -1688,6 +1852,9 @@ private:
     }
 
     void run() override {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         // testing that errors are detected
         TEST_CASE(err);
 
@@ -1740,6 +1907,9 @@ private:
     }
 
     void err() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("static void foo()\n"
               "{\n"
               "    struct ABC *abc = malloc(sizeof(struct ABC));\n"
@@ -1782,6 +1952,9 @@ private:
     }
 
     void goto_() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("static void foo()\n"
               "{\n"
               "    struct ABC *abc = malloc(sizeof(struct ABC));\n"
@@ -1798,6 +1971,9 @@ private:
     }
 
     void ret1() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("static ABC * foo()\n"
               "{\n"
               "    struct ABC *abc = malloc(sizeof(struct ABC));\n"
@@ -1829,6 +2005,9 @@ private:
     }
 
     void ret2() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("static ABC * foo()\n"
               "{\n"
               "    struct ABC *abc = malloc(sizeof(struct ABC));\n"
@@ -1839,6 +2018,9 @@ private:
     }
 
     void assign1() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("static void foo()\n"
               "{\n"
               "    struct ABC *abc = abc1;\n"
@@ -1866,6 +2048,9 @@ private:
     }
 
     void assign2() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("static void foo() {\n"
               "    struct ABC *abc = malloc(123);\n"
               "    abc->a = abc->b = malloc(10);\n"
@@ -1874,6 +2059,9 @@ private:
     }
 
     void assign3() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("void f(struct s *f1) {\n"
               "    struct s f2;\n"
               "    f2.a = malloc(100);\n"
@@ -1883,6 +2071,9 @@ private:
     }
 
     void assign4() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("struct S { int a, b, c; };\n" // #11019
               "void f() {\n"
               "    struct S s;\n"
@@ -1950,6 +2141,9 @@ private:
     }
 
     void failedAllocation() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("static struct ABC * foo()\n"
               "{\n"
               "    struct ABC *abc = malloc(sizeof(struct ABC));\n"
@@ -1965,6 +2159,9 @@ private:
     }
 
     void function1() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         // Not found function => assume that the function may deallocate
         check("static void foo()\n"
               "{\n"
@@ -1985,6 +2182,9 @@ private:
 
     // #2848: Taking address in function 'assign'
     void function2() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("void f() {\n"
               "  A a = { 0 };\n"
               "  a.foo = (char *) malloc(10);\n"
@@ -1995,6 +2195,9 @@ private:
 
     // #3024: kernel list
     void function3() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("void f() {\n"
               "  struct ABC *abc = malloc(100);\n"
               "  abc.a = (char *) malloc(10);\n"
@@ -2005,6 +2208,9 @@ private:
 
     // #3038: deallocating in function
     void function4() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("void a(char *p) { char *x = p; free(x); }\n"
               "void b() {\n"
               "  struct ABC abc;\n"
@@ -2015,6 +2221,9 @@ private:
     }
 
     void function5() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("struct s f() {\n" // #10381
               "    struct s s1;\n"
               "    s1->x = malloc(1);\n"
@@ -2052,6 +2261,9 @@ private:
     }
 
     void ifelse() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("static void foo()\n"
               "{\n"
               "    struct ABC *abc = malloc(sizeof(struct ABC));\n"
@@ -2071,6 +2283,9 @@ private:
     }
 
     void linkedlist() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         // #3904 - false positive when linked list is used
         check("static void foo() {\n"
               "    struct ABC *abc = malloc(sizeof(struct ABC));\n"
@@ -2087,6 +2302,9 @@ private:
     }
 
     void globalvar() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("struct ABC *abc;\n"
               "\n"
               "static void foo()\n"
@@ -2100,6 +2318,9 @@ private:
 
     // Ticket #933 Leaks with struct members not detected
     void localvars() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         // Test error case
         const char code1[] = "struct A {\n"
                              "    FILE* f;\n"
@@ -2185,6 +2406,9 @@ private:
 
     // don't crash
     void trac5030() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("bool bob( char const **column_ptrs ) {\n"
               "unique_ptr<char[]>otherbuffer{new char[otherbufsize+1]};\n"
               "char *const oldbuffer = otherbuffer.get();\n"
@@ -2228,6 +2452,9 @@ private:
     }
 
     void lambdaInScope() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check( // #9793
             "struct S { int * p{nullptr}; };\n"
             "int main()\n"
@@ -2287,6 +2514,9 @@ private:
     const Settings settings = settingsBuilder().certainty(Certainty::inconclusive).severity(Severity::warning).library("std.cfg").library("posix.cfg").build();
 
     void check_(const char* file, int line, const char code[]) {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         // Clear the error buffer..
         errout.str("");
 
@@ -2301,6 +2531,9 @@ private:
     }
 
     void run() override {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         // pass allocated memory to function..
         TEST_CASE(functionParameter);
 
@@ -2319,6 +2552,9 @@ private:
     }
 
     void functionParameter() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         // standard function..
         check("void x() {\n"
               "    strcpy(a, strdup(p));\n"
@@ -2503,6 +2739,9 @@ private:
     }
 
     void missingAssignment() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("void x()\n"
               "{\n"
               "    malloc(10);\n"
@@ -2735,6 +2974,9 @@ private:
     }
 
     void smartPointerFunctionParam() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("void x() {\n"
               "    f(shared_ptr<int>(new int(42)), g());\n"
               "}");
@@ -2788,6 +3030,9 @@ private:
         ASSERT_EQUALS("", errout.str());
     }
     void resourceLeak() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("void foo() {\n"
               "  fopen(\"file.txt\", \"r\");\n"
               "}");
@@ -2866,6 +3111,9 @@ private:
     }
 
     void getAllocationType() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         // #7845
         check("class Thing { Thing(); };\n"
               "Thing * makeThing() { Thing *thing = new Thing; return thing; }\n"
@@ -2909,6 +3157,9 @@ private:
     }
 
     void openDevNull() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("void f() {\n" // #9653
               "    (void)open(\"/dev/null\", O_RDONLY);\n"
               "    open(\"/dev/null\", O_WRONLY);\n"

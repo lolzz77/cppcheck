@@ -1,3 +1,5 @@
+#include <stdio.h>
+#include <pthread.h>
 /*
  * Cppcheck - A tool for static C/C++ code analysis
  * Copyright (C) 2007-2023 Cppcheck team.
@@ -52,6 +54,9 @@ static std::string mandatoryAttibuteMissing(const QXmlStreamReader &xmlReader, c
 
 static CppcheckLibraryData::Container loadContainer(QXmlStreamReader &xmlReader)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     CppcheckLibraryData::Container container;
     container.id            = xmlReader.attributes().value("id").toString();
     container.inherits      = xmlReader.attributes().value("inherits").toString();
@@ -115,6 +120,9 @@ static CppcheckLibraryData::Define loadDefine(const QXmlStreamReader &xmlReader)
 
 static QString loadUndefine(const QXmlStreamReader &xmlReader)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     return xmlReader.attributes().value("name").toString();
 }
 
@@ -462,6 +470,9 @@ static CppcheckLibraryData::Entrypoint loadEntrypoint(QXmlStreamReader &xmlReade
 
 QString CppcheckLibraryData::open(QIODevice &file)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     clear();
     QString comments;
     QXmlStreamReader xmlReader(&file);
@@ -520,6 +531,9 @@ QString CppcheckLibraryData::open(QIODevice &file)
 
 static void writeContainerFunctions(QXmlStreamWriter &xmlWriter, const QString &name, int extra, const QList<CppcheckLibraryData::Container::Function> &functions)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (functions.isEmpty() && extra < 0)
         return;
     xmlWriter.writeStartElement(name);
@@ -543,6 +557,9 @@ static void writeContainerFunctions(QXmlStreamWriter &xmlWriter, const QString &
 
 static void writeContainerRangeItemRecords(QXmlStreamWriter &xmlWriter, const QList<CppcheckLibraryData::Container::RangeItemRecordType> &rangeItemRecords)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (rangeItemRecords.isEmpty())
         return;
     xmlWriter.writeStartElement("rangeItemRecordType");
@@ -557,6 +574,9 @@ static void writeContainerRangeItemRecords(QXmlStreamWriter &xmlWriter, const QL
 
 static void writeContainer(QXmlStreamWriter &xmlWriter, const CppcheckLibraryData::Container &container)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     xmlWriter.writeStartElement("container");
     xmlWriter.writeAttribute("id", container.id);
     if (!container.startPattern.isEmpty())
@@ -587,6 +607,9 @@ static void writeContainer(QXmlStreamWriter &xmlWriter, const CppcheckLibraryDat
 
 static void writeFunction(QXmlStreamWriter &xmlWriter, const CppcheckLibraryData::Function &function)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     QString comments = function.comments;
     while (comments.startsWith("\n"))
         comments = comments.mid(1);
@@ -714,6 +737,9 @@ static void writeFunction(QXmlStreamWriter &xmlWriter, const CppcheckLibraryData
 
 static void writeMemoryResource(QXmlStreamWriter &xmlWriter, const CppcheckLibraryData::MemoryResource &mr)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     xmlWriter.writeStartElement(mr.type);
     for (const CppcheckLibraryData::MemoryResource::Alloc &alloc : mr.alloc) {
         if (alloc.isRealloc) {
@@ -752,6 +778,9 @@ static void writeMemoryResource(QXmlStreamWriter &xmlWriter, const CppcheckLibra
 
 static void writeTypeChecks(QXmlStreamWriter &xmlWriter, const CppcheckLibraryData::TypeChecks &typeChecks)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     xmlWriter.writeStartElement("type-checks");
     if (!typeChecks.isEmpty()) {
         xmlWriter.writeStartElement("unusedvar");
@@ -769,6 +798,9 @@ static void writeTypeChecks(QXmlStreamWriter &xmlWriter, const CppcheckLibraryDa
 
 static void writePlatformType(QXmlStreamWriter &xmlWriter, const CppcheckLibraryData::PlatformType &pt)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     xmlWriter.writeStartElement("platformtype");
     xmlWriter.writeAttribute("name", pt.name);
     xmlWriter.writeAttribute("value", pt.value);
@@ -788,6 +820,9 @@ static void writePlatformType(QXmlStreamWriter &xmlWriter, const CppcheckLibrary
 
 static void writeReflection(QXmlStreamWriter &xmlWriter, const CppcheckLibraryData::Reflection &refl)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     xmlWriter.writeStartElement("reflection");
     for (const CppcheckLibraryData::Reflection::Call &call : refl.calls) {
         xmlWriter.writeStartElement("call");
@@ -800,6 +835,9 @@ static void writeReflection(QXmlStreamWriter &xmlWriter, const CppcheckLibraryDa
 
 static void writeMarkup(QXmlStreamWriter &xmlWriter, const CppcheckLibraryData::Markup &mup)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     xmlWriter.writeStartElement("markup");
     xmlWriter.writeAttribute("ext", mup.ext);
     xmlWriter.writeAttribute("aftercode", QVariant(mup.afterCode).toString());
@@ -862,6 +900,9 @@ static void writeMarkup(QXmlStreamWriter &xmlWriter, const CppcheckLibraryData::
 
 QString CppcheckLibraryData::toString() const
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     QString outputString;
     QXmlStreamWriter xmlWriter(&outputString);
     xmlWriter.setAutoFormatting(true);

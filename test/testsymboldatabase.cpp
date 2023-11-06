@@ -1,3 +1,5 @@
+#include <stdio.h>
+#include <pthread.h>
 /*
  * Cppcheck - A tool for static C/C++ code analysis
  * Copyright (C) 2007-2023 Cppcheck team.
@@ -72,17 +74,26 @@ private:
     const Settings settings2 = settingsBuilder().platform(Platform::Type::Unspecified).build();
 
     void reset() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         vartok = nullptr;
         typetok = nullptr;
     }
 
     const static SymbolDatabase* getSymbolDB_inner(Tokenizer& tokenizer, const char* code, const char* filename) {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         errout.str("");
         std::istringstream istr(code);
         return tokenizer.tokenize(istr, filename) ? tokenizer.getSymbolDatabase() : nullptr;
     }
 
     static const Scope *findFunctionScopeByToken(const SymbolDatabase * db, const Token *tok) {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         std::list<Scope>::const_iterator scope;
 
         for (scope = db->scopeList.cbegin(); scope != db->scopeList.cend(); ++scope) {
@@ -95,6 +106,9 @@ private:
     }
 
     static const Function *findFunctionByName(const char str[], const Scope* startScope) {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const Scope* currScope = startScope;
         while (currScope && currScope->isExecutable()) {
             if (currScope->functionOf)
@@ -114,6 +128,9 @@ private:
     }
 
     void run() override {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         TEST_CASE(array);
         TEST_CASE(array_ptr);
         TEST_CASE(stlarray1);
@@ -530,6 +547,9 @@ private:
     }
 
     void array() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         GET_SYMBOL_DB_C("int a[10+2];");
         ASSERT(db != nullptr);
 
@@ -543,6 +563,9 @@ private:
     }
 
     void array_ptr() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         GET_SYMBOL_DB("const char* a[] = { \"abc\" };\n"
                       "const char* b[] = { \"def\", \"ghijkl\" };");
         ASSERT(db != nullptr);
@@ -566,6 +589,9 @@ private:
     }
 
     void stlarray1() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         GET_SYMBOL_DB("std::array<int, 16 + 4> arr;");
         ASSERT(db != nullptr);
 
@@ -579,6 +605,9 @@ private:
     }
 
     void stlarray2() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         GET_SYMBOL_DB("constexpr int sz = 16; std::array<int, sz + 4> arr;");
         ASSERT(db != nullptr);
 
@@ -592,6 +621,9 @@ private:
     }
 
     void stlarray3() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         GET_SYMBOL_DB("std::array<int, 4> a;\n"
                       "std::array<int, 4> b[2];\n"
                       "const std::array<int, 4>& r = a;\n");
@@ -642,6 +674,9 @@ private:
     }
 
     void test_isVariableDeclarationCanHandleNull() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         reset();
         GET_SYMBOL_DB("void main(){}");
         const bool result = db->scopeList.front().isVariableDeclaration(nullptr, vartok, typetok);
@@ -652,6 +687,9 @@ private:
     }
 
     void test_isVariableDeclarationIdentifiesSimpleDeclaration() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         reset();
         GET_SYMBOL_DB("int x;");
         const bool result = db->scopeList.front().isVariableDeclaration(tokenizer.tokens(), vartok, typetok);
@@ -665,6 +703,9 @@ private:
     }
 
     void test_isVariableDeclarationIdentifiesInitialization() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         reset();
         GET_SYMBOL_DB("int x (1);");
         const bool result = db->scopeList.front().isVariableDeclaration(tokenizer.tokens(), vartok, typetok);
@@ -678,6 +719,9 @@ private:
     }
 
     void test_isVariableDeclarationIdentifiesCpp11Initialization() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         reset();
         GET_SYMBOL_DB("int x {1};");
         const bool result = db->scopeList.front().isVariableDeclaration(tokenizer.tokens(), vartok, typetok);
@@ -691,6 +735,9 @@ private:
     }
 
     void test_isVariableDeclarationIdentifiesScopedDeclaration() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         reset();
         GET_SYMBOL_DB("::int x;");
         const bool result = db->scopeList.front().isVariableDeclaration(tokenizer.tokens(), vartok, typetok);
@@ -704,6 +751,9 @@ private:
     }
 
     void test_isVariableDeclarationIdentifiesStdDeclaration() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         reset();
         GET_SYMBOL_DB("std::string x;");
         const bool result = db->scopeList.front().isVariableDeclaration(tokenizer.tokens(), vartok, typetok);
@@ -717,6 +767,9 @@ private:
     }
 
     void test_isVariableDeclarationIdentifiesScopedStdDeclaration() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         reset();
         GET_SYMBOL_DB("::std::string x;");
         const bool result = db->scopeList.front().isVariableDeclaration(tokenizer.tokens(), vartok, typetok);
@@ -730,6 +783,9 @@ private:
     }
 
     void test_isVariableDeclarationIdentifiesManyScopes() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         reset();
         GET_SYMBOL_DB("AA::BB::CC::DD::EE x;");
         const bool result = db->scopeList.front().isVariableDeclaration(tokenizer.tokens(), vartok, typetok);
@@ -743,6 +799,9 @@ private:
     }
 
     void test_isVariableDeclarationIdentifiesPointers() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         {
             reset();
             GET_SYMBOL_DB("int* p;");
@@ -780,6 +839,9 @@ private:
     }
 
     void test_isVariableDeclarationIdentifiesPointers2() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
 
         GET_SYMBOL_DB("void slurpInManifest() {\n"
                       "  std::string tmpiostring(*tI);\n"
@@ -792,6 +854,9 @@ private:
     }
 
     void test_isVariableDeclarationDoesNotIdentifyConstness() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         reset();
         GET_SYMBOL_DB("const int* cp;");
         const bool result = db->scopeList.front().isVariableDeclaration(tokenizer.tokens(), vartok, typetok);
@@ -801,6 +866,9 @@ private:
     }
 
     void test_isVariableDeclarationIdentifiesFirstOfManyVariables() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         reset();
         GET_SYMBOL_DB("int first, second;");
         const bool result = db->scopeList.front().isVariableDeclaration(tokenizer.tokens(), vartok, typetok);
@@ -814,6 +882,9 @@ private:
     }
 
     void test_isVariableDeclarationIdentifiesScopedPointerDeclaration() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         reset();
         GET_SYMBOL_DB("AA::BB::CC::DD::EE* p;");
         const bool result = db->scopeList.front().isVariableDeclaration(tokenizer.tokens(), vartok, typetok);
@@ -827,6 +898,9 @@ private:
     }
 
     void test_isVariableDeclarationIdentifiesDeclarationWithIndirection() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         reset();
         GET_SYMBOL_DB("int** pp;");
         const bool result = db->scopeList.front().isVariableDeclaration(tokenizer.tokens(), vartok, typetok);
@@ -840,6 +914,9 @@ private:
     }
 
     void test_isVariableDeclarationIdentifiesDeclarationWithMultipleIndirection() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         reset();
         GET_SYMBOL_DB("int***** p;");
         const bool result = db->scopeList.front().isVariableDeclaration(tokenizer.tokens(), vartok, typetok);
@@ -853,6 +930,9 @@ private:
     }
 
     void test_isVariableDeclarationIdentifiesArray() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         reset();
         GET_SYMBOL_DB("::std::string v[3];");
         const bool result = db->scopeList.front().isVariableDeclaration(tokenizer.tokens(), vartok, typetok);
@@ -867,6 +947,9 @@ private:
     }
 
     void test_isVariableDeclarationIdentifiesPointerArray() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         reset();
         GET_SYMBOL_DB("A *a[5];");
         const bool result = db->scopeList.front().isVariableDeclaration(tokenizer.tokens(), vartok, typetok);
@@ -882,6 +965,9 @@ private:
     }
 
     void test_isVariableDeclarationIdentifiesOfArrayPointers1() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         reset();
         GET_SYMBOL_DB("A (*a)[5];");
         const bool result = db->scopeList.front().isVariableDeclaration(tokenizer.tokens(), vartok, typetok);
@@ -897,6 +983,9 @@ private:
     }
 
     void test_isVariableDeclarationIdentifiesOfArrayPointers2() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         reset();
         GET_SYMBOL_DB("A (*const a)[5];");
         const bool result = db->scopeList.front().isVariableDeclaration(tokenizer.tokens(), vartok, typetok);
@@ -912,6 +1001,9 @@ private:
     }
 
     void test_isVariableDeclarationIdentifiesOfArrayPointers3() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         reset();
         GET_SYMBOL_DB("A (** a)[5];");
         const bool result = db->scopeList.front().isVariableDeclaration(tokenizer.tokens(), vartok, typetok);
@@ -927,6 +1019,9 @@ private:
     }
 
     void test_isVariableDeclarationIdentifiesArrayOfFunctionPointers() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         reset();
         GET_SYMBOL_DB("int (*a[])(int) = { g };"); // #11596
         const bool result = db->scopeList.front().isVariableDeclaration(tokenizer.tokens(), vartok, typetok);
@@ -943,6 +1038,9 @@ private:
     }
 
     void isVariableDeclarationIdentifiesTemplatedPointerVariable() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         reset();
         GET_SYMBOL_DB("std::set<char>* chars;");
         const bool result = db->scopeList.front().isVariableDeclaration(tokenizer.tokens(), vartok, typetok);
@@ -956,6 +1054,9 @@ private:
     }
 
     void isVariableDeclarationIdentifiesTemplatedPointerToPointerVariable() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         reset();
         GET_SYMBOL_DB("std::deque<int>*** ints;");
         const bool result = db->scopeList.front().isVariableDeclaration(tokenizer.tokens(), vartok, typetok);
@@ -969,6 +1070,9 @@ private:
     }
 
     void isVariableDeclarationIdentifiesTemplatedArrayVariable() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         reset();
         GET_SYMBOL_DB("std::deque<int> ints[3];");
         const bool result = db->scopeList.front().isVariableDeclaration(tokenizer.tokens(), vartok, typetok);
@@ -982,6 +1086,9 @@ private:
     }
 
     void isVariableDeclarationIdentifiesTemplatedVariable() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         reset();
         GET_SYMBOL_DB("std::vector<int> ints;");
         const bool result = db->scopeList.front().isVariableDeclaration(tokenizer.tokens(), vartok, typetok);
@@ -995,6 +1102,9 @@ private:
     }
 
     void isVariableDeclarationIdentifiesTemplatedVariableIterator() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         reset();
         GET_SYMBOL_DB("std::list<int>::const_iterator floats;");
         const bool result = db->scopeList.front().isVariableDeclaration(tokenizer.tokens(), vartok, typetok);
@@ -1008,6 +1118,9 @@ private:
     }
 
     void isVariableDeclarationIdentifiesNestedTemplateVariable() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         reset();
         GET_SYMBOL_DB("std::deque<std::set<int> > intsets;");
         const bool result = db->scopeList.front().isVariableDeclaration(tokenizer.tokens(), vartok, typetok);
@@ -1021,6 +1134,9 @@ private:
     }
 
     void isVariableDeclarationIdentifiesReference() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         {
             reset();
             GET_SYMBOL_DB("int& foo;");
@@ -1054,6 +1170,9 @@ private:
     }
 
     void isVariableDeclarationDoesNotIdentifyTemplateClass() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         reset();
         GET_SYMBOL_DB("template <class T> class SomeClass{};");
         const bool result = db->scopeList.front().isVariableDeclaration(tokenizer.tokens(), vartok, typetok);
@@ -1061,6 +1180,9 @@ private:
     }
 
     void isVariableDeclarationDoesNotIdentifyCppCast() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         reset();
         GET_SYMBOL_DB("reinterpret_cast <char *> (code)[0] = 0;");
         const bool result = db->scopeList.front().isVariableDeclaration(tokenizer.tokens(), vartok, typetok);
@@ -1068,6 +1190,9 @@ private:
     }
 
     void isVariableDeclarationPointerConst() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         reset();
         GET_SYMBOL_DB("std::string const* s;");
         const bool result = db->scopeList.front().isVariableDeclaration(tokenizer.tokens()->next(), vartok, typetok);
@@ -1079,6 +1204,9 @@ private:
     }
 
     void isVariableDeclarationRValueRef() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         reset();
         GET_SYMBOL_DB("int&& i;");
         const bool result = db->scopeList.front().isVariableDeclaration(tokenizer.tokens(), vartok, typetok);
@@ -1092,6 +1220,9 @@ private:
     }
 
     void isVariableDeclarationDoesNotIdentifyCase() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         GET_SYMBOL_DB_C("a b;\n"
                         "void f() {\n"
                         "  switch (c) {\n"
@@ -1104,6 +1235,9 @@ private:
     }
 
     void isVariableDeclarationIf() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         GET_SYMBOL_DB("void foo() {\n"
                       "    for (auto& elem : items) {\n"
                       "        if (auto x = bar()) { int y = 3; }\n"
@@ -1121,6 +1255,9 @@ private:
     }
 
     void VariableValueType1() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         GET_SYMBOL_DB("typedef uint8_t u8;\n"
                       "static u8 x;");
         const Variable* x = db->getVariableFromVarId(1);
@@ -1129,6 +1266,9 @@ private:
     }
 
     void VariableValueType2() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         GET_SYMBOL_DB("using u8 = uint8_t;\n"
                       "static u8 x;");
         const Variable* x = db->getVariableFromVarId(1);
@@ -1137,6 +1277,9 @@ private:
     }
 
     void VariableValueType3() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         // std::string::size_type
         {
             GET_SYMBOL_DB("void f(std::string::size_type x);");
@@ -1176,6 +1319,9 @@ private:
     }
 
     void VariableValueType4() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         GET_SYMBOL_DB("class C {\n"
                       "public:\n"
                       "  std::shared_ptr<C> x;\n"
@@ -1187,6 +1333,9 @@ private:
     }
 
     void VariableValueType5() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         GET_SYMBOL_DB("class C {};\n"
                       "void foo(std::shared_ptr<C>* p) {}");
 
@@ -1197,6 +1346,9 @@ private:
     }
 
     void VariableValueTypeReferences() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         {
             GET_SYMBOL_DB("void foo(int x) {}\n");
             const Variable* const p = db->getVariableFromVarId(1);
@@ -1312,6 +1464,9 @@ private:
     }
 
     void findVariableType1() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         GET_SYMBOL_DB("class A {\n"
                       "public:\n"
                       "    struct B {};\n"
@@ -1331,6 +1486,9 @@ private:
     }
 
     void findVariableType2() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         GET_SYMBOL_DB("class A {\n"
                       "public:\n"
                       "    class B {\n"
@@ -1357,6 +1515,9 @@ private:
     }
 
     void findVariableType3() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         GET_SYMBOL_DB("namespace {\n"
                       "    struct A {\n"
                       "        int x;\n"
@@ -1376,6 +1537,9 @@ private:
     }
 
     void findVariableTypeExternC() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         GET_SYMBOL_DB("extern \"C\" { typedef int INT; }\n"
                       "void bar() {\n"
                       "    INT x = 3;\n"
@@ -1388,6 +1552,9 @@ private:
     }
 
     void rangeBasedFor() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         GET_SYMBOL_DB("void reset() {\n"
                       "    for(auto& e : array)\n"
                       "        foo(e);\n"
@@ -1402,6 +1569,9 @@ private:
         ASSERT(e && e->isReference() && e->isLocal());
     }
     void isVariableStlType() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         {
             reset();
             GET_SYMBOL_DB("std::string s;");
@@ -1442,6 +1612,9 @@ private:
     }
 
     void isVariablePointerToConstPointer() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         reset();
         GET_SYMBOL_DB("char* const * s;");
         const bool result = db->scopeList.front().isVariableDeclaration(tokenizer.tokens(), vartok, typetok);
@@ -1453,6 +1626,9 @@ private:
     }
 
     void isVariablePointerToVolatilePointer() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         reset();
         GET_SYMBOL_DB("char* volatile * s;");
         const bool result = db->scopeList.front().isVariableDeclaration(tokenizer.tokens(), vartok, typetok);
@@ -1464,6 +1640,9 @@ private:
     }
 
     void isVariablePointerToConstVolatilePointer() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         reset();
         GET_SYMBOL_DB("char* const volatile * s;");
         const bool result = db->scopeList.front().isVariableDeclaration(tokenizer.tokens(), vartok, typetok);
@@ -1475,6 +1654,9 @@ private:
     }
 
     void isVariableMultiplePointersAndQualifiers() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         reset();
         GET_SYMBOL_DB("const char* const volatile * const volatile * const volatile * const volatile s;");
         const bool result = db->scopeList.front().isVariableDeclaration(tokenizer.tokens()->next(), vartok, typetok);
@@ -1486,6 +1668,9 @@ private:
     }
 
     void variableVolatile() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         GET_SYMBOL_DB("std::atomic<int> x;\n"
                       "volatile int y;");
 
@@ -1501,6 +1686,9 @@ private:
     }
 
     void variableConstexpr() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         GET_SYMBOL_DB("constexpr int x = 16;");
 
         const Token *x = Token::findsimplematch(tokenizer.tokens(), "x");
@@ -1515,6 +1703,9 @@ private:
     }
 
     void isVariableDecltype() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         GET_SYMBOL_DB("int x;\n"
                       "decltype(x) a;\n"
                       "const decltype(x) b;\n"
@@ -1542,6 +1733,9 @@ private:
     }
 
     void isVariableAlignas() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         GET_SYMBOL_DB_C("extern alignas(16) int x;\n"
                         "alignas(16) int x;\n");
         ASSERT(db);
@@ -1551,6 +1745,9 @@ private:
     }
 
     void memberVar1() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         GET_SYMBOL_DB("struct Foo {\n"
                       "    int x;\n"
                       "};\n"
@@ -1567,6 +1764,9 @@ private:
     }
 
     void arrayMemberVar1() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         GET_SYMBOL_DB("struct Foo {\n"
                       "    int x;\n"
                       "};\n"
@@ -1583,6 +1783,9 @@ private:
     }
 
     void arrayMemberVar2() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         GET_SYMBOL_DB("struct Foo {\n"
                       "    int x;\n"
                       "};\n"
@@ -1599,6 +1802,9 @@ private:
     }
 
     void arrayMemberVar3() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         GET_SYMBOL_DB("struct Foo {\n"
                       "    int x;\n"
                       "};\n"
@@ -1615,6 +1821,9 @@ private:
     }
 
     void arrayMemberVar4() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         GET_SYMBOL_DB("struct S { unsigned char* s; };\n"
                       "struct T { S s[38]; };\n"
                       "void f(T* t) {\n"
@@ -1628,6 +1837,9 @@ private:
     }
 
     void staticMemberVar() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         GET_SYMBOL_DB("class Foo {\n"
                       "    static const double d;\n"
                       "};\n"
@@ -1639,6 +1851,9 @@ private:
     }
 
     void getVariableFromVarIdBoundsCheck() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         GET_SYMBOL_DB("int x;\n"
                       "int y;");
 
@@ -1650,6 +1865,9 @@ private:
     }
 
     void hasRegularFunction() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         GET_SYMBOL_DB("void func() { }");
 
         // 2 scopes: Global and Function
@@ -1671,6 +1889,9 @@ private:
     }
 
     void hasRegularFunction_trailingReturnType() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         GET_SYMBOL_DB("auto func() -> int { }");
 
         // 2 scopes: Global and Function
@@ -1692,6 +1913,9 @@ private:
     }
 
     void hasInlineClassFunction() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         GET_SYMBOL_DB("class Fred { void func() { } };");
 
         // 3 scopes: Global, Class, and Function
@@ -1718,6 +1942,9 @@ private:
 
 
     void hasInlineClassFunction_trailingReturnType() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         GET_SYMBOL_DB("class Fred { auto func() -> int { } };");
 
         // 3 scopes: Global, Class, and Function
@@ -1743,6 +1970,9 @@ private:
     }
 
     void hasMissingInlineClassFunction() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         GET_SYMBOL_DB("class Fred { void func(); };");
 
         // 2 scopes: Global and Class (no Function scope because there is no function implementation)
@@ -1762,6 +1992,9 @@ private:
     }
 
     void hasInlineClassOperatorTemplate() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         GET_SYMBOL_DB("struct Fred { template<typename T> Foo & operator=(const Foo &) { return *this; } };");
 
         // 3 scopes: Global, Class, and Function
@@ -1787,6 +2020,9 @@ private:
     }
 
     void hasClassFunction() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         GET_SYMBOL_DB("class Fred { void func(); }; void Fred::func() { }");
 
         // 3 scopes: Global, Class, and Function
@@ -1809,6 +2045,9 @@ private:
     }
 
     void hasClassFunction_trailingReturnType() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         GET_SYMBOL_DB("class Fred { auto func() -> int; }; auto Fred::func() -> int { }");
 
         // 3 scopes: Global, Class, and Function
@@ -1832,6 +2071,9 @@ private:
 
     void hasClassFunction_decltype_auto()
     {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         GET_SYMBOL_DB("struct d { decltype(auto) f() {} };");
 
         // 3 scopes: Global, Class, and Function
@@ -1853,6 +2095,9 @@ private:
     }
 
     void hasRegularFunctionReturningFunctionPointer() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         GET_SYMBOL_DB("void (*func(int f))(char) { }");
 
         // 2 scopes: Global and Function
@@ -1872,6 +2117,9 @@ private:
     }
 
     void hasInlineClassFunctionReturningFunctionPointer() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         GET_SYMBOL_DB("class Fred { void (*func(int f))(char) { } };");
 
         // 3 scopes: Global, Class, and Function
@@ -1891,6 +2139,9 @@ private:
     }
 
     void hasMissingInlineClassFunctionReturningFunctionPointer() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         GET_SYMBOL_DB("class Fred { void (*func(int f))(char); };");
 
         // 2 scopes: Global and Class (no Function scope because there is no function implementation)
@@ -1910,6 +2161,9 @@ private:
     }
 
     void hasClassFunctionReturningFunctionPointer() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         GET_SYMBOL_DB("class Fred { void (*func(int f))(char); }; void (*Fred::func(int f))(char) { }");
 
         // 3 scopes: Global, Class, and Function
@@ -1929,6 +2183,9 @@ private:
     }
 
     void methodWithRedundantScope() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         GET_SYMBOL_DB("class Fred { void Fred::func() {} };");
 
         // 3 scopes: Global, Class, and Function
@@ -1948,6 +2205,9 @@ private:
     }
 
     void complexFunctionArrayPtr() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         GET_SYMBOL_DB("int(*p1)[10]; \n"                            // pointer to array 10 of int
                       "void(*p2)(char); \n"                         // pointer to function (char) returning void
                       "int(*(*p3)(char))[10];\n"                    // pointer to function (char) returning pointer to array 10 of int
@@ -1977,6 +2237,9 @@ private:
     }
 
     void pointerToMemberFunction() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         GET_SYMBOL_DB("bool (A::*pFun)();"); // Pointer to member function of A, returning bool and taking no parameters
 
         ASSERT(db != nullptr);
@@ -1989,6 +2252,9 @@ private:
     }
 
     void hasSubClassConstructor() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         GET_SYMBOL_DB("class Foo { class Sub; }; class Foo::Sub { Sub() {} };");
         ASSERT(db != nullptr);
 
@@ -2005,6 +2271,9 @@ private:
     }
 
     void testConstructors() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         {
             GET_SYMBOL_DB("class Foo { Foo(); };");
             const Function* ctor = tokenizer.tokens()->tokAt(3)->function();
@@ -2074,6 +2343,9 @@ private:
     }
 
     void functionDeclarationTemplate() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         GET_SYMBOL_DB("std::map<int, string> foo() {}");
 
         // 2 scopes: Global and Function
@@ -2090,6 +2362,9 @@ private:
     }
 
     void functionDeclarations() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         GET_SYMBOL_DB("void foo();\nvoid foo();\nint foo(int i);\nvoid foo() {}");
 
         // 2 scopes: Global and Function
@@ -2115,6 +2390,9 @@ private:
     }
 
     void functionDeclarations2() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const Settings settingsOld = settings1;
         GET_SYMBOL_DB_STD("std::array<int,2> foo(int x);");
 
@@ -2139,6 +2417,9 @@ private:
     }
 
     void constexprFunction() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const Settings settingsOld = settings1;
         GET_SYMBOL_DB_STD("constexpr int foo();");
 
@@ -2160,6 +2441,9 @@ private:
     }
 
     void constructorInitialization() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         GET_SYMBOL_DB("std::string logfile;\n"
                       "std::ofstream log(logfile.c_str(), std::ios::out);");
 
@@ -2171,6 +2455,9 @@ private:
     }
 
     void memberFunctionOfUnknownClassMacro1() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         GET_SYMBOL_DB("class ScVbaFormatCondition { OUString getServiceImplName() SAL_OVERRIDE; };\n"
                       "void ScVbaValidation::getFormula1() {\n"
                       "    sal_uInt16 nFlags = 0;\n"
@@ -2185,6 +2472,9 @@ private:
     }
 
     void memberFunctionOfUnknownClassMacro2() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         GET_SYMBOL_DB("class ScVbaFormatCondition { OUString getServiceImplName() SAL_OVERRIDE {} };\n"
                       "void getFormula1() {\n"
                       "    sal_uInt16 nFlags = 0;\n"
@@ -2203,6 +2493,9 @@ private:
     }
 
     void memberFunctionOfUnknownClassMacro3() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         GET_SYMBOL_DB("class ScVbaFormatCondition { OUString getServiceImplName() THROW(whatever); };\n"
                       "void ScVbaValidation::getFormula1() {\n"
                       "    sal_uInt16 nFlags = 0;\n"
@@ -2217,6 +2510,9 @@ private:
     }
 
     void functionLinkage() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         GET_SYMBOL_DB("static void f1() { }\n"
                       "void f2();\n"
                       "extern void f3();\n"
@@ -2246,6 +2542,9 @@ private:
     }
 
     void classWithFriend() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         GET_SYMBOL_DB("class Foo {}; class Bar1 { friend class Foo; }; class Bar2 { friend Foo; };");
         // 3 scopes: Global, 3 classes
         ASSERT(db && db->scopeList.size() == 4);
@@ -2262,6 +2561,9 @@ private:
     }
 
     void parseFunctionCorrect() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         // ticket 3188 - "if" statement parsed as function
         GET_SYMBOL_DB("void func(i) int i; { if (i == 1) return; }");
         ASSERT(db != nullptr);
@@ -2274,6 +2576,9 @@ private:
     }
 
     void parseFunctionDeclarationCorrect() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         GET_SYMBOL_DB("void func();\n"
                       "int bar() {}\n"
                       "void func() {}");
@@ -2281,6 +2586,9 @@ private:
     }
 
     void Cpp11InitInInitList() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         GET_SYMBOL_DB("class Foo {\n"
                       "    std::vector<std::string> bar;\n"
                       "    Foo() : bar({\"a\", \"b\"})\n"
@@ -2290,6 +2598,9 @@ private:
     }
 
     void hasGlobalVariables1() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         GET_SYMBOL_DB("int i;");
 
         ASSERT(db && db->scopeList.size() == 1);
@@ -2302,6 +2613,9 @@ private:
     }
 
     void hasGlobalVariables2() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         GET_SYMBOL_DB("int array[2][2];");
 
         ASSERT(db && db->scopeList.size() == 1);
@@ -2315,6 +2629,9 @@ private:
     }
 
     void hasGlobalVariables3() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         GET_SYMBOL_DB("int array[2][2] = { { 0, 0 }, { 0, 0 } };");
 
         ASSERT(db && db->scopeList.size() == 1);
@@ -2328,6 +2645,9 @@ private:
     }
 
     void checkTypeStartEndToken1() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         GET_SYMBOL_DB("static std::string i;\n"
                       "static const std::string j;\n"
                       "const std::string* k;\n"
@@ -2350,6 +2670,9 @@ private:
     }
 
     void checkTypeStartEndToken2() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         GET_SYMBOL_DB("class CodeGenerator {\n"
                       "  DiagnosticsEngine Diags;\n"
                       "public:\n"
@@ -2366,6 +2689,9 @@ private:
     }
 
     void checkTypeStartEndToken3() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         GET_SYMBOL_DB("void f(const char) {}");
 
         ASSERT(db && db->functionScopes.size()==1U);
@@ -2397,6 +2723,9 @@ private:
     }
 
     void functionArgs1() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         {
             GET_SYMBOL_DB("void f(std::vector<std::string>, const std::vector<int> & v) { }");
             ASSERT_EQUALS(1+1, db->variableList().size());
@@ -2444,6 +2773,9 @@ private:
     }
 
     void functionArgs2() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         GET_SYMBOL_DB("void f(int a[][4]) { }");
         const Variable *a = db->getVariableFromVarId(1);
         ASSERT_EQUALS("a", a->nameToken()->str());
@@ -2455,6 +2787,9 @@ private:
     }
 
     void functionArgs4() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         GET_SYMBOL_DB("void f1(char [10], struct foo [10]);");
         ASSERT_EQUALS(true, db->scopeList.front().functionList.size() == 1UL);
         const Function *func = &db->scopeList.front().functionList.front();
@@ -2598,6 +2933,9 @@ private:
     }
 
     void functionArgs10() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         GET_SYMBOL_DB("class Fred {\n"
                       "public:\n"
                       "  Fred(Whitespace = PRESERVE_WHITESPACE);\n"
@@ -2616,6 +2954,9 @@ private:
     }
 
     void functionArgs11() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         GET_SYMBOL_DB("class Fred {\n"
                       "public:\n"
                       "  void foo(char a[16]);\n"
@@ -2729,6 +3070,9 @@ private:
     }
 
     void functionArgs17() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char code[] = "void f(int (*fp)(), int x, int y) {}";
         GET_SYMBOL_DB(code);
         ASSERT(db != nullptr);
@@ -2738,6 +3082,9 @@ private:
     }
 
     void functionArgs18() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char code[] = "void f(int (*param1)[2], int param2) {}";
         GET_SYMBOL_DB(code);
         ASSERT(db != nullptr);
@@ -2747,6 +3094,9 @@ private:
     }
 
     void functionArgs19() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char code[] = "void f(int (*fp)(int), int x, int y) {}";
         GET_SYMBOL_DB(code);
         ASSERT(db != nullptr);
@@ -2767,6 +3117,9 @@ private:
     }
 
     void functionArgs21() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char code[] = "void f(std::vector<int>::size_type) {}\n" // #11408
                             "template<typename T>\n"
                             "struct S { using t = int; };\n"
@@ -2789,6 +3142,9 @@ private:
     }
 
     void functionImplicitlyVirtual() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         GET_SYMBOL_DB("class base { virtual void f(); };\n"
                       "class derived : base { void f(); };\n"
                       "void derived::f() {}");
@@ -2799,6 +3155,9 @@ private:
     }
 
     void functionGetOverridden() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         GET_SYMBOL_DB("struct B { virtual void f(); };\n"
                       "struct D : B {\n"
                       "public:\n"
@@ -2817,6 +3176,9 @@ private:
     }
 
     void functionIsInlineKeyword() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         GET_SYMBOL_DB("inline void fs() {}");
         (void)db;
         const Function *func = db->scopeList.back().function;
@@ -2825,6 +3187,9 @@ private:
     }
 
     void functionStatic() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         GET_SYMBOL_DB("static void fs() {  }");
         (void)db;
         const Function *func = db->scopeList.back().function;
@@ -2833,6 +3198,9 @@ private:
     }
 
     void functionReturnsReference() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         GET_SYMBOL_DB("Fred::Reference foo();");
         ASSERT_EQUALS(1, db->scopeList.back().functionList.size());
         const Function &func = *db->scopeList.back().functionList.cbegin();
@@ -2841,6 +3209,9 @@ private:
     }
 
     void namespaces1() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         GET_SYMBOL_DB("namespace fred {\n"
                       "    namespace barney {\n"
                       "        class X { X(int); };\n"
@@ -2868,6 +3239,9 @@ private:
 
     // based on namespaces1 but here the namespaces match
     void namespaces2() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         GET_SYMBOL_DB("namespace fred {\n"
                       "    namespace barney {\n"
                       "        class X { X(int); };\n"
@@ -2931,6 +3305,9 @@ private:
     }
 
     void tryCatch1() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char str[] = "void foo() {\n"
                            "    try { }\n"
                            "    catch (const Error1 & x) { }\n"
@@ -2946,6 +3323,9 @@ private:
 
 
     void symboldatabase1() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("namespace foo {\n"
               "    class bar;\n"
               "};");
@@ -2957,6 +3337,9 @@ private:
     }
 
     void symboldatabase2() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("class foo {\n"
               "public:\n"
               "foo() { }\n"
@@ -2971,6 +3354,9 @@ private:
     }
 
     void symboldatabase3() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("typedef void (func_type)();\n"
               "struct A {\n"
               "    friend func_type f : 2;\n"
@@ -2979,6 +3365,9 @@ private:
     }
 
     void symboldatabase4() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("static void function_declaration_before(void) __attribute__((__used__));\n"
               "static void function_declaration_before(void) {}\n"
               "static void function_declaration_after(void) {}\n"
@@ -3011,6 +3400,9 @@ private:
     }
 
     void symboldatabase5() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         // ticket #2178 - segmentation fault
         ASSERT_THROW(check("int CL_INLINE_DECL(integer_decode_float) (int x) {\n"
                            "    return (sign ? cl_I() : 0);\n"
@@ -3018,6 +3410,9 @@ private:
     }
 
     void symboldatabase6() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         // ticket #2221 - segmentation fault
         check("template<int i> class X { };\n"
               "X< 1>2 > x1;\n"
@@ -3030,6 +3425,9 @@ private:
     }
 
     void symboldatabase7() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         // ticket #2230 - segmentation fault
         check("template<template<class> class E,class D> class C : E<D>\n"
               "{\n"
@@ -3045,6 +3443,9 @@ private:
     }
 
     void symboldatabase8() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         // ticket #2252 - segmentation fault
         check("struct PaletteColorSpaceHolder: public rtl::StaticWithInit<uno::Reference<rendering::XColorSpace>,\n"
               "                                                           PaletteColorSpaceHolder>\n"
@@ -3059,6 +3460,9 @@ private:
     }
 
     void symboldatabase9() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         // ticket #2425 - segmentation fault
         check("class CHyperlink : public CString\n"
               "{\n"
@@ -3073,6 +3477,9 @@ private:
     }
 
     void symboldatabase10() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         // ticket #2537 - segmentation fault
         check("class A {\n"
               "private:\n"
@@ -3086,6 +3493,9 @@ private:
     }
 
     void symboldatabase11() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         // ticket #2539 - segmentation fault
         check("int g ();\n"
               "struct S {\n"
@@ -3096,6 +3506,9 @@ private:
     }
 
     void symboldatabase12() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         // ticket #2547 - segmentation fault
         check("class foo {\n"
               "    void bar2 () = __null;\n"
@@ -3105,6 +3518,9 @@ private:
     }
 
     void symboldatabase13() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         // ticket #2577 - segmentation fault
         check("class foo {\n"
               "    void bar2 () = A::f;\n"
@@ -3114,11 +3530,17 @@ private:
     }
 
     void symboldatabase14() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         // ticket #2589 - segmentation fault
         ASSERT_THROW(check("struct B : A\n"), InternalError);
     }
 
     void symboldatabase17() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         // ticket #2657 - segmentation fault
         check("{return f(){}}");
 
@@ -3126,6 +3548,9 @@ private:
     }
 
     void symboldatabase19() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         // ticket #2991 - segmentation fault
         check("::y(){x}");
 
@@ -3134,11 +3559,17 @@ private:
     }
 
     void symboldatabase20() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         // ticket #3013 - segmentation fault
         ASSERT_THROW(check("struct x : virtual y\n"), InternalError);
     }
 
     void symboldatabase21() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("class Fred {\n"
               "    class Foo { };\n"
               "    void func() const;\n"
@@ -3152,6 +3583,9 @@ private:
 
     // ticket 3437 (segmentation fault)
     void symboldatabase22() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("template <class C> struct A {};\n"
               "A<int> a;");
         ASSERT_EQUALS("", errout.str());
@@ -3159,6 +3593,9 @@ private:
 
     // ticket 3435 (std::vector)
     void symboldatabase23() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         GET_SYMBOL_DB("class A { std::vector<int*> ints; };");
         ASSERT_EQUALS(2U, db->scopeList.size());
         const Scope &scope = db->scopeList.back();
@@ -3170,6 +3607,9 @@ private:
 
     // ticket 3508 (constructor, destructor)
     void symboldatabase24() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         GET_SYMBOL_DB("struct Fred {\n"
                       "    ~Fred();\n"
                       "    Fred();\n"
@@ -3209,6 +3649,9 @@ private:
 
     // ticket #3561 (throw C++)
     void symboldatabase25() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char str[] = "int main() {\n"
                            "    foo bar;\n"
                            "    throw bar;\n"
@@ -3220,6 +3663,9 @@ private:
 
     // ticket #3561 (throw C)
     void symboldatabase26() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char str[] = "int main() {\n"
                            "    throw bar;\n"
                            "}";
@@ -3230,6 +3676,9 @@ private:
 
     // ticket #3543 (segmentation fault)
     void symboldatabase27() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("class C : public B1\n"
               "{\n"
               "    B1()\n"
@@ -3239,6 +3688,9 @@ private:
     }
 
     void symboldatabase28() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         GET_SYMBOL_DB("struct S {};\n"
                       "void foo(struct S s) {}");
         ASSERT(db && db->getVariableFromVarId(1) && db->getVariableFromVarId(1)->typeScope() && db->getVariableFromVarId(1)->typeScope()->className == "S");
@@ -3246,6 +3698,9 @@ private:
 
     // ticket #4442 (segmentation fault)
     void symboldatabase29() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("struct B : A {\n"
               "    B() : A {}\n"
               "};");
@@ -3253,12 +3708,18 @@ private:
     }
 
     void symboldatabase30() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         GET_SYMBOL_DB("struct A { void foo(const int a); };\n"
                       "void A::foo(int a) { }");
         ASSERT(db && db->functionScopes.size() == 1 && db->functionScopes[0]->functionOf);
     }
 
     void symboldatabase31() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         GET_SYMBOL_DB("class Foo;\n"
                       "class Bar;\n"
                       "class Sub;\n"
@@ -3300,6 +3761,9 @@ private:
     }
 
     void symboldatabase32() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         GET_SYMBOL_DB("struct Base {\n"
                       "    void foo() {}\n"
                       "};\n"
@@ -3339,6 +3803,9 @@ private:
     }
 
     void symboldatabase37() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         GET_SYMBOL_DB("class Fred {\n"
                       "public:\n"
                       "    struct Wilma { };\n"
@@ -3407,6 +3874,9 @@ private:
     }
 
     void symboldatabase44() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         GET_SYMBOL_DB("int i { 1 };\n"
                       "int j ( i );\n"
                       "void foo() {\n"
@@ -3421,6 +3891,9 @@ private:
     }
 
     void symboldatabase45() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         GET_SYMBOL_DB("typedef struct {\n"
                       "    unsigned long bits;\n"
                       "} S;\n"
@@ -3640,6 +4113,9 @@ private:
     }
 
     void symboldatabase57() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         GET_SYMBOL_DB("int bar(bool b)\n"
                       "{\n"
                       "    if(b)\n"
@@ -3693,6 +4169,9 @@ private:
     }
 
     void symboldatabase61() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         GET_SYMBOL_DB("struct Fred {\n"
                       "    struct Info { };\n"
                       "};\n"
@@ -3708,6 +4187,9 @@ private:
     }
 
     void symboldatabase62() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         {
             GET_SYMBOL_DB("struct A {\n"
                           "public:\n"
@@ -3787,6 +4269,9 @@ private:
     }
 
     void symboldatabase63() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         {
             GET_SYMBOL_DB("template class T<int> ; void foo() { }");
             ASSERT(db != nullptr);
@@ -3800,6 +4285,9 @@ private:
     }
 
     void symboldatabase64() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         {
             GET_SYMBOL_DB("class Fred { struct impl; };\n"
                           "struct Fred::impl {\n"
@@ -4587,6 +5075,9 @@ private:
     }
 
     void symboldatabase65() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         // don't crash on missing links from instantiation of template with typedef
         check("int ( * X0 ) ( long ) < int ( ) ( long ) > :: f0 ( int * ) { return 0 ; }");
         ASSERT_EQUALS("", errout.str());
@@ -4642,6 +5133,9 @@ private:
     }
 
     void symboldatabase69() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         GET_SYMBOL_DB("struct Fred {\n"
                       "    int x, y;\n"
                       "    void foo() const volatile { }\n"
@@ -4672,6 +5166,9 @@ private:
     }
 
     void symboldatabase70() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         {
             GET_SYMBOL_DB("class Map<String,Entry>::Entry* e;");
             ASSERT(db != nullptr);
@@ -4693,6 +5190,9 @@ private:
     }
 
     void symboldatabase71() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         GET_SYMBOL_DB("class A { };\n"
                       "class B final : public A { };");
         ASSERT(db && db->scopeList.size() == 3);
@@ -4726,6 +5226,9 @@ private:
     }
 
     void symboldatabase75() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         GET_SYMBOL_DB("template <typename T>\n"
                       "class optional {\n"
                       "  auto     value() & -> T &;\n"
@@ -4933,6 +5436,9 @@ private:
     }
 
     void symboldatabase82() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         GET_SYMBOL_DB("namespace foo { void foo() {} }");
         ASSERT(db->functionScopes.size() == 1);
         ASSERT_EQUALS(false, db->functionScopes[0]->function->isConstructor());
@@ -4956,6 +5462,9 @@ private:
     }
 
     void symboldatabase84() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         {
             const bool old = settings1.debugwarnings;
             settings1.debugwarnings = true;
@@ -4991,6 +5500,9 @@ private:
     }
 
     void symboldatabase85() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         GET_SYMBOL_DB("class Fred {\n"
                       "  enum Mode { Mode1, Mode2, Mode3 };\n"
                       "  void f() { _mode = x; }\n"
@@ -5007,6 +5519,9 @@ private:
     }
 
     void symboldatabase86() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         GET_SYMBOL_DB("class C { auto operator=(const C&) -> C&; };\n"
                       "auto C::operator=(const C&) -> C& = default;");
         ASSERT(db->scopeList.size() == 2);
@@ -5064,6 +5579,9 @@ private:
     }
 
     void symboldatabase90() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         GET_SYMBOL_DB("struct Fred {\n"
                       "    void foo(const int * const x);\n"
                       "};\n"
@@ -5076,6 +5594,9 @@ private:
     }
 
     void symboldatabase91() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         GET_SYMBOL_DB("namespace Fred {\n"
                       "    struct Value {};\n"
                       "    void foo(const std::vector<std::function<void(const Fred::Value &)>> &callbacks);\n"
@@ -5184,6 +5705,9 @@ private:
     }
 
     void symboldatabase100() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         {
             GET_SYMBOL_DB("namespace N {\n" // #10174
                           "    struct S {};\n"
@@ -5248,6 +5772,9 @@ private:
     }
 
     void symboldatabase101() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         GET_SYMBOL_DB("struct A { bool b; };\n"
                       "void f(const std::vector<A>& v) {\n"
                       "    std::vector<A>::const_iterator it = b.begin();\n"
@@ -5261,6 +5788,9 @@ private:
     }
 
     void symboldatabase102() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         GET_SYMBOL_DB("std::string f() = delete;\n"
                       "void g() {}");
         ASSERT(db);
@@ -5270,6 +5800,9 @@ private:
     }
 
     void symboldatabase103() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         GET_SYMBOL_DB("void f() {\n"
                       "using lambda = decltype([]() { return true; });\n"
                       "lambda{}();\n"
@@ -5279,6 +5812,9 @@ private:
     }
 
     void symboldatabase104() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const bool oldDebug = settings1.debugwarnings;
         settings1.debugwarnings = true;
         {
@@ -5322,12 +5858,18 @@ private:
     }
 
     void createSymbolDatabaseFindAllScopes1() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         GET_SYMBOL_DB("void f() { union {int x; char *p;} a={0}; }");
         ASSERT(db->scopeList.size() == 3);
         ASSERT_EQUALS(Scope::eUnion, db->scopeList.back().type);
     }
 
     void createSymbolDatabaseFindAllScopes2() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         GET_SYMBOL_DB("namespace ns { auto var1{0}; }\n"
                       "namespace ns { auto var2{0}; }\n");
         ASSERT(db);
@@ -5340,6 +5882,9 @@ private:
     }
 
     void createSymbolDatabaseFindAllScopes3() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         GET_SYMBOL_DB("namespace ns {\n"
                       "\n"
                       "namespace ns_details {\n"
@@ -5368,6 +5913,9 @@ private:
 
     void createSymbolDatabaseFindAllScopes4()
     {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         GET_SYMBOL_DB("struct a {\n"
                       "  void b() {\n"
                       "    std::set<int> c;\n"
@@ -5386,6 +5934,9 @@ private:
 
     void createSymbolDatabaseFindAllScopes5()
     {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         GET_SYMBOL_DB("class C {\n" // #11444
                       "public:\n"
                       "    template<typename T>\n"
@@ -5416,6 +5967,9 @@ private:
 
     void createSymbolDatabaseFindAllScopes6()
     {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         GET_SYMBOL_DB("class A {\n"
                       "public:\n"
                       "  class Nested {\n"
@@ -5457,6 +6011,9 @@ private:
 
     void createSymbolDatabaseIncompleteVars()
     {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         {
             GET_SYMBOL_DB("void f() {\n"
                           "    auto s1 = std::string{ \"abc\" };\n"
@@ -5551,6 +6108,9 @@ private:
     }
 
     void enum1() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         GET_SYMBOL_DB("enum BOOL { FALSE, TRUE }; enum BOOL b;");
 
         /* there is a enum scope with the name BOOL */
@@ -5561,6 +6121,9 @@ private:
     }
 
     void enum2() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         GET_SYMBOL_DB("enum BOOL { FALSE, TRUE } b;");
 
         /* there is a enum scope with the name BOOL */
@@ -5571,6 +6134,9 @@ private:
     }
 
     void enum3() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         GET_SYMBOL_DB("enum ABC { A=11,B,C=A+B };");
         ASSERT(db && db->scopeList.back().type == Scope::eEnum);
 
@@ -5672,6 +6238,9 @@ private:
     }
 
     void enum5() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         GET_SYMBOL_DB("enum { A = 10, B = 2 };\n"
                       "int a[10 + 2];\n"
                       "int b[A];\n"
@@ -5727,6 +6296,9 @@ private:
     }
 
     void enum6() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         GET_SYMBOL_DB("struct Fred {\n"
                       "    enum Enum { E0, E1 };\n"
                       "};\n"
@@ -5754,6 +6326,9 @@ private:
     ASSERT_EQUALS(S, v->dimension(0))
 
     void enum7() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         GET_SYMBOL_DB("enum E { X };\n"
                       "enum EC : char { C };\n"
                       "enum ES : short { S };\n"
@@ -5792,6 +6367,9 @@ private:
     }
 
     void enum8() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         GET_SYMBOL_DB("enum E { X0 = x, X1, X2 = 2, X3, X4 = y, X5 };\n");
         ASSERT(db != nullptr);
         const Enumerator *X0 = db->scopeList.back().findEnumerator("X0");
@@ -5817,6 +6395,9 @@ private:
     }
 
     void enum9() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         GET_SYMBOL_DB("const int x = 7; enum E { X0 = x, X1 };\n");
         ASSERT(db != nullptr);
         const Enumerator *X0 = db->scopeList.back().findEnumerator("X0");
@@ -5843,11 +6424,17 @@ private:
     }
 
     void enum11() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("enum class E;\n");
         ASSERT_EQUALS("", errout.str());
     }
 
     void enum12() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         GET_SYMBOL_DB_C("struct { enum E { E0 }; } t;\n"
                         "void f() {\n"
                         "    if (t.E0) {}\n"
@@ -5864,6 +6451,9 @@ private:
     }
 
     void enum13() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         GET_SYMBOL_DB("struct S { enum E { E0, E1 }; };\n"
                       "void f(bool b) {\n"
                       "    auto e = b ? S::E0 : S::E1;\n"
@@ -5880,6 +6470,9 @@ private:
     }
 
     void enum14() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         GET_SYMBOL_DB("void f() {\n" // #11421
                       "    enum E { A = 0, B = 0xFFFFFFFFFFFFFFFFull, C = 0x7FFFFFFFFFFFFFFF };\n"
                       "    E e = B;\n"
@@ -5911,6 +6504,9 @@ private:
     }
 
     void enum15() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         {
             GET_SYMBOL_DB("struct S {\n"
                           "    S();\n"
@@ -5973,6 +6569,9 @@ private:
     }
 
     void sizeOfType() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         // #7615 - crash in Symboldatabase::sizeOfType()
         GET_SYMBOL_DB("enum e;\n"
                       "void foo() {\n"
@@ -5984,6 +6583,9 @@ private:
     }
 
     void isImplicitlyVirtual() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         {
             GET_SYMBOL_DB("class Base {\n"
                           "    virtual void foo() {}\n"
@@ -6098,6 +6700,9 @@ private:
     }
 
     void isPure() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         GET_SYMBOL_DB("class C {\n"
                       "    void f() = 0;\n"
                       "    C(B b) = 0;\n"
@@ -6126,6 +6731,9 @@ private:
     }
 
     void isFunction2() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         GET_SYMBOL_DB("void set_cur_cpu_spec()\n"
                       "{\n"
                       "    t = PTRRELOC(t);\n"
@@ -6144,6 +6752,9 @@ private:
     }
 
     void isFunction3() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         GET_SYMBOL_DB("std::vector<int>&& f(std::vector<int>& v) {\n"
                       "    v.push_back(1);\n"
                       "    return std::move(v);\n"
@@ -6157,6 +6768,9 @@ private:
 
 
     void findFunction1() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         GET_SYMBOL_DB("int foo(int x);\n" /* 1 */
                       "void foo();\n"     /* 2 */
                       "void bar() {\n"    /* 3 */
@@ -6186,6 +6800,9 @@ private:
     }
 
     void findFunction2() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         // The function does not match the function call.
         GET_SYMBOL_DB("void func(const int x, const Fred &fred);\n"
                       "void otherfunc() {\n"
@@ -6200,6 +6817,9 @@ private:
     }
 
     void findFunction3() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         GET_SYMBOL_DB("struct base { void foo() { } };\n"
                       "struct derived : public base { void foo() { } };\n"
                       "void foo() {\n"
@@ -6215,6 +6835,9 @@ private:
     }
 
     void findFunction4() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         GET_SYMBOL_DB("void foo(UNKNOWN) { }\n"
                       "void foo(int a) { }\n"
                       "void foo(unsigned int a) { }\n"
@@ -6363,6 +6986,9 @@ private:
     }
 
     void findFunction5() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         GET_SYMBOL_DB("struct Fred {\n"
                       "    void Sync(dsmp_t& type, int& len, int limit = 123);\n"
                       "    void Sync(int& syncpos, dsmp_t& type, int& len, int limit = 123);\n"
@@ -6391,6 +7017,9 @@ private:
     }
 
     void findFunction7() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         GET_SYMBOL_DB("class ResultEnsemble {\n"
                       "public:\n"
                       "    std::vector<int> &nodeResults() const;\n"
@@ -6410,6 +7039,9 @@ private:
     }
 
     void findFunction8() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         GET_SYMBOL_DB("struct S {\n"
                       "    void f()   { }\n"
                       "    void f() & { }\n"
@@ -6488,6 +7120,9 @@ private:
     }
 
     void findFunction9() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         GET_SYMBOL_DB("struct Fred {\n"
                       "    void foo(const int * p);\n"
                       "};\n"
@@ -6510,6 +7145,9 @@ private:
     }
 
     void findFunction12() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         GET_SYMBOL_DB("void foo(std::string a) { }\n"
                       "void foo(long long a) { }\n"
                       "void func(char* cp) {\n"
@@ -6543,6 +7181,9 @@ private:
     }
 
     void findFunction13() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         GET_SYMBOL_DB("void foo(std::string a) { }\n"
                       "void foo(double a) { }\n"
                       "void foo(long long a) { }\n"
@@ -6588,6 +7229,9 @@ private:
     }
 
     void findFunction14() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         GET_SYMBOL_DB("void foo(int* a) { }\n"
                       "void foo(const int* a) { }\n"
                       "void foo(void* a) { }\n"
@@ -6638,6 +7282,9 @@ private:
     }
 
     void findFunction15() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         GET_SYMBOL_DB("void foo1(int, char* a) { }\n"
                       "void foo1(int, char a) { }\n"
                       "void foo1(int, wchar_t a) { }\n"
@@ -6682,6 +7329,9 @@ private:
     }
 
     void findFunction16() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         GET_SYMBOL_DB("struct C { int i; static int si; float f; int* ip; float* fp};\n"
                       "void foo(float a) { }\n"
                       "void foo(int a) { }\n"
@@ -6721,6 +7371,9 @@ private:
     }
 
     void findFunction17() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         GET_SYMBOL_DB("void foo(int a) { }\n"
                       "void foo(float a) { }\n"
                       "void foo(void* a) { }\n"
@@ -6752,6 +7405,9 @@ private:
     }
 
     void findFunction18() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         GET_SYMBOL_DB("class Fred {\n"
                       "    void f(int i) { }\n"
                       "    void f(float f) const { }\n"
@@ -6769,6 +7425,9 @@ private:
     }
 
     void findFunction19() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         GET_SYMBOL_DB("class Fred {\n"
                       "    enum E1 { e1 };\n"
                       "    enum class E2 : unsigned short { e2 };\n"
@@ -7002,6 +7661,9 @@ private:
     }
 
     void findFunction26() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         GET_SYMBOL_DB("void dostuff(const int *p) {}\n"
                       "void dostuff(float) {}\n"
                       "void f(int *p) {\n"
@@ -7015,6 +7677,9 @@ private:
     }
 
     void findFunction27() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         GET_SYMBOL_DB("namespace { void a(int); }\n"
                       "void f() { a(9); }");
         const Token *a = Token::findsimplematch(tokenizer.tokens(), "a ( 9 )");
@@ -7023,6 +7688,9 @@ private:
     }
 
     void findFunction28() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         GET_SYMBOL_DB("namespace { void a(int); }\n"
                       "struct S {\n"
                       "  void foo() { a(7); }\n"
@@ -7036,6 +7704,9 @@ private:
     }
 
     void findFunction29() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         GET_SYMBOL_DB("struct A {\n"
                       "    int foo() const;\n"
                       "};\n"
@@ -7057,6 +7728,9 @@ private:
     }
 
     void findFunction30() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         GET_SYMBOL_DB("struct A;\n"
                       "void foo(std::shared_ptr<A> ptr) {\n"
                       "    int x = ptr->bar();\n"
@@ -7067,6 +7741,9 @@ private:
     }
 
     void findFunction31() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         GET_SYMBOL_DB("void foo(bool);\n"
                       "void foo(std::string s);\n"
                       "void bar() { foo(\"123\"); }");
@@ -7078,6 +7755,9 @@ private:
     }
 
     void findFunction32() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         GET_SYMBOL_DB_C("void foo(char *p);\n"
                         "void bar() { foo(\"123\"); }");
         (void)db;
@@ -7089,6 +7769,9 @@ private:
     }
 
     void findFunction33() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         {
             GET_SYMBOL_DB("class Base {\n"
                           "    int i{};\n"
@@ -7212,6 +7895,9 @@ private:
     }
 
     void findFunction34() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         GET_SYMBOL_DB("namespace cppcheck {\n"
                       "    class Platform {\n"
                       "    public:\n"
@@ -7232,6 +7918,9 @@ private:
     }
 
     void findFunction35() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         GET_SYMBOL_DB("namespace clangimport {\n"
                       "    class AstNode {\n"
                       "    public:\n"
@@ -7381,6 +8070,9 @@ private:
     }
 
     void findFunction42() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         GET_SYMBOL_DB("void a(const std::string &, const std::string &);\n"
                       "void a(long, long);\n"
                       "void b() { a(true, false); }\n");
@@ -7465,6 +8157,9 @@ private:
     }
 
     void findFunction45() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         GET_SYMBOL_DB("struct S { void g(int); };\n"
                       "void f(std::vector<S>& v) {\n"
                       "    std::vector<S>::iterator it = v.begin();\n"
@@ -7479,6 +8174,9 @@ private:
     }
 
     void findFunction46() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         GET_SYMBOL_DB("struct S {\n" // #11531
                       "    const int* g(int i, int j) const;\n"
                       "    int* g(int i, int j);\n"
@@ -7527,6 +8225,9 @@ private:
     }
 
     void findFunction48() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         GET_SYMBOL_DB("struct S {\n"
                       "    S() {}\n"
                       "    std::list<S> l;\n"
@@ -7539,6 +8240,9 @@ private:
     }
 
     void findFunction49() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         GET_SYMBOL_DB("struct B {};\n"
                       "struct D : B {};\n"
                       "void f(bool = false, bool = true);\n"
@@ -7555,6 +8259,9 @@ private:
     }
 
     void findFunction50() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         {
             GET_SYMBOL_DB("struct B { B(); void init(unsigned int value); };\n"
                           "struct D: B { D(); void init(unsigned int value); };\n"
@@ -7575,6 +8282,9 @@ private:
     }
 
     void findFunction51() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         // Both A and B defines the method test but with different arguments.
         // The call to test in B should match the method in B. The match is close enough.
         {
@@ -7636,6 +8346,9 @@ private:
     }
 
     void findFunction52() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         GET_SYMBOL_DB("int g();\n"
                       "void f() {\n"
                       "    if (g != 0) {}\n"
@@ -7646,6 +8359,9 @@ private:
     }
 
     void findFunctionContainer() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         {
             GET_SYMBOL_DB("void dostuff(std::vector<int> v);\n"
                           "void f(std::vector<int> v) {\n"
@@ -7670,6 +8386,9 @@ private:
     }
 
     void findFunctionExternC() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         GET_SYMBOL_DB("extern \"C\" { void foo(int); }\n"
                       "void bar() {\n"
                       "    foo(42);\n"
@@ -7680,6 +8399,9 @@ private:
     }
 
     void findFunctionGlobalScope() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         GET_SYMBOL_DB("struct S {\n"
                       "    void foo();\n"
                       "    int x;\n"
@@ -7696,6 +8418,9 @@ private:
     }
 
     void overloadedFunction1() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         GET_SYMBOL_DB("struct S {\n"
                       "    int operator()(int);\n"
                       "};\n"
@@ -7709,6 +8434,9 @@ private:
     }
 
     void valueTypeMatchParameter() const {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         ValueType vt_int(ValueType::Sign::SIGNED, ValueType::Type::INT, 0);
         ValueType vt_const_int(ValueType::Sign::SIGNED, ValueType::Type::INT, 0, 1);
         ASSERT_EQUALS((int)ValueType::MatchResult::SAME, (int)ValueType::matchParameter(&vt_int, &vt_int));
@@ -7736,6 +8464,9 @@ private:
 } while (false)
 
     void noexceptFunction1() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         GET_SYMBOL_DB("void func1() noexcept;\n"
                       "void func2() noexcept { }\n"
                       "void func3() noexcept(true);\n"
@@ -7750,6 +8481,9 @@ private:
     }
 
     void noexceptFunction2() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         GET_SYMBOL_DB("template <class T> void self_assign(T& t) noexcept(noexcept(t = t)) {t = t; }");
 
         ASSERT_EQUALS("", errout.str());
@@ -7765,6 +8499,9 @@ private:
 } while (false)
 
     void noexceptFunction3() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         GET_SYMBOL_DB("struct Fred {\n"
                       "    void func1() noexcept;\n"
                       "    void func2() noexcept { }\n"
@@ -7801,6 +8538,9 @@ private:
     }
 
     void noexceptFunction4() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         GET_SYMBOL_DB("class A {\n"
                       "public:\n"
                       "   A(A&& a) {\n"
@@ -7826,6 +8566,9 @@ private:
 } while (false)
 
     void throwFunction1() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         GET_SYMBOL_DB("void func1() throw();\n"
                       "void func2() throw() { }\n"
                       "void func3() throw(int);\n"
@@ -7845,6 +8588,9 @@ private:
         ASSERT_EQUALS(true, x->isThrow()); \
 } while (false)
     void throwFunction2() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         GET_SYMBOL_DB("struct Fred {\n"
                       "    void func1() throw();\n"
                       "    void func2() throw() { }\n"
@@ -7879,6 +8625,9 @@ private:
     }
 
     void nothrowAttributeFunction() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         GET_SYMBOL_DB("void func() __attribute__((nothrow));\n"
                       "void func() { }");
         ASSERT_EQUALS("", errout.str());
@@ -7890,6 +8639,9 @@ private:
     }
 
     void nothrowDeclspecFunction() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         GET_SYMBOL_DB("void __declspec(nothrow) func() { }");
         ASSERT_EQUALS("", errout.str());
         ASSERT_EQUALS(true,  db != nullptr); // not null
@@ -7900,6 +8652,9 @@ private:
     }
 
     void noreturnAttributeFunction() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         GET_SYMBOL_DB("[[noreturn]] void func1();\n"
                       "void func1() { }\n"
                       "[[noreturn]] void func2();\n"
@@ -7938,6 +8693,9 @@ private:
     }
 
     void nodiscardAttributeFunction() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         GET_SYMBOL_DB("[[nodiscard]] int func1();\n"
                       "int func1() { }\n"
                       "[[nodiscard]] int func2();\n"
@@ -7975,6 +8733,9 @@ private:
     }
 
     void varTypesIntegral() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         GET_SYMBOL_DB("void f() { bool b; char c; unsigned char uc; short s; unsigned short us; int i; unsigned u; unsigned int ui; long l; unsigned long ul; long long ll; }");
         const Variable *b = db->getVariableFromVarId(1);
         ASSERT(b != nullptr);
@@ -8033,6 +8794,9 @@ private:
     }
 
     void varTypesFloating() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         {
             GET_SYMBOL_DB("void f() { float f; double d; long double ld; }");
             const Variable *f = db->getVariableFromVarId(1);
@@ -8075,6 +8839,9 @@ private:
     }
 
     void varTypesOther() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         GET_SYMBOL_DB("void f() { class A {} a; void *b;  }");
         const Variable *a = db->getVariableFromVarId(1);
         ASSERT(a != nullptr);
@@ -8088,6 +8855,9 @@ private:
     }
 
     void functionPrototype() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("int foo(int x) {\n"
               "    extern int func1();\n"
               "    extern int func2(int);\n"
@@ -8099,6 +8869,9 @@ private:
     }
 
     void lambda() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         GET_SYMBOL_DB("void func() {\n"
                       "    float y = 0.0f;\n"
                       "    auto lambda = [&]()\n"
@@ -8119,6 +8892,9 @@ private:
     }
 
     void lambda2() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         GET_SYMBOL_DB("void func() {\n"
                       "    float y = 0.0f;\n"
                       "    auto lambda = [&]() -> bool\n"
@@ -8138,6 +8914,9 @@ private:
     }
 
     void lambda3() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         GET_SYMBOL_DB("void func() {\n"
                       "    auto f = []() mutable {}\n"
                       "}");
@@ -8195,6 +8974,9 @@ private:
 
     // #6298 "stack overflow in Scope::findFunctionInBase (endless recursion)"
     void circularDependencies() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("template<template<class> class E,class D> class C : E<D> {\n"
               "	public:\n"
               "		int f();\n"
@@ -8210,6 +8992,9 @@ private:
     }
 
     void executableScopeWithUnknownFunction() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         {
             GET_SYMBOL_DB("class Fred {\n"
                           "    void foo(const std::string & a = \"\");\n"
@@ -8252,6 +9037,9 @@ private:
     }
 
     void valueType1() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         // stringification
         ASSERT_EQUALS("", ValueType().str());
 
@@ -8701,6 +9489,9 @@ private:
     }
 
     void valueType2() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         GET_SYMBOL_DB("int i;\n"
                       "bool b;\n"
                       "Unknown u;\n"
@@ -8744,6 +9535,9 @@ private:
     }
 
     void valueType3() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         {
             GET_SYMBOL_DB("void f(std::vector<std::unordered_map<int, std::unordered_set<int>>>& v, int i, int j) {\n"
                           "    auto& s = v[i][j];\n"
@@ -8950,6 +9744,9 @@ private:
     }
 
     void valueTypeThis() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         ASSERT_EQUALS("C *", typeOf("class C { C() { *this = 0; } };", "this"));
         ASSERT_EQUALS("const C *", typeOf("class C { void foo() const; }; void C::foo() const { *this = 0; }", "this"));
     }
@@ -9044,6 +9841,9 @@ private:
     }
 
     void noReturnType() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         GET_SYMBOL_DB_C("func() { }");
 
         ASSERT(db && db->functionScopes.size() == 1);
@@ -9053,6 +9853,9 @@ private:
     }
 
     void auto1() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         GET_SYMBOL_DB("; auto x = \"abc\";");
         const Token *autotok = tokenizer.tokens()->next();
         ASSERT(autotok && autotok->isStandardType());
@@ -9061,6 +9864,9 @@ private:
     }
 
     void auto2() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         GET_SYMBOL_DB("struct S { int i; };\n"
                       "int foo() {\n"
                       "    auto a = new S;\n"
@@ -9123,6 +9929,9 @@ private:
     }
 
     void auto3() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         GET_SYMBOL_DB("enum E : unsigned short { A, B, C };\n"
                       "int foo() {\n"
                       "    auto a = new E;\n"
@@ -9171,6 +9980,9 @@ private:
     }
 
     void auto4() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         GET_SYMBOL_DB("struct S { int i; };\n"
                       "int foo() {\n"
                       "    S array[10];\n"
@@ -9262,6 +10074,9 @@ private:
     }
 
     void auto5() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         GET_SYMBOL_DB("struct S { int i; };\n"
                       "int foo() {\n"
                       "    std::vector<S> vec(10);\n"
@@ -9376,6 +10191,9 @@ private:
     }
 
     void auto7() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         GET_SYMBOL_DB("struct Foo { int a; int b[10]; };\n"
                       "class Bar {\n"
                       "    Foo foo1;\n"
@@ -9579,6 +10397,9 @@ private:
     }
 
     void auto8() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         GET_SYMBOL_DB("std::vector<int> vec;\n"
                       "void foo() {\n"
                       "    for (auto it = vec.begin(); it != vec.end(); ++it) { }\n"
@@ -9641,6 +10462,9 @@ private:
     }
 
     void auto11() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         GET_SYMBOL_DB("void f() {\n"
                       "  const auto v1 = 3;\n"
                       "  const auto *v2 = 0;\n"
@@ -9654,6 +10478,9 @@ private:
     }
 
     void auto12() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         GET_SYMBOL_DB("void f(const std::string &x) {\n"
                       "  auto y = x;\n"
                       "  if (y.empty()) {}\n"
@@ -9669,6 +10496,9 @@ private:
     }
 
     void auto13() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         GET_SYMBOL_DB("uint8_t *get();\n"
                       "\n"
                       "uint8_t *test()\n"
@@ -9700,6 +10530,9 @@ private:
     }
 
     void auto15() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         GET_SYMBOL_DB("auto var1{3};\n"
                       "auto var2{4.0};");
         ASSERT_EQUALS(3, db->variableList().size());
@@ -9712,6 +10545,9 @@ private:
     }
 
     void auto16() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         GET_SYMBOL_DB("void foo(std::map<std::string, bool> x) {\n"
                       "    for (const auto& i: x) {}\n"
                       "}\n");
@@ -9734,6 +10570,9 @@ private:
     }
 
     void auto18() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         GET_SYMBOL_DB("void f(const int* p) {\n"
                       "    const int* const& r = p;\n"
                       "    const auto& s = p;\n"
@@ -9797,6 +10636,9 @@ private:
     }
 
     void auto20() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         GET_SYMBOL_DB("enum A { A0 };\n"
                       "enum B { B0 };\n"
                       "const int& g(A a);\n"
@@ -9813,6 +10655,9 @@ private:
     }
 
     void auto21() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         GET_SYMBOL_DB("int f(bool b) {\n"
                       "    std::vector<int> v1(1), v2(2);\n"
                       "    auto& v = b ? v1 : v2;\n"
@@ -9830,6 +10675,9 @@ private:
     }
 
     void auto22() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         GET_SYMBOL_DB("void f(std::vector<std::string>& v, bool b) {\n"
                       "    auto& s = b ? v[0] : v[1];\n"
                       "    s += \"abc\";\n"
@@ -9846,6 +10694,9 @@ private:
     }
 
     void unionWithConstructor() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         GET_SYMBOL_DB("union Fred {\n"
                       "    Fred(int x) : i(x) { }\n"
                       "    Fred(float x) : f(x) { }\n"
@@ -9863,6 +10714,9 @@ private:
     }
 
     void incomplete_type() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         GET_SYMBOL_DB("template<class _Ty,\n"
                       "  class _Alloc = std::allocator<_Ty>>\n"
                       "  class SLSurfaceLayerData\n"

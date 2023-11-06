@@ -1,3 +1,5 @@
+#include <stdio.h>
+#include <pthread.h>
 /*
  * Cppcheck - A tool for static C/C++ code analysis
  * Copyright (C) 2007-2023 Cppcheck team.
@@ -138,6 +140,9 @@ SettingsDialog::~SettingsDialog()
 
 void SettingsDialog::initTranslationsList()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     const QString current = mTranslator->getCurrentLanguage();
     for (const TranslationInfo& translation : mTranslator->getTranslations()) {
         QListWidgetItem *item = new QListWidgetItem;
@@ -159,12 +164,18 @@ Qt::CheckState SettingsDialog::boolToCheckState(bool yes)
 
 bool SettingsDialog::checkStateToBool(Qt::CheckState state)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     return state == Qt::Checked;
 }
 
 
 void SettingsDialog::loadSettings()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     QSettings settings;
     resize(settings.value(SETTINGS_CHECK_DIALOG_WIDTH, 800).toInt(),
            settings.value(SETTINGS_CHECK_DIALOG_HEIGHT, 600).toInt());
@@ -172,6 +183,9 @@ void SettingsDialog::loadSettings()
 
 void SettingsDialog::saveSettings() const
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     QSettings settings;
     settings.setValue(SETTINGS_CHECK_DIALOG_WIDTH, size().width());
     settings.setValue(SETTINGS_CHECK_DIALOG_HEIGHT, size().height());
@@ -179,6 +193,9 @@ void SettingsDialog::saveSettings() const
 
 void SettingsDialog::saveSettingValues() const
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     int jobs = mUI->mJobs->text().toInt();
     if (jobs <= 0) {
         jobs = 1;
@@ -217,11 +234,17 @@ void SettingsDialog::saveSettingValues() const
 void SettingsDialog::saveCheckboxValue(QSettings *settings, QCheckBox *box,
                                        const QString &name)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     settings->setValue(name, checkStateToBool(box->checkState()));
 }
 
 void SettingsDialog::validateEditPythonPath()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     const auto pythonPath = mUI->mEditPythonPath->text();
     if (pythonPath.isEmpty()) {
         mUI->mEditPythonPath->setStyleSheet("");
@@ -244,6 +267,9 @@ void SettingsDialog::validateEditPythonPath()
 
 void SettingsDialog::addApplication()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     Application app;
     ApplicationDialog dialog(tr("Add a new application"), app, this);
 
@@ -255,6 +281,9 @@ void SettingsDialog::addApplication()
 
 void SettingsDialog::removeApplication()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     for (QListWidgetItem *item : mUI->mListWidget->selectedItems()) {
         const int removeIndex = mUI->mListWidget->row(item);
         const int currentDefault = mTempApplications->getDefaultApplication();
@@ -272,6 +301,9 @@ void SettingsDialog::removeApplication()
 
 void SettingsDialog::editApplication()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     for (QListWidgetItem *item : mUI->mListWidget->selectedItems()) {
         const int row = mUI->mListWidget->row(item);
         Application& app = mTempApplications->getApplication(row);
@@ -288,6 +320,9 @@ void SettingsDialog::editApplication()
 
 void SettingsDialog::defaultApplication()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     QList<QListWidgetItem *> selected = mUI->mListWidget->selectedItems();
     if (!selected.isEmpty()) {
         const int index = mUI->mListWidget->row(selected[0]);
@@ -299,6 +334,9 @@ void SettingsDialog::defaultApplication()
 
 void SettingsDialog::populateApplicationList()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     const int defapp = mTempApplications->getDefaultApplication();
     for (int i = 0; i < mTempApplications->getApplicationCount(); i++) {
         const Application& app = mTempApplications->getApplication(i);
@@ -324,42 +362,66 @@ void SettingsDialog::populateApplicationList()
 
 void SettingsDialog::ok()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     mApplications->copy(mTempApplications);
     accept();
 }
 
 bool SettingsDialog::showFullPath() const
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     return checkStateToBool(mUI->mShowFullPath->checkState());
 }
 
 bool SettingsDialog::saveFullPath() const
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     return checkStateToBool(mUI->mSaveFullPath->checkState());
 }
 
 bool SettingsDialog::saveAllErrors() const
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     return checkStateToBool(mUI->mSaveAllErrors->checkState());
 }
 
 bool SettingsDialog::showNoErrorsMessage() const
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     return checkStateToBool(mUI->mShowNoErrorsMessage->checkState());
 }
 
 bool SettingsDialog::showErrorId() const
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     return checkStateToBool(mUI->mShowErrorId->checkState());
 }
 
 bool SettingsDialog::showInconclusive() const
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     return checkStateToBool(mUI->mEnableInconclusive->checkState());
 }
 
 void SettingsDialog::browsePythonPath()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     QString fileName = QFileDialog::getOpenFileName(this, tr("Select python binary"), QDir::rootPath());
     if (fileName.contains("python", Qt::CaseInsensitive))
         mUI->mEditPythonPath->setText(fileName);
@@ -367,6 +429,9 @@ void SettingsDialog::browsePythonPath()
 
 void SettingsDialog::browseMisraFile()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     const QString fileName = QFileDialog::getOpenFileName(this, tr("Select MISRA File"), QDir::homePath(), "Misra File (*.pdf *.txt)");
     if (!fileName.isEmpty())
         mUI->mEditMisraFile->setText(fileName);
@@ -375,6 +440,9 @@ void SettingsDialog::browseMisraFile()
 // Slot to set default light style
 void SettingsDialog::setCodeEditorStyleDefault()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (mUI->mThemeSystem->isChecked())
         *mCurrentStyle = CodeEditorStyle::getSystemTheme();
     if (mUI->mThemeLight->isChecked())
@@ -387,6 +455,9 @@ void SettingsDialog::setCodeEditorStyleDefault()
 // Slot to edit custom style
 void SettingsDialog::editCodeEditorStyle()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     StyleEditDialog dlg(*mCurrentStyle, this);
     const int nResult = dlg.exec();
     if (nResult == QDialog::Accepted) {
@@ -397,6 +468,9 @@ void SettingsDialog::editCodeEditorStyle()
 
 void SettingsDialog::browseClangPath()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     QString selectedDir = QFileDialog::getExistingDirectory(this,
                                                             tr("Select clang path"),
                                                             QDir::rootPath());
@@ -408,6 +482,9 @@ void SettingsDialog::browseClangPath()
 
 void SettingsDialog::manageStyleControls()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     const bool isSystemTheme = mCurrentStyle->isSystemTheme();
     const bool isDefaultLight = !isSystemTheme && *mCurrentStyle == defaultStyleLight;
     const bool isDefaultDark =  !isSystemTheme && *mCurrentStyle == defaultStyleDark;

@@ -1,3 +1,5 @@
+#include <stdio.h>
+#include <pthread.h>
 /*
  * Cppcheck - A tool for static C/C++ code analysis
  * Copyright (C) 2007-2023 Cppcheck team.
@@ -45,6 +47,9 @@ private:
     const Settings settings;
 
     void run() override {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         TEST_CASE(isCompliantValidationExpression);
         TEST_CASE(empty);
         TEST_CASE(function);
@@ -74,11 +79,17 @@ private:
 
     static bool loadxmldata(Library &lib, const char xmldata[], std::size_t len)
     {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         tinyxml2::XMLDocument doc;
         return (tinyxml2::XML_SUCCESS == doc.Parse(xmldata, len)) && (lib.load(doc).errorcode == Library::ErrorCode::OK);
     }
 
     void isCompliantValidationExpression() const {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         ASSERT_EQUALS(true, Library::isCompliantValidationExpression("-1"));
         ASSERT_EQUALS(true, Library::isCompliantValidationExpression("1"));
         ASSERT_EQUALS(true, Library::isCompliantValidationExpression("1:"));
@@ -101,6 +112,9 @@ private:
     }
 
     void empty() const {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         // Reading an empty library file is considered to be OK
         constexpr char xmldata[] = "<?xml version=\"1.0\"?>\n<def/>";
         Library library;
@@ -109,6 +123,9 @@ private:
     }
 
     void function() const {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         constexpr char xmldata[] = "<?xml version=\"1.0\"?>\n"
                                    "<def>\n"
                                    "  <function name=\"foo\">\n"
@@ -129,6 +146,9 @@ private:
     }
 
     void function_match_scope() const {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         constexpr char xmldata[] = "<?xml version=\"1.0\"?>\n"
                                    "<def>\n"
                                    "  <function name=\"foo\">\n"
@@ -155,6 +175,9 @@ private:
     }
 
     void function_match_args() const {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         constexpr char xmldata[] = "<?xml version=\"1.0\"?>\n"
                                    "<def>\n"
                                    "  <function name=\"foo\">\n"
@@ -174,6 +197,9 @@ private:
     }
 
     void function_match_args_default() const {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         constexpr char xmldata[] = "<?xml version=\"1.0\"?>\n"
                                    "<def>\n"
                                    "  <function name=\"foo\">\n"
@@ -224,6 +250,9 @@ private:
     }
 
     void function_match_var() const {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         constexpr char xmldata[] = "<?xml version=\"1.0\"?>\n"
                                    "<def>\n"
                                    "  <function name=\"foo\">\n"
@@ -243,6 +272,9 @@ private:
     }
 
     void function_arg() const {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         constexpr char xmldata[] = "<?xml version=\"1.0\"?>\n"
                                    "<def>\n"
                                    "  <function name=\"foo\">\n"
@@ -266,6 +298,9 @@ private:
     }
 
     void function_arg_any() const {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         constexpr char xmldata[] = "<?xml version=\"1.0\"?>\n"
                                    "<def>\n"
                                    "<function name=\"foo\">\n"
@@ -279,6 +314,9 @@ private:
     }
 
     void function_arg_variadic() const {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         constexpr char xmldata[] = "<?xml version=\"1.0\"?>\n"
                                    "<def>\n"
                                    "<function name=\"foo\">\n"
@@ -303,6 +341,9 @@ private:
     }
 
     void function_arg_direction() const {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         constexpr char xmldata[] = "<?xml version=\"1.0\"?>\n"
                                    "<def>\n"
                                    "<function name=\"foo\">\n"
@@ -328,6 +369,9 @@ private:
     }
 
     void function_arg_valid() const {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         constexpr char xmldata[] = "<?xml version=\"1.0\"?>\n"
                                    "<def>\n"
                                    "  <function name=\"foo\">\n"
@@ -476,6 +520,9 @@ private:
     }
 
     void function_arg_minsize() const {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         constexpr char xmldata[] = "<?xml version=\"1.0\"?>\n"
                                    "<def>\n"
                                    "  <function name=\"foo\">\n"
@@ -539,6 +586,9 @@ private:
     }
 
     void function_namespace() const {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         constexpr char xmldata[] = "<?xml version=\"1.0\"?>\n"
                                    "<def>\n"
                                    "  <function name=\"Foo::foo,bar\">\n"
@@ -568,6 +618,9 @@ private:
     }
 
     void function_method() const {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         constexpr char xmldata[] = "<?xml version=\"1.0\"?>\n"
                                    "<def>\n"
                                    "  <function name=\"CString::Format\">\n"
@@ -595,6 +648,9 @@ private:
     }
 
     void function_baseClassMethod() const {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         constexpr char xmldata[] = "<?xml version=\"1.0\"?>\n"
                                    "<def>\n"
                                    "  <function name=\"Base::f\">\n"
@@ -621,6 +677,9 @@ private:
     }
 
     void function_warn() const {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         constexpr char xmldata[] = "<?xml version=\"1.0\"?>\n"
                                    "<def>\n"
                                    "  <function name=\"a\">\n"
@@ -657,6 +716,9 @@ private:
     }
 
     void memory() const {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         constexpr char xmldata[] = "<?xml version=\"1.0\"?>\n"
                                    "<def>\n"
                                    "  <memory>\n"
@@ -677,6 +739,9 @@ private:
         ASSERT(df && df->arg == 1);
     }
     void memory2() const {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         constexpr char xmldata1[] = "<?xml version=\"1.0\"?>\n"
                                     "<def>\n"
                                     "  <memory>\n"
@@ -700,6 +765,9 @@ private:
         ASSERT_EQUALS(library.deallocId("free"), library.allocId("foo"));
     }
     void memory3() const {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         constexpr char xmldata[] = "<?xml version=\"1.0\"?>\n"
                                    "<def>\n"
                                    "  <memory>\n"
@@ -719,6 +787,9 @@ private:
     }
 
     void resource() const {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         constexpr char xmldata[] = "<?xml version=\"1.0\"?>\n"
                                    "<def>\n"
                                    "  <resource>\n"
@@ -736,6 +807,9 @@ private:
     }
 
     void podtype() const {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         {
             constexpr char xmldata[] = "<?xml version=\"1.0\"?>\n"
                                        "<def>\n"
@@ -791,6 +865,9 @@ private:
     }
 
     void container() const {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         constexpr char xmldata[] = "<?xml version=\"1.0\"?>\n"
                                    "<def>\n"
                                    "  <container id=\"A\" startPattern=\"std :: A &lt;\" endPattern=\"&gt; !!::\" itEndPattern=\"&gt; :: iterator\">\n"
@@ -935,6 +1012,9 @@ private:
     }
 
     void version() const {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         {
             constexpr char xmldata[] = "<?xml version=\"1.0\"?>\n"
                                        "<def>\n"
@@ -966,6 +1046,9 @@ private:
     }
 
     void loadLibError(const char xmldata[], Library::ErrorCode errorcode, const char* file, unsigned line) const {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         Library library;
         assertEquals(file, line, true, errorcode == readLibrary(library, xmldata).errorcode);
     }
@@ -982,6 +1065,9 @@ private:
                                                         Library::ErrorCode::BAD_ATTRIBUTE_VALUE)
 
     void loadLibErrors() const {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
 
         LOADLIBERROR("<?xml version=\"1.0\"?>\n"
                      "<def>\n"

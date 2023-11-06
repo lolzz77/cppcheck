@@ -1,3 +1,5 @@
+#include <stdio.h>
+#include <pthread.h>
 /*
  * Cppcheck - A tool for static C/C++ code analysis
  * Copyright (C) 2007-2023 Cppcheck team.
@@ -141,6 +143,9 @@ static void removeFunctionCalls(const std::string& calledFunction,
                                 std::map<std::string, std::vector<std::string>> &functionCalls,
                                 std::vector<std::string> &add)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     std::vector<std::string> calledBy = functionCalledBy[calledFunction];
     functionCalledBy.erase(calledFunction);
     for (const std::string &c: calledBy) {
@@ -155,6 +160,9 @@ static void removeFunctionCalls(const std::string& calledFunction,
 
 void Summaries::loadReturn(const std::string &buildDir, std::set<std::string> &summaryReturn)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (buildDir.empty())
         return;
 

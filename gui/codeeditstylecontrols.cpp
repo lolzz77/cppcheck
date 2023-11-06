@@ -1,3 +1,5 @@
+#include <stdio.h>
+#include <pthread.h>
 /*
  * Cppcheck - A tool for static C/C++ code analysis
  * Copyright (C) 2007-2023 Cppcheck team.
@@ -34,6 +36,9 @@ SelectColorButton::SelectColorButton(QWidget* parent) :
 
 void SelectColorButton::updateColor()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     QString btnColorStyle = QString(
         "background-color:rgb(%1,%2,%3);"
         "border-style:outset;"
@@ -47,6 +52,9 @@ void SelectColorButton::updateColor()
 
 void SelectColorButton::changeColor()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     QColorDialog pDlg(mColor);
     pDlg.setModal(true);
     const int nResult = pDlg.exec();
@@ -58,6 +66,9 @@ void SelectColorButton::changeColor()
 
 void SelectColorButton::setColor(const QColor& color)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     mColor = color;
     updateColor();
 }
@@ -96,6 +107,9 @@ SelectFontWeightCombo::SelectFontWeightCombo(QWidget* parent) :
 
 void SelectFontWeightCombo::updateWeight()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     const int nResult = findData(QVariant(static_cast<int>(mWeight)));
 
     if (nResult != -1) {
@@ -107,6 +121,9 @@ void SelectFontWeightCombo::updateWeight()
 
 void SelectFontWeightCombo::changeWeight(int index)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (index != -1) {
         setWeight(static_cast<QFont::Weight>(itemData(index).toInt()));
         emit weightChanged(mWeight);
@@ -115,6 +132,9 @@ void SelectFontWeightCombo::changeWeight(int index)
 
 void SelectFontWeightCombo::setWeight(QFont::Weight weight)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     mWeight = weight;
     updateWeight();
 }

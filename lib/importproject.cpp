@@ -1,3 +1,5 @@
+#include <stdio.h>
+#include <pthread.h>
 /*
  * Cppcheck - A tool for static C/C++ code analysis
  * Copyright (C) 2007-2023 Cppcheck team.
@@ -42,6 +44,9 @@
 
 void ImportProject::ignorePaths(const std::vector<std::string> &ipaths)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     for (std::list<FileSettings>::iterator it = fileSettings.begin(); it != fileSettings.end();) {
         bool ignore = false;
         for (std::string i : ipaths) {
@@ -70,6 +75,9 @@ void ImportProject::ignorePaths(const std::vector<std::string> &ipaths)
 
 void ImportProject::ignoreOtherConfigs(const std::string &cfg)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     for (std::list<FileSettings>::iterator it = fileSettings.begin(); it != fileSettings.end();) {
         if (it->cfg != cfg)
             it = fileSettings.erase(it);
@@ -80,6 +88,9 @@ void ImportProject::ignoreOtherConfigs(const std::string &cfg)
 
 void ImportProject::fsSetDefines(FileSettings& fs, std::string defs)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     while (defs.find(";%(") != std::string::npos) {
         const std::string::size_type pos1 = defs.find(";%(");
         const std::string::size_type pos2 = defs.find(';', pos1+1);
@@ -111,6 +122,9 @@ void ImportProject::fsSetDefines(FileSettings& fs, std::string defs)
 
 static bool simplifyPathWithVariables(std::string &s, std::map<std::string, std::string, cppcheck::stricmp> &variables)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     std::set<std::string, cppcheck::stricmp> expanded;
     std::string::size_type start = 0;
     while ((start = s.find("$(")) != std::string::npos) {
@@ -142,6 +156,9 @@ static bool simplifyPathWithVariables(std::string &s, std::map<std::string, std:
 
 void ImportProject::fsSetIncludePaths(FileSettings& fs, const std::string &basepath, const std::list<std::string> &in, std::map<std::string, std::string, cppcheck::stricmp> &variables)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     std::set<std::string> found;
     // NOLINTNEXTLINE(performance-unnecessary-copy-initialization)
     const std::list<std::string> copyIn(in);
@@ -268,6 +285,9 @@ static std::string unescape(const std::string &in)
 
 void ImportProject::fsParseCommand(FileSettings& fs, const std::string& command)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     std::string defs;
 
     // Parse command..
@@ -339,6 +359,9 @@ void ImportProject::fsParseCommand(FileSettings& fs, const std::string& command)
 
 bool ImportProject::importCompileCommands(std::istream &istr)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     picojson::value compileCommands;
     istr >> compileCommands;
     if (!compileCommands.is<picojson::array>()) {
@@ -422,6 +445,9 @@ bool ImportProject::importCompileCommands(std::istream &istr)
 
 bool ImportProject::importSln(std::istream &istr, const std::string &path, const std::vector<std::string> &fileFilters)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     std::string line;
 
     if (!std::getline(istr,line)) {
@@ -472,6 +498,9 @@ bool ImportProject::importSln(std::istream &istr, const std::string &path, const
 namespace {
     struct ProjectConfiguration {
         explicit ProjectConfiguration(const tinyxml2::XMLElement *cfg) {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
             const char *a = cfg->Attribute("Include");
             if (a)
                 name = a;
@@ -499,6 +528,9 @@ namespace {
 
     struct ItemDefinitionGroup {
         explicit ItemDefinitionGroup(const tinyxml2::XMLElement *idg, std::string includePaths) : additionalIncludePaths(std::move(includePaths)) {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
             const char *condAttr = idg->Attribute("Condition");
             if (condAttr)
                 condition = condAttr;
@@ -541,6 +573,9 @@ namespace {
         }
 
         static void replaceAll(std::string &c, const std::string &from, const std::string &to) {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
             std::string::size_type pos;
             while ((pos = c.find(from)) != std::string::npos) {
                 c.erase(pos,from.size());
@@ -549,6 +584,9 @@ namespace {
         }
 
         bool conditionIsTrue(const ProjectConfiguration &p) const {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
             if (condition.empty())
                 return true;
             std::string c = '(' + condition + ");";
@@ -597,6 +635,9 @@ static std::list<std::string> toStringList(const std::string &s)
 
 static void importPropertyGroup(const tinyxml2::XMLElement *node, std::map<std::string,std::string,cppcheck::stricmp> &variables, std::string &includePath, bool *useOfMfc)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (useOfMfc) {
         for (const tinyxml2::XMLElement *e = node->FirstChildElement(); e; e = e->NextSiblingElement()) {
             if (std::strcmp(e->Name(), "UseOfMfc") == 0) {
@@ -632,6 +673,9 @@ static void importPropertyGroup(const tinyxml2::XMLElement *node, std::map<std::
 
 static void loadVisualStudioProperties(const std::string &props, std::map<std::string,std::string,cppcheck::stricmp> &variables, std::string &includePath, const std::string &additionalIncludeDirectories, std::list<ItemDefinitionGroup> &itemDefinitionGroupList)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     std::string filename(props);
     // variables can't be resolved
     if (!simplifyPathWithVariables(filename, variables))
@@ -674,6 +718,9 @@ static void loadVisualStudioProperties(const std::string &props, std::map<std::s
 
 bool ImportProject::importVcxproj(const std::string &filename, std::map<std::string, std::string, cppcheck::stricmp> &variables, const std::string &additionalIncludeDirectories, const std::vector<std::string> &fileFilters)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     variables["ProjectDir"] = Path::simplifyPath(Path::getPathFromFilename(filename));
 
     std::list<ProjectConfiguration> projectConfigurationList;
@@ -790,6 +837,9 @@ bool ImportProject::importVcxproj(const std::string &filename, std::map<std::str
 
 bool ImportProject::importBcb6Prj(const std::string &projectFilename)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     tinyxml2::XMLDocument doc;
     const tinyxml2::XMLError error = doc.LoadFile(projectFilename.c_str());
     if (error != tinyxml2::XML_SUCCESS) {
@@ -1095,6 +1145,9 @@ static const char * readSafe(const char *s, const char *def) {
 
 bool ImportProject::importCppcheckGuiProject(std::istream &istr, Settings *settings)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     tinyxml2::XMLDocument doc;
     const std::string xmldata = istream_to_string(istr);
     const tinyxml2::XMLError error = doc.Parse(xmldata.data(), xmldata.size());
@@ -1266,6 +1319,9 @@ bool ImportProject::importCppcheckGuiProject(std::istream &istr, Settings *setti
 
 void ImportProject::selectOneVsConfig(Platform::Type platform)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     std::set<std::string> filenames;
     for (std::list<FileSettings>::iterator it = fileSettings.begin(); it != fileSettings.end();) {
         if (it->cfg.empty()) {
@@ -1293,6 +1349,9 @@ void ImportProject::selectOneVsConfig(Platform::Type platform)
 
 void ImportProject::selectVsConfigurations(Platform::Type platform, const std::vector<std::string> &configurations)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     for (std::list<FileSettings>::iterator it = fileSettings.begin(); it != fileSettings.end();) {
         if (it->cfg.empty()) {
             ++it;
@@ -1322,6 +1381,9 @@ std::list<std::string> ImportProject::getVSConfigs()
 
 void ImportProject::setRelativePaths(const std::string &filename)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (Path::isAbsolute(filename))
         return;
     const std::vector<std::string> basePaths{Path::fromNativeSeparators(Path::getCurrentPath())};
@@ -1334,10 +1396,16 @@ void ImportProject::setRelativePaths(const std::string &filename)
 
 void ImportProject::printError(const std::string &message)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     std::cout << "cppcheck: error: " << message << std::endl;
 }
 
 bool ImportProject::sourceFileExists(const std::string &file)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     return Path::isFile(file);
 }

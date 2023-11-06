@@ -1,3 +1,5 @@
+#include <stdio.h>
+#include <pthread.h>
 /*
  * Cppcheck - A tool for static C/C++ code analysis
  * Copyright (C) 2007-2023 Cppcheck team.
@@ -137,6 +139,9 @@ private:
     }
 
     void run() override {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         TEST_CASE(deadlock_with_many_errors);
         TEST_CASE(many_threads);
         TEST_CASE(many_threads_showtime);
@@ -156,6 +161,9 @@ private:
     }
 
     void deadlock_with_many_errors() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         std::ostringstream oss;
         oss << "int main()\n"
             << "{\n";
@@ -169,6 +177,9 @@ private:
 
     // TODO: check the output
     void many_threads() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check(16, 100, 100,
               "int main()\n"
               "{\n"
@@ -179,6 +190,9 @@ private:
 
     // #11249 - reports TSAN errors - only applies to threads not processes though
     void many_threads_showtime() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         SUPPRESS;
         check(16, 100, 100,
               "int main()\n"
@@ -189,6 +203,9 @@ private:
     }
 
     void many_threads_plist() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const std::string plistOutput = "plist_" + fprefix() + "/";
         ScopedFile plistFile("dummy", "", plistOutput);
 
@@ -201,6 +218,9 @@ private:
     }
 
     void no_errors_more_files() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check(2, 3, 0,
               "int main()\n"
               "{\n"
@@ -209,6 +229,9 @@ private:
     }
 
     void no_errors_less_files() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check(2, 1, 0,
               "int main()\n"
               "{\n"
@@ -217,6 +240,9 @@ private:
     }
 
     void no_errors_equal_amount_files() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check(2, 2, 0,
               "int main()\n"
               "{\n"
@@ -225,6 +251,9 @@ private:
     }
 
     void one_error_less_files() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check(2, 1, 1,
               "int main()\n"
               "{\n"
@@ -234,6 +263,9 @@ private:
     }
 
     void one_error_several_files() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check(2, 20, 20,
               "int main()\n"
               "{\n"
@@ -243,6 +275,9 @@ private:
     }
 
     void markup() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const Settings settingsOld = settings;
         settings.library.mMarkupExtensions.emplace(".cp1");
         settings.library.mProcessAfterCode.emplace(".cp1", true);
@@ -283,6 +318,9 @@ private:
     }
 
     void clangTidy() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         // TODO: we currently only invoke it with ImportProject::FileSettings
         if (!useFS)
             return;
@@ -312,6 +350,9 @@ private:
 
     // TODO: should this be logged only once like summary?
     void showtime_top5_file() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         REDIRECT; // should not cause TSAN failures as the showtime logging is synchronized
         check(2, 2, 0,
               "int main() {}",
@@ -324,6 +365,9 @@ private:
     }
 
     void showtime_top5_summary() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         REDIRECT;
         check(2, 2, 0,
               "int main() {}",
@@ -338,6 +382,9 @@ private:
     }
 
     void showtime_file() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         REDIRECT; // should not cause TSAN failures as the showtime logging is synchronized
         check(2, 2, 0,
               "int main() {}",
@@ -348,6 +395,9 @@ private:
     }
 
     void showtime_summary() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         REDIRECT; // should not cause TSAN failures as the showtime logging is synchronized
         check(2, 2, 0,
               "int main() {}",
@@ -360,6 +410,9 @@ private:
     }
 
     void showtime_file_total() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         REDIRECT; // should not cause TSAN failures as the showtime logging is synchronized
         check(2, 2, 0,
               "int main() {}",

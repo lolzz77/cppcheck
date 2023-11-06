@@ -1,3 +1,5 @@
+#include <stdio.h>
+#include <pthread.h>
 /*
 Original code by Lee Thomason (www.grinninglizard.com)
 
@@ -143,6 +145,9 @@ StrPair::~StrPair()
 
 void StrPair::TransferTo( StrPair* other )
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if ( this == other ) {
         return;
     }
@@ -168,6 +173,9 @@ void StrPair::TransferTo( StrPair* other )
 
 void StrPair::Reset()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if ( _flags & NEEDS_DELETE ) {
         delete [] _start;
     }
@@ -179,6 +187,9 @@ void StrPair::Reset()
 
 void StrPair::SetStr( const char* str, int flags )
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     TIXMLASSERT( str );
     Reset();
     size_t len = strlen( str );
@@ -192,6 +203,9 @@ void StrPair::SetStr( const char* str, int flags )
 
 char* StrPair::ParseText( char* p, const char* endTag, int strFlags, int* curLineNumPtr )
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     TIXMLASSERT( p );
     TIXMLASSERT( endTag && *endTag );
 	TIXMLASSERT(curLineNumPtr);
@@ -217,6 +231,9 @@ char* StrPair::ParseText( char* p, const char* endTag, int strFlags, int* curLin
 
 char* StrPair::ParseName( char* p )
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if ( !p || !(*p) ) {
         return 0;
     }
@@ -237,6 +254,9 @@ char* StrPair::ParseName( char* p )
 
 void StrPair::CollapseWhitespace()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     // Adjusting _start would cause undefined behavior on delete[]
     TIXMLASSERT( ( _flags & NEEDS_DELETE ) == 0 );
     // Trim leading space.
@@ -374,6 +394,9 @@ const char* XMLUtil::writeBoolFalse = "false";
 
 void XMLUtil::SetBoolSerialization(const char* writeTrue, const char* writeFalse)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
 	static const char* defTrue  = "true";
 	static const char* defFalse = "false";
 
@@ -402,6 +425,9 @@ const char* XMLUtil::ReadBOM( const char* p, bool* bom )
 
 void XMLUtil::ConvertUTF32ToUTF8( unsigned long input, char* output, int* length )
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     const unsigned long BYTE_MASK = 0xBF;
     const unsigned long BYTE_MARK = 0x80;
     const unsigned long FIRST_BYTE_MARK[7] = { 0x00, 0x00, 0xC0, 0xE0, 0xF0, 0xF8, 0xFC };
@@ -551,18 +577,27 @@ const char* XMLUtil::GetCharacterRef( const char* p, char* value, int* length )
 
 void XMLUtil::ToStr( int v, char* buffer, int bufferSize )
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     TIXML_SNPRINTF( buffer, bufferSize, "%d", v );
 }
 
 
 void XMLUtil::ToStr( unsigned v, char* buffer, int bufferSize )
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     TIXML_SNPRINTF( buffer, bufferSize, "%u", v );
 }
 
 
 void XMLUtil::ToStr( bool v, char* buffer, int bufferSize )
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     TIXML_SNPRINTF( buffer, bufferSize, "%s", v ? writeBoolTrue : writeBoolFalse);
 }
 
@@ -572,18 +607,27 @@ void XMLUtil::ToStr( bool v, char* buffer, int bufferSize )
 */
 void XMLUtil::ToStr( float v, char* buffer, int bufferSize )
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     TIXML_SNPRINTF( buffer, bufferSize, "%.8g", v );
 }
 
 
 void XMLUtil::ToStr( double v, char* buffer, int bufferSize )
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     TIXML_SNPRINTF( buffer, bufferSize, "%.17g", v );
 }
 
 
 void XMLUtil::ToStr(int64_t v, char* buffer, int bufferSize)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
 	// horrible syntax trick to make the compiler happy about %lld
 	TIXML_SNPRINTF(buffer, bufferSize, "%lld", (long long)v);
 }
@@ -591,6 +635,9 @@ void XMLUtil::ToStr(int64_t v, char* buffer, int bufferSize)
 
 bool XMLUtil::ToInt( const char* str, int* value )
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if ( TIXML_SSCANF( str, "%d", value ) == 1 ) {
         return true;
     }
@@ -599,6 +646,9 @@ bool XMLUtil::ToInt( const char* str, int* value )
 
 bool XMLUtil::ToUnsigned( const char* str, unsigned *value )
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if ( TIXML_SSCANF( str, "%u", value ) == 1 ) {
         return true;
     }
@@ -607,6 +657,9 @@ bool XMLUtil::ToUnsigned( const char* str, unsigned *value )
 
 bool XMLUtil::ToBool( const char* str, bool* value )
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     int ival = 0;
     if ( ToInt( str, &ival )) {
         *value = (ival==0) ? false : true;
@@ -626,6 +679,9 @@ bool XMLUtil::ToBool( const char* str, bool* value )
 
 bool XMLUtil::ToFloat( const char* str, float* value )
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if ( TIXML_SSCANF( str, "%f", value ) == 1 ) {
         return true;
     }
@@ -635,6 +691,9 @@ bool XMLUtil::ToFloat( const char* str, float* value )
 
 bool XMLUtil::ToDouble( const char* str, double* value )
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if ( TIXML_SSCANF( str, "%lf", value ) == 1 ) {
         return true;
     }
@@ -644,6 +703,9 @@ bool XMLUtil::ToDouble( const char* str, double* value )
 
 bool XMLUtil::ToInt64(const char* str, int64_t* value)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
 	long long v = 0;	// horrible syntax trick to make the compiler happy about %lld
 	if (TIXML_SSCANF(str, "%lld", &v) == 1) {
 		*value = (int64_t)v;
@@ -655,6 +717,9 @@ bool XMLUtil::ToInt64(const char* str, int64_t* value)
 
 char* XMLDocument::Identify( char* p, XMLNode** node )
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     TIXMLASSERT( node );
     TIXMLASSERT( p );
     char* const start = p;
@@ -725,6 +790,9 @@ char* XMLDocument::Identify( char* p, XMLNode** node )
 
 bool XMLDocument::Accept( XMLVisitor* visitor ) const
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     TIXMLASSERT( visitor );
     if ( visitor->VisitEnter( *this ) ) {
         for ( const XMLNode* node=FirstChild(); node; node=node->NextSibling() ) {
@@ -770,6 +838,9 @@ const char* XMLNode::Value() const
 
 void XMLNode::SetValue( const char* str, bool staticMem )
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if ( staticMem ) {
         _value.SetInternedStr( str );
     }
@@ -780,6 +851,9 @@ void XMLNode::SetValue( const char* str, bool staticMem )
 
 XMLNode* XMLNode::DeepClone(XMLDocument* target) const
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
 	XMLNode* clone = this->ShallowClone(target);
 	if (!clone) return 0;
 
@@ -793,6 +867,9 @@ XMLNode* XMLNode::DeepClone(XMLDocument* target) const
 
 void XMLNode::DeleteChildren()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     while( _firstChild ) {
         TIXMLASSERT( _lastChild );
         DeleteChild( _firstChild );
@@ -803,6 +880,9 @@ void XMLNode::DeleteChildren()
 
 void XMLNode::Unlink( XMLNode* child )
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     TIXMLASSERT( child );
     TIXMLASSERT( child->_document == _document );
     TIXMLASSERT( child->_parent == this );
@@ -827,6 +907,9 @@ void XMLNode::Unlink( XMLNode* child )
 
 void XMLNode::DeleteChild( XMLNode* node )
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     TIXMLASSERT( node );
     TIXMLASSERT( node->_document == _document );
     TIXMLASSERT( node->_parent == this );
@@ -840,6 +923,9 @@ void XMLNode::DeleteChild( XMLNode* node )
 
 XMLNode* XMLNode::InsertEndChild( XMLNode* addThis )
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     TIXMLASSERT( addThis );
     if ( addThis->_document != _document ) {
         TIXMLASSERT( false );
@@ -870,6 +956,9 @@ XMLNode* XMLNode::InsertEndChild( XMLNode* addThis )
 
 XMLNode* XMLNode::InsertFirstChild( XMLNode* addThis )
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     TIXMLASSERT( addThis );
     if ( addThis->_document != _document ) {
         TIXMLASSERT( false );
@@ -901,6 +990,9 @@ XMLNode* XMLNode::InsertFirstChild( XMLNode* addThis )
 
 XMLNode* XMLNode::InsertAfterChild( XMLNode* afterThis, XMLNode* addThis )
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     TIXMLASSERT( addThis );
     if ( addThis->_document != _document ) {
         TIXMLASSERT( false );
@@ -987,6 +1079,9 @@ const XMLElement* XMLNode::PreviousSiblingElement( const char* name ) const
 
 char* XMLNode::ParseDeep( char* p, StrPair* parentEndTag, int* curLineNumPtr )
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     // This is a recursive method, but thinking about it "at the current level"
     // it is a pretty simple flat list:
     //		<foo/>
@@ -1102,6 +1197,9 @@ char* XMLNode::ParseDeep( char* p, StrPair* parentEndTag, int* curLineNumPtr )
 
 void XMLNode::InsertChildPreamble( XMLNode* insertThis ) const
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     TIXMLASSERT( insertThis );
     TIXMLASSERT( insertThis->_document == _document );
 
@@ -1132,6 +1230,9 @@ const XMLElement* XMLNode::ToElementWithName( const char* name ) const
 // --------- XMLText ---------- //
 char* XMLText::ParseDeep( char* p, StrPair*, int* curLineNumPtr )
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if ( this->CData() ) {
         p = _value.ParseText( p, "]]>", StrPair::NEEDS_NEWLINE_NORMALIZATION, curLineNumPtr );
         if ( !p ) {
@@ -1159,6 +1260,9 @@ char* XMLText::ParseDeep( char* p, StrPair*, int* curLineNumPtr )
 
 XMLNode* XMLText::ShallowClone( XMLDocument* doc ) const
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if ( !doc ) {
         doc = _document;
     }
@@ -1170,6 +1274,9 @@ XMLNode* XMLText::ShallowClone( XMLDocument* doc ) const
 
 bool XMLText::ShallowEqual( const XMLNode* compare ) const
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     TIXMLASSERT( compare );
     const XMLText* text = compare->ToText();
     return ( text && XMLUtil::StringEqual( text->Value(), Value() ) );
@@ -1178,6 +1285,9 @@ bool XMLText::ShallowEqual( const XMLNode* compare ) const
 
 bool XMLText::Accept( XMLVisitor* visitor ) const
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     TIXMLASSERT( visitor );
     return visitor->Visit( *this );
 }
@@ -1197,6 +1307,9 @@ XMLComment::~XMLComment()
 
 char* XMLComment::ParseDeep( char* p, StrPair*, int* curLineNumPtr )
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     // Comment parses as text.
     p = _value.ParseText( p, "-->", StrPair::COMMENT, curLineNumPtr );
     if ( p == 0 ) {
@@ -1208,6 +1321,9 @@ char* XMLComment::ParseDeep( char* p, StrPair*, int* curLineNumPtr )
 
 XMLNode* XMLComment::ShallowClone( XMLDocument* doc ) const
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if ( !doc ) {
         doc = _document;
     }
@@ -1218,6 +1334,9 @@ XMLNode* XMLComment::ShallowClone( XMLDocument* doc ) const
 
 bool XMLComment::ShallowEqual( const XMLNode* compare ) const
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     TIXMLASSERT( compare );
     const XMLComment* comment = compare->ToComment();
     return ( comment && XMLUtil::StringEqual( comment->Value(), Value() ));
@@ -1226,6 +1345,9 @@ bool XMLComment::ShallowEqual( const XMLNode* compare ) const
 
 bool XMLComment::Accept( XMLVisitor* visitor ) const
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     TIXMLASSERT( visitor );
     return visitor->Visit( *this );
 }
@@ -1246,6 +1368,9 @@ XMLDeclaration::~XMLDeclaration()
 
 char* XMLDeclaration::ParseDeep( char* p, StrPair*, int* curLineNumPtr )
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     // Declaration parses as text.
     p = _value.ParseText( p, "?>", StrPair::NEEDS_NEWLINE_NORMALIZATION, curLineNumPtr );
     if ( p == 0 ) {
@@ -1257,6 +1382,9 @@ char* XMLDeclaration::ParseDeep( char* p, StrPair*, int* curLineNumPtr )
 
 XMLNode* XMLDeclaration::ShallowClone( XMLDocument* doc ) const
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if ( !doc ) {
         doc = _document;
     }
@@ -1267,6 +1395,9 @@ XMLNode* XMLDeclaration::ShallowClone( XMLDocument* doc ) const
 
 bool XMLDeclaration::ShallowEqual( const XMLNode* compare ) const
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     TIXMLASSERT( compare );
     const XMLDeclaration* declaration = compare->ToDeclaration();
     return ( declaration && XMLUtil::StringEqual( declaration->Value(), Value() ));
@@ -1276,6 +1407,9 @@ bool XMLDeclaration::ShallowEqual( const XMLNode* compare ) const
 
 bool XMLDeclaration::Accept( XMLVisitor* visitor ) const
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     TIXMLASSERT( visitor );
     return visitor->Visit( *this );
 }
@@ -1294,6 +1428,9 @@ XMLUnknown::~XMLUnknown()
 
 char* XMLUnknown::ParseDeep( char* p, StrPair*, int* curLineNumPtr )
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     // Unknown parses as text.
     p = _value.ParseText( p, ">", StrPair::NEEDS_NEWLINE_NORMALIZATION, curLineNumPtr );
     if ( !p ) {
@@ -1305,6 +1442,9 @@ char* XMLUnknown::ParseDeep( char* p, StrPair*, int* curLineNumPtr )
 
 XMLNode* XMLUnknown::ShallowClone( XMLDocument* doc ) const
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if ( !doc ) {
         doc = _document;
     }
@@ -1315,6 +1455,9 @@ XMLNode* XMLUnknown::ShallowClone( XMLDocument* doc ) const
 
 bool XMLUnknown::ShallowEqual( const XMLNode* compare ) const
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     TIXMLASSERT( compare );
     const XMLUnknown* unknown = compare->ToUnknown();
     return ( unknown && XMLUtil::StringEqual( unknown->Value(), Value() ));
@@ -1323,6 +1466,9 @@ bool XMLUnknown::ShallowEqual( const XMLNode* compare ) const
 
 bool XMLUnknown::Accept( XMLVisitor* visitor ) const
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     TIXMLASSERT( visitor );
     return visitor->Visit( *this );
 }
@@ -1341,6 +1487,9 @@ const char* XMLAttribute::Value() const
 
 char* XMLAttribute::ParseDeep( char* p, bool processEntities, int* curLineNumPtr )
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     // Parse using the name rules: bug fix, was using ParseText before
     p = _name.ParseName( p );
     if ( !p || !*p ) {
@@ -1369,12 +1518,18 @@ char* XMLAttribute::ParseDeep( char* p, bool processEntities, int* curLineNumPtr
 
 void XMLAttribute::SetName( const char* n )
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     _name.SetStr( n );
 }
 
 
 XMLError XMLAttribute::QueryIntValue( int* value ) const
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if ( XMLUtil::ToInt( Value(), value )) {
         return XML_SUCCESS;
     }
@@ -1384,6 +1539,9 @@ XMLError XMLAttribute::QueryIntValue( int* value ) const
 
 XMLError XMLAttribute::QueryUnsignedValue( unsigned int* value ) const
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if ( XMLUtil::ToUnsigned( Value(), value )) {
         return XML_SUCCESS;
     }
@@ -1393,6 +1551,9 @@ XMLError XMLAttribute::QueryUnsignedValue( unsigned int* value ) const
 
 XMLError XMLAttribute::QueryInt64Value(int64_t* value) const
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
 	if (XMLUtil::ToInt64(Value(), value)) {
 		return XML_SUCCESS;
 	}
@@ -1402,6 +1563,9 @@ XMLError XMLAttribute::QueryInt64Value(int64_t* value) const
 
 XMLError XMLAttribute::QueryBoolValue( bool* value ) const
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if ( XMLUtil::ToBool( Value(), value )) {
         return XML_SUCCESS;
     }
@@ -1411,6 +1575,9 @@ XMLError XMLAttribute::QueryBoolValue( bool* value ) const
 
 XMLError XMLAttribute::QueryFloatValue( float* value ) const
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if ( XMLUtil::ToFloat( Value(), value )) {
         return XML_SUCCESS;
     }
@@ -1420,6 +1587,9 @@ XMLError XMLAttribute::QueryFloatValue( float* value ) const
 
 XMLError XMLAttribute::QueryDoubleValue( double* value ) const
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if ( XMLUtil::ToDouble( Value(), value )) {
         return XML_SUCCESS;
     }
@@ -1429,12 +1599,18 @@ XMLError XMLAttribute::QueryDoubleValue( double* value ) const
 
 void XMLAttribute::SetAttribute( const char* v )
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     _value.SetStr( v );
 }
 
 
 void XMLAttribute::SetAttribute( int v )
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     char buf[BUF_SIZE];
     XMLUtil::ToStr( v, buf, BUF_SIZE );
     _value.SetStr( buf );
@@ -1443,6 +1619,9 @@ void XMLAttribute::SetAttribute( int v )
 
 void XMLAttribute::SetAttribute( unsigned v )
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     char buf[BUF_SIZE];
     XMLUtil::ToStr( v, buf, BUF_SIZE );
     _value.SetStr( buf );
@@ -1451,6 +1630,9 @@ void XMLAttribute::SetAttribute( unsigned v )
 
 void XMLAttribute::SetAttribute(int64_t v)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
 	char buf[BUF_SIZE];
 	XMLUtil::ToStr(v, buf, BUF_SIZE);
 	_value.SetStr(buf);
@@ -1460,6 +1642,9 @@ void XMLAttribute::SetAttribute(int64_t v)
 
 void XMLAttribute::SetAttribute( bool v )
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     char buf[BUF_SIZE];
     XMLUtil::ToStr( v, buf, BUF_SIZE );
     _value.SetStr( buf );
@@ -1467,6 +1652,9 @@ void XMLAttribute::SetAttribute( bool v )
 
 void XMLAttribute::SetAttribute( double v )
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     char buf[BUF_SIZE];
     XMLUtil::ToStr( v, buf, BUF_SIZE );
     _value.SetStr( buf );
@@ -1474,6 +1662,9 @@ void XMLAttribute::SetAttribute( double v )
 
 void XMLAttribute::SetAttribute( float v )
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     char buf[BUF_SIZE];
     XMLUtil::ToStr( v, buf, BUF_SIZE );
     _value.SetStr( buf );
@@ -1523,6 +1714,9 @@ const char* XMLElement::Attribute( const char* name, const char* value ) const
 
 int XMLElement::IntAttribute(const char* name, int defaultValue) const
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
 	int i = defaultValue;
 	QueryIntAttribute(name, &i);
 	return i;
@@ -1530,6 +1724,9 @@ int XMLElement::IntAttribute(const char* name, int defaultValue) const
 
 unsigned XMLElement::UnsignedAttribute(const char* name, unsigned defaultValue) const
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
 	unsigned i = defaultValue;
 	QueryUnsignedAttribute(name, &i);
 	return i;
@@ -1537,6 +1734,9 @@ unsigned XMLElement::UnsignedAttribute(const char* name, unsigned defaultValue) 
 
 int64_t XMLElement::Int64Attribute(const char* name, int64_t defaultValue) const
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
 	int64_t i = defaultValue;
 	QueryInt64Attribute(name, &i);
 	return i;
@@ -1544,6 +1744,9 @@ int64_t XMLElement::Int64Attribute(const char* name, int64_t defaultValue) const
 
 bool XMLElement::BoolAttribute(const char* name, bool defaultValue) const
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
 	bool b = defaultValue;
 	QueryBoolAttribute(name, &b);
 	return b;
@@ -1558,6 +1761,9 @@ double XMLElement::DoubleAttribute(const char* name, double defaultValue) const
 
 float XMLElement::FloatAttribute(const char* name, float defaultValue) const
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
 	float f = defaultValue;
 	QueryFloatAttribute(name, &f);
 	return f;
@@ -1585,6 +1791,9 @@ void	XMLElement::SetText( const char* inText )
 
 void XMLElement::SetText( int v )
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     char buf[BUF_SIZE];
     XMLUtil::ToStr( v, buf, BUF_SIZE );
     SetText( buf );
@@ -1593,6 +1802,9 @@ void XMLElement::SetText( int v )
 
 void XMLElement::SetText( unsigned v )
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     char buf[BUF_SIZE];
     XMLUtil::ToStr( v, buf, BUF_SIZE );
     SetText( buf );
@@ -1601,6 +1813,9 @@ void XMLElement::SetText( unsigned v )
 
 void XMLElement::SetText(int64_t v)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
 	char buf[BUF_SIZE];
 	XMLUtil::ToStr(v, buf, BUF_SIZE);
 	SetText(buf);
@@ -1609,6 +1824,9 @@ void XMLElement::SetText(int64_t v)
 
 void XMLElement::SetText( bool v )
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     char buf[BUF_SIZE];
     XMLUtil::ToStr( v, buf, BUF_SIZE );
     SetText( buf );
@@ -1617,6 +1835,9 @@ void XMLElement::SetText( bool v )
 
 void XMLElement::SetText( float v )
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     char buf[BUF_SIZE];
     XMLUtil::ToStr( v, buf, BUF_SIZE );
     SetText( buf );
@@ -1625,6 +1846,9 @@ void XMLElement::SetText( float v )
 
 void XMLElement::SetText( double v )
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     char buf[BUF_SIZE];
     XMLUtil::ToStr( v, buf, BUF_SIZE );
     SetText( buf );
@@ -1633,6 +1857,9 @@ void XMLElement::SetText( double v )
 
 XMLError XMLElement::QueryIntText( int* ival ) const
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if ( FirstChild() && FirstChild()->ToText() ) {
         const char* t = FirstChild()->Value();
         if ( XMLUtil::ToInt( t, ival ) ) {
@@ -1646,6 +1873,9 @@ XMLError XMLElement::QueryIntText( int* ival ) const
 
 XMLError XMLElement::QueryUnsignedText( unsigned* uval ) const
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if ( FirstChild() && FirstChild()->ToText() ) {
         const char* t = FirstChild()->Value();
         if ( XMLUtil::ToUnsigned( t, uval ) ) {
@@ -1659,6 +1889,9 @@ XMLError XMLElement::QueryUnsignedText( unsigned* uval ) const
 
 XMLError XMLElement::QueryInt64Text(int64_t* ival) const
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
 	if (FirstChild() && FirstChild()->ToText()) {
 		const char* t = FirstChild()->Value();
 		if (XMLUtil::ToInt64(t, ival)) {
@@ -1672,6 +1905,9 @@ XMLError XMLElement::QueryInt64Text(int64_t* ival) const
 
 XMLError XMLElement::QueryBoolText( bool* bval ) const
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if ( FirstChild() && FirstChild()->ToText() ) {
         const char* t = FirstChild()->Value();
         if ( XMLUtil::ToBool( t, bval ) ) {
@@ -1685,6 +1921,9 @@ XMLError XMLElement::QueryBoolText( bool* bval ) const
 
 XMLError XMLElement::QueryDoubleText( double* dval ) const
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if ( FirstChild() && FirstChild()->ToText() ) {
         const char* t = FirstChild()->Value();
         if ( XMLUtil::ToDouble( t, dval ) ) {
@@ -1698,6 +1937,9 @@ XMLError XMLElement::QueryDoubleText( double* dval ) const
 
 XMLError XMLElement::QueryFloatText( float* fval ) const
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if ( FirstChild() && FirstChild()->ToText() ) {
         const char* t = FirstChild()->Value();
         if ( XMLUtil::ToFloat( t, fval ) ) {
@@ -1710,6 +1952,9 @@ XMLError XMLElement::QueryFloatText( float* fval ) const
 
 int XMLElement::IntText(int defaultValue) const
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
 	int i = defaultValue;
 	QueryIntText(&i);
 	return i;
@@ -1717,6 +1962,9 @@ int XMLElement::IntText(int defaultValue) const
 
 unsigned XMLElement::UnsignedText(unsigned defaultValue) const
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
 	unsigned i = defaultValue;
 	QueryUnsignedText(&i);
 	return i;
@@ -1724,6 +1972,9 @@ unsigned XMLElement::UnsignedText(unsigned defaultValue) const
 
 int64_t XMLElement::Int64Text(int64_t defaultValue) const
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
 	int64_t i = defaultValue;
 	QueryInt64Text(&i);
 	return i;
@@ -1731,6 +1982,9 @@ int64_t XMLElement::Int64Text(int64_t defaultValue) const
 
 bool XMLElement::BoolText(bool defaultValue) const
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
 	bool b = defaultValue;
 	QueryBoolText(&b);
 	return b;
@@ -1745,6 +1999,9 @@ double XMLElement::DoubleText(double defaultValue) const
 
 float XMLElement::FloatText(float defaultValue) const
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
 	float f = defaultValue;
 	QueryFloatText(&f);
 	return f;
@@ -1753,6 +2010,9 @@ float XMLElement::FloatText(float defaultValue) const
 
 XMLAttribute* XMLElement::FindOrCreateAttribute( const char* name )
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     XMLAttribute* last = 0;
     XMLAttribute* attrib = 0;
     for( attrib = _rootAttribute;
@@ -1781,6 +2041,9 @@ XMLAttribute* XMLElement::FindOrCreateAttribute( const char* name )
 
 void XMLElement::DeleteAttribute( const char* name )
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     XMLAttribute* prev = 0;
     for( XMLAttribute* a=_rootAttribute; a; a=a->_next ) {
         if ( XMLUtil::StringEqual( name, a->Name() ) ) {
@@ -1800,6 +2063,9 @@ void XMLElement::DeleteAttribute( const char* name )
 
 char* XMLElement::ParseAttributes( char* p, int* curLineNumPtr )
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     XMLAttribute* prevAttribute = 0;
 
     // Read the attributes.
@@ -1859,6 +2125,9 @@ char* XMLElement::ParseAttributes( char* p, int* curLineNumPtr )
 
 void XMLElement::DeleteAttribute( XMLAttribute* attribute )
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if ( attribute == 0 ) {
         return;
     }
@@ -1869,6 +2138,9 @@ void XMLElement::DeleteAttribute( XMLAttribute* attribute )
 
 XMLAttribute* XMLElement::CreateAttribute()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     TIXMLASSERT( sizeof( XMLAttribute ) == _document->_attributePool.ItemSize() );
     XMLAttribute* attrib = new (_document->_attributePool.Alloc() ) XMLAttribute();
     TIXMLASSERT( attrib );
@@ -1883,6 +2155,9 @@ XMLAttribute* XMLElement::CreateAttribute()
 //
 char* XMLElement::ParseDeep( char* p, StrPair* parentEndTag, int* curLineNumPtr )
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     // Read the element name.
     p = XMLUtil::SkipWhiteSpace( p, curLineNumPtr );
 
@@ -1912,6 +2187,9 @@ char* XMLElement::ParseDeep( char* p, StrPair* parentEndTag, int* curLineNumPtr 
 
 XMLNode* XMLElement::ShallowClone( XMLDocument* doc ) const
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if ( !doc ) {
         doc = _document;
     }
@@ -1925,6 +2203,9 @@ XMLNode* XMLElement::ShallowClone( XMLDocument* doc ) const
 
 bool XMLElement::ShallowEqual( const XMLNode* compare ) const
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     TIXMLASSERT( compare );
     const XMLElement* other = compare->ToElement();
     if ( other && XMLUtil::StringEqual( other->Name(), Name() )) {
@@ -1951,6 +2232,9 @@ bool XMLElement::ShallowEqual( const XMLNode* compare ) const
 
 bool XMLElement::Accept( XMLVisitor* visitor ) const
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     TIXMLASSERT( visitor );
     if ( visitor->VisitEnter( *this, _rootAttribute ) ) {
         for ( const XMLNode* node=FirstChild(); node; node=node->NextSibling() ) {
@@ -2019,6 +2303,9 @@ XMLDocument::~XMLDocument()
 
 void XMLDocument::MarkInUse(XMLNode* node)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
 	TIXMLASSERT(node);
 	TIXMLASSERT(node->_parent == 0);
 
@@ -2032,6 +2319,9 @@ void XMLDocument::MarkInUse(XMLNode* node)
 
 void XMLDocument::Clear()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     DeleteChildren();
 	while( _unlinked.Size()) {
 		DeleteNode(_unlinked[0]);	// Will remove from _unlinked as part of delete.
@@ -2065,6 +2355,9 @@ void XMLDocument::Clear()
 
 void XMLDocument::DeepCopy(XMLDocument* target) const
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
 	TIXMLASSERT(target);
     if (target == this) {
         return; // technically success - a no-op.
@@ -2078,6 +2371,9 @@ void XMLDocument::DeepCopy(XMLDocument* target) const
 
 XMLElement* XMLDocument::NewElement( const char* name )
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     XMLElement* ele = CreateUnlinkedNode<XMLElement>( _elementPool );
     ele->SetName( name );
     return ele;
@@ -2086,6 +2382,9 @@ XMLElement* XMLDocument::NewElement( const char* name )
 
 XMLComment* XMLDocument::NewComment( const char* str )
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     XMLComment* comment = CreateUnlinkedNode<XMLComment>( _commentPool );
     comment->SetValue( str );
     return comment;
@@ -2094,6 +2393,9 @@ XMLComment* XMLDocument::NewComment( const char* str )
 
 XMLText* XMLDocument::NewText( const char* str )
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     XMLText* text = CreateUnlinkedNode<XMLText>( _textPool );
     text->SetValue( str );
     return text;
@@ -2102,6 +2404,9 @@ XMLText* XMLDocument::NewText( const char* str )
 
 XMLDeclaration* XMLDocument::NewDeclaration( const char* str )
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     XMLDeclaration* dec = CreateUnlinkedNode<XMLDeclaration>( _commentPool );
     dec->SetValue( str ? str : "xml version=\"1.0\" encoding=\"UTF-8\"" );
     return dec;
@@ -2110,6 +2415,9 @@ XMLDeclaration* XMLDocument::NewDeclaration( const char* str )
 
 XMLUnknown* XMLDocument::NewUnknown( const char* str )
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     XMLUnknown* unk = CreateUnlinkedNode<XMLUnknown>( _commentPool );
     unk->SetValue( str );
     return unk;
@@ -2117,6 +2425,9 @@ XMLUnknown* XMLDocument::NewUnknown( const char* str )
 
 static FILE* callfopen( const char* filepath, const char* mode )
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     TIXMLASSERT( filepath );
     TIXMLASSERT( mode );
 #if defined(_MSC_VER) && (_MSC_VER >= 1400 ) && (!defined WINCE)
@@ -2132,6 +2443,9 @@ static FILE* callfopen( const char* filepath, const char* mode )
 }
 
 void XMLDocument::DeleteNode( XMLNode* node )	{
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     TIXMLASSERT( node );
     TIXMLASSERT(node->_document == this );
     if (node->_parent) {
@@ -2151,6 +2465,9 @@ void XMLDocument::DeleteNode( XMLNode* node )	{
 
 XMLError XMLDocument::LoadFile( const char* filename )
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if ( !filename ) {
         TIXMLASSERT( false );
         SetError( XML_ERROR_FILE_COULD_NOT_BE_OPENED, 0, "filename=<null>" );
@@ -2179,6 +2496,9 @@ template
 struct LongFitsIntoSizeTMinusOne {
     static bool Fits( unsigned long value )
     {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         return value < (size_t)-1;
     }
 };
@@ -2187,12 +2507,18 @@ template <>
 struct LongFitsIntoSizeTMinusOne<false> {
     static bool Fits( unsigned long )
     {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         return true;
     }
 };
 
 XMLError XMLDocument::LoadFile( FILE* fp )
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     Clear();
 
     fseek( fp, 0, SEEK_SET );
@@ -2239,6 +2565,9 @@ XMLError XMLDocument::LoadFile( FILE* fp )
 
 XMLError XMLDocument::SaveFile( const char* filename, bool compact )
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if ( !filename ) {
         TIXMLASSERT( false );
         SetError( XML_ERROR_FILE_COULD_NOT_BE_OPENED, 0, "filename=<null>" );
@@ -2258,6 +2587,9 @@ XMLError XMLDocument::SaveFile( const char* filename, bool compact )
 
 XMLError XMLDocument::SaveFile( FILE* fp, bool compact )
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     // Clear any error from the last save, otherwise it will get reported
     // for *this* call.
     ClearError();
@@ -2269,6 +2601,9 @@ XMLError XMLDocument::SaveFile( FILE* fp, bool compact )
 
 XMLError XMLDocument::Parse( const char* p, size_t len )
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     Clear();
 
     if ( len == 0 || !p || !*p ) {
@@ -2300,6 +2635,9 @@ XMLError XMLDocument::Parse( const char* p, size_t len )
 
 void XMLDocument::Print( XMLPrinter* streamer ) const
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if ( streamer ) {
         Accept( streamer );
     }
@@ -2312,6 +2650,9 @@ void XMLDocument::Print( XMLPrinter* streamer ) const
 
 void XMLDocument::SetError( XMLError error, int lineNum, const char* format, ... )
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     TIXMLASSERT( error >= 0 && error < XML_ERROR_COUNT );
     _errorID = error;
     _errorLineNum = lineNum;
@@ -2353,6 +2694,9 @@ const char* XMLDocument::ErrorStr() const
 
 void XMLDocument::PrintError() const
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     printf("%s\n", ErrorStr());
 }
 
@@ -2363,6 +2707,9 @@ const char* XMLDocument::ErrorName() const
 
 void XMLDocument::Parse()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     TIXMLASSERT( NoChildren() ); // Clear() must have been called previously
     TIXMLASSERT( _charBuffer );
     _parseCurLineNum = 1;
@@ -2407,6 +2754,9 @@ XMLPrinter::XMLPrinter( FILE* file, bool compact, int depth ) :
 
 void XMLPrinter::Print( const char* format, ... )
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     va_list     va;
     va_start( va, format );
 
@@ -2429,6 +2779,9 @@ void XMLPrinter::Print( const char* format, ... )
 
 void XMLPrinter::Write( const char* data, size_t size )
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if ( _fp ) {
         fwrite ( data , sizeof(char), size, _fp);
     }
@@ -2442,6 +2795,9 @@ void XMLPrinter::Write( const char* data, size_t size )
 
 void XMLPrinter::Putc( char ch )
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if ( _fp ) {
         fputc ( ch, _fp);
     }
@@ -2455,6 +2811,9 @@ void XMLPrinter::Putc( char ch )
 
 void XMLPrinter::PrintSpace( int depth )
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     for( int i=0; i<depth; ++i ) {
         Write( "    " );
     }
@@ -2463,6 +2822,9 @@ void XMLPrinter::PrintSpace( int depth )
 
 void XMLPrinter::PrintString( const char* p, bool restricted )
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     // Look for runs of bytes between entities to print.
     const char* q = p;
 
@@ -2516,6 +2878,9 @@ void XMLPrinter::PrintString( const char* p, bool restricted )
 
 void XMLPrinter::PushHeader( bool writeBOM, bool writeDec )
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if ( writeBOM ) {
         static const unsigned char bom[] = { TIXML_UTF_LEAD_0, TIXML_UTF_LEAD_1, TIXML_UTF_LEAD_2, 0 };
         Write( reinterpret_cast< const char* >( bom ) );
@@ -2528,6 +2893,9 @@ void XMLPrinter::PushHeader( bool writeBOM, bool writeDec )
 
 void XMLPrinter::OpenElement( const char* name, bool compactMode )
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     SealElementIfJustOpened();
     _stack.Push( name );
 
@@ -2549,6 +2917,9 @@ void XMLPrinter::OpenElement( const char* name, bool compactMode )
 
 void XMLPrinter::PushAttribute( const char* name, const char* value )
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     TIXMLASSERT( _elementJustOpened );
     Putc ( ' ' );
     Write( name );
@@ -2560,6 +2931,9 @@ void XMLPrinter::PushAttribute( const char* name, const char* value )
 
 void XMLPrinter::PushAttribute( const char* name, int v )
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     char buf[BUF_SIZE];
     XMLUtil::ToStr( v, buf, BUF_SIZE );
     PushAttribute( name, buf );
@@ -2568,6 +2942,9 @@ void XMLPrinter::PushAttribute( const char* name, int v )
 
 void XMLPrinter::PushAttribute( const char* name, unsigned v )
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     char buf[BUF_SIZE];
     XMLUtil::ToStr( v, buf, BUF_SIZE );
     PushAttribute( name, buf );
@@ -2576,6 +2953,9 @@ void XMLPrinter::PushAttribute( const char* name, unsigned v )
 
 void XMLPrinter::PushAttribute(const char* name, int64_t v)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
 	char buf[BUF_SIZE];
 	XMLUtil::ToStr(v, buf, BUF_SIZE);
 	PushAttribute(name, buf);
@@ -2584,6 +2964,9 @@ void XMLPrinter::PushAttribute(const char* name, int64_t v)
 
 void XMLPrinter::PushAttribute( const char* name, bool v )
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     char buf[BUF_SIZE];
     XMLUtil::ToStr( v, buf, BUF_SIZE );
     PushAttribute( name, buf );
@@ -2592,6 +2975,9 @@ void XMLPrinter::PushAttribute( const char* name, bool v )
 
 void XMLPrinter::PushAttribute( const char* name, double v )
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     char buf[BUF_SIZE];
     XMLUtil::ToStr( v, buf, BUF_SIZE );
     PushAttribute( name, buf );
@@ -2600,6 +2986,9 @@ void XMLPrinter::PushAttribute( const char* name, double v )
 
 void XMLPrinter::CloseElement( bool compactMode )
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     --_depth;
     const char* name = _stack.Pop();
 
@@ -2628,6 +3017,9 @@ void XMLPrinter::CloseElement( bool compactMode )
 
 void XMLPrinter::SealElementIfJustOpened()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if ( !_elementJustOpened ) {
         return;
     }
@@ -2638,6 +3030,9 @@ void XMLPrinter::SealElementIfJustOpened()
 
 void XMLPrinter::PushText( const char* text, bool cdata )
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     _textDepth = _depth-1;
 
     SealElementIfJustOpened();
@@ -2653,6 +3048,9 @@ void XMLPrinter::PushText( const char* text, bool cdata )
 
 void XMLPrinter::PushText( int64_t value )
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     char buf[BUF_SIZE];
     XMLUtil::ToStr( value, buf, BUF_SIZE );
     PushText( buf, false );
@@ -2660,6 +3058,9 @@ void XMLPrinter::PushText( int64_t value )
 
 void XMLPrinter::PushText( int value )
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     char buf[BUF_SIZE];
     XMLUtil::ToStr( value, buf, BUF_SIZE );
     PushText( buf, false );
@@ -2668,6 +3069,9 @@ void XMLPrinter::PushText( int value )
 
 void XMLPrinter::PushText( unsigned value )
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     char buf[BUF_SIZE];
     XMLUtil::ToStr( value, buf, BUF_SIZE );
     PushText( buf, false );
@@ -2676,6 +3080,9 @@ void XMLPrinter::PushText( unsigned value )
 
 void XMLPrinter::PushText( bool value )
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     char buf[BUF_SIZE];
     XMLUtil::ToStr( value, buf, BUF_SIZE );
     PushText( buf, false );
@@ -2684,6 +3091,9 @@ void XMLPrinter::PushText( bool value )
 
 void XMLPrinter::PushText( float value )
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     char buf[BUF_SIZE];
     XMLUtil::ToStr( value, buf, BUF_SIZE );
     PushText( buf, false );
@@ -2692,6 +3102,9 @@ void XMLPrinter::PushText( float value )
 
 void XMLPrinter::PushText( double value )
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     char buf[BUF_SIZE];
     XMLUtil::ToStr( value, buf, BUF_SIZE );
     PushText( buf, false );
@@ -2700,6 +3113,9 @@ void XMLPrinter::PushText( double value )
 
 void XMLPrinter::PushComment( const char* comment )
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     SealElementIfJustOpened();
     if ( _textDepth < 0 && !_firstElement && !_compactMode) {
         Putc( '\n' );
@@ -2715,6 +3131,9 @@ void XMLPrinter::PushComment( const char* comment )
 
 void XMLPrinter::PushDeclaration( const char* value )
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     SealElementIfJustOpened();
     if ( _textDepth < 0 && !_firstElement && !_compactMode) {
         Putc( '\n' );
@@ -2730,6 +3149,9 @@ void XMLPrinter::PushDeclaration( const char* value )
 
 void XMLPrinter::PushUnknown( const char* value )
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     SealElementIfJustOpened();
     if ( _textDepth < 0 && !_firstElement && !_compactMode) {
         Putc( '\n' );
@@ -2745,6 +3167,9 @@ void XMLPrinter::PushUnknown( const char* value )
 
 bool XMLPrinter::VisitEnter( const XMLDocument& doc )
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     _processEntities = doc.ProcessEntities();
     if ( doc.HasBOM() ) {
         PushHeader( true, false );
@@ -2755,6 +3180,9 @@ bool XMLPrinter::VisitEnter( const XMLDocument& doc )
 
 bool XMLPrinter::VisitEnter( const XMLElement& element, const XMLAttribute* attribute )
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     const XMLElement* parentElem = 0;
     if ( element.Parent() ) {
         parentElem = element.Parent()->ToElement();
@@ -2771,6 +3199,9 @@ bool XMLPrinter::VisitEnter( const XMLElement& element, const XMLAttribute* attr
 
 bool XMLPrinter::VisitExit( const XMLElement& element )
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     CloseElement( CompactMode(element) );
     return true;
 }
@@ -2778,6 +3209,9 @@ bool XMLPrinter::VisitExit( const XMLElement& element )
 
 bool XMLPrinter::Visit( const XMLText& text )
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     PushText( text.Value(), text.CData() );
     return true;
 }
@@ -2785,12 +3219,18 @@ bool XMLPrinter::Visit( const XMLText& text )
 
 bool XMLPrinter::Visit( const XMLComment& comment )
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     PushComment( comment.Value() );
     return true;
 }
 
 bool XMLPrinter::Visit( const XMLDeclaration& declaration )
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     PushDeclaration( declaration.Value() );
     return true;
 }
@@ -2798,6 +3238,9 @@ bool XMLPrinter::Visit( const XMLDeclaration& declaration )
 
 bool XMLPrinter::Visit( const XMLUnknown& unknown )
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     PushUnknown( unknown.Value() );
     return true;
 }

@@ -1,3 +1,5 @@
+#include <stdio.h>
+#include <pthread.h>
 /*
  * Cppcheck - A tool for static C/C++ code analysis
  * Copyright (C) 2007-2023 Cppcheck team.
@@ -95,6 +97,9 @@ std::string Path::getPathFromFilename(const std::string &filename)
 
 bool Path::sameFileName(const std::string &fname1, const std::string &fname2)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     return caseInsensitiveFilesystem() ? (caseInsensitiveStringCompare(fname1, fname2) == 0) : (fname1 == fname2);
 }
 
@@ -163,6 +168,9 @@ std::string Path::getCurrentExecutablePath(const char* fallback)
 
 bool Path::isAbsolute(const std::string& path)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     const std::string& nativePath = toNativeSeparators(path);
 
 #ifdef _WIN32
@@ -195,6 +203,9 @@ std::string Path::getRelativePath(const std::string& absolutePath, const std::ve
 
 bool Path::isC(const std::string &path)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     // In unix, ".C" is considered C++ file
     const std::string extension = getFilenameExtension(path);
     return extension == ".c" ||
@@ -203,6 +214,9 @@ bool Path::isC(const std::string &path)
 
 bool Path::isCPP(const std::string &path)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     const std::string extension = getFilenameExtensionInLowerCase(path);
     return extension == ".cpp" ||
            extension == ".cxx" ||
@@ -220,11 +234,17 @@ bool Path::isCPP(const std::string &path)
 
 bool Path::acceptFile(const std::string &path, const std::set<std::string> &extra)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     return !Path::isHeader(path) && (Path::isCPP(path) || Path::isC(path) || extra.find(getFilenameExtension(path)) != extra.end());
 }
 
 bool Path::isHeader(const std::string &path)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     const std::string extension = getFilenameExtensionInLowerCase(path);
     return startsWith(extension, ".h");
 }
@@ -268,6 +288,9 @@ using mode_t = unsigned short;
 
 static mode_t file_type(const std::string &path)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     struct stat file_stat;
     if (stat(path.c_str(), &file_stat) == -1)
         return 0;
@@ -276,11 +299,17 @@ static mode_t file_type(const std::string &path)
 
 bool Path::isFile(const std::string &path)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     return file_type(path) == S_IFREG;
 }
 
 bool Path::isDirectory(const std::string &path)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     return file_type(path) == S_IFDIR;
 }
 

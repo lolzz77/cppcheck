@@ -1,3 +1,5 @@
+#include <stdio.h>
+#include <pthread.h>
 /*
  * Cppcheck - A tool for static C/C++ code analysis
  * Copyright (C) 2007-2023 Cppcheck team.
@@ -29,6 +31,9 @@ namespace {
     using dataElementType = std::pair<std::string, TimerResultsData>;
     bool more_second_sec(const dataElementType& lhs, const dataElementType& rhs)
     {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         return lhs.second.seconds() > rhs.second.seconds();
     }
 
@@ -40,6 +45,9 @@ namespace {
 // that could also get rid of the broader locking
 void TimerResults::showResults(SHOWTIME_MODES mode) const
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (mode == SHOWTIME_MODES::SHOWTIME_NONE || mode == SHOWTIME_MODES::SHOWTIME_FILE_TOTAL)
         return;
 
@@ -90,6 +98,9 @@ void TimerResults::showResults(SHOWTIME_MODES mode) const
 
 void TimerResults::addResults(const std::string& str, std::clock_t clocks)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     std::lock_guard<std::mutex> l(mResultsSync);
 
     mResults[str].mClocks += clocks;
@@ -98,6 +109,9 @@ void TimerResults::addResults(const std::string& str, std::clock_t clocks)
 
 void TimerResults::reset()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     std::lock_guard<std::mutex> l(mResultsSync);
     mResults.clear();
 }
@@ -122,6 +136,9 @@ Timer::~Timer()
 
 void Timer::stop()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if ((mShowTimeMode != SHOWTIME_MODES::SHOWTIME_NONE) && !mStopped) {
         const std::clock_t end = std::clock();
         const std::clock_t diff = end - mStart;

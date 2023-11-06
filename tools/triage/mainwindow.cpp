@@ -1,3 +1,5 @@
+#include <stdio.h>
+#include <pthread.h>
 /*
  * Cppcheck - A tool for static C/C++ code analysis
  * Copyright (C) 2007-2021 Cppcheck team.
@@ -104,6 +106,9 @@ MainWindow::~MainWindow()
 
 void MainWindow::loadFile()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     ui->statusBar->clearMessage();
     const QString fileName = QFileDialog::getOpenFileName(this, tr("daca results file"), WORK_FOLDER, tr("Text files (*.txt *.log);;All (*.*)"));
     if (fileName.isEmpty())
@@ -116,6 +121,9 @@ void MainWindow::loadFile()
 
 void MainWindow::loadFromClipboard()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     ui->statusBar->clearMessage();
     QString clipboardContent = QApplication::clipboard()->text();
     QTextStream textStream(&clipboardContent);
@@ -124,6 +132,9 @@ void MainWindow::loadFromClipboard()
 
 void MainWindow::load(QTextStream &textStream)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     bool local = false;
     QString url;
     QString errorMessage;
@@ -174,11 +185,17 @@ void MainWindow::load(QTextStream &textStream)
 
 void MainWindow::refreshResults()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     filter(ui->version->currentText());
 }
 
 void MainWindow::filter(const QString& filter)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     QStringList allErrors;
 
     for (const QString &errorItem : mAllErrors) {
@@ -213,6 +230,9 @@ void MainWindow::filter(const QString& filter)
 
 bool MainWindow::runProcess(const QString &programName, const QStringList &arguments)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     QProgressDialog dialog("Running external process: " + programName, "Kill", 0 /*min*/, 1 /*max*/, this);
     dialog.setWindowModality(Qt::WindowModal);
     dialog.setMinimumDuration(0 /*msec*/);
@@ -257,11 +277,17 @@ bool MainWindow::runProcess(const QString &programName, const QStringList &argum
 
 bool MainWindow::wget(const QString &url)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     return runProcess("wget", QStringList{url});
 }
 
 bool MainWindow::unpackArchive(const QString &archiveName)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     // Unpack archive
     QStringList args;
 #ifdef Q_OS_WIN
@@ -287,6 +313,9 @@ bool MainWindow::unpackArchive(const QString &archiveName)
 
 void MainWindow::showResult(QListWidgetItem *item)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     ui->statusBar->clearMessage();
     const bool local = item->text().startsWith(DACA2_PACKAGES);
     if (!item->text().startsWith("ftp://") && !local)
@@ -328,6 +357,9 @@ void MainWindow::showResult(QListWidgetItem *item)
 
 void MainWindow::showSrcFile(const QString &fileName, const QString &url, const int lineNumber)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     // Open file
     ui->code->setFocus();
     QFile f(fileName);
@@ -349,12 +381,18 @@ void MainWindow::showSrcFile(const QString &fileName, const QString &url, const 
 
 void MainWindow::fileTreeFilter(const QString &str)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     mFSmodel.setNameFilters(QStringList{"*" + str + "*"});
     mFSmodel.setNameFilterDisables(false);
 }
 
 void MainWindow::findInFilesClicked()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     ui->tabWidget->setCurrentIndex(1);
     ui->inFilesResult->clear();
     const QString text = ui->filterEdit->text();
@@ -395,11 +433,17 @@ void MainWindow::findInFilesClicked()
 
 void MainWindow::directorytreeDoubleClick()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     showSrcFile(mFSmodel.filePath(ui->directoryTree->currentIndex()), "", 1);
 }
 
 void MainWindow::searchResultsDoubleClick()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     QString filename = ui->inFilesResult->currentItem()->text();
     const auto idx = filename.lastIndexOf(':');
     const int line = filename.mid(idx + 1).toInt();
@@ -408,6 +452,9 @@ void MainWindow::searchResultsDoubleClick()
 
 void MainWindow::resultsContextMenu(const QPoint& pos)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (ui->results->selectedItems().isEmpty())
         return;
     QMenu submenu;

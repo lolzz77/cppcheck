@@ -1,3 +1,5 @@
+#include <stdio.h>
+#include <pthread.h>
 /*
  * Cppcheck - A tool for static C/C++ code analysis
  * Copyright (C) 2007-2023 Cppcheck team.
@@ -27,6 +29,9 @@
 
 static void unencode(const char *src, char *dest)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     for (; *src; src++, dest++) {
         if (*src == '+')
             *dest = ' ';
@@ -59,11 +64,17 @@ public:
     }
 
     void run(const char code[]) {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         cppcheck.check("test.cpp", code);
     }
 
     void reportOut(const std::string & /*outmsg*/, Color /*c*/) override {}
     void reportErr(const ErrorMessage &msg) override {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const std::string s = msg.toString(true);
 
         std::cout << s << std::endl;
@@ -85,6 +96,9 @@ public:
 
 int main()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     std::cout << "Content-type: text/html\r\n\r\n"
               << "<!DOCTYPE html>\n";
 

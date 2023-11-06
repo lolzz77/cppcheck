@@ -1,3 +1,5 @@
+#include <stdio.h>
+#include <pthread.h>
 
 // Test library configuration for sqlite3.cfg
 //
@@ -12,6 +14,9 @@
 
 void validCode()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     sqlite3 * db;
 
     int rc = sqlite3_open("/db", &db);
@@ -31,6 +36,9 @@ void validCode()
 
 void memleak_sqlite3_malloc()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     char * buf = sqlite3_malloc(10);
     if (buf) {
         buf[0] = 0;
@@ -40,6 +48,9 @@ void memleak_sqlite3_malloc()
 
 void resourceLeak_sqlite3_open()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     sqlite3 * db;
 
     sqlite3_open("/db", &db);
@@ -48,6 +59,9 @@ void resourceLeak_sqlite3_open()
 
 void ignoredReturnValue(const char * buf)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     // cppcheck-suppress leakReturnValNotUsed
     sqlite3_malloc(10);
     // cppcheck-suppress leakReturnValNotUsed

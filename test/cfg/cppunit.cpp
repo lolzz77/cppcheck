@@ -1,3 +1,5 @@
+#include <stdio.h>
+#include <pthread.h>
 // Test library configuration for cppunit.cfg
 //
 // Usage:
@@ -10,6 +12,9 @@
 
 void cppunit_assert_equal(int x, double y)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     CPPUNIT_ASSERT(true);
     CPPUNIT_ASSERT(false);
     CPPUNIT_ASSERT(1 < 2);
@@ -33,6 +38,9 @@ void cppunit_assert_equal(int x, double y)
 
 void cppunit_throw()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     CPPUNIT_ASSERT_NO_THROW(1 + 1);
     CPPUNIT_ASSERT_NO_THROW_MESSAGE("Unexpected throw", 1 + 1);
     CPPUNIT_ASSERT_THROW(1 + 1, CPPUNIT_NS::Exception);
@@ -41,6 +49,9 @@ void cppunit_throw()
 
 void cppunit_assertion_assert()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     CPPUNIT_ASSERT_ASSERTION_FAIL(true);
     CPPUNIT_ASSERT_ASSERTION_FAIL_MESSAGE("hello", false);
     CPPUNIT_ASSERT_ASSERTION_PASS(false);
@@ -49,5 +60,8 @@ void cppunit_assertion_assert()
 
 void cppunit_assert_fail()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     CPPUNIT_FAIL("This fails");
 }

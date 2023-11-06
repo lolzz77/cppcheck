@@ -1,3 +1,5 @@
+#include <stdio.h>
+#include <pthread.h>
 /*
  * Cppcheck - A tool for static C/C++ code analysis
  * Copyright (C) 2007-2023 Cppcheck team.
@@ -74,14 +76,23 @@ public:
     explicit PipeWriter(int pipe) : mWpipe(pipe) {}
 
     void reportOut(const std::string &outmsg, Color c) override {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         writeToPipe(REPORT_OUT, static_cast<char>(c) + outmsg);
     }
 
     void reportErr(const ErrorMessage &msg) override {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         writeToPipe(REPORT_ERROR, msg.serialize());
     }
 
     void writeEnd(const std::string& str) const {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         writeToPipe(CHILD_END, str);
     }
 
@@ -89,6 +100,9 @@ private:
     // TODO: how to log file name in error?
     void writeToPipeInternal(PipeSignal type, const void* data, std::size_t to_write) const
     {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const ssize_t bytes_written = write(mWpipe, data, to_write);
         if (bytes_written <= 0) {
             const int err = errno;
@@ -104,6 +118,9 @@ private:
 
     void writeToPipe(PipeSignal type, const std::string &data) const
     {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         {
             const char t = static_cast<char>(type);
             writeToPipeInternal(type, &t, 1);
@@ -123,6 +140,9 @@ private:
 
 bool ProcessExecutor::handleRead(int rpipe, unsigned int &result, const std::string& filename)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     std::size_t bytes_to_read;
     ssize_t bytes_read;
 
@@ -203,6 +223,9 @@ bool ProcessExecutor::handleRead(int rpipe, unsigned int &result, const std::str
 
 bool ProcessExecutor::checkLoadAverage(size_t nchildren)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
 #if defined(__QNX__) || defined(__HAIKU__)  // getloadavg() is unsupported on Qnx, Haiku.
     (void)nchildren;
     return true;
@@ -385,6 +408,9 @@ unsigned int ProcessExecutor::check()
 
 void ProcessExecutor::reportInternalChildErr(const std::string &childname, const std::string &msg)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     std::list<ErrorMessage::FileLocation> locations;
     locations.emplace_back(childname, 0, 0);
     const ErrorMessage errmsg(locations,

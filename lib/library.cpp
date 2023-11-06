@@ -1,3 +1,5 @@
+#include <stdio.h>
+#include <pthread.h>
 /*
  * Cppcheck - A tool for static C/C++ code analysis
  * Copyright (C) 2007-2023 Cppcheck team.
@@ -55,6 +57,9 @@ static std::vector<std::string> getnames(const char *names)
 
 static void gettokenlistfromvalid(const std::string& valid, TokenList& tokenList)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     std::istringstream istr(valid + ',');
     tokenList.createTokens(istr);
     for (Token *tok = tokenList.front(); tok; tok = tok->next()) {
@@ -911,6 +916,9 @@ Library::Error Library::loadFunction(const tinyxml2::XMLElement * const node, co
 
 bool Library::isIntArgValid(const Token *ftok, int argnr, const MathLib::bigint argvalue) const
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     const ArgumentChecks *ac = getarg(ftok, argnr);
     if (!ac || ac->valid.empty())
         return true;
@@ -933,6 +941,9 @@ bool Library::isIntArgValid(const Token *ftok, int argnr, const MathLib::bigint 
 
 bool Library::isFloatArgValid(const Token *ftok, int argnr, double argvalue) const
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     const ArgumentChecks *ac = getarg(ftok, argnr);
     if (!ac || ac->valid.empty())
         return true;
@@ -1027,6 +1038,9 @@ std::string Library::getFunctionName(const Token *ftok) const
 
 bool Library::isnullargbad(const Token *ftok, int argnr) const
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     const ArgumentChecks *arg = getarg(ftok, argnr);
     if (!arg) {
         // scan format string argument should not be null
@@ -1040,6 +1054,9 @@ bool Library::isnullargbad(const Token *ftok, int argnr) const
 
 bool Library::isuninitargbad(const Token *ftok, int argnr, int indirect, bool *hasIndirect) const
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     const ArgumentChecks *arg = getarg(ftok, argnr);
     if (!arg) {
         // non-scan format string argument should not be uninitialized
@@ -1078,6 +1095,9 @@ const Library::AllocFunc* Library::getReallocFuncInfo(const Token *tok) const
 /** get allocation id for function */
 int Library::getAllocId(const Token *tok, int arg) const
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     const Library::AllocFunc* af = getAllocFuncInfo(tok);
     return (af && af->arg == arg) ? af->groupId : 0;
 }
@@ -1085,6 +1105,9 @@ int Library::getAllocId(const Token *tok, int arg) const
 /** get deallocation id for function */
 int Library::getDeallocId(const Token *tok, int arg) const
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     const Library::AllocFunc* af = getDeallocFuncInfo(tok);
     return (af && af->arg == arg) ? af->groupId : 0;
 }
@@ -1092,6 +1115,9 @@ int Library::getDeallocId(const Token *tok, int arg) const
 /** get reallocation id for function */
 int Library::getReallocId(const Token *tok, int arg) const
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     const Library::AllocFunc* af = getReallocFuncInfo(tok);
     return (af && af->arg == arg) ? af->groupId : 0;
 }
@@ -1115,6 +1141,9 @@ const Library::ArgumentChecks * Library::getarg(const Token *ftok, int argnr) co
 
 bool Library::isScopeNoReturn(const Token *end, std::string *unknownFunc) const
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (unknownFunc)
         unknownFunc->clear();
 
@@ -1224,6 +1253,9 @@ const Library::Container* Library::detectContainerOrIterator(const Token* typeSt
 
 bool Library::isContainerYield(const Token * const cond, Library::Container::Yield y, const std::string& fallback)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (!cond)
         return false;
     if (cond->str() == "(") {
@@ -1244,6 +1276,9 @@ bool Library::isContainerYield(const Token * const cond, Library::Container::Yie
 // returns true if ftok is not a library function
 bool Library::isNotLibraryFunction(const Token *ftok) const
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (ftok->isKeyword() || ftok->isStandardType())
         return true;
 
@@ -1259,6 +1294,9 @@ bool Library::isNotLibraryFunction(const Token *ftok) const
 
 bool Library::matchArguments(const Token *ftok, const std::string &functionName) const
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (functionName.empty())
         return false;
     const int callargs = numberOfArgumentsWithoutAst(ftok);
@@ -1291,6 +1329,9 @@ const Library::WarnInfo* Library::getWarnInfo(const Token* ftok) const
 
 bool Library::isCompliantValidationExpression(const char* p)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (!p || !*p)
         return false;
 
@@ -1334,6 +1375,9 @@ bool Library::isCompliantValidationExpression(const char* p)
 
 bool Library::formatstr_function(const Token* ftok) const
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (isNotLibraryFunction(ftok))
         return false;
 
@@ -1345,6 +1389,9 @@ bool Library::formatstr_function(const Token* ftok) const
 
 int Library::formatstr_argno(const Token* ftok) const
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     const std::map<int, Library::ArgumentChecks>& argumentChecksFunc = functions.at(getFunctionName(ftok)).argumentChecks;
     auto it = std::find_if(argumentChecksFunc.cbegin(), argumentChecksFunc.cend(), [](const std::pair<const int, Library::ArgumentChecks>& a) {
         return a.second.formatstr;
@@ -1354,11 +1401,17 @@ int Library::formatstr_argno(const Token* ftok) const
 
 bool Library::formatstr_scan(const Token* ftok) const
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     return functions.at(getFunctionName(ftok)).formatstr_scan;
 }
 
 bool Library::formatstr_secure(const Token* ftok) const
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     return functions.at(getFunctionName(ftok)).formatstr_secure;
 }
 
@@ -1414,6 +1467,9 @@ const std::string& Library::returnValueType(const Token *ftok) const
 
 int Library::returnValueContainer(const Token *ftok) const
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (isNotLibraryFunction(ftok))
         return -1;
     const std::map<std::string, int>::const_iterator it = mReturnValueContainer.find(getFunctionName(ftok));
@@ -1441,6 +1497,9 @@ const Library::Function *Library::getFunction(const Token *ftok) const
 
 bool Library::hasminsize(const Token *ftok) const
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (isNotLibraryFunction(ftok))
         return false;
     const std::unordered_map<std::string, Function>::const_iterator it = functions.find(getFunctionName(ftok));
@@ -1469,6 +1528,9 @@ Library::ArgumentChecks::Direction Library::getArgDirection(const Token* ftok, i
 
 bool Library::ignorefunction(const std::string& functionName) const
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     const std::unordered_map<std::string, Function>::const_iterator it = functions.find(functionName);
     if (it != functions.cend())
         return it->second.ignore;
@@ -1476,6 +1538,9 @@ bool Library::ignorefunction(const std::string& functionName) const
 }
 bool Library::isUse(const std::string& functionName) const
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     const std::unordered_map<std::string, Function>::const_iterator it = functions.find(functionName);
     if (it != functions.cend())
         return it->second.use;
@@ -1483,6 +1548,9 @@ bool Library::isUse(const std::string& functionName) const
 }
 bool Library::isLeakIgnore(const std::string& functionName) const
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     const std::unordered_map<std::string, Function>::const_iterator it = functions.find(functionName);
     if (it != functions.cend())
         return it->second.leakignore;
@@ -1490,6 +1558,9 @@ bool Library::isLeakIgnore(const std::string& functionName) const
 }
 bool Library::isFunctionConst(const std::string& functionName, bool pure) const
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     const std::unordered_map<std::string, Function>::const_iterator it = functions.find(functionName);
     if (it != functions.cend())
         return pure ? it->second.ispure : it->second.isconst;
@@ -1497,6 +1568,9 @@ bool Library::isFunctionConst(const std::string& functionName, bool pure) const
 }
 bool Library::isFunctionConst(const Token *ftok) const
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (ftok->function() && ftok->function()->isConst())
         return true;
     if (isNotLibraryFunction(ftok)) {
@@ -1514,6 +1588,9 @@ bool Library::isFunctionConst(const Token *ftok) const
 
 bool Library::isnoreturn(const Token *ftok) const
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (ftok->function() && ftok->function()->isAttributeNoreturn())
         return true;
     if (isNotLibraryFunction(ftok)) {
@@ -1535,6 +1612,9 @@ bool Library::isnoreturn(const Token *ftok) const
 
 bool Library::isnotnoreturn(const Token *ftok) const
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (ftok->function() && ftok->function()->isAttributeNoreturn())
         return false;
     if (isNotLibraryFunction(ftok))
@@ -1549,29 +1629,44 @@ bool Library::isnotnoreturn(const Token *ftok) const
 
 bool Library::markupFile(const std::string &path) const
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     return mMarkupExtensions.find(Path::getFilenameExtensionInLowerCase(path)) != mMarkupExtensions.end();
 }
 
 bool Library::processMarkupAfterCode(const std::string &path) const
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     const std::map<std::string, bool>::const_iterator it = mProcessAfterCode.find(Path::getFilenameExtensionInLowerCase(path));
     return (it == mProcessAfterCode.cend() || it->second);
 }
 
 bool Library::reportErrors(const std::string &path) const
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     const std::map<std::string, bool>::const_iterator it = mReportErrors.find(Path::getFilenameExtensionInLowerCase(path));
     return (it == mReportErrors.cend() || it->second);
 }
 
 bool Library::isexecutableblock(const std::string &file, const std::string &token) const
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     const std::unordered_map<std::string, CodeBlock>::const_iterator it = mExecutableBlocks.find(Path::getFilenameExtensionInLowerCase(file));
     return (it != mExecutableBlocks.cend() && it->second.isBlock(token));
 }
 
 int Library::blockstartoffset(const std::string &file) const
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     int offset = -1;
     const std::unordered_map<std::string, CodeBlock>::const_iterator map_it
         = mExecutableBlocks.find(Path::getFilenameExtensionInLowerCase(file));
@@ -1606,6 +1701,9 @@ const std::string& Library::blockend(const std::string &file) const
 
 bool Library::iskeyword(const std::string &file, const std::string &keyword) const
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     const std::map<std::string, std::set<std::string>>::const_iterator it =
         mKeywords.find(Path::getFilenameExtensionInLowerCase(file));
     return (it != mKeywords.end() && it->second.count(keyword));
@@ -1613,6 +1711,9 @@ bool Library::iskeyword(const std::string &file, const std::string &keyword) con
 
 bool Library::isimporter(const std::string& file, const std::string &importer) const
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     const std::map<std::string, std::set<std::string>>::const_iterator it =
         mImporters.find(Path::getFilenameExtensionInLowerCase(file));
     return (it != mImporters.end() && it->second.count(importer) > 0);
@@ -1669,6 +1770,9 @@ const Token* Library::getContainerFromAction(const Token* tok, Library::Containe
 
 bool Library::isSmartPointer(const Token* tok) const
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     return detectSmartPointer(tok);
 }
 
@@ -1713,6 +1817,9 @@ Library::TypeCheck Library::getTypeCheck(std::string check,  std::string typeNam
 
 bool Library::hasAnyTypeCheck(const std::string& typeName) const
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     return std::any_of(mTypeChecks.begin(), mTypeChecks.end(), [&](const std::pair<std::pair<std::string, std::string>, Library::TypeCheck>& tc) {
         return tc.first.second == typeName;
     });

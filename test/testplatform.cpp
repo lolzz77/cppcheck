@@ -1,3 +1,5 @@
+#include <stdio.h>
+#include <pthread.h>
 /*
  * Cppcheck - A tool for static C/C++ code analysis
  * Copyright (C) 2007-2023 Cppcheck team.
@@ -31,6 +33,9 @@ public:
 
 private:
     void run() override {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         TEST_CASE(empty);
         TEST_CASE(valid_config_win32a);
         TEST_CASE(valid_config_unix64);
@@ -49,11 +54,17 @@ private:
     }
 
     static bool readPlatform(Platform& platform, const char* xmldata) {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         tinyxml2::XMLDocument doc;
         return (doc.Parse(xmldata) == tinyxml2::XML_SUCCESS) && platform.loadFromXmlDocument(&doc);
     }
 
     void empty() const {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         // An empty platform file does not change values, only the type.
         constexpr char xmldata[] = "<?xml version=\"1.0\"?>\n<platform/>";
         Platform platform;
@@ -62,6 +73,9 @@ private:
     }
 
     void valid_config_win32a() const {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         // Verify if native Win32A platform is loaded correctly
         Platform platform;
         PLATFORM(platform, Platform::Type::Win32A);
@@ -87,6 +101,9 @@ private:
     }
 
     void valid_config_unix64() const {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         // Verify if native Unix64 platform is loaded correctly
         Platform platform;
         PLATFORM(platform, Platform::Type::Unix64);
@@ -112,6 +129,9 @@ private:
     }
 
     void valid_config_win32w() const {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         // Verify if native Win32W platform is loaded correctly
         Platform platform;
         PLATFORM(platform, Platform::Type::Win32W);
@@ -137,6 +157,9 @@ private:
     }
 
     void valid_config_unix32() const {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         // Verify if native Unix32 platform is loaded correctly
         Platform platform;
         PLATFORM(platform, Platform::Type::Unix32);
@@ -162,6 +185,9 @@ private:
     }
 
     void valid_config_win64() const {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         // Verify if native Win64 platform is loaded correctly
         Platform platform;
         PLATFORM(platform, Platform::Type::Win64);
@@ -187,6 +213,9 @@ private:
     }
 
     void valid_config_file_1() const {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         // Valid platform configuration with all possible values specified.
         // Similar to the avr8 platform file.
         constexpr char xmldata[] = "<?xml version=\"1.0\"?>\n"
@@ -231,6 +260,9 @@ private:
     }
 
     void valid_config_file_2() const {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         // Valid platform configuration with all possible values specified and
         // char_bit > 8.
         constexpr char xmldata[] = "<?xml version=\"1.0\"?>\n"
@@ -275,6 +307,9 @@ private:
     }
 
     void valid_config_file_3() const {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         // Valid platform configuration without any usable information.
         // Similar like an empty file.
         constexpr char xmldata[] = "<?xml version=\"1.0\"?>\n"
@@ -301,6 +336,9 @@ private:
     }
 
     void valid_config_file_4() const {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         // Valid platform configuration with all possible values specified and
         // set to 0.
         constexpr char xmldata[] = "<?xml version=\"1.0\"?>\n"
@@ -345,6 +383,9 @@ private:
     }
 
     void invalid_config_file_1() const {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         // Invalid XML file: mismatching elements "boolt" vs "bool".
         constexpr char xmldata[] = "<?xml version=\"1.0\"?>\n"
                                    "<platform>\n"
@@ -369,6 +410,9 @@ private:
     }
 
     void empty_elements() const {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         // Valid platform configuration without any usable information.
         // Similar like an empty file.
         constexpr char xmldata[] = "<?xml version=\"1.0\"?>\n"
@@ -394,11 +438,17 @@ private:
     }
 
     void default_platform() const {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         Platform platform;
         ASSERT_EQUALS(Platform::Type::Native, platform.type);
     }
 
     void limitsDefines() const {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         Platform platform;
         platform.set(Platform::Unix64);
         const std::string defs = "CHAR_BIT=8;SCHAR_MIN=-128;SCHAR_MAX=127;UCHAR_MAX=255;CHAR_MIN=0;CHAR_MAX=127;SHRT_MIN=-32768;SHRT_MAX=32767;USHRT_MAX=65535;INT_MIN=-2147483648;INT_MAX=2147483647;UINT_MAX=4294967295;LONG_MIN=-9223372036854775808;LONG_MAX=9223372036854775807;ULONG_MAX=9223372036854775807";
@@ -412,6 +462,9 @@ private:
     }
 
     void charMinMax() const {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         Platform platform;
         ASSERT_EQUALS(255, platform.unsignedCharMax());
         ASSERT_EQUALS(127, platform.signedCharMax());

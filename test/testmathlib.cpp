@@ -1,3 +1,5 @@
+#include <stdio.h>
+#include <pthread.h>
 /*
  * Cppcheck - A tool for static C/C++ code analysis
  * Copyright (C) 2007-2023 Cppcheck team.
@@ -31,6 +33,9 @@ public:
 private:
 
     void run() override {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         TEST_CASE(isint);
         TEST_CASE(isbin);
         TEST_CASE(isdec);
@@ -65,11 +70,17 @@ private:
     }
 
     void isGreater() const {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         ASSERT_EQUALS(true,  MathLib::isGreater("1.0", "0.001"));
         ASSERT_EQUALS(false, MathLib::isGreater("-1.0", "0.001"));
     }
 
     void isGreaterEqual() const {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         ASSERT_EQUALS(true,  MathLib::isGreaterEqual("1.00", "1.0"));
         ASSERT_EQUALS(true,  MathLib::isGreaterEqual("1.001", "1.0"));
         ASSERT_EQUALS(true,  MathLib::isGreaterEqual("1.0", "0.001"));
@@ -77,22 +88,34 @@ private:
     }
 
     void isEqual() const {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         ASSERT_EQUALS(true,  MathLib::isEqual("1.0", "1.0"));
         ASSERT_EQUALS(false, MathLib::isEqual("1.", "1.01"));
         ASSERT_EQUALS(true,  MathLib::isEqual("0.1","1.0E-1"));
     }
 
     void isNotEqual() const {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         ASSERT_EQUALS(false, MathLib::isNotEqual("1.0", "1.0"));
         ASSERT_EQUALS(true,  MathLib::isNotEqual("1.", "1.01"));
     }
 
     void isLess() const {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         ASSERT_EQUALS(false, MathLib::isLess("1.0", "0.001"));
         ASSERT_EQUALS(true,  MathLib::isLess("-1.0", "0.001"));
     }
 
     void isLessEqual() const {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         ASSERT_EQUALS(true,  MathLib::isLessEqual("1.00", "1.0"));
         ASSERT_EQUALS(false, MathLib::isLessEqual("1.001", "1.0"));
         ASSERT_EQUALS(false, MathLib::isLessEqual("1.0", "0.001"));
@@ -100,6 +123,9 @@ private:
     }
 
     void calculate() const {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         // addition
         ASSERT_EQUALS("256",  MathLib::add("0xff", "1"));
         ASSERT_EQUALS("249",  MathLib::add("250", "-1"));
@@ -169,6 +195,9 @@ private:
     }
 
     void calculate1() const {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         ASSERT_EQUALS("0", MathLib::calculate("2",   "1", '%'));
         ASSERT_EQUALS("2", MathLib::calculate("12",  "5", '%'));
         ASSERT_EQUALS("1", MathLib::calculate("100", "3", '%'));
@@ -189,6 +218,9 @@ private:
     }
 
     void typesuffix() const {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         ASSERT_EQUALS("2",    MathLib::add("1",    "1"));
         ASSERT_EQUALS("2U",   MathLib::add("1U",   "1"));
         ASSERT_EQUALS("2L",   MathLib::add("1L",   "1"));
@@ -249,6 +281,9 @@ private:
     }
 
     void toBigNumber() const {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         // zero input
         ASSERT_EQUALS(0, MathLib::toBigNumber("0"));
         ASSERT_EQUALS(0, MathLib::toBigNumber("-0"));
@@ -414,6 +449,9 @@ private:
     }
 
     void toBigUNumber() const {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         // zero input
         ASSERT_EQUALS(0, MathLib::toBigUNumber("0"));
         ASSERT_EQUALS(0, MathLib::toBigUNumber("-0"));
@@ -579,6 +617,9 @@ private:
     }
 
     void toDoubleNumber() const {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         // float values
         ASSERT_EQUALS_DOUBLE(1.0,    MathLib::toDoubleNumber("1."),       0.001);
         ASSERT_EQUALS_DOUBLE(1.0,    MathLib::toDoubleNumber("1.f"),      0.001);
@@ -710,6 +751,9 @@ private:
     }
 
     void isint() const {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         // zero tests
         ASSERT_EQUALS(true,  MathLib::isInt("0"));
         ASSERT_EQUALS(false, MathLib::isInt("0."));
@@ -799,6 +843,9 @@ private:
     }
 
     void isbin() const {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         // positive testing
         ASSERT_EQUALS(true, MathLib::isBin("0b0"));
         ASSERT_EQUALS(true, MathLib::isBin("0b1"));
@@ -839,6 +886,9 @@ private:
     }
 
     void isnegative() const {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         ASSERT_EQUALS(true, MathLib::isNegative("-1"));
         ASSERT_EQUALS(true, MathLib::isNegative("-1."));
         ASSERT_EQUALS(true, MathLib::isNegative("-1.0"));
@@ -855,6 +905,9 @@ private:
     }
 
     void isoct() const {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         // octal number format: [+|-]0[0-7][suffix]
         // positive testing
         ASSERT_EQUALS(true, MathLib::isOct("010"));
@@ -917,6 +970,9 @@ private:
     }
 
     void isFloatHex() const {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         // hex number syntax: [sign]0x[hexnumbers][suffix]
         ASSERT_EQUALS(true, MathLib::isFloatHex("0x1.999999999999ap-4"));
         ASSERT_EQUALS(true, MathLib::isFloatHex("0x0.3p10"));
@@ -948,6 +1004,9 @@ private:
     }
 
     void isIntHex() const {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         // hex number syntax: [sign]0x[hexnumbers][suffix]
 
         // positive testing
@@ -1015,6 +1074,9 @@ private:
     }
 
     void isValidIntegerSuffix() const {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         // negative testing
         ASSERT_EQUALS(false, MathLib::isValidIntegerSuffix(""));
         ASSERT_EQUALS(false, MathLib::isValidIntegerSuffix("ux"));
@@ -1065,6 +1127,9 @@ private:
     }
 
     void ispositive() const {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         ASSERT_EQUALS(false, MathLib::isPositive("-1"));
         ASSERT_EQUALS(false, MathLib::isPositive("-1."));
         ASSERT_EQUALS(false, MathLib::isPositive("-1.0"));
@@ -1082,6 +1147,9 @@ private:
     }
 
     void isFloat() const {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         ASSERT_EQUALS(false, MathLib::isFloat(""));
         ASSERT_EQUALS(true,  MathLib::isFloat("0.f"));
         ASSERT_EQUALS(true,  MathLib::isFloat("0.f"));
@@ -1096,6 +1164,9 @@ private:
     }
 
     void isDecimalFloat() const {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         ASSERT_EQUALS(false, MathLib::isDecimalFloat(""));
         ASSERT_EQUALS(false, MathLib::isDecimalFloat("."));
         ASSERT_EQUALS(false, MathLib::isDecimalFloat("..."));
@@ -1210,6 +1281,9 @@ private:
     }
 
     void naninf() const {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         ASSERT_EQUALS("nan.0", MathLib::divide("0.0", "0.0")); // nan
         ASSERT_EQUALS("nan.0", MathLib::divide("0.0", "0.f")); // nan (#5875)
         ASSERT_EQUALS("nan.0", MathLib::divide("-0.0", "0.f")); // nan (#5875)
@@ -1226,6 +1300,9 @@ private:
     }
 
     void isdec() const {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         // positive testing
         ASSERT_EQUALS(true, MathLib::isDec("1"));
         ASSERT_EQUALS(true, MathLib::isDec("+1"));
@@ -1252,6 +1329,9 @@ private:
     }
 
     void isNullValue() const {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         // inter zero value
         ASSERT_EQUALS(true, MathLib::isNullValue("0"));
         ASSERT_EQUALS(true, MathLib::isNullValue("+0"));
@@ -1445,15 +1525,27 @@ private:
     }
 
     void sin() const {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         ASSERT_EQUALS("0.0", MathLib::sin("0"));
     }
     void cos() const {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         ASSERT_EQUALS("1.0", MathLib::cos("0"));
     }
     void tan() const {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         ASSERT_EQUALS("0.0", MathLib::tan("0"));
     }
     void abs() const {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         ASSERT_EQUALS("", MathLib::abs(""));
         ASSERT_EQUALS("0", MathLib::abs("0"));
         ASSERT_EQUALS("+0", MathLib::abs("+0"));
@@ -1466,6 +1558,9 @@ private:
     }
 
     void toString() const {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         ASSERT_EQUALS("0.0", MathLib::toString(0.0));
         ASSERT_EQUALS("0.0", MathLib::toString(+0.0));
         ASSERT_EQUALS("0.0", MathLib::toString(-0.0));

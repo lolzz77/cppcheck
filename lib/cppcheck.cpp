@@ -1,3 +1,5 @@
+#include <stdio.h>
+#include <pthread.h>
 /*
  * Cppcheck - A tool for static C/C++ code analysis
  * Copyright (C) 2007-2023 Cppcheck team.
@@ -101,6 +103,9 @@ namespace {
                 std::remove(fileName.c_str());
         }
         void addFile(const std::string& fileName) {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
             mFilenames.push_back(fileName);
         }
     private:
@@ -141,6 +146,9 @@ static std::vector<std::string> split(const std::string &str, const std::string 
 
 static int getPid()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
 #ifndef _WIN32
     return getpid();
 #else
@@ -174,6 +182,9 @@ static void createDumpFile(const Settings& settings,
                            std::ofstream& fdump,
                            std::string& dumpFile)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (!settings.dump && settings.addons.empty())
         return;
     dumpFile = getDumpFileName(settings, filename);
@@ -374,6 +385,9 @@ const char * CppCheck::extraVersion()
 
 static bool reportClangErrors(std::istream &is, const std::function<void(const ErrorMessage&)>& reportErr, std::vector<ErrorMessage> &warnings)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     std::string line;
     while (std::getline(is, line)) {
         if (line.empty() || line[0] == ' ' || line[0] == '`' || line[0] == '-')
@@ -851,6 +865,9 @@ unsigned int CppCheck::checkFile(const std::string& filename, const std::string 
                 tokenizer.setTimerResults(&s_timerResults);
 
             try {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
                 // Create tokens, skip rest of iteration if failed
                 {
                     Timer timer("Tokenizer::createTokens", mSettings.showtime, &s_timerResults);
@@ -1003,6 +1020,9 @@ unsigned int CppCheck::checkFile(const std::string& filename, const std::string 
 // TODO: replace with ErrorMessage::fromInternalError()
 void CppCheck::internalError(const std::string &filename, const std::string &msg)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     const std::string fullmsg("Bailing out from analysis: " + msg);
 
     const ErrorMessage::FileLocation loc1(filename, 0, 0);
@@ -1023,6 +1043,9 @@ void CppCheck::internalError(const std::string &filename, const std::string &msg
 //---------------------------------------------------------------------------
 void CppCheck::checkRawTokens(const Tokenizer &tokenizer)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
 #ifdef HAVE_RULES
     // Execute rules for "raw" code
     executeRules("raw", tokenizer);
@@ -1037,6 +1060,9 @@ void CppCheck::checkRawTokens(const Tokenizer &tokenizer)
 
 void CppCheck::checkNormalTokens(const Tokenizer &tokenizer)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     // TODO: this should actually be the behavior if only "--enable=unusedFunction" is specified - see #10648
     const char* unusedFunctionOnly = std::getenv("UNUSEDFUNCTION_ONLY");
     const bool doUnusedFunctionOnly = unusedFunctionOnly && (std::strcmp(unusedFunctionOnly, "1") == 0);
@@ -1110,6 +1136,9 @@ void CppCheck::checkNormalTokens(const Tokenizer &tokenizer)
 #ifdef HAVE_RULES
 bool CppCheck::hasRule(const std::string &tokenlist) const
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     return std::any_of(mSettings.rules.cbegin(), mSettings.rules.cend(), [&](const Settings::Rule& rule) {
         return rule.tokenlist == tokenlist;
     });
@@ -1246,6 +1275,9 @@ static const char * pcreErrorCodeToString(const int pcreExecRet)
 
 void CppCheck::executeRules(const std::string &tokenlist, const Tokenizer &tokenizer)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     // There is no rule to execute
     if (!hasRule(tokenlist))
         return;
@@ -1373,6 +1405,9 @@ void CppCheck::executeRules(const std::string &tokenlist, const Tokenizer &token
 
 void CppCheck::executeAddons(const std::string& dumpFile)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (!dumpFile.empty()) {
         std::vector<std::string> f{dumpFile};
         executeAddons(f);
@@ -1381,6 +1416,9 @@ void CppCheck::executeAddons(const std::string& dumpFile)
 
 void CppCheck::executeAddons(const std::vector<std::string>& files)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (mSettings.addons.empty() || files.empty())
         return;
 
@@ -1453,6 +1491,9 @@ void CppCheck::executeAddons(const std::vector<std::string>& files)
 
 void CppCheck::executeAddonsWholeProgram(const std::map<std::string, std::size_t> &files)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (mSettings.addons.empty())
         return;
 
@@ -1482,6 +1523,9 @@ Settings &CppCheck::settings()
 
 void CppCheck::tooManyConfigsError(const std::string &file, const int numberOfConfigurations)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (!mSettings.severity.isEnabled(Severity::information) && !mTooManyConfigs)
         return;
 
@@ -1521,6 +1565,9 @@ void CppCheck::tooManyConfigsError(const std::string &file, const int numberOfCo
 
 void CppCheck::purgedConfigurationMessage(const std::string &file, const std::string& configuration)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     mTooManyConfigs = false;
 
     if (mSettings.severity.isEnabled(Severity::information) && file.empty())
@@ -1545,6 +1592,9 @@ void CppCheck::purgedConfigurationMessage(const std::string &file, const std::st
 
 void CppCheck::reportErr(const ErrorMessage &msg)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (msg.severity == Severity::none && (msg.id == "logChecker" || endsWith(msg.id, "-logChecker"))) {
         mErrorLogger.reportErr(msg);
         return;
@@ -1596,16 +1646,25 @@ void CppCheck::reportErr(const ErrorMessage &msg)
 
 void CppCheck::reportOut(const std::string &outmsg, Color c)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     mErrorLogger.reportOut(outmsg, c);
 }
 
 void CppCheck::reportProgress(const std::string &filename, const char stage[], const std::size_t value)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     mErrorLogger.reportProgress(filename, stage, value);
 }
 
 void CppCheck::getErrorMessages(ErrorLogger &errorlogger)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     Settings s;
     s.severity.enable(Severity::warning);
     s.severity.enable(Severity::style);
@@ -1628,6 +1687,9 @@ void CppCheck::getErrorMessages(ErrorLogger &errorlogger)
 
 void CppCheck::analyseClangTidy(const FileSettings &fileSettings)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     std::string allIncludes;
     for (const std::string &inc : fileSettings.includePaths) {
         allIncludes = allIncludes + "-I\"" + inc + "\" ";
@@ -1705,6 +1767,9 @@ void CppCheck::analyseClangTidy(const FileSettings &fileSettings)
 
 bool CppCheck::analyseWholeProgram()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     bool errors = false;
     // Init CTU
     CTU::maxCtuDepth = mSettings.maxCtuDepth;
@@ -1724,6 +1789,9 @@ bool CppCheck::analyseWholeProgram()
 
 void CppCheck::analyseWholeProgram(const std::string &buildDir, const std::map<std::string, std::size_t> &files)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     executeAddonsWholeProgram(files);
     if (buildDir.empty()) {
         removeCtuInfoFiles(files);
@@ -1787,11 +1855,17 @@ void CppCheck::analyseWholeProgram(const std::string &buildDir, const std::map<s
 
 bool CppCheck::isUnusedFunctionCheckEnabled() const
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     return (mSettings.useSingleJob() && mSettings.checks.isEnabled(Checks::unusedFunction));
 }
 
 void CppCheck::removeCtuInfoFiles(const std::map<std::string, std::size_t> &files)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (mSettings.buildDir.empty()) {
         for (const auto& f: files) {
             const std::string &dumpFileName = getDumpFileName(mSettings, f.first);
@@ -1809,10 +1883,16 @@ void CppCheck::removeCtuInfoFiles(const std::map<std::string, std::size_t> &file
 // cppcheck-suppress unusedFunction - only used in tests
 void CppCheck::resetTimerResults()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     s_timerResults.reset();
 }
 
 void CppCheck::printTimerResults(SHOWTIME_MODES mode)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     s_timerResults.showResults(mode);
 }

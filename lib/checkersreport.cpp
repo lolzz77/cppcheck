@@ -1,3 +1,5 @@
+#include <stdio.h>
+#include <pthread.h>
 /*
  * Cppcheck - A tool for static C/C++ code analysis
  * Copyright (C) 2007-2023 Cppcheck team.
@@ -29,6 +31,9 @@
 #include <vector>
 
 static bool isCppcheckPremium(const Settings& settings) {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     return (settings.cppcheckCfgProductName.compare(0, 16, "Cppcheck Premium") == 0);
 }
 
@@ -39,10 +44,16 @@ static std::string getMisraRuleSeverity(const std::string& rule) {
 }
 
 static bool isMisraRuleInconclusive(const std::string& rule) {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     return rule == "8.3";
 }
 
 static bool isMisraRuleActive(const std::string& rule, int amendment, const std::string& severity, const Settings& settings) {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (!isCppcheckPremium(settings) && amendment >= 3)
         return false;
     const bool inconclusive = isMisraRuleInconclusive(rule);
@@ -61,6 +72,9 @@ CheckersReport::CheckersReport(const Settings& settings, const std::set<std::str
 
 int CheckersReport::getActiveCheckersCount()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (mAllCheckersCount == 0) {
         countCheckers();
     }
@@ -69,6 +83,9 @@ int CheckersReport::getActiveCheckersCount()
 
 int CheckersReport::getAllCheckersCount()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (mAllCheckersCount == 0) {
         countCheckers();
     }
@@ -77,6 +94,9 @@ int CheckersReport::getAllCheckersCount()
 
 void CheckersReport::countCheckers()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     mActiveCheckersCount = mAllCheckersCount = 0;
 
     for (const auto& checkReq: checkers::allCheckers) {

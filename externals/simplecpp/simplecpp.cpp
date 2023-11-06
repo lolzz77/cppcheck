@@ -1,3 +1,5 @@
+#include <stdio.h>
+#include <pthread.h>
 /*
  * simplecpp - A simple and high-fidelity C/C++ preprocessor library
  * Copyright (C) 2016-2022 Daniel Marjamäki.
@@ -71,23 +73,35 @@
 
 static bool isHex(const std::string &s)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     return s.size()>2 && (s.compare(0,2,"0x")==0 || s.compare(0,2,"0X")==0);
 }
 
 static bool isOct(const std::string &s)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     return s.size()>1 && (s[0]=='0') && (s[1] >= '0') && (s[1] < '8');
 }
 
 // TODO: added an undercore since this conflicts with a function of the same name in utils.h from Cppcheck source when building Cppcheck with MSBuild
 static bool isStringLiteral_(const std::string &s)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     return s.size() > 1 && (s[0]=='\"') && (*s.rbegin()=='\"');
 }
 
 // TODO: added an undercore since this conflicts with a function of the same name in utils.h from Cppcheck source when building Cppcheck with MSBuild
 static bool isCharLiteral_(const std::string &s)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     // char literal patterns can include 'a', '\t', '\000', '\xff', 'abcd', and maybe ''
     // This only checks for the surrounding '' but doesn't parse the content.
     return s.size() > 1 && (s[0]=='\'') && (*s.rbegin()=='\'');
@@ -126,6 +140,9 @@ template<class T> static std::string toString(T t)
 
 static long long stringToLL(const std::string &s)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     long long ret;
     const bool hex = isHex(s);
     const bool oct = isOct(s);
@@ -154,16 +171,25 @@ static unsigned long long stringToULL(const std::string &s)
 
 static bool endsWith(const std::string &s, const std::string &e)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     return (s.size() >= e.size()) && std::equal(e.rbegin(), e.rend(), s.rbegin());
 }
 
 static bool sameline(const simplecpp::Token *tok1, const simplecpp::Token *tok2)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     return tok1 && tok2 && tok1->location.sameline(tok2->location);
 }
 
 static bool isAlternativeBinaryOp(const simplecpp::Token *tok, const std::string &alt)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     return (tok->name &&
             tok->str() == alt &&
             tok->previous &&
@@ -174,6 +200,9 @@ static bool isAlternativeBinaryOp(const simplecpp::Token *tok, const std::string
 
 static bool isAlternativeUnaryOp(const simplecpp::Token *tok, const std::string &alt)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     return ((tok->name && tok->str() == alt) &&
             (!tok->previous || tok->previous->op == '(') &&
             (tok->next && (tok->next->name || tok->next->number)));
@@ -258,6 +287,9 @@ public:
 
     unsigned char readChar()
     {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         unsigned char ch = static_cast<unsigned char>(get());
 
         // For UTF-16 encoded files the BOM is 0xfeff/0xfffe. If the
@@ -287,6 +319,9 @@ public:
 
     unsigned char peekChar()
     {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         unsigned char ch = static_cast<unsigned char>(peek());
 
         // For UTF-16 encoded files the BOM is 0xfeff/0xfffe. If the
@@ -308,6 +343,9 @@ public:
 
     void ungetChar()
     {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         unget();
         if (isUtf16)
             unget();
@@ -315,6 +353,9 @@ public:
 
 protected:
     void init() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         // initialize since we use peek() in getAndSkipBOM()
         isUtf16 = false;
         bom = getAndSkipBOM();
@@ -329,6 +370,9 @@ private:
 
     unsigned short getAndSkipBOM()
     {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const int ch1 = peek();
 
         // The UTF-16 BOM is 0xfffe or 0xfeff.
@@ -369,20 +413,35 @@ public:
     EXPLICIT StdIStream(std::istream &istr)
         : istr(istr)
     {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         assert(istr.good());
         init();
     }
 
     virtual int get() OVERRIDE {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         return istr.get();
     }
     virtual int peek() OVERRIDE {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         return istr.peek();
     }
     virtual void unget() OVERRIDE {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         istr.unget();
     }
     virtual bool good() OVERRIDE {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         return istr.good();
     }
 
@@ -398,6 +457,9 @@ public:
         , lastCh(0)
         , lastStatus(0)
     {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         assert(file != nullptr);
         init();
     }
@@ -408,24 +470,39 @@ public:
     }
 
     virtual int get() OVERRIDE {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         lastStatus = lastCh = fgetc(file);
         return lastCh;
     }
     virtual int peek() OVERRIDE{
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         // keep lastCh intact
         const int ch = fgetc(file);
         unget_internal(ch);
         return ch;
     }
     virtual void unget() OVERRIDE {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         unget_internal(lastCh);
     }
     virtual bool good() OVERRIDE {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         return lastStatus != EOF;
     }
 
 private:
     void unget_internal(int ch) {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         if (isUtf16) {
             // TODO: use ungetc() as well
             // UTF-16 has subsequent unget() calls
@@ -558,6 +635,9 @@ std::string simplecpp::TokenList::stringify() const
 
 static bool isNameChar(unsigned char ch)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     return std::isalnum(ch) || ch == '_' || ch == '$';
 }
 
@@ -577,6 +657,9 @@ static std::string escapeString(const std::string &str)
 
 static void portabilityBackslash(simplecpp::OutputList *outputList, const std::vector<std::string> &files, const simplecpp::Location &location)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (!outputList)
         return;
     simplecpp::Output err(files);
@@ -588,6 +671,9 @@ static void portabilityBackslash(simplecpp::OutputList *outputList, const std::v
 
 static bool isStringLiteralPrefix(const std::string &str)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     return str == "u" || str == "U" || str == "L" || str == "u8" ||
            str == "R" || str == "uR" || str == "UR" || str == "LR" || str == "u8R";
 }
@@ -1461,6 +1547,9 @@ namespace simplecpp {
         }
 
         bool valueDefinedInCode() const {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
             return valueDefinedInCode_;
         }
 
@@ -1477,6 +1566,9 @@ namespace simplecpp {
                              const Token * rawtok,
                              const MacroMap &macros,
                              std::vector<std::string> &inputFiles) const {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
             std::set<TokenString> expandedmacros;
 
             TokenList output2(inputFiles);
@@ -1583,6 +1675,9 @@ namespace simplecpp {
 
         /** is this a function like macro */
         bool functionLike() const {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
             return nameTokDef->next &&
                    nameTokDef->next->op == '(' &&
                    sameline(nameTokDef, nameTokDef->next) &&
@@ -1611,18 +1706,30 @@ namespace simplecpp {
                 : Error(loc, format(macroName, message)) { }
 
             static inline invalidHashHash unexpectedToken(const Location &loc, const std::string &macroName, const Token *tokenA) {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
                 return invalidHashHash(loc, macroName, "Unexpected token '"+ tokenA->str()+"'");
             }
 
             static inline invalidHashHash cannotCombine(const Location &loc, const std::string &macroName, const Token *tokenA, const Token *tokenB) {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
                 return invalidHashHash(loc, macroName, "Combining '"+ tokenA->str()+ "' and '"+ tokenB->str() + "' yields an invalid token.");
             }
 
             static inline invalidHashHash unexpectedNewline(const Location &loc, const std::string &macroName) {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
                 return invalidHashHash(loc, macroName, "Unexpected newline");
             }
 
             static inline invalidHashHash universalCharacterUB(const Location &loc, const std::string &macroName, const Token* tokenA, const std::string& strAB) {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
                 return invalidHashHash(loc, macroName, "Combining '\\"+ tokenA->str()+ "' and '"+ strAB.substr(tokenA->str().size()) + "' yields universal character '\\" + strAB + "'. This is undefined behavior according to C standard chapter 5.1.1.2, paragraph 4.");
             }
         };
@@ -1638,6 +1745,9 @@ namespace simplecpp {
         }
 
         bool parseDefine(const Token *nametoken) {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
             nameTokDef = nametoken;
             variadic = false;
             if (!nameTokDef) {
@@ -1683,6 +1793,9 @@ namespace simplecpp {
         }
 
         unsigned int getArgNum(const TokenString &str) const {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
             unsigned int par = 0;
             while (par < args.size()) {
                 if (str == args[par])
@@ -1720,6 +1833,9 @@ namespace simplecpp {
                                   const MacroMap &macros,
                                   const std::set<TokenString> &expandedmacros,
                                   const std::vector<const Token*> &parametertokens) const {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
             if (!lpar || lpar->op != '(')
                 return nullptr;
             unsigned int par = 0;
@@ -1915,6 +2031,9 @@ namespace simplecpp {
         }
 
         const Token *recursiveExpandToken(TokenList *output, TokenList &temp, const Location &loc, const Token *tok, const MacroMap &macros, const std::set<TokenString> &expandedmacros, const std::vector<const Token*> &parametertokens) const {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
             if (!(temp.cback() && temp.cback()->name && tok->next && tok->next->op == '(')) {
                 output->takeTokens(temp);
                 return tok->next;
@@ -1950,6 +2069,9 @@ namespace simplecpp {
         }
 
         const Token *expandToken(TokenList *output, const Location &loc, const Token *tok, const MacroMap &macros, const std::set<TokenString> &expandedmacros, const std::vector<const Token*> &parametertokens) const {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
             // Not name..
             if (!tok->name) {
                 output->push_back(newMacroToken(tok->str(), loc, true, tok));
@@ -2030,6 +2152,9 @@ namespace simplecpp {
         }
 
         bool expandArg(TokenList *output, const Token *tok, const std::vector<const Token*> &parametertokens) const {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
             if (!tok->name)
                 return false;
 
@@ -2048,6 +2173,9 @@ namespace simplecpp {
         }
 
         bool expandArg(TokenList *output, const Token *tok, const Location &loc, const MacroMap &macros, const std::set<TokenString> &expandedmacros, const std::vector<const Token*> &parametertokens) const {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
             if (!tok->name)
                 return false;
             const unsigned int argnr = getArgNum(tok->str());
@@ -2079,6 +2207,9 @@ namespace simplecpp {
          * @return token after the X
          */
         const Token *expandHash(TokenList *output, const Location &loc, const Token *tok, const MacroMap &macros, const std::set<TokenString> &expandedmacros, const std::vector<const Token*> &parametertokens) const {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
             TokenList tokenListHash(files);
             tok = expandToken(&tokenListHash, loc, tok->next, macros, expandedmacros, parametertokens);
             std::ostringstream ostr;
@@ -2102,6 +2233,9 @@ namespace simplecpp {
          * @return token after B
          */
         const Token *expandHashHash(TokenList *output, const Location &loc, const Token *tok, const MacroMap &macros, const std::set<TokenString> &expandedmacros, const std::vector<const Token*> &parametertokens) const {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
             Token *A = output->back();
             if (!A)
                 throw invalidHashHash(tok->location, name(), "Missing first argument");
@@ -2202,6 +2336,9 @@ namespace simplecpp {
         }
 
         static bool isReplaced(const std::set<std::string> &expandedmacros) {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
             // return true if size > 1
             std::set<std::string>::const_iterator it = expandedmacros.begin();
             if (it == expandedmacros.end())
@@ -2244,6 +2381,9 @@ namespace simplecpp {
 #ifdef __CYGWIN__
     bool startsWith(const std::string &str, const std::string &s)
     {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         return (str.size() >= s.size() && str.compare(0, s.size(), s) == 0);
     }
 
@@ -2297,6 +2437,9 @@ public:
     }
 
     CRITICAL_SECTION* lock() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         return &m_criticalSection;
     }
 private:
@@ -2308,6 +2451,9 @@ class MyLock {
 public:
     explicit MyLock(T& m)
         : m_mutex(m) {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         EnterCriticalSection(m_mutex.lock());
     }
 
@@ -2328,6 +2474,9 @@ public:
     RealFileNameMap() {}
 
     bool getCacheEntry(const std::string& path, std::string& returnPath) {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         MyLock<MyMutex> lock(m_mutex);
 
         const std::map<std::string, std::string>::iterator it = m_fileMap.find(path);
@@ -2339,6 +2488,9 @@ public:
     }
 
     void addToCache(const std::string& path, const std::string& actualPath) {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         MyLock<MyMutex> lock(m_mutex);
         m_fileMap[path] = actualPath;
     }
@@ -2352,6 +2504,9 @@ static RealFileNameMap realFileNameMap;
 
 static bool realFileName(const std::string &f, std::string &result)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     // are there alpha characters in last subpath?
     bool alpha = false;
     for (std::string::size_type pos = 1; pos <= f.size(); ++pos) {
@@ -2446,6 +2601,9 @@ static std::string realFilename(const std::string &f)
 
 static bool isAbsolutePath(const std::string &path)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (path.length() >= 3 && path[0] > 0 && std::isalpha(path[0]) && path[1] == ':' && (path[2] == '\\' || path[2] == '/'))
         return true;
     return path.length() > 1U && (path[0] == '/' || path[0] == '\\');
@@ -2455,6 +2613,9 @@ static bool isAbsolutePath(const std::string &path)
 
 static bool isAbsolutePath(const std::string &path)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     return path.length() > 1U && path[0] == '/';
 }
 #endif
@@ -2538,6 +2699,9 @@ namespace simplecpp {
 /** Evaluate sizeof(type) */
 static void simplifySizeof(simplecpp::TokenList &expr, const std::map<std::string, std::size_t> &sizeOfType)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     for (simplecpp::Token *tok = expr.front(); tok; tok = tok->next) {
         if (tok->str() != "sizeof")
             continue;
@@ -2586,6 +2750,9 @@ static void simplifySizeof(simplecpp::TokenList &expr, const std::map<std::strin
 static std::string openHeader(std::ifstream &f, const simplecpp::DUI &dui, const std::string &sourcefile, const std::string &header, bool systemheader);
 static void simplifyHasInclude(simplecpp::TokenList &expr, const simplecpp::DUI &dui)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     for (simplecpp::Token *tok = expr.front(); tok; tok = tok->next) {
         if (tok->str() != "__has_include")
             continue;
@@ -2644,6 +2811,9 @@ static const char * const altopData[] = {"and","or","bitand","bitor","compl","no
 static const std::set<std::string> altop(&altopData[0], &altopData[8]);
 static void simplifyName(simplecpp::TokenList &expr)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     for (simplecpp::Token *tok = expr.front(); tok; tok = tok->next) {
         if (tok->name) {
             if (altop.find(tok->str()) != altop.end()) {
@@ -2910,6 +3080,9 @@ long long simplecpp::characterLiteralToLL(const std::string& str)
 
 static void simplifyNumbers(simplecpp::TokenList &expr)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     for (simplecpp::Token *tok = expr.front(); tok; tok = tok->next) {
         if (tok->str().size() == 1U)
             continue;
@@ -2922,6 +3095,9 @@ static void simplifyNumbers(simplecpp::TokenList &expr)
 
 static void simplifyComments(simplecpp::TokenList &expr)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     for (simplecpp::Token *tok = expr.front(); tok;) {
         simplecpp::Token * const d = tok;
         tok = tok->next;
@@ -2932,6 +3108,9 @@ static void simplifyComments(simplecpp::TokenList &expr)
 
 static long long evaluate(simplecpp::TokenList &expr, const simplecpp::DUI &dui, const std::map<std::string, std::size_t> &sizeOfType)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     simplifyComments(expr);
     simplifySizeof(expr, sizeOfType);
     simplifyHasInclude(expr, dui);
@@ -2958,16 +3137,25 @@ public:
     NonExistingFilesCache() {}
 
     bool contains(const std::string& path) {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         MyLock<MyMutex> lock(m_mutex);
         return (m_pathSet.find(path) != m_pathSet.end());
     }
 
     void add(const std::string& path) {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         MyLock<MyMutex> lock(m_mutex);
         m_pathSet.insert(path);
     }
 
     void clear() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         MyLock<MyMutex> lock(m_mutex);
         m_pathSet.clear();
     }
@@ -3072,6 +3260,9 @@ static std::string getFileName(const std::map<std::string, simplecpp::TokenList 
 
 static bool hasFile(const std::map<std::string, simplecpp::TokenList *> &filedata, const std::string &sourcefile, const std::string &header, const simplecpp::DUI &dui, bool systemheader)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     return !getFileName(filedata, sourcefile, header, dui, systemheader).empty();
 }
 
@@ -3157,6 +3348,9 @@ std::map<std::string, simplecpp::TokenList*> simplecpp::load(const simplecpp::To
 
 static bool preprocessToken(simplecpp::TokenList &output, const simplecpp::Token **tok1, simplecpp::MacroMap &macros, std::vector<std::string> &files, simplecpp::OutputList *outputList)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     const simplecpp::Token * const tok = *tok1;
     const simplecpp::MacroMap::const_iterator it = macros.find(tok->str());
     if (it != macros.end()) {
@@ -3184,6 +3378,9 @@ static bool preprocessToken(simplecpp::TokenList &output, const simplecpp::Token
 
 static void getLocaltime(struct tm &ltime)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     time_t t;
     time(&t);
 #ifndef _WIN32
@@ -3210,6 +3407,9 @@ static std::string getTimeDefine(const struct tm *timep)
 
 void simplecpp::preprocess(simplecpp::TokenList &output, const simplecpp::TokenList &rawtokens, std::vector<std::string> &files, std::map<std::string, simplecpp::TokenList *> &filedata, const simplecpp::DUI &dui, simplecpp::OutputList *outputList, std::list<simplecpp::MacroUsage> *macroUsage, std::list<simplecpp::IfCond> *ifCond)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
 #ifdef SIMPLECPP_WINDOWS
     if (dui.clearIncludeCache)
         nonExistingFilesCache.clear();
@@ -3670,6 +3870,9 @@ void simplecpp::preprocess(simplecpp::TokenList &output, const simplecpp::TokenL
 
 void simplecpp::cleanup(std::map<std::string, TokenList*> &filedata)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     for (std::map<std::string, TokenList*>::iterator it = filedata.begin(); it != filedata.end(); ++it)
         delete it->second;
     filedata.clear();

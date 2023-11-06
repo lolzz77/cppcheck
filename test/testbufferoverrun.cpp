@@ -1,3 +1,5 @@
+#include <stdio.h>
+#include <pthread.h>
 /*
  * Cppcheck - A tool for static C/C++ code analysis
  * Copyright (C) 2007-2023 Cppcheck team.
@@ -89,6 +91,9 @@ private:
     }
 
     void run() override {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         TEST_CASE(noerr1);
         TEST_CASE(noerr2);
         TEST_CASE(noerr3);
@@ -312,6 +317,9 @@ private:
 
 
     void noerr1() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("extern int ab;\n"
               "void f()\n"
               "{\n"
@@ -329,6 +337,9 @@ private:
 
 
     void noerr2() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("static char buf[2];\n"
               "void f1(char *str)\n"
               "{\n"
@@ -351,6 +362,9 @@ private:
 
 
     void noerr3() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("struct { char data[10]; } abc;\n"
               "static char f()\n"
               "{\n"
@@ -362,6 +376,9 @@ private:
 
 
     void noerr4() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         // The memory isn't read or written and therefore there is no error.
         check("static void f() {\n"
               "    char data[100];\n"
@@ -371,6 +388,9 @@ private:
     }
 
     void sizeof3() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("struct group { int gr_gid; };\n"
               "void f()\n"
               "{\n"
@@ -383,6 +403,9 @@ private:
     }
 
     void array_index_1() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("void f()\n"
               "{\n"
               "    char str[0x10] = {0};\n"
@@ -428,6 +451,9 @@ private:
 
 
     void array_index_2() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("void a(int i)\n" // valueflow
               "{\n"
               "    char *str = new char[0x10];\n"
@@ -438,6 +464,9 @@ private:
     }
 
     void array_index_4() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("char c = \"abc\"[4];");
         ASSERT_EQUALS("[test.cpp:1]: (error) Array '\"abc\"[4]' accessed at index 4, which is out of bounds.\n", errout.str());
 
@@ -452,6 +481,9 @@ private:
     }
 
     void array_index_3() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("void f()\n"
               "{\n"
               "    int val[50];\n"
@@ -505,6 +537,9 @@ private:
     }
 
     void array_index_6() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("struct ABC\n"
               "{\n"
               "    char str[10];\n"
@@ -667,6 +702,9 @@ private:
 
 
     void array_index_7() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("struct ABC\n"
               "{\n"
               "    char str[10];\n"
@@ -680,6 +718,9 @@ private:
     }
 
     void array_index_11() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("class ABC\n"
               "{\n"
               "public:\n"
@@ -699,6 +740,9 @@ private:
     }
 
     void array_index_12() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("class Fred\n"
               "{\n"
               "private:\n"
@@ -727,6 +771,9 @@ private:
     }
 
     void array_index_13() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("void f()\n"
               "{\n"
               "    char buf[10];\n"
@@ -740,6 +787,9 @@ private:
     }
 
     void array_index_14() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("void f()\n"
               "{\n"
               "    int a[10];\n"
@@ -750,6 +800,9 @@ private:
     }
 
     void array_index_15() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("void f()\n"
               "{\n"
               "    int a[10];\n"
@@ -760,6 +813,9 @@ private:
     }
 
     void array_index_16() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("void f()\n"
               "{\n"
               "    int a[10];\n"
@@ -770,6 +826,9 @@ private:
     }
 
     void array_index_17() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("void f()\n"
               "{\n"
               "    int a[10];\n"
@@ -810,6 +869,9 @@ private:
     }
 
     void array_index_18() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("void f()\n"
               "{\n"
               "    int a[5];\n"
@@ -867,6 +929,9 @@ private:
     }
 
     void array_index_19() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         // "One Past the End" is legal, as long as pointer is not dereferenced.
         check("void f()\n"
               "{\n"
@@ -885,6 +950,9 @@ private:
     }
 
     void array_index_20() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("void f()\n"
               "{\n"
               " char a[8];\n"
@@ -896,6 +964,9 @@ private:
     }
 
     void array_index_21() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("class A {\n"
               " int indices[2];\n"
               " void foo(int indices[3]);\n"
@@ -910,6 +981,9 @@ private:
     }
 
     void array_index_22() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("int main() {\n"
               "  size_t indices[2];\n"
               "  int b = indices[2];\n"
@@ -918,6 +992,9 @@ private:
     }
 
     void array_index_23() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("void foo()\n"
               "{\n"
               "    char c[10];\n"
@@ -927,6 +1004,9 @@ private:
     }
 
     void array_index_24() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         // ticket #1492 and #1539
         const std::string charMaxPlusOne(settings0.platform.defaultSign == 'u' ? "256" : "128");
         check(("void f(char n) {\n"
@@ -1005,6 +1085,9 @@ private:
     }
 
     void array_index_26() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("void f()\n"
               "{\n"
               "    int a[3];\n"
@@ -1023,6 +1106,9 @@ private:
     }
 
     void array_index_27() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("void f()\n"
               "{\n"
               "    int a[10];\n"
@@ -1033,6 +1119,9 @@ private:
     }
 
     void array_index_28() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         // ticket #1418
         check("void f()\n"
               "{\n"
@@ -1044,6 +1133,9 @@ private:
     }
 
     void array_index_29() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         // ticket #1724
         check("void f()\n"
               "{\n"
@@ -1056,6 +1148,9 @@ private:
     }
 
     void array_index_30() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         // ticket #2086 - unknown type
         // extracttests.start: typedef unsigned char UINT8;
         check("void f() {\n"
@@ -1066,6 +1161,9 @@ private:
     }
 
     void array_index_31() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         // ticket #2120 - sub function, unknown type
         check("struct s1 {\n"
               "    unknown_type_t delay[3];\n"
@@ -1108,6 +1206,9 @@ private:
     }
 
     void array_index_32() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("class X\n"
               "{\n"
               "    public:\n"
@@ -1122,6 +1223,9 @@ private:
     }
 
     void array_index_33() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("void foo(char bar[][4]) {\n"
               "    baz(bar[5]);\n"
               "}");
@@ -1217,6 +1321,9 @@ private:
     }
 
     void array_index_37() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("class Fred {\n"
               "    char x[X];\n"
               "    Fred() {\n"
@@ -1256,6 +1363,9 @@ private:
     }
 
     void array_index_40() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("void f() {\n"
               "    char a[10];\n"
               "    for (int i = 0; i < 10; ++i)\n"
@@ -1265,6 +1375,9 @@ private:
     }
 
     void array_index_41() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         // Don't generate false positives when structs have the same name
         check("void a() {\n"
               "    struct Fred { char data[6]; } fred;\n"
@@ -1495,6 +1608,9 @@ private:
 
     // Two statement for-loop
     void array_index_46() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         // #4840
         check("void bufferAccessOutOfBounds2() {\n"
               "    char *buffer[]={\"a\",\"b\",\"c\"};\n"
@@ -1524,6 +1640,9 @@ private:
     }
 
     void array_index_47() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         // #5849
         check("int s[4];\n"
               "void f() {\n"
@@ -1534,6 +1653,9 @@ private:
     }
 
     void array_index_48() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         // #9478
         check("void test(void)\n"
               "{\n"
@@ -1557,6 +1679,9 @@ private:
     }
 
     void array_index_49() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         // #8653
         check("void f() {\n"
               "    int i, k;\n"
@@ -1571,6 +1696,9 @@ private:
     }
 
     void array_index_50() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("void f(const char * str) {\n"
               "    int len = strlen(str);\n"
               "    (void)str[len - 1];\n"
@@ -1583,6 +1711,9 @@ private:
     }
 
     void array_index_51() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("void f(void){\n"
               "    int k=0, dd, d[1U] = {1};\n"
               "    for (dd=d[k]; k<10; dd=d[++k]){;}\n"
@@ -1591,6 +1722,9 @@ private:
     }
 
     void array_index_52() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("char f(void)\n"
               "{\n"
               "    char buf[10];\n"
@@ -1602,6 +1736,9 @@ private:
     }
 
     void array_index_53() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("double M[3][1];\n"
               " \n"
               "void matrix()\n"
@@ -1614,6 +1751,9 @@ private:
     }
 
     void array_index_54() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("void f() {\n"
               "    g(0);\n"
               "}\n"
@@ -1628,6 +1768,9 @@ private:
     }
 
     void array_index_55() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("void make(const char* s, size_t len) {\n"
               "    for (size_t i = 0; i < len; ++i)\n"
               "        s[i];\n"
@@ -1645,6 +1788,9 @@ private:
     }
 
     void array_index_56() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("struct s {\n"
               "    int array[1];\n"
               "    int index;\n"
@@ -1657,6 +1803,9 @@ private:
     }
 
     void array_index_57() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("void f(std::vector<int>& v) {\n"
               "    int a[3] = { 1, 2, 3 };\n"
               "    int i = 0;\n"
@@ -1686,6 +1835,9 @@ private:
 
     void array_index_58()
     {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("int f(int x, int y) {\n"
               "    int a[3]= {0,1,2};\n"
               "    if(x<2)\n"
@@ -1729,6 +1881,9 @@ private:
 
     void array_index_60()
     {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         checkP("#define CKR(B) if (!(B)) { return -1; }\n"
                "int f(int i) {\n"
                "  const int A[3] = {};\n"
@@ -1752,6 +1907,9 @@ private:
 
     void array_index_61()
     {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("int f(int i) {\n"
               "  const int M[] = { 0, 1, 2, 3 };\n"
               "  if (i > 4)\n"
@@ -1776,6 +1934,9 @@ private:
 
     void array_index_62()
     {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("struct X {\n"
               "    static int GetSize() {return 11;}\n"
               "};\n"
@@ -1791,6 +1952,9 @@ private:
 
     void array_index_63()
     {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("int b[4];\n" // #10979
               "void f(int i) {\n"
               "    if (i >= 0 && i < sizeof(b) / sizeof(*(b)))\n"
@@ -1839,6 +2003,9 @@ private:
 
     void array_index_66()
     {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("void foo(int j) {\n"
               "    int offsets[256];\n"
               "    while (x) {\n"
@@ -1852,6 +2019,9 @@ private:
     }
 
     void array_index_67() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("void func(int i) {\n" // #1596
               "    int types[3];\n"
               "    int type_cnt = 0;\n"
@@ -1886,6 +2056,9 @@ private:
     // #6370
     void array_index_69()
     {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("void f() {\n"
               "    const int e[] = {0,10,20,30};\n"
               "    int a[4];\n"
@@ -1897,6 +2070,9 @@ private:
 
     // #11355
     void array_index_70() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("void f() {\n"
               "    static const char a[] = ((\"test\"));\n"
               "    printf(\"%c\", a[5]);\n"
@@ -1907,6 +2083,9 @@ private:
     // #11461
     void array_index_71()
     {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("unsigned int f(unsigned int Idx) {\n"
               "  if (Idx < 64)\n"
               "    return 0;\n"
@@ -1920,6 +2099,9 @@ private:
     // #11784
     void array_index_72()
     {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("char f(int i) {\n"
               "  char d[4] = {};\n"
               "  for (; i < 3; i++) {}\n"
@@ -1935,6 +2117,9 @@ private:
     // #11530
     void array_index_73()
     {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("void f() {\n"
               "  int k = 0;\n"
               "  std::function<void(int)> a[1] = {};\n"
@@ -1946,6 +2131,9 @@ private:
     // #11088
     void array_index_74()
     {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("void foo(const char *keys) {\n"
               "  const char *prefix = \"<Shift+\";\n"
               "  const size_t prefix_len = strlen(prefix);\n"
@@ -1959,6 +2147,9 @@ private:
     }
 
     void array_index_multidim() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("void f()\n"
               "{\n"
               "  char a[2][2];\n"
@@ -2098,6 +2289,9 @@ private:
     }
 
     void array_index_switch_in_for() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("void f()\n"
               "{\n"
               " int ar[10];\n"
@@ -2136,6 +2330,9 @@ private:
     }
 
     void array_index_for_in_for() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("void f() {\n"
               "    int a[5];\n"
               "    for (int i = 0; i < 10; ++i) {\n"
@@ -2148,6 +2345,9 @@ private:
     }
 
     void array_index_bounds() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         // #10275
         check("int a[10];\n"
               "void f(int i) {\n"
@@ -2160,6 +2360,9 @@ private:
     }
 
     void array_index_calculation() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         // #1193 - false negative: array out of bounds in loop when there is calculation
         check("void f()\n"
               "{\n"
@@ -2182,6 +2385,9 @@ private:
     }
 
     void array_index_negative1() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         // #948 - array index out of bound not detected 'a[-1] = 0'
         check("void f()\n"
               "{\n"
@@ -2230,6 +2436,9 @@ private:
     }
 
     void array_index_negative3() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("int f(int i) {\n"
               "    int p[2] = {0, 0};\n"
               "    if(i >= 2)\n"
@@ -2247,6 +2456,9 @@ private:
 
     void array_index_negative4()
     {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("void f(void) {\n"
               "    int buf[64]={};\n"
               "    int i;\n"
@@ -2277,6 +2489,9 @@ private:
     // #11349
     void array_index_negative6()
     {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("void f(int i) {\n"
               "  int j = i;\n"
               "  const int a[5] = {};\n"
@@ -2290,6 +2505,9 @@ private:
     // #5685
     void array_index_negative7()
     {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("void f() {\n"
               "    int i = -9;\n"
               "    int a[5];\n"
@@ -2302,6 +2520,9 @@ private:
     // #11651
     void array_index_negative8()
     {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("unsigned g(char*);\n"
               "void f() {\n"
               "    char buf[10];\n"
@@ -2315,6 +2536,9 @@ private:
     // #8075
     void array_index_negative9()
     {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("int g(int i) {\n"
               "    if (i < 10)\n"
               "        return -1;\n"
@@ -2330,6 +2554,9 @@ private:
     // #11844
     void array_index_negative10()
     {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("struct S { int a[4]; };\n"
               "void f(S* p, int k) {\n"
               "  int m = 3;\n"
@@ -2342,6 +2569,9 @@ private:
     }
 
     void array_index_for_decr() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("void f()\n"
               "{\n"
               "    char data[8];\n"
@@ -2373,6 +2603,9 @@ private:
 
 
     void array_index_varnames() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("struct A {\n"
               "    char data[4];\n"
               "    struct B { char data[3]; };\n"
@@ -2457,6 +2690,9 @@ private:
     }
 
     void array_index_for_continue() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         // #3913
         check("void f() {\n"
               "    int a[2];\n"
@@ -2483,6 +2719,9 @@ private:
     }
 
     void array_index_for() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         // Ticket #2370 - No false negative when there is no "break"
         check("void f() {\n"
               "    int a[10];\n"
@@ -2528,6 +2767,9 @@ private:
     }
 
     void array_index_for_neq() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         // Ticket #2211 - for loop using != in the condition
         check("void f() {\n"
               "    int a[5];\n"
@@ -2540,6 +2782,9 @@ private:
     }
 
     void array_index_for_question() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         // Ticket #2561 - using ?: inside for loop
         check("void f() {\n"
               "    int a[10];\n"
@@ -2577,6 +2822,9 @@ private:
     }
 
     void array_index_vla_for() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         // #3221 - access VLA inside for
         check("void f(int len) {\n"
               "    char a[len];\n"
@@ -2588,6 +2836,9 @@ private:
     }
 
     void array_index_extern() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         // Ticket #1684. FP when using 'extern'.
         check("extern char arr[15];\n"
               "char arr[15] = \"abc\";");
@@ -2595,6 +2846,9 @@ private:
     }
 
     void array_index_cast() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         // Ticket #2841. FP when using cast.
 
         // Different types => no error
@@ -2621,6 +2875,9 @@ private:
     }
 
     void array_index_string_literal() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("void f() {\n"
               "    const char *str = \"abc\";\n"
               "    bar(str[10]);\n"
@@ -2672,6 +2929,9 @@ private:
     }
 
     void array_index_same_struct_and_var_name() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         // don't throw internal error
         check("struct tt {\n"
               "    char name[21];\n"
@@ -2696,6 +2956,9 @@ private:
     }
 
     void array_index_valueflow() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("void f(int i) {\n"
               "    char str[3];\n"
               "    str[i] = 0;\n"
@@ -2749,6 +3012,9 @@ private:
     }
 
     void array_index_valueflow_pointer() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("void f() {\n"
               "  int a[10];\n"
               "  int *p = a;\n"
@@ -2789,6 +3055,9 @@ private:
     }
 
     void array_index_function_parameter() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("void f(char a[10]) {\n"
               "  a[20] = 0;\n" // <- cppcheck warn here even though it's not a definite access out of bounds
               "}");
@@ -2825,6 +3094,9 @@ private:
     }
 
     void array_index_two_for_loops() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("bool b();\n"
               "void f()\n"
               "{\n"
@@ -2939,6 +3211,9 @@ private:
     }
 
     void buffer_overrun_2_struct() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("struct ABC\n"
               "{\n"
               "    char str[5];\n"
@@ -2998,6 +3273,9 @@ private:
 
 
     void buffer_overrun_3() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("int a[10];\n"
               "\n"
               "void foo()\n"
@@ -3015,6 +3293,9 @@ private:
 
 
     void buffer_overrun_4() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("void foo()\n"
               "{\n"
               "    const char *p[2];\n"
@@ -3057,6 +3338,9 @@ private:
     }
 
     void buffer_overrun_5() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("void f()\n"
               "{\n"
               "    char n[5];\n"
@@ -3067,6 +3351,9 @@ private:
     }
 
     void buffer_overrun_6() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("void f()\n"
               "{\n"
               "   char n[5];\n"
@@ -3077,6 +3364,9 @@ private:
     }
 
     void buffer_overrun_7() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         // ticket #731
         check("void f()\n"
               "{\n"
@@ -3087,6 +3377,9 @@ private:
     }
 
     void buffer_overrun_8() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         // ticket #714
         check("void f()\n"
               "{\n"
@@ -3110,6 +3403,9 @@ private:
     }
 
     void buffer_overrun_9() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         // ticket #738
         check("void f()\n"
               "{\n"
@@ -3124,6 +3420,9 @@ private:
     }
 
     void buffer_overrun_10() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         // ticket #740
         check("void f()\n"
               "{\n"
@@ -3137,6 +3436,9 @@ private:
     }
 
     void buffer_overrun_11() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("void f()\n"
               "{\n"
               "    char a[4];\n"
@@ -3169,6 +3471,9 @@ private:
     }
 
     void buffer_overrun_16() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         // unknown types
         check("void f() {\n"
               "    struct Foo foo[5];\n"
@@ -3230,6 +3535,9 @@ private:
     }
 
     void buffer_overrun_21() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("void foo()\n"
               "{ { {\n"
               "    char dst[4];\n"
@@ -3285,6 +3593,9 @@ private:
 
     // #7083: false positive: typedef and initialization with strings
     void buffer_overrun_29() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("typedef char testChar[10];\n"
               "int main(){\n"
               "  testChar tc1 = \"\";\n"
@@ -3296,6 +3607,9 @@ private:
 
     // #6367
     void buffer_overrun_30() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("struct S { int m[9]; };\n"
               "int f(S * s) {\n"
               "    return s->m[sizeof(s->m)];\n"
@@ -3304,6 +3618,9 @@ private:
     }
 
     void buffer_overrun_31() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("void f(WhereInfo *pWInfo, int *aiCur) {\n"
               "  memcpy(aiCur, pWInfo->aiCurOnePass, sizeof(int)*2);\n"
               "}");
@@ -3311,6 +3628,9 @@ private:
     }
 
     void buffer_overrun_32() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         // destination size is too small
         check("void f(void) {\n"
               "    const char src[3] = \"abc\";\n"
@@ -3408,6 +3728,9 @@ private:
     }
 
     void buffer_overrun_errorpath() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         setMultiline();
         const Settings settingsOld = settings0;
         settings0.templateLocation = "{file}:{line}:note:{info}";
@@ -3426,6 +3749,9 @@ private:
     }
 
     void buffer_overrun_bailoutIfSwitch() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         // No false positive
         check("void f1(char *s) {\n"
               "    if (x) s[100] = 0;\n"
@@ -3463,6 +3789,9 @@ private:
     }
 
     void buffer_overrun_function_array_argument() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         setMultiline();
 
         check("void f(char a[10]);\n"
@@ -3597,6 +3926,9 @@ private:
     }
 
     void buffer_overrun_readSizeFromCfg() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         constexpr char xmldata[] = "<?xml version=\"1.0\"?>\n"
                                    "<def>\n"
                                    "  <podtype name=\"u8\" sign=\"u\" size=\"1\"/>\n"
@@ -3647,6 +3979,9 @@ private:
     }
 
     void pointer_out_of_bounds_1() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         // extracttests.start: void dostuff(char *);
 
         check("void f() {\n"
@@ -3690,6 +4025,9 @@ private:
     }
 
     void pointer_out_of_bounds_2() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("void f() {\n"
               "    char *p = malloc(10);\n"
               "    p += 100;\n"
@@ -3725,6 +4063,9 @@ private:
     }
 
     void pointer_out_of_bounds_3() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("struct S { int a[10]; };\n"
               "void f(struct S *s) {\n"
               "    int *p = s->a + 100;\n"
@@ -3749,6 +4090,9 @@ private:
     }
 
     void pointer_out_of_bounds_4() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("const char* f() {\n"
               "    g(\"Hello\" + 6);\n"
               "}");
@@ -3802,6 +4146,9 @@ private:
 
 
     void pointer_out_of_bounds_sub() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         // extracttests.start: void dostuff(char *);
 
         check("char *f() {\n"
@@ -3831,6 +4178,9 @@ private:
     }
 
     void strcat1() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("struct Foo { char a[4]; };\n"
               "void f() {\n"
               "  struct Foo x = {0};\n"
@@ -3841,6 +4191,9 @@ private:
     }
 
     void varid1() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("void foo()\n"
               "{\n"
               "    char str[10];\n"
@@ -3862,6 +4215,9 @@ private:
     }
 
     void assign1() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("char str[3] = {'a', 'b', 'c'};\n"
               "\n"
               "void foo()\n"
@@ -3872,6 +4228,9 @@ private:
     }
 
     void alloc_new() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("void foo()\n"
               "{\n"
               "    char *s; s = new char[10];\n"
@@ -3939,6 +4298,9 @@ private:
 
     // data is allocated with malloc
     void alloc_malloc() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("void foo()\n"
               "{\n"
               "    char *s; s = (char *)malloc(10);\n"
@@ -4034,6 +4396,9 @@ private:
 
     // statically allocated buffer
     void alloc_string() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("void foo()\n"
               "{\n"
               "    const char *s = \"123\";\n"
@@ -4066,6 +4431,9 @@ private:
 
     // data is allocated with alloca
     void alloc_alloca() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("void foo()\n"
               "{\n"
               "    char *s = (char *)alloca(10);\n"
@@ -4149,6 +4517,9 @@ private:
     // extracttests.disable
 
     void minsize_argvalue() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         constexpr char xmldata[] = "<?xml version=\"1.0\"?>\n"
                                    "<def>\n"
                                    "  <function name=\"mymemset\">\n"
@@ -4286,6 +4657,9 @@ private:
     }
 
     void minsize_sizeof() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         constexpr char xmldata[] = "<?xml version=\"1.0\"?>\n"
                                    "<def>\n"
                                    "  <function name=\"mystrncpy\">\n"
@@ -4346,6 +4720,9 @@ private:
     }
 
     void minsize_strlen() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         constexpr char xmldata[] = "<?xml version=\"1.0\"?>\n"
                                    "<def>\n"
                                    "  <function name=\"mysprintf\">\n"
@@ -4459,6 +4836,9 @@ private:
     }
 
     void minsize_mul() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         constexpr char xmldata[] = "<?xml version=\"1.0\"?>\n"
                                    "<def>\n"
                                    "  <function name=\"myfread\">\n"
@@ -4488,6 +4868,9 @@ private:
     // extracttests.enable
 
     void unknownType() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("void f()\n"
               "{\n"
               " UnknownType *a = malloc(4);\n"
@@ -4496,6 +4879,9 @@ private:
     }
     // extracttests.disable
     void terminateStrncpy1() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("void foo ( char *bar ) {\n"
               "    char baz[100];\n"
               "    strncpy(baz, bar, 100);\n"
@@ -4536,6 +4922,9 @@ private:
     }
 
     void terminateStrncpy2() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("char *foo ( char *bar ) {\n"
               "    char baz[100];\n"
               "    strncpy(baz, bar, 100);\n"
@@ -4546,6 +4935,9 @@ private:
     }
 
     void terminateStrncpy3() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         // Ticket #2170 - false positive
         // The function bar is risky. But it might work that way intentionally.
         check("char str[100];\n"
@@ -4561,6 +4953,9 @@ private:
     }
 
     void terminateStrncpy4() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("void bar() {\n"
               "    char buf[4];\n"
               "    strncpy(buf, \"ab\", 4);\n"
@@ -4593,6 +4988,9 @@ private:
     // extracttests.enable
 
     void recursive_long_time() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         // Just test that recursive check doesn't take long time
         check("char *f2 ( char *b )\n"
               "{\n"
@@ -4623,6 +5021,9 @@ private:
 
     // Ticket #1587 - crash
     void crash1() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("struct struct A\n"
               "{\n"
               "    int alloclen;\n"
@@ -4637,6 +5038,9 @@ private:
     }
 
     void crash2() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("void a(char *p) {\n"
               "    f( { if(finally_arg); } );\n"
               "}\n"
@@ -4648,6 +5052,9 @@ private:
     }
 
     void crash3() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("struct b { unknown v[0]; };\n"
               "void d() { struct b *f; f = malloc(108); }");
     }
@@ -4675,6 +5082,9 @@ private:
     }
 
     void crash6() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("void start(char* name) {\n"
               "char snapname[64] = { 0 };\n"
               "strncpy(snapname, \"snapshot\", arrayLength(snapname));\n"
@@ -4687,6 +5097,9 @@ private:
     }
 
     void insecureCmdLineArgs() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("int main(int argc, char *argv[])\n"
               "{\n"
               "    if(argc>1)\n"
@@ -4863,6 +5276,9 @@ private:
     }
 
     void checkBufferAllocatedWithStrlen() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("void f(char *a) {\n"
               "  char *b = new char[strlen(a)];\n"
               "  strcpy(b, a);\n"
@@ -4929,6 +5345,9 @@ private:
     }
 
     void scope() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("class A {\n"
               "private:\n"
               "    struct X { char buf[10]; };\n"
@@ -4955,12 +5374,18 @@ private:
     }
 
     void getErrorMessages() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         // Ticket #2292: segmentation fault when using --errorlist
         const Check& c = getCheck<CheckBufferOverrun>();
         c.getErrorMessages(this, nullptr);
     }
 
     void arrayIndexThenCheck() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         // extracttests.start: volatile int y;
 
         check("void f(const char s[]) {\n"
@@ -5047,6 +5472,9 @@ private:
     }
 
     void bufferNotZeroTerminated() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("void f() {\n"
               "    char c[6];\n"
               "    strncpy(c,\"hello!\",6);\n"
@@ -5109,6 +5537,9 @@ private:
     }
 
     void negativeArraySize() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("void f(int sz) {\n" // #1760 - VLA
               "   int a[sz];\n"
               "}\n"
@@ -5124,6 +5555,9 @@ private:
     }
 
     void pointerAddition1() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("void f() {\n"
               "    char arr[10];\n"
               "    char *p = arr + 20;\n"
@@ -5140,6 +5574,9 @@ private:
 
 #define ctu(code) ctu_(code, __FILE__, __LINE__)
     void ctu_(const char code[], const char* file, int line) {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         // Clear the error buffer..
         errout.str("");
 
@@ -5163,6 +5600,9 @@ private:
     }
 
     void ctu_malloc() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         ctu("void dostuff(char *p) {\n"
             "  p[-3] = 0;\n"
             "}\n"
@@ -5197,6 +5637,9 @@ private:
     }
 
     void ctu_array() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         ctu("void dostuff(char *p) {\n"
             "    p[10] = 0;\n"
             "}\n"
@@ -5332,6 +5775,9 @@ private:
     }
 
     void ctu_variable() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         ctu("void dostuff(int *p) {\n"
             "    p[10] = 0;\n"
             "}\n"
@@ -5343,6 +5789,9 @@ private:
     }
 
     void ctu_arithmetic() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         ctu("void dostuff(int *p) { x = p + 10; }\n"
             "int main() {\n"
             "  int x[3];\n"
@@ -5361,6 +5810,9 @@ private:
     }
 
     void objectIndex() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("int f() {\n"
               "    int i;\n"
               "    return (&i)[1];\n"

@@ -1,3 +1,5 @@
+#include <stdio.h>
+#include <pthread.h>
 /*
  * Cppcheck - A tool for static C/C++ code analysis
  * Copyright (C) 2007-2023 Cppcheck team.
@@ -57,12 +59,18 @@ Check::Check(const std::string &aname)
 
 void Check::writeToErrorList(const ErrorMessage &errmsg)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     std::cout << errmsg.toXML() << std::endl;
 }
 
 
 void Check::reportError(const std::list<const Token *> &callstack, Severity severity, const std::string &id, const std::string &msg, const CWE &cwe, Certainty certainty)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     const ErrorMessage errmsg(callstack, mTokenizer ? &mTokenizer->list : nullptr, severity, id, msg, cwe, certainty);
     if (mErrorLogger)
         mErrorLogger->reportErr(errmsg);
@@ -72,6 +80,9 @@ void Check::reportError(const std::list<const Token *> &callstack, Severity seve
 
 void Check::reportError(const ErrorPath &errorPath, Severity severity, const char id[], const std::string &msg, const CWE &cwe, Certainty certainty)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     const ErrorMessage errmsg(errorPath, mTokenizer ? &mTokenizer->list : nullptr, severity, id, msg, cwe, certainty);
     if (mErrorLogger)
         mErrorLogger->reportErr(errmsg);
@@ -81,6 +92,9 @@ void Check::reportError(const ErrorPath &errorPath, Severity severity, const cha
 
 bool Check::wrongData(const Token *tok, const char *str)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (mSettings->daca)
         reportError(tok, Severity::debug, "DacaWrongData", "Wrong data detected by condition " + std::string(str));
     return true;
@@ -110,6 +124,9 @@ std::string Check::getMessageId(const ValueFlow::Value &value, const char id[])
 
 ErrorPath Check::getErrorPath(const Token* errtok, const ValueFlow::Value* value, std::string bug) const
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     ErrorPath errorPath;
     if (!value) {
         errorPath.emplace_back(errtok, std::move(bug));
@@ -128,6 +145,9 @@ ErrorPath Check::getErrorPath(const Token* errtok, const ValueFlow::Value* value
 
 void Check::logChecker(const char id[])
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     reportError(nullptr, Severity::none, "logChecker", id);
 }
 

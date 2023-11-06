@@ -1,3 +1,5 @@
+#include <stdio.h>
+#include <pthread.h>
 /*
  * Cppcheck - A tool for static C/C++ code analysis
  * Copyright (C) 2007-2023 Cppcheck team.
@@ -52,6 +54,9 @@ const Token* findExpression(const nonneg int exprid,
                             const Token* end,
                             const std::function<bool(const Token*)>& pred)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (exprid == 0)
         return nullptr;
     if (!precedes(start, end))
@@ -88,6 +93,9 @@ static int findArgumentPosRecursive(const Token* tok, const Token* tokToFind,  b
 }
 
 static int findArgumentPos(const Token* tok, const Token* tokToFind){
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     bool found = false;
     const int argn = findArgumentPosRecursive(tok, tokToFind, found, 0);
     if (found)
@@ -96,6 +104,9 @@ static int findArgumentPos(const Token* tok, const Token* tokToFind){
 }
 
 static int getArgumentPos(const Token* ftok, const Token* tokToFind){
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     const Token* tok = ftok;
     if (Token::Match(tok, "%name% (|{"))
         tok = ftok->next();
@@ -137,6 +148,9 @@ std::vector<Token*> astFlatten(Token* tok, const char* op)
 
 nonneg int astCount(const Token* tok, const char* op, int depth)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     --depth;
     if (!tok || depth < 0)
         return 0;
@@ -147,6 +161,9 @@ nonneg int astCount(const Token* tok, const char* op, int depth)
 
 bool astHasToken(const Token* root, const Token * tok)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (!root)
         return false;
     while (tok->astParent() && tok != root)
@@ -156,6 +173,9 @@ bool astHasToken(const Token* root, const Token * tok)
 
 bool astHasVar(const Token * tok, nonneg int varid)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (!tok)
         return false;
     if (tok->varId() == varid)
@@ -165,6 +185,9 @@ bool astHasVar(const Token * tok, nonneg int varid)
 
 static bool astIsCharWithSign(const Token *tok, ValueType::Sign sign)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (!tok)
         return false;
     const ValueType *valueType = tok->valueType();
@@ -175,21 +198,33 @@ static bool astIsCharWithSign(const Token *tok, ValueType::Sign sign)
 
 bool astIsSignedChar(const Token *tok)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     return astIsCharWithSign(tok, ValueType::Sign::SIGNED);
 }
 
 bool astIsUnknownSignChar(const Token *tok)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     return astIsCharWithSign(tok, ValueType::Sign::UNKNOWN_SIGN);
 }
 
 bool astIsGenericChar(const Token* tok)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     return !astIsPointer(tok) && tok && tok->valueType() && (tok->valueType()->type == ValueType::Type::CHAR || tok->valueType()->type == ValueType::Type::WCHAR_T);
 }
 
 bool astIsPrimitive(const Token* tok)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     const ValueType* vt = tok ? tok->valueType() : nullptr;
     if (!vt)
         return false;
@@ -198,6 +233,9 @@ bool astIsPrimitive(const Token* tok)
 
 bool astIsIntegral(const Token *tok, bool unknown)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     const ValueType *vt = tok ? tok->valueType() : nullptr;
     if (!vt)
         return unknown;
@@ -206,11 +244,17 @@ bool astIsIntegral(const Token *tok, bool unknown)
 
 bool astIsUnsigned(const Token* tok)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     return tok && tok->valueType() && tok->valueType()->sign == ValueType::UNSIGNED;
 }
 
 bool astIsFloat(const Token *tok, bool unknown)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     const ValueType *vt = tok ? tok->valueType() : nullptr;
     if (!vt)
         return unknown;
@@ -219,21 +263,33 @@ bool astIsFloat(const Token *tok, bool unknown)
 
 bool astIsBool(const Token *tok)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     return tok && (tok->isBoolean() || (tok->valueType() && tok->valueType()->type == ValueType::Type::BOOL && !tok->valueType()->pointer));
 }
 
 bool astIsPointer(const Token *tok)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     return tok && tok->valueType() && tok->valueType()->pointer;
 }
 
 bool astIsSmartPointer(const Token* tok)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     return tok && tok->valueType() && tok->valueType()->smartPointerTypeToken;
 }
 
 bool astIsUniqueSmartPointer(const Token* tok)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (!astIsSmartPointer(tok))
         return false;
     if (!tok->valueType()->smartPointer)
@@ -243,25 +299,40 @@ bool astIsUniqueSmartPointer(const Token* tok)
 
 bool astIsIterator(const Token *tok)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     return tok && tok->valueType() && tok->valueType()->type == ValueType::Type::ITERATOR;
 }
 
 bool astIsContainer(const Token* tok) {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     return getLibraryContainer(tok) != nullptr && !astIsIterator(tok);
 }
 
 bool astIsContainerView(const Token* tok)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     const Library::Container* container = getLibraryContainer(tok);
     return container && !astIsIterator(tok) && container->view;
 }
 
 bool astIsContainerOwned(const Token* tok) {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     return astIsContainer(tok) && !astIsContainerView(tok);
 }
 
 bool astIsContainerString(const Token* tok)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (!tok)
         return false;
     if (!tok->valueType())
@@ -274,6 +345,9 @@ bool astIsContainerString(const Token* tok)
 
 static const Token* getContainerFunction(const Token* tok)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (!tok || !tok->valueType() || !tok->valueType()->container)
         return nullptr;
     const Token* parent = tok->astParent();
@@ -319,6 +393,9 @@ Library::Container::Yield astFunctionYield(const Token* tok, const Settings* set
 
 bool astIsRangeBasedForDecl(const Token* tok)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     return Token::simpleMatch(tok->astParent(), ":") && Token::simpleMatch(tok->astParent()->astParent(), "(");
 }
 
@@ -340,6 +417,9 @@ std::string astCanonicalType(const Token *expr, bool pointedToType)
 
 static bool match(const Token *tok, const std::string &rhs)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (tok->str() == rhs)
         return true;
     if (!tok->varId() && tok->hasKnownIntValue() && std::to_string(tok->values().front().intvalue) == rhs)
@@ -349,6 +429,9 @@ static bool match(const Token *tok, const std::string &rhs)
 
 const Token * astIsVariableComparison(const Token *tok, const std::string &comp, const std::string &rhs, const Token **vartok)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (!tok)
         return nullptr;
 
@@ -394,6 +477,9 @@ const Token * astIsVariableComparison(const Token *tok, const std::string &comp,
 
 bool isVariableDecl(const Token* tok)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (!tok)
         return false;
     const Variable* var = tok->variable();
@@ -407,12 +493,18 @@ bool isVariableDecl(const Token* tok)
 
 bool isStlStringType(const Token* tok)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     return Token::Match(tok, "std :: string|wstring|u16string|u32string !!::") ||
            (Token::simpleMatch(tok, "std :: basic_string <") && !Token::simpleMatch(tok->linkAt(3), "> ::"));
 }
 
 bool isTemporary(bool cpp, const Token* tok, const Library* library, bool unknown)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (!tok)
         return false;
     if (Token::simpleMatch(tok, "."))
@@ -473,6 +565,9 @@ bool isTemporary(bool cpp, const Token* tok, const Library* library, bool unknow
 
 static bool isFunctionCall(const Token* tok)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (Token::Match(tok, "%name% ("))
         return true;
     if (Token::Match(tok, "%name% <") && Token::simpleMatch(tok->next()->link(), "> ("))
@@ -484,6 +579,9 @@ static bool isFunctionCall(const Token* tok)
 
 static bool hasToken(const Token * startTok, const Token * stopTok, const Token * tok)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     for (const Token * tok2 = startTok; tok2 != stopTok; tok2 = tok2->next()) {
         if (tok2 == tok)
             return true;
@@ -494,6 +592,9 @@ static bool hasToken(const Token * startTok, const Token * stopTok, const Token 
 template<class T, REQUIRES("T must be a Token class", std::is_convertible<T*, const Token*> )>
 static T* previousBeforeAstLeftmostLeafGeneric(T* tok)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (!tok)
         return nullptr;
     T* leftmostLeaf = tok;
@@ -504,16 +605,25 @@ static T* previousBeforeAstLeftmostLeafGeneric(T* tok)
 
 const Token* previousBeforeAstLeftmostLeaf(const Token* tok)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     return previousBeforeAstLeftmostLeafGeneric(tok);
 }
 Token* previousBeforeAstLeftmostLeaf(Token* tok)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     return previousBeforeAstLeftmostLeafGeneric(tok);
 }
 
 template<class T, REQUIRES("T must be a Token class", std::is_convertible<T*, const Token*> )>
 static T* nextAfterAstRightmostLeafGeneric(T* tok)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     T * rightmostLeaf = tok;
     if (!rightmostLeaf || !rightmostLeaf->astOperand1())
         return nullptr;
@@ -538,19 +648,31 @@ static T* nextAfterAstRightmostLeafGeneric(T* tok)
 
 const Token* nextAfterAstRightmostLeaf(const Token* tok)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     return nextAfterAstRightmostLeafGeneric(tok);
 }
 Token* nextAfterAstRightmostLeaf(Token* tok)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     return nextAfterAstRightmostLeafGeneric(tok);
 }
 
 const Token* astParentSkipParens(const Token* tok)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     return astParentSkipParens(const_cast<Token*>(tok));
 }
 Token* astParentSkipParens(Token* tok)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (!tok)
         return nullptr;
     Token * parent = tok->astParent();
@@ -566,6 +688,9 @@ Token* astParentSkipParens(Token* tok)
 
 const Token* getParentMember(const Token * tok)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (!tok)
         return tok;
     const Token * parent = tok->astParent();
@@ -586,6 +711,9 @@ const Token* getParentMember(const Token * tok)
 
 const Token* getParentLifetime(const Token* tok)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (!tok)
         return tok;
     // Skipping checking for variable if its a pointer-to-member
@@ -625,6 +753,9 @@ static std::vector<const Token*> getParentMembers(const Token* tok)
 
 const Token* getParentLifetime(bool cpp, const Token* tok, const Library* library)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     std::vector<const Token*> members = getParentMembers(tok);
     if (members.size() < 2)
         return tok;
@@ -667,6 +798,9 @@ const Token* getParentLifetime(bool cpp, const Token* tok, const Library* librar
 
 static bool isInConstructorList(const Token* tok)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (!tok)
         return false;
     if (!astIsRHS(tok))
@@ -758,6 +892,9 @@ std::vector<ValueType> getParentValueTypes(const Token* tok, const Settings* set
 
 bool astIsLHS(const Token* tok)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (!tok)
         return false;
     const Token* parent = tok->astParent();
@@ -771,6 +908,9 @@ bool astIsLHS(const Token* tok)
 }
 bool astIsRHS(const Token* tok)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (!tok)
         return false;
     const Token* parent = tok->astParent();
@@ -786,6 +926,9 @@ bool astIsRHS(const Token* tok)
 template<class T, REQUIRES("T must be a Token class", std::is_convertible<T*, const Token*> )>
 static T* getCondTokImpl(T* tok)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (!tok)
         return nullptr;
     if (Token::simpleMatch(tok, "("))
@@ -801,6 +944,9 @@ static T* getCondTokImpl(T* tok)
 template<class T, REQUIRES("T must be a Token class", std::is_convertible<T*, const Token*> )>
 static T* getCondTokFromEndImpl(T* endBlock)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (!Token::simpleMatch(endBlock, "}"))
         return nullptr;
     T* startBlock = endBlock->link();
@@ -816,6 +962,9 @@ static T* getCondTokFromEndImpl(T* endBlock)
 template<class T, REQUIRES("T must be a Token class", std::is_convertible<T*, const Token*> )>
 static T* getInitTokImpl(T* tok)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (!tok)
         return nullptr;
     if (Token::Match(tok, "%name% ("))
@@ -832,6 +981,9 @@ static T* getInitTokImpl(T* tok)
 template<class T, REQUIRES("T must be a Token class", std::is_convertible<T*, const Token*> )>
 static T* getStepTokImpl(T* tok)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (!tok)
         return nullptr;
     if (Token::Match(tok, "%name% ("))
@@ -847,38 +999,65 @@ static T* getStepTokImpl(T* tok)
 
 Token* getCondTok(Token* tok)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     return getCondTokImpl(tok);
 }
 const Token* getCondTok(const Token* tok)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     return getCondTokImpl(tok);
 }
 
 Token* getCondTokFromEnd(Token* endBlock)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     return getCondTokFromEndImpl(endBlock);
 }
 const Token* getCondTokFromEnd(const Token* endBlock)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     return getCondTokFromEndImpl(endBlock);
 }
 
 Token* getInitTok(Token* tok) {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     return getInitTokImpl(tok);
 }
 const Token* getInitTok(const Token* tok) {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     return getInitTokImpl(tok);
 }
 
 Token* getStepTok(Token* tok) {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     return getStepTokImpl(tok);
 }
 const Token* getStepTok(const Token* tok) {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     return getStepTokImpl(tok);
 }
 
 const Token *findNextTokenFromBreak(const Token *breakToken)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     const Scope *scope = breakToken->scope();
     while (scope) {
         if (scope->isLoopScope() || scope->type == Scope::ScopeType::eSwitch) {
@@ -899,6 +1078,9 @@ bool extractForLoopValues(const Token *forToken,
                           MathLib::bigint &stepValue,
                           MathLib::bigint &lastValue)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (!Token::simpleMatch(forToken, "for (") || !Token::simpleMatch(forToken->next()->astOperand2(), ";"))
         return false;
     const Token *initExpr = forToken->next()->astOperand2()->astOperand1();
@@ -954,6 +1136,9 @@ static const Token * getVariableInitExpression(const Variable * var)
 
 const Token* isInLoopCondition(const Token* tok)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     const Token* top = tok->astTop();
     return top && Token::Match(top->previous(), "for|while (") ? top : nullptr;
 }
@@ -961,6 +1146,9 @@ const Token* isInLoopCondition(const Token* tok)
 /// If tok2 comes after tok1
 bool precedes(const Token * tok1, const Token * tok2)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (tok1 == tok2)
         return false;
     if (!tok1)
@@ -973,6 +1161,9 @@ bool precedes(const Token * tok1, const Token * tok2)
 /// If tok1 comes after tok2
 bool succeeds(const Token* tok1, const Token* tok2)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (tok1 == tok2)
         return false;
     if (!tok1)
@@ -984,6 +1175,9 @@ bool succeeds(const Token* tok1, const Token* tok2)
 
 bool isAliasOf(const Token *tok, nonneg int varid, bool* inconclusive)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (tok->varId() == varid)
         return false;
     // NOLINTNEXTLINE(readability-use-anyofallof) - TODO: fix this / also Cppcheck false negative
@@ -1005,6 +1199,9 @@ bool isAliasOf(const Token *tok, nonneg int varid, bool* inconclusive)
 
 bool isAliasOf(const Token* tok, const Token* expr, int* indirect, bool* inconclusive)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     const ValueFlow::Value* value = nullptr;
     const Token* r = nullptr;
     if (indirect)
@@ -1047,6 +1244,9 @@ bool isAliasOf(const Token* tok, const Token* expr, int* indirect, bool* inconcl
 
 static bool isAliased(const Token *startTok, const Token *endTok, nonneg int varid)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (!precedes(startTok, endTok))
         return false;
     for (const Token *tok = startTok; tok != endTok; tok = tok->next()) {
@@ -1060,6 +1260,9 @@ static bool isAliased(const Token *startTok, const Token *endTok, nonneg int var
 
 bool isAliased(const Variable *var)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (!var)
         return false;
     if (!var->scope())
@@ -1072,6 +1275,9 @@ bool isAliased(const Variable *var)
 
 bool exprDependsOnThis(const Token* expr, bool onVar, nonneg int depth)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (!expr)
         return false;
     if (expr->str() == "this")
@@ -1107,6 +1313,9 @@ bool exprDependsOnThis(const Token* expr, bool onVar, nonneg int depth)
 
 static bool hasUnknownVars(const Token* startTok)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     bool result = false;
     visitAstNodes(startTok, [&](const Token* tok) {
         if (tok->varId() > 0 && !tok->variable()) {
@@ -1120,6 +1329,9 @@ static bool hasUnknownVars(const Token* startTok)
 
 bool isStructuredBindingVariable(const Variable* var)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (!var)
         return false;
     const Token* tok = var->nameToken();
@@ -1189,6 +1401,9 @@ static const Token * followVariableExpression(const Token * tok, bool cpp, const
 
 static void followVariableExpressionError(const Token *tok1, const Token *tok2, ErrorPath* errors)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (!errors)
         return;
     if (!tok1)
@@ -1209,6 +1424,9 @@ SmallVector<ReferenceToken> followAllReferences(const Token* tok,
 {
     struct ReferenceTokenLess {
         bool operator()(const ReferenceToken& x, const ReferenceToken& y) const {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
             return x.token < y.token;
         }
     };
@@ -1326,6 +1544,9 @@ SmallVector<ReferenceToken> followAllReferences(const Token* tok,
 
 const Token* followReferences(const Token* tok, ErrorPath* errors)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (!tok)
         return nullptr;
     auto refs = followAllReferences(tok, true, false);
@@ -1339,6 +1560,9 @@ const Token* followReferences(const Token* tok, ErrorPath* errors)
 
 static bool isSameLifetime(const Token * const tok1, const Token * const tok2)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     ValueFlow::Value v1 = ValueFlow::getLifetimeObjValue(tok1);
     if (!v1.isLifetimeValue())
         return false;
@@ -1350,6 +1574,9 @@ static bool isSameLifetime(const Token * const tok1, const Token * const tok2)
 
 static bool compareKnownValue(const Token * const tok1, const Token * const tok2, const std::function<bool(const ValueFlow::Value&, const ValueFlow::Value&, bool)> &compare)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     static const auto isKnownFn = std::mem_fn(&ValueFlow::Value::isKnown);
 
     const auto v1 = std::find_if(tok1->values().cbegin(), tok1->values().cend(), isKnownFn);
@@ -1371,6 +1598,9 @@ static bool compareKnownValue(const Token * const tok1, const Token * const tok2
 
 bool isEqualKnownValue(const Token * const tok1, const Token * const tok2)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     return compareKnownValue(tok1, tok2, [&](const ValueFlow::Value& v1, const ValueFlow::Value& v2, bool sameLifetime) {
         bool r = v1.equalValue(v2);
         if (v1.isIteratorValue()) {
@@ -1382,6 +1612,9 @@ bool isEqualKnownValue(const Token * const tok1, const Token * const tok2)
 
 static inline bool isDifferentKnownValues(const Token * const tok1, const Token * const tok2)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     return compareKnownValue(tok1, tok2, [&](const ValueFlow::Value& v1, const ValueFlow::Value& v2, bool sameLifetime) {
         bool r = v1.equalValue(v2);
         if (v1.isIteratorValue()) {
@@ -1393,6 +1626,9 @@ static inline bool isDifferentKnownValues(const Token * const tok1, const Token 
 
 static inline bool isSameConstantValue(bool macro, const Token* tok1, const Token* tok2)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (tok1 == nullptr || tok2 == nullptr)
         return false;
 
@@ -1424,6 +1660,9 @@ static inline bool isSameConstantValue(bool macro, const Token* tok1, const Toke
 
 static bool isForLoopCondition(const Token * const tok)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (!tok)
         return false;
     const Token *const parent = tok->astParent();
@@ -1435,6 +1674,9 @@ static bool isForLoopCondition(const Token * const tok)
 
 static bool isForLoopIncrement(const Token* const tok)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (!tok)
         return false;
     const Token *const parent = tok->astParent();
@@ -1446,6 +1688,9 @@ static bool isForLoopIncrement(const Token* const tok)
 
 bool isUsedAsBool(const Token* const tok, const Settings* settings)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (!tok)
         return false;
     if (isForLoopIncrement(tok))
@@ -1494,11 +1739,17 @@ bool isUsedAsBool(const Token* const tok, const Settings* settings)
 
 static bool astIsBoolLike(const Token* tok)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     return astIsBool(tok) || isUsedAsBool(tok);
 }
 
 bool isSameExpression(bool cpp, bool macro, const Token *tok1, const Token *tok2, const Library& library, bool pure, bool followVar, ErrorPath* errors)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (tok1 == nullptr && tok2 == nullptr)
         return true;
     if (tok1 == nullptr || tok2 == nullptr)
@@ -1723,6 +1974,9 @@ bool isSameExpression(bool cpp, bool macro, const Token *tok1, const Token *tok2
 
 static bool isZeroBoundCond(const Token * const cond)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (cond == nullptr)
         return false;
     // Assume unsigned
@@ -1741,6 +1995,9 @@ static bool isZeroBoundCond(const Token * const cond)
 
 bool isOppositeCond(bool isNot, bool cpp, const Token * const cond1, const Token * const cond2, const Library& library, bool pure, bool followVar, ErrorPath* errors)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (!cond1 || !cond2)
         return false;
 
@@ -1905,6 +2162,9 @@ bool isOppositeCond(bool isNot, bool cpp, const Token * const cond1, const Token
 
 bool isOppositeExpression(bool cpp, const Token * const tok1, const Token * const tok2, const Library& library, bool pure, bool followVar, ErrorPath* errors)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (!tok1 || !tok2)
         return false;
     if (isOppositeCond(true, cpp, tok1, tok2, library, pure, followVar, errors))
@@ -1918,6 +2178,9 @@ bool isOppositeExpression(bool cpp, const Token * const tok1, const Token * cons
 
 static bool functionModifiesArguments(const Function* f)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     return std::any_of(f->argumentList.cbegin(), f->argumentList.cend(), [](const Variable& var) {
         if (var.isReference() || var.isPointer())
             return !var.isConst();
@@ -1927,6 +2190,9 @@ static bool functionModifiesArguments(const Function* f)
 
 bool isConstFunctionCall(const Token* ftok, const Library& library)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (isUnevaluated(ftok))
         return true;
     if (!Token::Match(ftok, "%name% ("))
@@ -2007,6 +2273,9 @@ bool isConstFunctionCall(const Token* ftok, const Library& library)
 
 bool isConstExpression(const Token *tok, const Library& library, bool cpp)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (!tok)
         return true;
     if (tok->variable() && tok->variable()->isVolatile())
@@ -2029,6 +2298,9 @@ bool isConstExpression(const Token *tok, const Library& library, bool cpp)
 
 bool isWithoutSideEffects(bool cpp, const Token* tok, bool checkArrayAccess, bool checkReference)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (!cpp)
         return true;
 
@@ -2043,6 +2315,9 @@ bool isWithoutSideEffects(bool cpp, const Token* tok, bool checkArrayAccess, boo
 
 bool isUniqueExpression(const Token* tok)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (!tok)
         return true;
     if (tok->function()) {
@@ -2093,6 +2368,9 @@ bool isUniqueExpression(const Token* tok)
 
 static bool isEscaped(const Token* tok, bool functionsScope, const Library* library)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (library && library->isnoreturn(tok))
         return true;
     if (functionsScope)
@@ -2102,6 +2380,9 @@ static bool isEscaped(const Token* tok, bool functionsScope, const Library* libr
 
 static bool isEscapedOrJump(const Token* tok, bool functionsScope, const Library* library)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (library && library->isnoreturn(tok))
         return true;
     if (functionsScope)
@@ -2111,6 +2392,9 @@ static bool isEscapedOrJump(const Token* tok, bool functionsScope, const Library
 
 bool isEscapeFunction(const Token* ftok, const Library* library)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (!Token::Match(ftok, "%name% ("))
         return false;
     const Function* function = ftok->function();
@@ -2128,6 +2412,9 @@ bool isEscapeFunction(const Token* ftok, const Library* library)
 
 static bool hasNoreturnFunction(const Token* tok, const Library* library, const Token** unknownFunc)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (!tok)
         return false;
     const Token* ftok = tok->str() == "(" ? tok->previous() : nullptr;
@@ -2158,6 +2445,9 @@ static bool hasNoreturnFunction(const Token* tok, const Library* library, const 
 
 bool isReturnScope(const Token* const endToken, const Library* library, const Token** unknownFunc, bool functionScope)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (!endToken || endToken->str() != "}")
         return false;
 
@@ -2206,6 +2496,9 @@ bool isReturnScope(const Token* const endToken, const Library* library, const To
 
 bool isWithinScope(const Token* tok, const Variable* var, Scope::ScopeType type)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (!tok || !var)
         return false;
     const Scope* scope = tok->scope();
@@ -2219,6 +2512,9 @@ bool isWithinScope(const Token* tok, const Variable* var, Scope::ScopeType type)
 
 bool isVariableChangedByFunctionCall(const Token *tok, int indirect, nonneg int varid, const Settings *settings, bool *inconclusive)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (!tok)
         return false;
     if (tok->varId() == varid)
@@ -2229,6 +2525,9 @@ bool isVariableChangedByFunctionCall(const Token *tok, int indirect, nonneg int 
 
 bool isScopeBracket(const Token* tok)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (!Token::Match(tok, "{|}"))
         return false;
     if (!tok->scope())
@@ -2243,6 +2542,9 @@ bool isScopeBracket(const Token* tok)
 template<class T, REQUIRES("T must be a Token class", std::is_convertible<T*, const Token*> )>
 T* getTokenArgumentFunctionImpl(T* tok, int& argn)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     argn = -1;
     {
         T* parent = tok->astParent();
@@ -2313,10 +2615,16 @@ T* getTokenArgumentFunctionImpl(T* tok, int& argn)
 }
 
 const Token* getTokenArgumentFunction(const Token* tok, int& argn) {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     return getTokenArgumentFunctionImpl(tok, argn);
 }
 
 Token* getTokenArgumentFunction(Token* tok, int& argn) {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     return getTokenArgumentFunctionImpl(tok, argn);
 }
 
@@ -2363,6 +2671,9 @@ std::vector<const Variable*> getArgumentVars(const Token* tok, int argnr)
 
 static bool isCPPCastKeyword(const Token* tok)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (!tok)
         return false;
     return endsWith(tok->str(), "_cast");
@@ -2370,6 +2681,9 @@ static bool isCPPCastKeyword(const Token* tok)
 
 static bool isTrivialConstructor(const Token* tok)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     const Token* typeTok = nullptr;
     const Type* t = Token::typeOf(tok, &typeTok);
     if (t)
@@ -2381,6 +2695,9 @@ static bool isTrivialConstructor(const Token* tok)
 
 static bool isArray(const Token* tok)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (!tok)
         return false;
     if (tok->variable())
@@ -2392,6 +2709,9 @@ static bool isArray(const Token* tok)
 
 bool isVariableChangedByFunctionCall(const Token *tok, int indirect, const Settings *settings, bool *inconclusive)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (!tok)
         return false;
 
@@ -2494,6 +2814,9 @@ bool isVariableChangedByFunctionCall(const Token *tok, int indirect, const Setti
 
 bool isVariableChanged(const Token *tok, int indirect, const Settings *settings, bool cpp, int depth)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (!tok)
         return false;
 
@@ -2705,16 +3028,25 @@ bool isVariableChanged(const Token *tok, int indirect, const Settings *settings,
 
 bool isVariableChanged(const Token *start, const Token *end, const nonneg int exprid, bool globalvar, const Settings *settings, bool cpp, int depth)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     return findVariableChanged(start, end, 0, exprid, globalvar, settings, cpp, depth) != nullptr;
 }
 
 bool isVariableChanged(const Token *start, const Token *end, int indirect, const nonneg int exprid, bool globalvar, const Settings *settings, bool cpp, int depth)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     return findVariableChanged(start, end, indirect, exprid, globalvar, settings, cpp, depth) != nullptr;
 }
 
 const Token* findExpression(const Token* start, const nonneg int exprid)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     const Function* f = Scope::nestedInFunction(start->scope());
     if (!f)
         return nullptr;
@@ -2756,6 +3088,9 @@ static bool isExpressionChangedAt(const F& getExprTok,
                                   bool cpp,
                                   int depth)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (depth < 0)
         return true;
     if (tok->exprId() != exprid) {
@@ -2790,6 +3125,9 @@ bool isExpressionChangedAt(const Token* expr,
                            bool cpp,
                            int depth)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     return isExpressionChangedAt([&] {
         return expr;
     }, tok, indirect, expr->exprId(), globalvar, settings, cpp, depth);
@@ -2797,6 +3135,9 @@ bool isExpressionChangedAt(const Token* expr,
 
 Token* findVariableChanged(Token *start, const Token *end, int indirect, const nonneg int exprid, bool globalvar, const Settings *settings, bool cpp, int depth)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (!precedes(start, end))
         return nullptr;
     if (depth < 0)
@@ -2813,11 +3154,17 @@ Token* findVariableChanged(Token *start, const Token *end, int indirect, const n
 
 const Token* findVariableChanged(const Token *start, const Token *end, int indirect, const nonneg int exprid, bool globalvar, const Settings *settings, bool cpp, int depth)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     return findVariableChanged(const_cast<Token*>(start), end, indirect, exprid, globalvar, settings, cpp, depth);
 }
 
 bool isVariableChanged(const Variable * var, const Settings *settings, bool cpp, int depth)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (!var)
         return false;
     if (!var->scope())
@@ -2842,6 +3189,9 @@ bool isVariablesChanged(const Token* start,
                         const Settings* settings,
                         bool cpp)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     std::set<int> varids;
     std::transform(vars.cbegin(), vars.cend(), std::inserter(varids, varids.begin()), [](const Variable* var) {
         return var->declarationId();
@@ -2864,6 +3214,9 @@ bool isVariablesChanged(const Token* start,
 
 bool isThisChanged(const Token* tok, int indirect, const Settings* settings, bool cpp)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if ((Token::Match(tok->previous(), "%name% (") && !Token::simpleMatch(tok->astOperand1(), ".")) ||
         Token::Match(tok->tokAt(-3), "this . %name% (")) {
         if (tok->previous()->function()) {
@@ -2880,6 +3233,9 @@ bool isThisChanged(const Token* tok, int indirect, const Settings* settings, boo
 
 const Token* findThisChanged(const Token* start, const Token* end, int indirect, const Settings* settings, bool cpp)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (!precedes(start, end))
         return nullptr;
     for (const Token* tok = start; tok != end; tok = tok->next()) {
@@ -2900,6 +3256,9 @@ const Token* findExpressionChangedImpl(const Token* expr,
                                        int depth,
                                        Find find)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (depth < 0)
         return start;
     if (!precedes(start, end))
@@ -2947,6 +3306,9 @@ struct ExpressionChangedSimpleFind {
     template<class F>
     const Token* operator()(const Token* start, const Token* end, F f) const
     {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         return findToken(start, end, f);
     }
 };
@@ -2961,6 +3323,9 @@ struct ExpressionChangedSkipDeadCode {
     template<class F>
     const Token* operator()(const Token* start, const Token* end, F f) const
     {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         return findTokenSkipDeadCode(library, start, end, f, *evaluate);
     }
 };
@@ -2972,6 +3337,9 @@ const Token* findExpressionChanged(const Token* expr,
                                    bool cpp,
                                    int depth)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     return findExpressionChangedImpl(expr, start, end, settings, cpp, depth, ExpressionChangedSimpleFind{});
 }
 
@@ -2983,12 +3351,18 @@ const Token* findExpressionChangedSkipDeadCode(const Token* expr,
                                                const std::function<std::vector<MathLib::bigint>(const Token* tok)>& evaluate,
                                                int depth)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     return findExpressionChangedImpl(
         expr, start, end, settings, cpp, depth, ExpressionChangedSkipDeadCode{&settings->library, evaluate});
 }
 
 const Token* getArgumentStart(const Token* ftok)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     const Token* tok = ftok;
     if (Token::Match(tok, "%name% (|{"))
         tok = ftok->next();
@@ -3001,11 +3375,17 @@ const Token* getArgumentStart(const Token* ftok)
 }
 
 int numberOfArguments(const Token* ftok) {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     return astCount(getArgumentStart(ftok), ",");
 }
 
 int numberOfArgumentsWithoutAst(const Token* start)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     int arguments = 0;
     const Token* openBracket = start->next();
     while (Token::simpleMatch(openBracket, ")"))
@@ -3026,6 +3406,9 @@ std::vector<const Token*> getArguments(const Token* ftok) {
 
 int getArgumentPos(const Variable* var, const Function* f)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     auto arg_it = std::find_if(f->argumentList.cbegin(), f->argumentList.cend(), [&](const Variable& v) {
         return v.nameToken() == var->nameToken();
     });
@@ -3036,6 +3419,9 @@ int getArgumentPos(const Variable* var, const Function* f)
 
 const Token* getIteratorExpression(const Token* tok)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (!tok)
         return nullptr;
     if (tok->isUnaryOp("*"))
@@ -3061,6 +3447,9 @@ const Token* getIteratorExpression(const Token* tok)
 
 bool isIteratorPair(const std::vector<const Token*>& args)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (args.size() != 2)
         return false;
     if (astIsPointer(args[0]) && astIsPointer(args[1]))
@@ -3084,6 +3473,9 @@ bool isIteratorPair(const std::vector<const Token*>& args)
 
 const Token *findLambdaStartToken(const Token *last)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (!last || last->str() != "}")
         return nullptr;
     const Token* tok = last->link();
@@ -3097,6 +3489,9 @@ const Token *findLambdaStartToken(const Token *last)
 template<class T>
 T* findLambdaEndTokenGeneric(T* first)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     auto maybeLambda = [](T* tok) -> bool {
         while (Token::Match(tok, "*|%name%|::|>")) {
             if (tok->link())
@@ -3134,15 +3529,24 @@ T* findLambdaEndTokenGeneric(T* first)
 
 const Token* findLambdaEndToken(const Token* first)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     return findLambdaEndTokenGeneric(first);
 }
 Token* findLambdaEndToken(Token* first)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     return findLambdaEndTokenGeneric(first);
 }
 
 bool isLikelyStream(bool cpp, const Token *stream)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (!cpp)
         return false;
 
@@ -3160,6 +3564,9 @@ bool isLikelyStream(bool cpp, const Token *stream)
 
 bool isLikelyStreamRead(bool cpp, const Token *op)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (!cpp)
         return false;
 
@@ -3183,11 +3590,17 @@ bool isLikelyStreamRead(bool cpp, const Token *op)
 
 bool isCPPCast(const Token* tok)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     return tok && Token::simpleMatch(tok->previous(), "> (") && tok->astOperand2() && tok->astOperand1() && isCPPCastKeyword(tok->astOperand1());
 }
 
 bool isConstVarExpression(const Token *tok, std::function<bool(const Token*)> skipPredicate)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (!tok)
         return false;
     if (tok->str() == "?" && tok->astOperand2() && tok->astOperand2()->str() == ":") // ternary operator
@@ -3231,6 +3644,9 @@ bool isConstVarExpression(const Token *tok, std::function<bool(const Token*)> sk
 
 static ExprUsage getFunctionUsage(const Token* tok, int indirect, const Settings* settings)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     const bool addressOf = tok->astParent() && tok->astParent()->isUnaryOp("&");
 
     int argnr;
@@ -3265,6 +3681,9 @@ static ExprUsage getFunctionUsage(const Token* tok, int indirect, const Settings
 
 ExprUsage getExprUsage(const Token* tok, int indirect, const Settings* settings, bool cpp)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     const Token* parent = tok->astParent();
     if (indirect > 0 && parent) {
         while (Token::simpleMatch(parent, "[") && parent->astParent())
@@ -3299,6 +3718,9 @@ ExprUsage getExprUsage(const Token* tok, int indirect, const Settings* settings,
 
 static void getLHSVariablesRecursive(std::vector<const Variable*>& vars, const Token* tok)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (!tok)
         return;
     if (vars.empty() && Token::Match(tok, "*|&|&&|[")) {
@@ -3333,6 +3755,9 @@ std::vector<const Variable*> getLHSVariables(const Token* tok)
 
 static const Token* getLHSVariableRecursive(const Token* tok)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (!tok)
         return nullptr;
     if (Token::Match(tok, "*|&|&&|[")) {
@@ -3348,6 +3773,9 @@ static const Token* getLHSVariableRecursive(const Token* tok)
 
 const Variable *getLHSVariable(const Token *tok)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (!tok || !tok->isAssignmentOp())
         return nullptr;
     if (!tok->astOperand1())
@@ -3362,6 +3790,9 @@ const Variable *getLHSVariable(const Token *tok)
 
 const Token* getLHSVariableToken(const Token* tok)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (!Token::Match(tok, "%assign%"))
         return nullptr;
     if (!tok->astOperand1())
@@ -3376,6 +3807,9 @@ const Token* getLHSVariableToken(const Token* tok)
 
 const Token* findAllocFuncCallToken(const Token *expr, const Library &library)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (!expr)
         return nullptr;
     if (Token::Match(expr, "[+-]")) {
@@ -3391,6 +3825,9 @@ const Token* findAllocFuncCallToken(const Token *expr, const Library &library)
 
 bool isNullOperand(const Token *expr)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (!expr)
         return false;
     if (Token::Match(expr, "static_cast|const_cast|dynamic_cast|reinterpret_cast <"))
@@ -3405,6 +3842,9 @@ bool isNullOperand(const Token *expr)
 
 bool isGlobalData(const Token *expr, bool cpp)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     // function call that returns reference => assume global data
     if (expr && expr->str() == "(" && expr->valueType() && expr->valueType()->reference != Reference::None) {
         if (expr->isBinaryOp())
@@ -3487,5 +3927,8 @@ bool isGlobalData(const Token *expr, bool cpp)
 
 bool isUnevaluated(const Token *tok)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     return Token::Match(tok, "alignof|_Alignof|_alignof|__alignof|__alignof__|decltype|offsetof|sizeof|typeid|typeof|__typeof__ (");
 }

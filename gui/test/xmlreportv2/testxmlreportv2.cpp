@@ -1,3 +1,5 @@
+#include <stdio.h>
+#include <pthread.h>
 /*
  * Cppcheck - A tool for static C/C++ code analysis
  * Copyright (C) 2007-2021 Cppcheck team.
@@ -26,6 +28,9 @@
 
 void TestXmlReportV2::readXml() const
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     const QString filepath(QString(SRCDIR) + "/../data/xmlfiles/xmlreport_v2.xml");
     XmlReportV2 report(filepath);
     QVERIFY(report.open());

@@ -1,3 +1,5 @@
+#include <stdio.h>
+#include <pthread.h>
 /*
  * Cppcheck - A tool for static C/C++ code analysis
  * Copyright (C) 2007-2023 Cppcheck team.
@@ -40,6 +42,9 @@ private:
     const Settings settings1 = settingsBuilder().severity(Severity::portability).build();
 
     void run() override {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         TEST_CASE(c1);
         TEST_CASE(c2);
         TEST_CASE(canreplace1);
@@ -274,6 +279,9 @@ private:
 
 #define checkSimplifyTypedef(code) checkSimplifyTypedef_(code, __FILE__, __LINE__)
     void checkSimplifyTypedef_(const char code[], const char* file, int line) {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         errout.str("");
         // Tokenize..
         // show warnings about unhandled typedef
@@ -302,24 +310,36 @@ private:
     }
 
     void c1() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char code[] = "typedef int t;\n"
                             "t x;";
         ASSERT_EQUALS("int x ;", simplifyTypedefC(code));
     }
 
     void c2() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char code[] = "void f1() { typedef int t; t x; }\n"
                             "void f2() { typedef float t; t x; }\n";
         ASSERT_EQUALS("void f1 ( ) { int x ; } void f2 ( ) { float x ; }", simplifyTypedefC(code));
     }
 
     void canreplace1() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char code[] = "typedef unsigned char u8;\n"
                             "void f(uint8_t u8) { x = u8 & y; }\n";
         ASSERT_EQUALS("void f ( uint8_t u8 ) { x = u8 & y ; }", simplifyTypedefC(code));
     }
 
     void canreplace2() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char code1[] = "typedef char* entry;\n"
                              "void f(Y* entry) { for (entry=x->y; entry; entry = entry->next) {} }\n";
         ASSERT_EQUALS("void f ( Y * entry ) { for ( entry = x -> y ; entry ; entry = entry -> next ) { } }", simplifyTypedefC(code1));
@@ -334,6 +354,9 @@ private:
     }
 
     void canreplace3() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char code1[] = "typedef char* c_str;\n" // #11640
                              "struct S {\n"
                              "    const char* g() const {\n"
@@ -345,6 +368,9 @@ private:
     }
 
     void canreplace4() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char code1[] = "typedef std::vector<int> X;\n" // #12026
                              "struct S {\n"
                              "    enum E { X };\n"
@@ -353,6 +379,9 @@ private:
     }
 
     void cconst() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char code1[] = "typedef void* HWND;\n"
                              "const HWND x;";
         ASSERT_EQUALS("void * const x ;", simplifyTypedef(code1));
@@ -363,6 +392,9 @@ private:
     }
 
     void cstruct1() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char code[] = "typedef struct { int a; int b; } t;\n"
                             "t x;";
         ASSERT_EQUALS("struct t { int a ; int b ; } ; struct t x ;", simplifyTypedef(code));
@@ -370,6 +402,9 @@ private:
     }
 
     void cstruct2() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char code[] = "typedef enum { A, B } t;\n"
                             "t x;";
         ASSERT_EQUALS("enum t { A , B } ; t x ;", simplifyTypedef(code));
@@ -377,24 +412,36 @@ private:
     }
 
     void cstruct3() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char code[] = "typedef struct s { int a; int b; } t;\n"
                             "t x;";
         ASSERT_EQUALS("struct s { int a ; int b ; } ; struct s x ;", simplifyTypedefC(code));
     }
 
     void cstruct4() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char code[] = "typedef struct s { int a; int b; } t;\n"
                             "struct t x{};";
         ASSERT_EQUALS("struct s { int a ; int b ; } ; struct s x { } ;", simplifyTypedefC(code));
     }
 
     void cfunction1() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char code[] = "typedef int callback(int);\n"
                             "callback* cb;";
         ASSERT_EQUALS("int ( * cb ) ( int ) ;", simplifyTypedefC(code));
     }
 
     void cfunction2() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char code[] = "typedef int callback(int);\n"
                             "typedef callback* callbackPtr;\n"
                             "callbackPtr cb;";
@@ -402,6 +449,9 @@ private:
     }
 
     void cfunction3() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char code[] = "typedef int f(int);\n"
                             "typedef const f cf;\n";
         simplifyTypedefC(code);
@@ -409,18 +459,27 @@ private:
     }
 
     void cfp1() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char code[] = "typedef void (*fp)(void * p);\n"
                             "fp x;";
         ASSERT_EQUALS("void ( * x ) ( void * p ) ;", simplifyTypedefC(code));
     }
 
     void cfp2() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char code[] = "typedef void (*const fp)(void * p);\n"
                             "fp x;";
         ASSERT_EQUALS("void ( * const x ) ( void * p ) ;", simplifyTypedefC(code));
     }
 
     void cfp4() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char code[] = "typedef struct S Stype ;\n"
                             "typedef void ( * F ) ( Stype * ) ;\n"
                             "F func;";
@@ -428,6 +487,9 @@ private:
     }
 
     void cfp5() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char code[] = "typedef void (*fp)(void);\n"
                             "typedef fp t;\n"
                             "void foo(t p);";
@@ -435,12 +497,18 @@ private:
     }
 
     void cfp6() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char code[] = "typedef void (*fp)(void);\n"
                             "fp a[10];";
         ASSERT_EQUALS("void ( * a [ 10 ] ) ( void ) ;", simplifyTypedef(code));
     }
 
     void cfp7() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char code[] = "typedef uint32_t ((*fp)(uint32_t n));\n" // #11725
                             "uint32_t g();\n"
                             "fp f;\n";
@@ -448,18 +516,27 @@ private:
     }
 
     void carray1() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char code[] = "typedef int t[20];\n"
                             "t x;";
         ASSERT_EQUALS("int x [ 20 ] ;", simplifyTypedefC(code));
     }
 
     void carray2() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char code[] = "typedef double t[4];\n"
                             "t x[10];";
         ASSERT_EQUALS("double x [ 10 ] [ 4 ] ;", simplifyTypedef(code));
     }
 
     void carray3() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char* code{};
         code = "typedef int a[256];\n" // #11689
                "typedef a b[256];\n"
@@ -474,6 +551,9 @@ private:
     }
 
     void carray4() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char* code{};
         code = "typedef int arr[12];\n" // #12019
                "void foo() { arr temp = {0}; }\n";
@@ -481,6 +561,9 @@ private:
     }
 
     void cdonotreplace1() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char code[] = "typedef int t;\n"
                             "int* t;";
         ASSERT_EQUALS("int * t ;", simplifyTypedefC(code));
@@ -488,6 +571,9 @@ private:
 
 
     void cppfp1() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char code[] = "typedef void (*fp)(void);\n"
                             "typedef fp t;\n"
                             "void foo(t p);";
@@ -495,12 +581,18 @@ private:
     }
 
     void Generic1() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char code[] = "typedef void func(void);\n"
                             "_Generic((x), func: 1, default: 2);";
         ASSERT_EQUALS("_Generic ( x , void ( ) : 1 , default : 2 ) ;", tok(code));
     }
 
     void simplifyTypedef1() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char code[] = "class A\n"
                             "{\n"
                             "public:\n"
@@ -532,6 +624,9 @@ private:
     }
 
     void simplifyTypedef2() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char code[] = "class A;\n"
                             "typedef A duplicate;\n"
                             "class A\n"
@@ -553,6 +648,9 @@ private:
     }
 
     void simplifyTypedef3() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char code[] = "class A {};\n"
                             "typedef A duplicate;\n"
                             "wchar_t foo()\n"
@@ -582,6 +680,9 @@ private:
     }
 
     void simplifyTypedef4() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char code[] = "typedef int s32;\n"
                             "typedef unsigned int u32;\n"
                             "void f()\n"
@@ -602,6 +703,9 @@ private:
     }
 
     void simplifyTypedef5() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         // ticket #780
         const char code[] =
             "typedef struct yy_buffer_state *YY_BUFFER_STATE;\n"
@@ -620,6 +724,9 @@ private:
     }
 
     void simplifyTypedef6() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         // ticket #983
         const char code[] =
             "namespace VL {\n"
@@ -642,6 +749,9 @@ private:
     }
 
     void simplifyTypedef7() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char code[] = "typedef int abc ; "
                             "Fred :: abc f ;";
         const char expected[] = "Fred :: abc f ;";
@@ -649,6 +759,9 @@ private:
     }
 
     void simplifyTypedef8() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char code[] = "typedef int INT;\n"
                             "typedef unsigned int UINT;\n"
                             "typedef int * PINT;\n"
@@ -680,6 +793,9 @@ private:
     }
 
     void simplifyTypedef9() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char code[] = "typedef struct s S, * PS;\n"
                             "typedef struct t { int a; } T, *TP;\n"
                             "typedef struct { int a; } U;\n"
@@ -706,6 +822,9 @@ private:
     }
 
     void simplifyTypedef10() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char code[] = "typedef union s S, * PS;\n"
                             "typedef union t { int a; float b ; } T, *TP;\n"
                             "typedef union { int a; float b; } U;\n"
@@ -732,6 +851,9 @@ private:
     }
 
     void simplifyTypedef11() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char code[] = "typedef enum { a = 0 , b = 1 , c = 2 } abc;\n"
                             "typedef enum xyz { x = 0 , y = 1 , z = 2 } XYZ;\n"
                             "abc e1;\n"
@@ -746,6 +868,9 @@ private:
     }
 
     void simplifyTypedef12() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char code[] = "typedef vector<int> V1;\n"
                             "typedef std::vector<int> V2;\n"
                             "typedef std::vector<std::vector<int> > V3;\n"
@@ -765,6 +890,9 @@ private:
     }
 
     void simplifyTypedef13() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         // ticket # 1167
         const char code[] = "typedef std::pair<int(*)(void*), void*> Func;"
                             "typedef std::vector<Func> CallQueue;"
@@ -776,6 +904,9 @@ private:
     }
 
     void simplifyTypedef14() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         // ticket # 1232
         const char code[] = "template <typename F, unsigned int N> struct E"
                             "{"
@@ -795,6 +926,9 @@ private:
     }
 
     void simplifyTypedef15() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         {
             const char code[] = "typedef char frame[10];\n"
                                 "frame f;";
@@ -815,6 +949,9 @@ private:
     }
 
     void simplifyTypedef16() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         // ticket # 1252
         const char code[] = "typedef char MOT8;\n"
                             "typedef  MOT8 CHFOO[4096];\n"
@@ -828,6 +965,9 @@ private:
     }
 
     void simplifyTypedef17() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char code[] = "typedef char * PCHAR, CHAR;\n"
                             "PCHAR pc;\n"
                             "CHAR c;";
@@ -840,12 +980,18 @@ private:
     }
 
     void simplifyTypedef18() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char code[] = "typedef vector<int[4]> a;\n"
                             "a b;";
         ASSERT_EQUALS("vector < int [ 4 ] > b ;", tok(code));
     }
 
     void simplifyTypedef19() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         {
             // ticket #1275
             const char code[] = "typedef struct {} A, *B, **C;\n"
@@ -892,12 +1038,18 @@ private:
     }
 
     void simplifyTypedef20() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         // ticket #1284
         const char code[] = "typedef jobject invoke_t (jobject, Proxy *, Method *, JArray< jobject > *);";
         ASSERT_EQUALS(";", tok(code));
     }
 
     void simplifyTypedef21() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char code[] = "typedef void (* PF)();\n"
                             "typedef void * (* PFV)(void *);\n"
                             "PF pf;\n"
@@ -913,6 +1065,9 @@ private:
     }
 
     void simplifyTypedef22() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         {
             const char code[] = "class Fred {\n"
                                 "    typedef void (*testfp)();\n"
@@ -1001,6 +1156,9 @@ private:
     }
 
     void simplifyTypedef23() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char code[] = "typedef bool (*Callback) (int i);\n"
                             "void    addCallback(Callback callback) { }\n"
                             "void    addCallback1(Callback callback, int j) { }";
@@ -1013,6 +1171,9 @@ private:
     }
 
     void simplifyTypedef24() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         {
             const char code[] = "typedef int (*fp)();\n"
                                 "void g( fp f )\n"
@@ -1047,6 +1208,9 @@ private:
     }
 
     void simplifyTypedef25() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         {
             // ticket #1298
             const char code[] = "typedef void (*fill_names_f) (const char *);\n"
@@ -1078,6 +1242,9 @@ private:
     }
 
     void simplifyTypedef26() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         {
             const char code[] = "typedef void (*Callback) ();\n"
                                 "void    addCallback(Callback (*callback)());";
@@ -1101,6 +1268,9 @@ private:
     }
 
     void simplifyTypedef27() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         // ticket #1316
         const char code[] = "int main()\n"
                             "{\n"
@@ -1119,6 +1289,9 @@ private:
     }
 
     void simplifyTypedef28() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char code[] = "typedef std::pair<double, double> (*F)(double);\n"
                             "F f;";
 
@@ -1128,6 +1301,9 @@ private:
     }
 
     void simplifyTypedef29() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char code[] = "typedef int array [ice_or<is_int<int>::value, is_int<UDT>::value>::value ? 1 : -1];\n"
                             "typedef int array1 [N];\n"
                             "typedef int array2 [N][M];\n"
@@ -1149,6 +1325,9 @@ private:
     }
 
     void simplifyTypedef30() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char code[] = "typedef ::std::list<int> int_list;\n"
                             "typedef ::std::list<int>::iterator int_list_iterator;\n"
                             "typedef ::std::list<int> int_list_array[10];\n"
@@ -1165,6 +1344,9 @@ private:
     }
 
     void simplifyTypedef31() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         {
             const char code[] = "class A {\n"
                                 "public:\n"
@@ -1213,6 +1395,9 @@ private:
     }
 
     void simplifyTypedef32() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char code[] = "typedef char CHAR;\n"
                             "typedef CHAR * LPSTR;\n"
                             "typedef const CHAR * LPCSTR;\n"
@@ -1229,6 +1414,9 @@ private:
     }
 
     void simplifyTypedef33() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char code[] = "class A {\n"
                             "public:\n"
                             "    typedef char CHAR_A;\n"
@@ -1348,6 +1536,9 @@ private:
     }
 
     void simplifyTypedef34() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         // ticket #1411
         const char code[] = "class X { };\n"
                             "typedef X (*foofunc)(const X&);\n"
@@ -1370,6 +1561,9 @@ private:
     }
 
     void simplifyTypedef35() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char code[] = "typedef int A;\n"
                             "class S\n"
                             "{\n"
@@ -1442,6 +1636,9 @@ private:
     }
 
     void simplifyTypedef36() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         // ticket #1434
         const char code[] = "typedef void (*TIFFFaxFillFunc)();\n"
                             "void f(va_list ap)\n"
@@ -1456,6 +1653,9 @@ private:
     }
 
     void simplifyTypedef37() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char code[] = "typedef int INT;\n"
                             "void f()\n"
                             "{\n"
@@ -1469,6 +1669,9 @@ private:
     }
 
     void simplifyTypedef38() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char code[] = "typedef C A;\n"
                             "struct AB : public A, public B { };";
         const char expected[] = "struct AB : public C , public B { } ;";
@@ -1477,6 +1680,9 @@ private:
     }
 
     void simplifyTypedef43() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         // ticket #1588
         {
             const char code[] = "typedef struct foo A;\n"
@@ -1528,6 +1734,9 @@ private:
     }
 
     void simplifyTypedef44() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         {
             const char code[] = "typedef std::map<std::string, int> Map;\n"
                                 "class MyMap : public Map\n"
@@ -1602,6 +1811,9 @@ private:
     }
 
     void simplifyTypedef45() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         // ticket # 1613
         const char code[] = "void fn() {\n"
                             "    typedef foo<> bar;\n"
@@ -1615,6 +1827,9 @@ private:
     }
 
     void simplifyTypedef46() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char code[] = "typedef const struct A { int a; } * AP;\n"
                             "AP ap;";
 
@@ -1625,6 +1840,9 @@ private:
     }
 
     void simplifyTypedef47() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         {
             const char code[] = "typedef std::pair<int, int> const I;\n"
                                 "I i;";
@@ -1677,6 +1895,9 @@ private:
     }
 
     void simplifyTypedef50() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char code[] = "typedef char (* type1)[10];\n"
                             "typedef char (& type2)[10];\n"
                             "typedef char (& type3)[x];\n"
@@ -1697,6 +1918,9 @@ private:
     }
 
     void simplifyTypedef51() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char code[] = "class A { public: int i; };\n"
                             "typedef const char (A :: * type1);\n"
                             "type1 t1 = &A::i;";
@@ -1746,6 +1970,9 @@ private:
     }
 
     void simplifyTypedef55() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char code[] = "typedef volatile unsigned long * const hwreg_t ;\n"
                             "typedef void *const t1[2];\n"
                             "typedef int*const *_Iterator;\n"
@@ -1913,6 +2140,9 @@ private:
     }
 
     void simplifyTypedef64() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char code[] = "typedef typeof(__type1() + __type2()) __type;"
                             "__type t;";
         const std::string actual(tok(code));
@@ -2507,6 +2737,9 @@ private:
     }
 
     void simplifyTypedef109() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char code[] = "typedef int&& rref;\n"
                             "rref var = 0;";
         const char expected[] = "int && var ; var = 0 ;";
@@ -2515,6 +2748,9 @@ private:
     }
 
     void simplifyTypedef110() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char code[] = "namespace A {\n"
                             "    namespace B {\n"
                             "        namespace D {\n"
@@ -2834,6 +3070,9 @@ private:
     }
 
     void simplifyTypedef129() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         {
             const char code[] = "class c {\n"
                                 "  typedef char foo[4];\n"
@@ -2904,6 +3143,9 @@ private:
     }
 
     void simplifyTypedef131() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char code[] = "typedef unsigned char a4[4];\n"
                             "a4 a4obj;\n"
                             "a4 &&  a4_rref = std::move(a4obj);\n"
@@ -2920,6 +3162,9 @@ private:
     }
 
     void simplifyTypedef132() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char code[] = "namespace NamespaceA {\n"
                             "    typedef int MySpecialType;\n"
                             "}\n"
@@ -2948,6 +3193,9 @@ private:
     }
 
     void simplifyTypedef134() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char code[] = "namespace foo { typedef long long int64; }\n"
                             "typedef int int32;\n"
                             "namespace foo { int64 i; }\n"
@@ -2956,6 +3204,9 @@ private:
     }
 
     void simplifyTypedef135() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char code[] = "namespace clangimport {\n"
                             "    class AstNode;\n"
                             "    typedef std::shared_ptr<AstNode> AstNodePtr;\n"
@@ -2992,6 +3243,9 @@ private:
     }
 
     void simplifyTypedef136() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char code[] = "class C1 {};\n"
                             "typedef class S1 {} S1;\n"
                             "typedef class S2 : public C1 {} S2;\n"
@@ -3244,6 +3498,9 @@ private:
     }
 
     void simplifyTypedef138() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char code[] = "namespace foo { class Bar; }\n"
                             "class Baz;\n"
                             "typedef foo::Bar C;\n"
@@ -3255,6 +3512,9 @@ private:
 
     void simplifyTypedef139()
     {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char code[] = "typedef struct c a;\n"
                             "struct {\n"
                             "  a *b;\n"
@@ -3268,6 +3528,9 @@ private:
     }
 
     void simplifyTypedef140() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         { // #10798
             const char code[] = "typedef void (*b)();\n"
                                 "enum class E { a, b, c };\n";
@@ -3332,6 +3595,9 @@ private:
     }
 
     void simplifyTypedef145() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         // #11634
         const char* code{};
         code = "int typedef i;\n"
@@ -3375,6 +3641,9 @@ private:
     }
 
     void simplifyTypedef146() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char* code{};
         code = "namespace N {\n" // #11978
                "    typedef int T;\n"
@@ -3410,6 +3679,9 @@ private:
     }
 
     void simplifyTypedef147() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char* code{};
         code = "namespace N {\n" // #12014
                "    template<typename T>\n"
@@ -3429,6 +3701,9 @@ private:
     }
 
     void simplifyTypedefFunction1() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         {
             const char code[] = "typedef void (*my_func)();\n"
                                 "std::queue<my_func> func_queue;";
@@ -3644,6 +3919,9 @@ private:
     }
 
     void simplifyTypedefFunction3() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         {
             const char code[] = "typedef C func1();\n"
                                 "typedef C (* func2)();\n"
@@ -3816,6 +4094,9 @@ private:
     }
 
     void simplifyTypedefFunction4() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char code[] = "typedef int ( * ( * type1 ) ( bool ) ) ( int , int ) ;\n"
                             "typedef int ( * ( type2 ) ( bool ) ) ( int , int ) ;\n"
                             "typedef int ( * type3 ( bool ) ) ( int , int ) ;\n"
@@ -3832,6 +4113,9 @@ private:
     }
 
     void simplifyTypedefFunction5() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char code[] = "typedef int ( * type1 ) ( float ) ;\n"
                             "typedef int ( * const type2 ) ( float ) ;\n"
                             "typedef int ( * volatile type3 ) ( float ) ;\n"
@@ -3875,6 +4159,9 @@ private:
     }
 
     void simplifyTypedefFunction6() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char code[] = "typedef void (*testfp)();\n"
                             "struct Fred\n"
                             "{\n"
@@ -3902,6 +4189,9 @@ private:
     }
 
     void simplifyTypedefFunction7() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char code[] = "typedef void ( __gnu_cxx :: _SGIAssignableConcept < _Tp > :: * _func_Tp_SGIAssignableConcept ) () ;"
                             "_func_Tp_SGIAssignableConcept X;";
 
@@ -3913,6 +4203,9 @@ private:
     }
 
     void simplifyTypedefFunction8() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         // #2376 - internal error
         const char code[] = "typedef int f_expand(const nrv_byte *);\n"
                             "void f(f_expand *(*get_fexp(int))){}";
@@ -3921,6 +4214,9 @@ private:
     }
 
     void simplifyTypedefFunction9() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         {
             const char code[] = "typedef ::C (::C::* func1)();\n"
                                 "typedef ::C (::C::* func2)() const;\n"
@@ -3999,6 +4295,9 @@ private:
     }
 
     void simplifyTypedefFunction10() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char code[] = "enum Format_E1 { FORMAT11, FORMAT12 } Format_T1;\n"
                             "namespace MySpace {\n"
                             "   enum Format_E2 { FORMAT21, FORMAT22 } Format_T2;\n"
@@ -4017,6 +4316,9 @@ private:
     }
 
     void simplifyTypedefStruct() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char code1[] = "typedef struct S { int x; } xyz;\n"
                              "xyz var;";
         ASSERT_EQUALS("struct S { int x ; } ; struct S var ;", tok(code1,false));
@@ -4040,6 +4342,9 @@ private:
     }
 
     void simplifyTypedefMacro() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char code[] = "typedef uint32_t index_t;\n"
                             "\n"
                             "#define NO_SEGMENT     ((index_t)12)\n"

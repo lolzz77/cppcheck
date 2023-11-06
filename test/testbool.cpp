@@ -1,3 +1,5 @@
+#include <stdio.h>
+#include <pthread.h>
 /*
  * Cppcheck - A tool for static C/C++ code analysis
  * Copyright (C) 2007-2023 Cppcheck team.
@@ -33,6 +35,9 @@ private:
     const Settings settings = settingsBuilder().severity(Severity::style).severity(Severity::warning).certainty(Certainty::inconclusive).build();
 
     void run() override {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         TEST_CASE(bitwiseOnBoolean);      // if (bool & bool)
         TEST_CASE(incrementBoolean);
         TEST_CASE(assignBoolToPointer);
@@ -92,6 +97,9 @@ private:
 
 
     void assignBoolToPointer() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("void foo(bool *p) {\n"
               "    p = false;\n"
               "}");
@@ -181,6 +189,9 @@ private:
     }
 
     void assignBoolToFloat() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("void foo1() {\n"
               "    double d = false;\n"
               "}");
@@ -222,6 +233,9 @@ private:
     }
 
     void comparisonOfBoolExpressionWithInt1() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("void f(int x) {\n"
               "    if ((x && 0x0f)==6)\n"
               "        a++;\n"
@@ -403,6 +417,9 @@ private:
     }
 
     void comparisonOfBoolExpressionWithInt2() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("void f(int x) {\n"
               "    if (!x == 10) {\n"
               "        printf(\"x not equal to 10\");\n"
@@ -483,6 +500,9 @@ private:
     }
 
     void comparisonOfBoolExpressionWithInt3() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("int f(int x) {\n"
               "    return t<0>() && x;\n"
               "}");
@@ -490,6 +510,9 @@ private:
     }
 
     void comparisonOfBoolExpressionWithInt4() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         // #5016
         check("void f() {\n"
               "  for(int i = 4; i > -1 < 5 ; --i) {}\n"
@@ -539,6 +562,9 @@ private:
     }
 
     void checkComparisonOfFuncReturningBool1() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("void f(){\n"
               "     int temp = 4;\n"
               "     if(compare1(temp) > compare2(temp)){\n"
@@ -563,6 +589,9 @@ private:
     }
 
     void checkComparisonOfFuncReturningBool2() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("void leftOfComparison(){\n"
               " int temp = 4;\n"
               " bool a = true;\n"
@@ -589,6 +618,9 @@ private:
     }
 
     void checkComparisonOfFuncReturningBool3() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("void f(){\n"
               " int temp = 4;\n"
               " if(compare(temp) > temp){\n"
@@ -601,6 +633,9 @@ private:
     }
 
     void checkComparisonOfFuncReturningBool4() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("void f(){\n"
               "   int temp = 4;\n"
               " bool b = compare2(6);\n"
@@ -626,6 +661,9 @@ private:
     }
 
     void checkComparisonOfFuncReturningBool5() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("void f(){\n"
               "     int temp = 4;\n"
               "     if(compare1(temp) > !compare2(temp)){\n"
@@ -650,6 +688,9 @@ private:
     }
 
     void checkComparisonOfFuncReturningBool6() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("int compare1(int temp);\n"
               "namespace Foo {\n"
               "    bool compare1(int temp);\n"
@@ -778,6 +819,9 @@ private:
     }
 
     void checkComparisonOfBoolWithBool() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char code[] = "void f(){\n"
                             "    int temp = 4;\n"
                             "    bool b = compare2(6);\n"
@@ -954,6 +998,9 @@ private:
     }
 
     void incrementBoolean() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("bool bValue = true;\n"
               "void f() { bValue++; }");
         ASSERT_EQUALS("[test.cpp:2]: (style) Incrementing a variable of type 'bool' with postfix operator++ is deprecated by the C++ Standard. You should assign it the value 'true' instead.\n", errout.str());
@@ -980,6 +1027,9 @@ private:
     }
 
     void comparisonOfBoolWithInt1() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("void f(bool x) {\n"
               "    if (x < 10) {\n"
               "        printf(\"foo\");\n"
@@ -1033,6 +1083,9 @@ private:
     }
 
     void comparisonOfBoolWithInt2() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("void f(bool x, int y) {\n"
               "    if (x == y) {\n"
               "        printf(\"foo\");\n"
@@ -1063,6 +1116,9 @@ private:
     }
 
     void comparisonOfBoolWithInt3() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("void f(int y) {\n"
               "    if (y > false) {\n"
               "        printf(\"foo\");\n"
@@ -1093,6 +1149,9 @@ private:
     }
 
     void comparisonOfBoolWithInt4() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("void f(int x) {\n"
               "    if (!x == 1) { }\n"
               "}");
@@ -1100,6 +1159,9 @@ private:
     }
 
     void comparisonOfBoolWithInt5() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("void SetVisible(int index, bool visible) {\n"
               "    bool (SciTEBase::*ischarforsel)(char ch);\n"
               "    if (visible != GetVisible(index)) { }\n"
@@ -1225,6 +1287,9 @@ private:
     }
 
     void returnNonBool() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("bool f(void) {\n"
               "    return 0;\n"
               "}");
@@ -1298,6 +1363,9 @@ private:
     }
 
     void returnNonBoolLambda() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("bool f(void) {\n"
               "    auto x = [](void) { return -1; };\n"
               "    return false;\n"
@@ -1324,6 +1392,9 @@ private:
     }
 
     void returnNonBoolLogicalOp() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("bool f(int x) {\n"
               "    return x & 0x4;\n"
               "}");
@@ -1341,6 +1412,9 @@ private:
     }
 
     void returnNonBoolClass() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("class X {\n"
               "    public:\n"
               "        bool f() { return -1;}\n"

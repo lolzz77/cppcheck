@@ -1,3 +1,5 @@
+#include <stdio.h>
+#include <pthread.h>
 /*
  * Cppcheck - A tool for static C/C++ code analysis
  * Copyright (C) 2007-2023 Cppcheck team.
@@ -55,6 +57,9 @@
 #include <QtCore>
 
 static void addHeaders(const QString& file1, QSet<QString> &allFiles) {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (allFiles.contains(file1))
         return;
     QFile file(file1);
@@ -104,6 +109,9 @@ ComplianceReportDialog::~ComplianceReportDialog()
 
 void ComplianceReportDialog::buttonClicked(QAbstractButton* button)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     switch (mUI->buttonBox->standardButton(button)) {
     case QDialogButtonBox::StandardButton::Save:
         save();
@@ -118,6 +126,9 @@ void ComplianceReportDialog::buttonClicked(QAbstractButton* button)
 
 void ComplianceReportDialog::save()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     const QString std(mUI->mCodingStandard->currentText().toLower().replace(" ", "-"));
 
     const QString outFile = QFileDialog::getSaveFileName(this,

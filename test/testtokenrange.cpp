@@ -1,3 +1,5 @@
+#include <stdio.h>
+#include <pthread.h>
 /*
  * Cppcheck - A tool for static C/C++ code analysis
  * Copyright (C) 2007-2023 Cppcheck team.
@@ -37,6 +39,9 @@ public:
 
 private:
     void run() override {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         TEST_CASE(enumerationToEnd);
         TEST_CASE(untilHelperToEnd);
         TEST_CASE(untilHelperPartWay);
@@ -69,6 +74,9 @@ private:
     }
 
     void enumerationToEnd() const {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         std::istringstream istr("void a(){} void main(){ if(true){a();} }");
         TokenList tokenList(nullptr);
         tokenList.createTokens(istr, "test.cpp");
@@ -76,6 +84,9 @@ private:
     }
 
     void untilHelperToEnd() const {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         std::istringstream istr("void a(){} void main(){ if(true){a();} }");
         TokenList tokenList(nullptr);
         tokenList.createTokens(istr, "test.cpp");
@@ -83,6 +94,9 @@ private:
     }
 
     void untilHelperPartWay() const {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         std::istringstream istr("void a(){} void main(){ if(true){a();} }");
         TokenList tokenList(nullptr);
         tokenList.createTokens(istr, "test.cpp");
@@ -92,6 +106,9 @@ private:
     }
 
     void partialEnumeration() const {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         std::istringstream istr("void a(){} void main(){ if(true){a();} }");
         TokenList tokenList(nullptr);
         tokenList.createTokens(istr, "test.cpp");
@@ -101,6 +118,9 @@ private:
     }
 
     void scopeExample() const {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const Settings settings;
         Tokenizer tokenizer{ &settings, nullptr };
         std::istringstream sample("void a(){} void main(){ if(true){a();} }");
@@ -117,6 +137,9 @@ private:
     }
 
     void exampleAlgorithms() const {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         std::istringstream istr("void a(){} void main(){ if(true){a();} }");
         TokenList tokenList(nullptr);
         tokenList.createTokens(istr, "test.cpp");

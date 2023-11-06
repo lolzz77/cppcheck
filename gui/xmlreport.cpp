@@ -1,3 +1,5 @@
+#include <stdio.h>
+#include <pthread.h>
 /*
  * Cppcheck - A tool for static C/C++ code analysis
  * Copyright (C) 2007-2023 Cppcheck team.
@@ -38,6 +40,9 @@ XmlReport::XmlReport(const QString &filename) :
 
 QString XmlReport::quoteMessage(const QString &message)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     QString quotedMessage(message);
     quotedMessage.replace("&", "&amp;");
     quotedMessage.replace("\"", "&quot;");
@@ -49,6 +54,9 @@ QString XmlReport::quoteMessage(const QString &message)
 
 QString XmlReport::unquoteMessage(const QString &message)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     QString quotedMessage(message);
     quotedMessage.replace("&amp;", "&");
     quotedMessage.replace("&quot;", "\"");
@@ -60,6 +68,9 @@ QString XmlReport::unquoteMessage(const QString &message)
 
 int XmlReport::determineVersion(const QString &filename)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     QFile file;
     file.setFileName(filename);
     const bool succeed = file.open(QIODevice::ReadOnly | QIODevice::Text);

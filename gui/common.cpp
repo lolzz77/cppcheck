@@ -1,3 +1,5 @@
+#include <stdio.h>
+#include <pthread.h>
 /*
  * Cppcheck - A tool for static C/C++ code analysis
  * Copyright (C) 2007-2023 Cppcheck team.
@@ -31,6 +33,9 @@
 
 QString getPath(const QString &type)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     QSettings settings;
     QString path = settings.value(type, QString()).toString();
     if (path.isEmpty()) {
@@ -45,12 +50,18 @@ QString getPath(const QString &type)
 
 void setPath(const QString &type, const QString &value)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     QSettings settings;
     settings.setValue(type, value);
 }
 
 QString toFilterString(const QMap<QString,QString>& filters, bool addAllSupported, bool addAll)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     QStringList entries;
 
     if (addAllSupported) {
@@ -74,6 +85,9 @@ QString toFilterString(const QMap<QString,QString>& filters, bool addAllSupporte
 
 QString getDataDir()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     QSettings settings;
     const QString dataDir = settings.value("DATADIR", QString()).toString();
     if (!dataDir.isEmpty())

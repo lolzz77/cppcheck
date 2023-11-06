@@ -1,3 +1,5 @@
+#include <stdio.h>
+#include <pthread.h>
 /*
  * Cppcheck - A tool for static C/C++ code analysis
  * Copyright (C) 2007-2023 Cppcheck team.
@@ -203,6 +205,9 @@ ErrorMessage::ErrorMessage(const tinyxml2::XMLElement * const errmsg)
 
 void ErrorMessage::setmsg(const std::string &msg)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     // If a message ends to a '\n' and contains only a one '\n'
     // it will cause the mVerboseMessage to be empty which will show
     // as an empty message to the user if --verbose is used.
@@ -229,6 +234,9 @@ void ErrorMessage::setmsg(const std::string &msg)
 
 static void serializeString(std::string &oss, const std::string & str)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     oss += std::to_string(str.length());
     oss += " ";
     oss += str;
@@ -236,6 +244,9 @@ static void serializeString(std::string &oss, const std::string & str)
 
 ErrorMessage ErrorMessage::fromInternalError(const InternalError &internalError, const TokenList *tokenList, const std::string &filename, const std::string& msg)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (internalError.token)
         assert(tokenList != nullptr); // we need to make sure we can look up the provided token
 
@@ -265,6 +276,9 @@ ErrorMessage ErrorMessage::fromInternalError(const InternalError &internalError,
 
 std::string ErrorMessage::serialize() const
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     // Serialize this message into a simple string
     std::string oss;
     serializeString(oss, id);
@@ -304,6 +318,9 @@ std::string ErrorMessage::serialize() const
 
 void ErrorMessage::deserialize(const std::string &data)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     // TODO: clear all fields
     certainty = Certainty::normal;
     callStack.clear();
@@ -533,6 +550,9 @@ std::string ErrorMessage::toXML() const
  */
 static void findAndReplace(std::string &source, const std::string &searchFor, const std::string &replaceWith)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     std::string::size_type index = 0;
     while ((index = source.find(searchFor, index)) != std::string::npos) {
         source.replace(index, searchFor.length(), replaceWith);
@@ -559,6 +579,9 @@ static std::string readCode(const std::string &file, int linenr, int column, con
 
 static void replaceSpecialChars(std::string& source)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     // Support a few special characters to allow to specific formatting, see http://sourceforge.net/apps/phpbb/cppcheck/viewtopic.php?f=4&t=494&sid=21715d362c0dbafd3791da4d9522f814
     // Substitution should be done first so messages from cppcheck never get translated.
     static const std::unordered_map<char, std::string> substitutionMap = {
@@ -584,6 +607,9 @@ static void replaceSpecialChars(std::string& source)
 
 static void replace(std::string& source, const std::unordered_map<std::string, std::string> &substitutionMap)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     std::string::size_type index = 0;
     while ((index = source.find('{', index)) != std::string::npos) {
         const std::string::size_type end = source.find('}', index);
@@ -602,6 +628,9 @@ static void replace(std::string& source, const std::unordered_map<std::string, s
 }
 
 static void replaceColors(std::string& source) {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     // TODO: colors are not applied when either stdout or stderr is not a TTY because we resolve them before the stream usage
     static const std::unordered_map<std::string, std::string> substitutionMap =
     {
@@ -924,12 +953,18 @@ std::string replaceStr(std::string s, const std::string &from, const std::string
 
 void substituteTemplateFormatStatic(std::string& templateFormat)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     replaceSpecialChars(templateFormat);
     replaceColors(templateFormat);
 }
 
 void substituteTemplateLocationStatic(std::string& templateLocation)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     replaceSpecialChars(templateLocation);
     replaceColors(templateLocation);
 }

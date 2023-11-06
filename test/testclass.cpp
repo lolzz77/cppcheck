@@ -1,3 +1,5 @@
+#include <stdio.h>
+#include <pthread.h>
 /*
  * Cppcheck - A tool for static C/C++ code analysis
  * Copyright (C) 2007-2023 Cppcheck team.
@@ -39,6 +41,9 @@ private:
     const Settings settings1 = settingsBuilder().severity(Severity::warning).library("std.cfg").build();
 
     void run() override {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         TEST_CASE(virtualDestructor1);      // Base class not found => no error
         TEST_CASE(virtualDestructor2);      // Base class doesn't have a destructor
         TEST_CASE(virtualDestructor3);      // Base class has a destructor, but it's not virtual
@@ -243,6 +248,9 @@ private:
 
 #define checkCopyCtorAndEqOperator(code) checkCopyCtorAndEqOperator_(code, __FILE__, __LINE__)
     void checkCopyCtorAndEqOperator_(const char code[], const char* file, int line) {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         // Clear the error log
         errout.str("");
         const Settings settings = settingsBuilder().severity(Severity::warning).build();
@@ -260,6 +268,9 @@ private:
     }
 
     void copyCtorAndEqOperator() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         checkCopyCtorAndEqOperator("class A\n"
                                    "{\n"
                                    "    A(const A& other) { }\n"
@@ -350,6 +361,9 @@ private:
 
 #define checkExplicitConstructors(code) checkExplicitConstructors_(code, __FILE__, __LINE__)
     void checkExplicitConstructors_(const char code[], const char* file, int line) {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         // Clear the error log
         errout.str("");
 
@@ -366,6 +380,9 @@ private:
     }
 
     void explicitConstructors() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         checkExplicitConstructors("class Class {\n"
                                   "    Class() = delete;\n"
                                   "    Class(const Class& other) { }\n"
@@ -504,6 +521,9 @@ private:
 
 #define checkDuplInheritedMembers(code) checkDuplInheritedMembers_(code, __FILE__, __LINE__)
     void checkDuplInheritedMembers_(const char code[], const char* file, int line) {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         // Clear the error log
         errout.str("");
 
@@ -520,6 +540,9 @@ private:
     }
 
     void duplInheritedMembers() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         checkDuplInheritedMembers("class Base {\n"
                                   "   int x;\n"
                                   "};\n"
@@ -707,6 +730,9 @@ private:
 
 #define checkCopyConstructor(code) checkCopyConstructor_(code, __FILE__, __LINE__)
     void checkCopyConstructor_(const char code[], const char* file, int line) {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         // Clear the error log
         errout.str("");
 
@@ -723,6 +749,9 @@ private:
     }
 
     void copyConstructor1() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         checkCopyConstructor("class F\n"
                              "{\n"
                              "   public:\n"
@@ -978,6 +1007,9 @@ private:
     }
 
     void copyConstructor3() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         checkCopyConstructor("struct F {\n"
                              "   char* c;\n"
                              "   F() { c = malloc(100); }\n"
@@ -998,6 +1030,9 @@ private:
     }
 
     void copyConstructor4() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         checkCopyConstructor("class noncopyable {\n"
                              "protected:\n"
                              "    noncopyable() {}\n"
@@ -1021,6 +1056,9 @@ private:
     }
 
     void copyConstructor5() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         checkCopyConstructor("class Copyable {};\n"
                              "\n"
                              "class Foo : public Copyable, public UnknownType {\n"
@@ -1045,6 +1083,9 @@ private:
     }
 
     void copyConstructor6() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         checkCopyConstructor("struct S {\n"
                              "    S() {\n"
                              "        for (int i = 0; i < 5; i++)\n"
@@ -1060,6 +1101,9 @@ private:
     }
 
     void noOperatorEq() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         checkCopyConstructor("struct F {\n"
                              "   char* c;\n"
                              "   F() { c = malloc(100); }\n"
@@ -1099,6 +1143,9 @@ private:
     }
 
     void noDestructor() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         checkCopyConstructor("struct F {\n"
                              "   char* c;\n"
                              "   F() { c = malloc(100); }\n"
@@ -1156,6 +1203,9 @@ private:
     // Check that operator Equal returns reference to this
 #define checkOpertorEqRetRefThis(code) checkOpertorEqRetRefThis_(code, __FILE__, __LINE__)
     void checkOpertorEqRetRefThis_(const char code[], const char* file, int line) {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         // Clear the error log
         errout.str("");
 
@@ -1172,6 +1222,9 @@ private:
     }
 
     void operatorEqRetRefThis1() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         checkOpertorEqRetRefThis(
             "class A\n"
             "{\n"
@@ -1370,6 +1423,9 @@ private:
     }
 
     void operatorEqRetRefThis2() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         // ticket # 1323
         checkOpertorEqRetRefThis(
             "class szp\n"
@@ -1472,6 +1528,9 @@ private:
     }
 
     void operatorEqRetRefThis3() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         // ticket # 1405
         checkOpertorEqRetRefThis(
             "class A {\n"
@@ -1533,6 +1592,9 @@ private:
     }
 
     void operatorEqRetRefThis4() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         // ticket # 1451
         checkOpertorEqRetRefThis(
             "P& P::operator = (const P& pc)\n"
@@ -1543,6 +1605,9 @@ private:
     }
 
     void operatorEqRetRefThis5() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         // ticket # 1550
         checkOpertorEqRetRefThis(
             "class A {\n"
@@ -1632,6 +1697,9 @@ private:
     // Check that operator Equal checks for assignment to self
 #define checkOpertorEqToSelf(code) checkOpertorEqToSelf_(code, __FILE__, __LINE__)
     void checkOpertorEqToSelf_(const char code[], const char* file, int line) {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         // Clear the error log
         errout.str("");
 
@@ -1648,6 +1716,9 @@ private:
     }
 
     void operatorEqToSelf1() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         // this test has an assignment test but it is not needed
         checkOpertorEqToSelf(
             "class A\n"
@@ -1914,6 +1985,9 @@ private:
     }
 
     void operatorEqToSelf2() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         // this test has an assignment test but doesn't need it
         checkOpertorEqToSelf(
             "class A\n"
@@ -2052,6 +2126,9 @@ private:
     }
 
     void operatorEqToSelf3() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         // this test has multiple inheritance so there is no trivial way to test for self assignment but doesn't need it
         checkOpertorEqToSelf(
             "class A : public B, public C\n"
@@ -2104,6 +2181,9 @@ private:
     }
 
     void operatorEqToSelf4() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         // this test has multiple inheritance so there is no trivial way to test for self assignment but doesn't need it
         checkOpertorEqToSelf(
             "class A\n"
@@ -2172,6 +2252,9 @@ private:
     }
 
     void operatorEqToSelf5() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         // ticket # 1233
         checkOpertorEqToSelf(
             "class A\n"
@@ -2467,6 +2550,9 @@ private:
     }
 
     void operatorEqToSelf6() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         // ticket # 1550
         checkOpertorEqToSelf(
             "class A\n"
@@ -2536,6 +2622,9 @@ private:
     }
 
     void operatorEqToSelf7() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         checkOpertorEqToSelf(
             "class A\n"
             "{\n"
@@ -2553,6 +2642,9 @@ private:
     }
 
     void operatorEqToSelf8() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         checkOpertorEqToSelf(
             "class FMat\n"
             "{\n"
@@ -2572,6 +2664,9 @@ private:
     }
 
     void operatorEqToSelf9() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         checkOpertorEqToSelf(
             "class Foo\n"
             "{\n"
@@ -2613,6 +2708,9 @@ private:
     }
 
     void virtualDestructor1() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         // Base class not found
 
         checkVirtualDestructor("class Derived : public Base { };\n"
@@ -2627,6 +2725,9 @@ private:
     }
 
     void virtualDestructor2() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         // Base class doesn't have a destructor
 
         checkVirtualDestructor("class Base { };\n"
@@ -2697,6 +2798,9 @@ private:
     }
 
     void virtualDestructor3() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         // Base class has a destructor, but it's not virtual
 
         checkVirtualDestructor("class Base { public: ~Base(); };\n"
@@ -2719,6 +2823,9 @@ private:
     }
 
     void virtualDestructor4() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         // Derived class doesn't have a destructor => undefined behaviour according to paragraph 3 in [expr.delete]
 
         checkVirtualDestructor("class Base { public: ~Base(); };\n"
@@ -2735,6 +2842,9 @@ private:
     }
 
     void virtualDestructor5() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         // Derived class has empty destructor => undefined behaviour according to paragraph 3 in [expr.delete]
 
         checkVirtualDestructor("class Base { public: ~Base(); };\n"
@@ -2751,6 +2861,9 @@ private:
     }
 
     void virtualDestructor6() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         // Only report error if base class pointer is deleted that
         // points at derived class
 
@@ -2760,6 +2873,9 @@ private:
     }
 
     void virtualDestructorProtected() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         // Base class has protected destructor, it makes Base *p = new Derived(); fail
         // during compilation time, so error is not possible. => no error
         checkVirtualDestructor("class A\n"
@@ -2777,6 +2893,9 @@ private:
     }
 
     void virtualDestructorInherited() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         // class A inherits virtual destructor from class Base -> no error
         checkVirtualDestructor("class Base\n"
                                "{\n"
@@ -2871,6 +2990,9 @@ private:
     }
 
     void virtualDestructorTemplate() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         checkVirtualDestructor("template <typename T> class A\n"
                                "{\n"
                                " public:\n"
@@ -2892,6 +3014,9 @@ private:
     }
 
     void virtualDestructorInconclusive() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         checkVirtualDestructor("class Base {\n"
                                "public:\n"
                                "    ~Base(){}\n"
@@ -2934,11 +3059,17 @@ private:
 
 #define checkNoMemset(...) checkNoMemset_(__FILE__, __LINE__, __VA_ARGS__)
     void checkNoMemset_(const char* file, int line, const char code[]) {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const Settings settings = settingsBuilder().severity(Severity::warning).severity(Severity::portability).library("std.cfg").build();
         checkNoMemset_(file, line, code, settings);
     }
 
     void checkNoMemset_(const char* file, int line, const char code[], const Settings &settings) {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         // Clear the error log
         errout.str("");
 
@@ -2955,6 +3086,9 @@ private:
     }
 
     void memsetOnClass() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         checkNoMemset("class Fred\n"
                       "{\n"
                       "};\n"
@@ -3242,6 +3376,9 @@ private:
     }
 
     void memsetOnStruct() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         checkNoMemset("struct A\n"
                       "{\n"
                       "};\n"
@@ -3318,6 +3455,9 @@ private:
     }
 
     void memsetVector() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         checkNoMemset("class A\n"
                       "{ std::vector<int> ints; };\n"
                       "\n"
@@ -3473,6 +3613,9 @@ private:
     }
 
     void memsetOnFloat() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         checkNoMemset("struct A {\n"
                       "    float f;\n"
                       "};\n"
@@ -3511,6 +3654,9 @@ private:
     }
 
     void memsetOnUnknown() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         checkNoMemset("void clang_tokenize(CXToken **Tokens) {\n"
                       "  *Tokens = (CXToken *)malloc(sizeof(CXToken) * CXTokens.size());\n"
                       "  memmove(*Tokens, CXTokens.data(), sizeof(CXToken) * CXTokens.size());\n"
@@ -3519,6 +3665,9 @@ private:
     }
 
     void mallocOnClass() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         checkNoMemset("class C { C() {} };\n"
                       "void foo(C*& p) {\n"
                       "    p = malloc(sizeof(C));\n"
@@ -3570,6 +3719,9 @@ private:
 
 #define checkThisSubtraction(code) checkThisSubtraction_(code, __FILE__, __LINE__)
     void checkThisSubtraction_(const char code[], const char* file, int line) {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         // Clear the error log
         errout.str("");
 
@@ -3586,6 +3738,9 @@ private:
     }
 
     void this_subtraction() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         checkThisSubtraction("; this-x ;");
         ASSERT_EQUALS("[test.cpp:1]: (warning) Suspicious pointer subtraction. Did you intend to write '->'?\n", errout.str());
 
@@ -3622,6 +3777,9 @@ private:
     }
 
     void const1() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         checkConst("class Fred {\n"
                    "    int a;\n"
                    "    int getA() { return a; }\n"
@@ -3694,6 +3852,9 @@ private:
     }
 
     void const2() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         // ticket 1344
         // assignment to variable can't be const
         checkConst("class Fred {\n"
@@ -3746,6 +3907,9 @@ private:
     }
 
     void const3() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         // assignment to function argument pointer can be const
         checkConst("class Fred {\n"
                    "    int s;\n"
@@ -3790,6 +3954,9 @@ private:
     }
 
     void const4() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         checkConst("class Fred {\n"
                    "    int a;\n"
                    "    int getA();\n"
@@ -4051,6 +4218,9 @@ private:
 
     // operator< can often be const
     void constoperator1() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         checkConst("struct Fred {\n"
                    "    int a;\n"
                    "    bool operator<(const Fred &f) { return a < f.a; }\n"
@@ -4060,6 +4230,9 @@ private:
 
     // operator<<
     void constoperator2() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         checkConst("struct Foo {\n"
                    "    void operator<<(int);\n"
                    "};\n"
@@ -4086,6 +4259,9 @@ private:
     }
 
     void constoperator3() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         checkConst("struct Fred {\n"
                    "    int array[10];\n"
                    "    int const & operator [] (unsigned int index) const { return array[index]; }\n"
@@ -4101,6 +4277,9 @@ private:
     }
 
     void constoperator4() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         // #7953
         checkConst("class A {\n"
                    "    int c;\n"
@@ -4164,6 +4343,9 @@ private:
     }
 
     void const5() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         // ticket #1482
         checkConst("class A {\n"
                    "    int a;\n"
@@ -4178,6 +4360,9 @@ private:
     }
 
     void const6() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         // ticket #1491
         checkConst("class foo {\n"
                    "public:\n"
@@ -4208,6 +4393,9 @@ private:
     }
 
     void const7() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         checkConst("class foo {\n"
                    "    int a;\n"
                    "public:\n"
@@ -4219,6 +4407,9 @@ private:
     }
 
     void const8() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         // ticket #1517
         checkConst("class A {\n"
                    "public:\n"
@@ -4231,6 +4422,9 @@ private:
     }
 
     void const9() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         // ticket #1515
         checkConst("class wxThreadInternal {\n"
                    "public:\n"
@@ -4242,6 +4436,9 @@ private:
     }
 
     void const10() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         // ticket #1522
         checkConst("class A {\n"
                    "public:\n"
@@ -4269,6 +4466,9 @@ private:
     }
 
     void const11() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         // ticket #1529
         checkConst("class A {\n"
                    "public:\n"
@@ -4280,6 +4480,9 @@ private:
     }
 
     void const12() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         // ticket #1525
         checkConst("class A {\n"
                    "public:\n"
@@ -4291,6 +4494,9 @@ private:
     }
 
     void const13() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         // ticket #1519
         checkConst("class A {\n"
                    "public:\n"
@@ -4318,6 +4524,9 @@ private:
     }
 
     void const14() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         // extends ticket 1519
         checkConst("class A {\n"
                    "public:\n"
@@ -4570,6 +4779,9 @@ private:
     }
 
     void const15() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         checkConst("class Fred {\n"
                    "    unsigned long long int a;\n"
                    "    unsigned long long int getA() { return a; }\n"
@@ -4602,6 +4814,9 @@ private:
     }
 
     void const16() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         // ticket #1551
         checkConst("class Fred {\n"
                    "    int a;\n"
@@ -4611,6 +4826,9 @@ private:
     }
 
     void const17() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         // ticket #1552
         checkConst("class Fred {\n"
                    "public:\n"
@@ -4622,6 +4840,9 @@ private:
     }
 
     void const18() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         checkConst("class Fred {\n"
                    "static int x;\n"
                    "public:\n"
@@ -4631,6 +4852,9 @@ private:
     }
 
     void const19() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         // ticket #1612
         checkConst("using namespace std;\n"
                    "class Fred {\n"
@@ -4643,6 +4867,9 @@ private:
     }
 
     void const20() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         // ticket #1602
         checkConst("class Fred {\n"
                    "    int x : 3;\n"
@@ -4681,6 +4908,9 @@ private:
     }
 
     void const21() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         // ticket #1683
         checkConst("class A\n"
                    "{\n"
@@ -4697,6 +4927,9 @@ private:
     }
 
     void const22() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         checkConst("class A\n"
                    "{\n"
                    "private:\n"
@@ -4717,6 +4950,9 @@ private:
     }
 
     void const23() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         checkConst("class Class {\n"
                    "public:\n"
                    "    typedef Template<double> Type;\n"
@@ -4729,6 +4965,9 @@ private:
     }
 
     void const24() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         checkConst("class Class {\n"
                    "public:\n"
                    "void Settings::SetSetting(QString strSetting, QString strNewVal)\n"
@@ -4896,6 +5135,9 @@ private:
     }
 
     void const30() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         // check for false negatives
         checkConst("class Base {\n"
                    "public:\n"
@@ -5019,6 +5261,9 @@ private:
     }
 
     void const31() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         checkConst("namespace std { }\n"
                    "class Fred {\n"
                    "public:\n"
@@ -5029,6 +5274,9 @@ private:
     }
 
     void const32() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         checkConst("class Fred {\n"
                    "public:\n"
                    "    std::string a[10];\n"
@@ -5038,6 +5286,9 @@ private:
     }
 
     void const33() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         checkConst("class derived : public base {\n"
                    "public:\n"
                    "    void f(){}\n"
@@ -5171,6 +5422,9 @@ private:
     }
 
     void const39() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         checkConst("class Foo\n"
                    "{\n"
                    "    int * p;\n"
@@ -5601,6 +5855,9 @@ private:
     }
 
     void const55() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         checkConst("class MyObject {\n"
                    "    int tmp;\n"
                    "    MyObject() : tmp(0) {}\n"
@@ -5728,6 +5985,9 @@ private:
     }
 
     void const58() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         checkConst("struct MyObject {\n"
                    "    void foo(Foo f) {\n"
                    "        f.clear();\n"
@@ -5832,6 +6092,9 @@ private:
     }
 
     void const62() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         checkConst("class A {\n"
                    "    private:\n"
                    "         std::unordered_map<unsigned int,unsigned int> _hash;\n"
@@ -5846,6 +6109,9 @@ private:
     }
 
     void const63() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         checkConst("struct A {\n"
                    "    std::string s;\n"
                    "    void clear() {\n"
@@ -5893,6 +6159,9 @@ private:
     }
 
     void const64() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         checkConst("namespace B {\n"
                    "    namespace D {\n"
                    "        typedef int DKIPtr;\n"
@@ -5908,6 +6177,9 @@ private:
     }
 
     void const65() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         checkConst("template <typename T>\n"
                    "class TemplateClass {\n"
                    "public:\n"
@@ -5927,6 +6199,9 @@ private:
     }
 
     void const66() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         checkConst("struct C {\n"
                    "    C() : n(0) {}\n"
                    "    void f(int v) { g((char *) &v); }\n"
@@ -5981,6 +6256,9 @@ private:
     }
 
     void const70() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         checkConst("struct A {\n"
                    "    template <typename... Args> void call(Args ... args) {\n"
                    "        func(this);\n"
@@ -6093,6 +6371,9 @@ private:
     }
 
     void const73() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         checkConst("struct A {\n"
                    "    int* operator[](int i);\n"
                    "    const int* operator[](int i) const;\n"
@@ -6183,6 +6464,9 @@ private:
     }
 
     void const77() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         checkConst("template <typename T>\n" // #10307
                    "struct S {\n"
                    "    std::vector<T> const* f() const { return p; }\n"
@@ -6263,6 +6547,9 @@ private:
     }
 
     void const81() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         checkConst("struct A {\n" // #11330
                    "    bool f() const;\n"
                    "};\n"
@@ -6393,6 +6680,9 @@ private:
     }
 
     void const83() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         checkConst("struct S {\n"
                    "    int i1, i2;\n"
                    "    void f(bool b);\n"
@@ -6410,6 +6700,9 @@ private:
     }
 
     void const84() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         checkConst("class S {};\n" // #11616
                    "struct T {\n"
                    "    T(const S*);\n"
@@ -6455,6 +6748,9 @@ private:
     }
 
     void const87() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         checkConst("struct Tokenizer {\n" // #11720
                    "        bool isCPP() const {\n"
                    "        return cpp;\n"
@@ -6583,6 +6879,9 @@ private:
     }
 
     void const89() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         checkConst("struct S {\n" // #11654
                    "    void f(bool b);\n"
                    "    int i;\n"
@@ -6667,6 +6966,9 @@ private:
     }
 
     void const_handleDefaultParameters() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         checkConst("struct Foo {\n"
                    "    void foo1(int i, int j = 0) {\n"
                    "        return func(this);\n"
@@ -6701,6 +7003,9 @@ private:
     }
 
     void const_passThisToMemberOfOtherClass() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         checkConst("struct Foo {\n"
                    "    void foo() {\n"
                    "        Bar b;\n"
@@ -6730,6 +7035,9 @@ private:
     }
 
     void assigningPointerToPointerIsNotAConstOperation() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         checkConst("struct s\n"
                    "{\n"
                    "    int** v;\n"
@@ -6742,6 +7050,9 @@ private:
     }
 
     void assigningArrayElementIsNotAConstOperation() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         checkConst("struct s\n"
                    "{\n"
                    "    ::std::string v[3];\n"
@@ -6755,6 +7066,9 @@ private:
 
     // increment/decrement => not const
     void constincdec() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         checkConst("class Fred {\n"
                    "    int a;\n"
                    "    void nextA() { return ++a; }\n"
@@ -6813,6 +7127,9 @@ private:
     }
 
     void constassign1() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         checkConst("class Fred {\n"
                    "    int a;\n"
                    "    void nextA() { return a=1; }\n"
@@ -6875,6 +7192,9 @@ private:
     }
 
     void constassign2() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         checkConst("class Fred {\n"
                    "    struct A { int a; } s;\n"
                    "    void nextA() { return s.a=1; }\n"
@@ -6967,6 +7287,9 @@ private:
 
     // increment/decrement array element => not const
     void constincdecarray() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         checkConst("class Fred {\n"
                    "    int a[2];\n"
                    "    void nextA() { return ++a[0]; }\n"
@@ -7017,6 +7340,9 @@ private:
     }
 
     void constassignarray() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         checkConst("class Fred {\n"
                    "    int a[2];\n"
                    "    void nextA() { return a[0]=1; }\n"
@@ -7080,6 +7406,9 @@ private:
 
     // return pointer/reference => not const
     void constReturnReference() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         checkConst("class Fred {\n"
                    "    int a;\n"
                    "    int &getR() { return a; }\n"
@@ -7090,6 +7419,9 @@ private:
 
     // delete member variable => not const (but technically it can, it compiles without errors)
     void constDelete() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         checkConst("class Fred {\n"
                    "    int *a;\n"
                    "    void clean() { delete a; }\n"
@@ -7099,6 +7431,9 @@ private:
 
     // A function that returns unknown types can't be const (#1579)
     void constLPVOID() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         checkConst("class Fred {\n"
                    "    UNKNOWN a() { return 0; };\n"
                    "};");
@@ -7114,6 +7449,9 @@ private:
 
     // a function that calls const functions can be const
     void constFunc() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         checkConst("class Fred {\n"
                    "    void f() const { };\n"
                    "    void a() { f(); };\n"
@@ -7142,6 +7480,9 @@ private:
     }
 
     void constVirtualFunc() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         // base class has no virtual function
         checkConst("class A { };\n"
                    "class B : public A {\n"
@@ -7369,6 +7710,9 @@ private:
     }
 
     void constIfCfg() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char code[] = "struct foo {\n"
                             "    int i;\n"
                             "    void f() {\n"
@@ -7408,6 +7752,9 @@ private:
     }
 
     void constArrayOperator() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         checkConst("struct foo {\n"
                    "    int x;\n"
                    "    int y[5][724];\n"
@@ -7457,6 +7804,9 @@ private:
     }
 
     void constPtrToConstPtr() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         checkConst("class Fred {\n"
                    "public:\n"
                    "    const char *const *data;\n"
@@ -7473,6 +7823,9 @@ private:
     }
 
     void staticArrayPtrOverload() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         checkConst("struct S {\n"
                    "    template<size_t N>\n"
                    "    void f(const std::array<std::string_view, N>& sv);\n"
@@ -7503,6 +7856,9 @@ private:
 
 #define checkInitializerListOrder(code) checkInitializerListOrder_(code, __FILE__, __LINE__)
     void checkInitializerListOrder_(const char code[], const char* file, int line) {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         // Clear the error log
         errout.str("");
 
@@ -7521,6 +7877,9 @@ private:
     }
 
     void initializerListOrder() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         checkInitializerListOrder("class Fred {\n"
                                   "    int a, b, c;\n"
                                   "public:\n"
@@ -7540,6 +7899,9 @@ private:
 
 #define checkInitializationListUsage(code) checkInitializationListUsage_(code, __FILE__, __LINE__)
     void checkInitializationListUsage_(const char code[], const char* file, int line) {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         // Clear the error log
         errout.str("");
 
@@ -7558,6 +7920,9 @@ private:
     }
 
     void initializerListUsage() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         checkInitializationListUsage("enum Enum { C = 0 };\n"
                                      "class Fred {\n"
                                      "    int a;\n"  // No message for builtin types: No performance gain
@@ -7757,6 +8122,9 @@ private:
 
 #define checkSelfInitialization(code) checkSelfInitialization_(code, __FILE__, __LINE__)
     void checkSelfInitialization_(const char code[], const char* file, int line) {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         // Clear the error log
         errout.str("");
 
@@ -7772,6 +8140,9 @@ private:
     }
 
     void selfInitialization() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         checkSelfInitialization("class Fred {\n"
                                 "    int i;\n"
                                 "    Fred() : i(i) {\n"
@@ -7888,6 +8259,9 @@ private:
     }
 
     void virtualFunctionCallInConstructor() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         checkVirtualFunctionCall("class A\n"
                                  "{\n"
                                  "    virtual int f() { return 1; }\n"
@@ -8005,6 +8379,9 @@ private:
     }
 
     void pureVirtualFunctionCall() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         checkVirtualFunctionCall("class A\n"
                                  "{\n"
                                  "    virtual void pure()=0;\n"
@@ -8128,6 +8505,9 @@ private:
     }
 
     void pureVirtualFunctionCallOtherClass() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         checkVirtualFunctionCall("class A\n"
                                  "{\n"
                                  "    virtual void pure()=0;\n"
@@ -8152,6 +8532,9 @@ private:
     }
 
     void pureVirtualFunctionCallWithBody() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         checkVirtualFunctionCall("class A\n"
                                  "{\n"
                                  "    virtual void pureWithBody()=0;\n"
@@ -8179,6 +8562,9 @@ private:
     }
 
     void pureVirtualFunctionCallPrevented() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         checkVirtualFunctionCall("class A\n"
                                  " {\n"
                                  "    virtual void pure()=0;\n"
@@ -8220,6 +8606,9 @@ private:
 
 #define checkOverride(code) checkOverride_(code, __FILE__, __LINE__)
     void checkOverride_(const char code[], const char* file, int line) {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         // Clear the error log
         errout.str("");
 
@@ -8238,6 +8627,9 @@ private:
     }
 
     void override1() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         checkOverride("class Base { virtual void f(); };\n"
                       "class Derived : Base { virtual void f(); };");
         ASSERT_EQUALS("[test.cpp:1] -> [test.cpp:2]: (style) The function 'f' overrides a function in a base class but is not marked with a 'override' specifier.\n", errout.str());
@@ -8389,6 +8781,9 @@ private:
     }
 
     void overrideCVRefQualifiers() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         checkOverride("class Base { virtual void f(); };\n"
                       "class Derived : Base { void f() const; }");
         ASSERT_EQUALS("", errout.str());
@@ -8408,6 +8803,9 @@ private:
 
     #define checkUselessOverride(...) checkUselessOverride_(__FILE__, __LINE__, __VA_ARGS__)
     void checkUselessOverride_(const char* file, int line, const char code[]) {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         // Clear the error log
         errout.str("");
 
@@ -8425,6 +8823,9 @@ private:
     }
 
     void uselessOverride() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         checkUselessOverride("struct B { virtual int f() { return 5; } };\n" // #11757
                              "struct D : B {\n"
                              "    int f() override { return B::f(); }\n"
@@ -8581,6 +8982,9 @@ private:
 
 #define checkUnsafeClassRefMember(code) checkUnsafeClassRefMember_(code, __FILE__, __LINE__)
     void checkUnsafeClassRefMember_(const char code[], const char* file, int line) {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         // Clear the error log
         errout.str("");
 
@@ -8600,6 +9004,9 @@ private:
     }
 
     void unsafeClassRefMember() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         checkUnsafeClassRefMember("class C { C(const std::string &s) : s(s) {} const std::string &s; };");
         ASSERT_EQUALS("[test.cpp:1]: (warning) Unsafe class: The const reference member 'C::s' is initialized by a const reference constructor argument. You need to be careful about lifetime issues.\n", errout.str());
     }
@@ -8607,6 +9014,9 @@ private:
 
 #define checkThisUseAfterFree(code) checkThisUseAfterFree_(code, __FILE__, __LINE__)
     void checkThisUseAfterFree_(const char code[], const char* file, int line) {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         // Clear the error log
         errout.str("");
 
@@ -8623,6 +9033,9 @@ private:
     }
 
     void thisUseAfterFree() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         setMultiline();
 
         // Calling method..
@@ -8764,6 +9177,9 @@ private:
 
 
     void ctu(const std::vector<std::string> &code) {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const Settings settings;
         Check &check = getCheck<CheckClass>();
 
@@ -8787,6 +9203,9 @@ private:
     }
 
     void ctuOneDefinitionRule() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         ctu({"class C { C() { std::cout << 0; } };", "class C { C() { std::cout << 1; } };"});
         ASSERT_EQUALS("[1.cpp:1] -> [0.cpp:1]: (error) The one definition rule is violated, different classes/structs have the same name 'C'\n", errout.str());
 
@@ -8812,6 +9231,9 @@ private:
 
 #define getFileInfo(code) getFileInfo_(code, __FILE__, __LINE__)
     void getFileInfo_(const char code[], const char* file, int line) {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         // Clear the error log
         errout.str("");
 
@@ -8830,6 +9252,9 @@ private:
     }
 
     void testGetFileInfo() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         getFileInfo("void foo() { union { struct { }; }; }"); // don't crash
         getFileInfo("struct sometype { sometype(); }; sometype::sometype() = delete;"); // don't crash
     }

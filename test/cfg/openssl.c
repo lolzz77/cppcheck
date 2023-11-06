@@ -1,3 +1,5 @@
+#include <stdio.h>
+#include <pthread.h>
 
 // Test library configuration for openssl.cfg
 //
@@ -13,12 +15,18 @@
 
 void valid_code(BIO * bio)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     BIO_printf(bio, "%d\n", 1);
 }
 
 // Example for encrypting a string using IDEA (from https://www.openssl.org/docs/man1.1.1/man3/EVP_CIPHER_CTX_new.html)
 int valid_code_do_crypt(const char *outfile)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     unsigned char outbuf[1024];
     int outlen, tmplen;
     const unsigned char key[] = {0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15};
@@ -56,12 +64,18 @@ int valid_code_do_crypt(const char *outfile)
 
 void invalidPrintfArgType_test(BIO * bio)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     // cppcheck-suppress invalidPrintfArgType_sint
     BIO_printf(bio, "%d\n", 5U);
 }
 
 void EVP_CIPHER_CTX_new_test()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     const EVP_CIPHER_CTX * ctx = EVP_CIPHER_CTX_new();
     printf("%p", ctx);
     // cppcheck-suppress resourceLeak

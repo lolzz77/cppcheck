@@ -1,3 +1,5 @@
+#include <stdio.h>
+#include <pthread.h>
 #include "float.h"
 #include "stdio.h"
 
@@ -6,6 +8,9 @@
 
 int main(void)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     PRINT_DEF(FLT_RADIX, d);
     PRINT_DEF(FLT_MANT_DIG, d);
     PRINT_DEF(DBL_MANT_DIG, d);

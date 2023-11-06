@@ -1,3 +1,5 @@
+#include <stdio.h>
+#include <pthread.h>
 /*
  * Cppcheck - A tool for static C/C++ code analysis
  * Copyright (C) 2007-2023 Cppcheck team.
@@ -31,6 +33,9 @@ public:
 
 private:
     void run() override {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         TEST_CASE(isValidGlobPattern);
         TEST_CASE(matchglob);
         TEST_CASE(isStringLiteral);
@@ -41,6 +46,9 @@ private:
     }
 
     void isValidGlobPattern() const {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         ASSERT_EQUALS(true, ::isValidGlobPattern("*"));
         ASSERT_EQUALS(true, ::isValidGlobPattern("*x"));
         ASSERT_EQUALS(true, ::isValidGlobPattern("x*"));
@@ -61,6 +69,9 @@ private:
     }
 
     void matchglob() const {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         ASSERT_EQUALS(true, ::matchglob("*", "xyz"));
         ASSERT_EQUALS(true, ::matchglob("x*", "xyz"));
         ASSERT_EQUALS(true, ::matchglob("*z", "xyz"));
@@ -78,6 +89,9 @@ private:
     }
 
     void isStringLiteral() const {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         // empty
         ASSERT_EQUALS(false, ::isStringLiteral(""));
 
@@ -132,6 +146,9 @@ private:
     }
 
     void isCharLiteral() const {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         // empty
         ASSERT_EQUALS(false, ::isCharLiteral(""));
 
@@ -186,6 +203,9 @@ private:
     }
 
     void strToInt() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         ASSERT_EQUALS(1, ::strToInt<int>("1"));
         ASSERT_EQUALS(-1, ::strToInt<int>("-1"));
         ASSERT_EQUALS(1, ::strToInt<std::size_t>("1"));
@@ -335,6 +355,9 @@ private:
 
     void id_string() const
     {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         ASSERT_EQUALS("0", id_string_i(0));
         ASSERT_EQUALS("f1", id_string_i(0xF1));
         ASSERT_EQUALS("123", id_string_i(0x123));
@@ -347,6 +370,9 @@ private:
 
     void startsWith() const
     {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         ASSERT(::startsWith("test", "test"));
         ASSERT(::startsWith("test2", "test"));
         ASSERT(::startsWith("test test", "test"));

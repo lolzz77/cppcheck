@@ -1,3 +1,5 @@
+#include <stdio.h>
+#include <pthread.h>
 /*
  * Cppcheck - A tool for static C/C++ code analysis
  * Copyright (C) 2007-2023 Cppcheck team.
@@ -37,6 +39,9 @@ private:
     const Settings settings = settingsBuilder().severity(Severity::style).checkLibrary().library("std.cfg").build();
 
     void run() override {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         TEST_CASE(isRecordTypeWithoutSideEffects);
         TEST_CASE(cleanFunction);
 
@@ -276,6 +281,9 @@ private:
 
 #define checkStructMemberUsageP(...) checkStructMemberUsageP_(__FILE__, __LINE__, __VA_ARGS__)
     void checkStructMemberUsageP_(const char* file, int line, const char code[]) {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         // Clear the error buffer..
         errout.str("");
 
@@ -312,6 +320,9 @@ private:
 
 
     void isRecordTypeWithoutSideEffects() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         functionVariableUsage(
             "class A {};\n"
             "void f() {\n"
@@ -613,6 +624,9 @@ private:
     }
 
     void cleanFunction() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         // unknown function
         functionVariableUsage(
             "class F {\n"
@@ -1334,6 +1348,9 @@ private:
 
     // #5355 - False positive: Variable is not assigned a value.
     void emptyclass() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         functionVariableUsage("class Carla {\n"
                               "};\n"
                               "class Fred : Carla {\n"
@@ -1347,6 +1364,9 @@ private:
 
     // #5355 - False positive: Variable is not assigned a value.
     void emptystruct() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         functionVariableUsage("struct Fred {\n"
                               "};\n"
                               "void foo() {\n"
@@ -1357,6 +1377,9 @@ private:
     }
 
     void structmember1() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         checkStructMemberUsage("struct abc\n"
                                "{\n"
                                "    int a;\n"
@@ -1379,6 +1402,9 @@ private:
     }
 
     void structmember2() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         checkStructMemberUsage("struct ABC\n"
                                "{\n"
                                "    int a;\n"
@@ -1397,6 +1423,9 @@ private:
     }
 
     void structmember3() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         checkStructMemberUsage("struct ABC\n"
                                "{\n"
                                "    int a;\n"
@@ -1416,6 +1445,9 @@ private:
     }
 
     void structmember4() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         checkStructMemberUsage("struct ABC\n"
                                "{\n"
                                "    const int a;\n"
@@ -1430,6 +1462,9 @@ private:
     }
 
     void structmember5() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         checkStructMemberUsage("struct AB\n"
                                "{\n"
                                "    int a;\n"
@@ -1450,6 +1485,9 @@ private:
     }
 
     void structmember6() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         checkStructMemberUsage("struct AB\n"
                                "{\n"
                                "    int a;\n"
@@ -1476,6 +1514,9 @@ private:
     }
 
     void structmember7() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         checkStructMemberUsage("struct AB\n"
                                "{\n"
                                "    int a;\n"
@@ -1502,6 +1543,9 @@ private:
     }
 
     void structmember8() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         checkStructMemberUsage("struct AB\n"
                                "{\n"
                                "    int a;\n"
@@ -1516,6 +1560,9 @@ private:
     }
 
     void structmember9() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         checkStructMemberUsage("struct base {\n"
                                "    int a;\n"
                                "};\n"
@@ -1526,6 +1573,9 @@ private:
     }
 
     void structmember10() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         // Fred may have some useful side-effects
         checkStructMemberUsage("struct abc {\n"
                                "    Fred fred;\n"
@@ -1588,6 +1638,9 @@ private:
     }
 
     void structmember_extern() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         // extern struct => no false positive
         checkStructMemberUsage("extern struct AB\n"
                                "{\n"
@@ -1640,6 +1693,9 @@ private:
     }
 
     void structmember_sizeof() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         checkStructMemberUsage("struct Header {\n"
                                "  uint8_t message_type;\n"
                                "}\n"
@@ -1664,6 +1720,9 @@ private:
     }
 
     void structmember16() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         checkStructMemberUsage("struct S {\n"
                                "  static const int N = 128;\n" // <- used
                                "  char E[N];\n" // <- not used
@@ -1723,6 +1782,9 @@ private:
     }
 
     void structmember19() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         checkStructMemberUsage("class C {};\n" // #10826
                                "struct S {\n"
                                "    char* p;\n"
@@ -1882,6 +1944,9 @@ private:
     }
 
     void structmember23() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         checkStructMemberUsage("namespace N {\n"
                                "    struct S { std::string s; };\n"
                                "}\n"
@@ -1941,12 +2006,18 @@ private:
     }
 
     void structmember_macro() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         checkStructMemberUsageP("#define S(n) struct n { int a, b, c; };\n"
                                 "S(unused);\n");
         ASSERT_EQUALS("", errout.str());
     }
 
     void classmember() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         checkStructMemberUsage("class C {\n"
                                "    int i{};\n"
                                "};\n");
@@ -1996,6 +2067,9 @@ private:
     }
 
     void localvar1() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         // extracttests.disable
         functionVariableUsage("void foo()\n"
                               "{\n"
@@ -2432,6 +2506,9 @@ private:
     }
 
     void localvar2() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         // extracttests.disable: uninitialized variables and stuff
 
         functionVariableUsage("int foo()\n"
@@ -2561,6 +2638,9 @@ private:
     }
 
     void localvar3() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         functionVariableUsage("void foo(int abc)\n"
                               "{\n"
                               "    int i;\n"
@@ -2572,6 +2652,9 @@ private:
     }
 
     void localvar4() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         functionVariableUsage("void foo()\n"
                               "{\n"
                               "    int i = 0;\n"
@@ -2588,6 +2671,9 @@ private:
     }
 
     void localvar5() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         functionVariableUsage("void foo()\n"
                               "{\n"
                               "    int a = 0;\n"
@@ -2597,6 +2683,9 @@ private:
     }
 
     void localvar6() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         functionVariableUsage("void foo() {\n"
                               "    int b[10];\n"
                               "    for (int i=0;i<10;++i)\n"
@@ -2627,6 +2716,9 @@ private:
     }
 
     void localvar8() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         functionVariableUsage("void foo()\n"
                               "{\n"
                               "    int i;\n"
@@ -2835,6 +2927,9 @@ private:
     }
 
     void localvar9() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         // ticket #1605
         functionVariableUsage("void foo()\n"
                               "{\n"
@@ -2848,6 +2943,9 @@ private:
     }
 
     void localvar10() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         functionVariableUsage("void foo(int x)\n"
                               "{\n"
                               "    int i;\n"
@@ -2902,6 +3000,9 @@ private:
     }
 
     void localvar11() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         functionVariableUsage("void foo(int x)\n"
                               "{\n"
                               "    int a = 0;\n"
@@ -2932,6 +3033,9 @@ private:
     }
 
     void localvar12() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         // ticket #1574
         functionVariableUsage("void foo()\n"
                               "{\n"
@@ -2975,6 +3079,9 @@ private:
     }
 
     void localvar14() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         // ticket #5
         functionVariableUsage("void foo()\n"
                               "{\n"
@@ -2984,6 +3091,9 @@ private:
     }
 
     void localvar15() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         functionVariableUsage("int foo()\n"
                               "{\n"
                               "    int a = 5;\n"
@@ -3210,6 +3320,9 @@ private:
     }
 
     void localvar32() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         // ticket #2330 - fstream >> x
         functionVariableUsage("void f() {\n"
                               "    int x;\n"
@@ -3317,6 +3430,9 @@ private:
     }
 
     void localvar38() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         functionVariableUsage("std::string f() {\n"
                               "    const char code[] = \"foo\";\n"
                               "    const std::string s1(sizeof_(code));\n"
@@ -3327,6 +3443,9 @@ private:
     }
 
     void localvar39() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         functionVariableUsage("void f() {\n"
                               "    int a = 1;\n"
                               "    foo(x*a);\n"
@@ -3335,6 +3454,9 @@ private:
     }
 
     void localvar40() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         functionVariableUsage("int f() {\n"
                               "    int a = 1;\n"
                               "    return x & a;\n"
@@ -3343,6 +3465,9 @@ private:
     }
 
     void localvar41() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         // #3603 - false positive 'x is assigned a value that is never used'
         functionVariableUsage("int f() {\n"
                               "    int x = 1;\n"
@@ -3572,6 +3697,9 @@ private:
     }
 
     void localvar52() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         functionVariableUsage("void foo() {\n"
                               "  std::vector<int> data;\n"
                               "  data[2] = 32;\n"
@@ -3581,6 +3709,9 @@ private:
     }
 
     void localvar53() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         functionVariableUsage("void foo(int a, int loop) {\n"
                               "  bool x = false;\n"
                               "  while (loop) {\n"
@@ -3606,6 +3737,9 @@ private:
     }
 
     void localvar54() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         functionVariableUsage("Padding fun() {\n"
                               "  Distance d = DISTANCE;\n"
                               "  return (Padding){ d, d, d, d };\n"
@@ -3614,6 +3748,9 @@ private:
     }
 
     void localvar55() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         functionVariableUsage("void f(int mode) {\n"
                               "    int x = 0;\n" // <- redundant assignment
                               "\n"
@@ -3632,6 +3769,9 @@ private:
     }
 
     void localvar56() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         functionVariableUsage("void f()\n"
                               "{\n"
                               "    int x = 31;\n"
@@ -3641,6 +3781,9 @@ private:
     }
 
     void localvar57() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         functionVariableUsage("void f()\n"
                               "{\n"
                               "    int x = 0;\n"
@@ -3672,6 +3815,9 @@ private:
     }
 
     void localvar60() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         functionVariableUsage("void Scale(double scale) {\n" // #10531
                               "    for (int i = 0; i < m_points.size(); ++i) {\n"
                               "        auto& p = m_points[i];\n"
@@ -3698,6 +3844,9 @@ private:
     }
 
     void localvar62() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         functionVariableUsage("void f() {\n" // #10824
                               "    S* s = nullptr;\n"
                               "}\n");
@@ -3758,6 +3907,9 @@ private:
     }
 
     void localvar65() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         functionVariableUsage("bool b();\n" // #9876
                               "void f() {\n"
                               "    for (;;) {\n"
@@ -3807,6 +3959,9 @@ private:
     }
 
     void localvar68() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         checkFunctionVariableUsageP("#define X0 int x = 0\n"
                                     "void f() { X0; }\n");
         ASSERT_EQUALS("", errout.str());
@@ -3817,6 +3972,9 @@ private:
     }
 
     void localvar69() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         functionVariableUsage("int g();\n" // #11063
                               "int h(int);\n"
                               "int f() {\n"
@@ -3827,6 +3985,9 @@ private:
     }
 
     void localvarloops() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         // loops
         functionVariableUsage("void fun(int c) {\n"
                               "  int x;\n"
@@ -3943,6 +4104,9 @@ private:
     }
 
     void localvaralias1() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         functionVariableUsage("void foo()\n"
                               "{\n"
                               "    int a;\n"
@@ -4671,6 +4835,9 @@ private:
     }
 
     void localvaralias8() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         functionVariableUsage("void foo()\n"
                               "{\n"
                               "    char b1[8];\n"
@@ -4948,6 +5115,9 @@ private:
     }
 
     void localvaralias16() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         functionVariableUsage("void f() {\n"
                               "  auto x = dostuff();\n"
                               "  p = x;\n"
@@ -4957,6 +5127,9 @@ private:
     }
 
     void localvaralias17() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         functionVariableUsage("void f() {\n"
                               "  int x;\n"
                               "  unknown_type p = &x;\n"
@@ -4966,6 +5139,9 @@ private:
     }
 
     void localvaralias18() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         functionVariableUsage("void add( std::vector< std::pair< int, double > >& v)\n"
                               "{\n"
                               "    std::vector< std::pair< int, double > >::iterator it;\n"
@@ -5054,6 +5230,9 @@ private:
     }
 
     void localvarasm() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
 
         functionVariableUsage("void foo(int &b)\n"
                               "{\n"
@@ -5065,6 +5244,9 @@ private:
     }
 
     void localvarStruct1() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         functionVariableUsage("void foo()\n"
                               "{\n"
                               "    static const struct{ int x, y, w, h; } bounds = {1,2,3,4};\n"
@@ -5074,6 +5256,9 @@ private:
     }
 
     void localvarStruct2() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         functionVariableUsage("void foo()\n"
                               "{\n"
                               "    struct ABC { int a, b, c; };\n"
@@ -5083,6 +5268,9 @@ private:
     }
 
     void localvarStruct3() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         functionVariableUsage("void foo()\n"
                               "{\n"
                               "    int a = 10;\n"
@@ -5096,6 +5284,9 @@ private:
     }
 
     void localvarStruct5() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         // extracttests.disable
         functionVariableUsage("int foo() {\n"
                               "    A a;\n"
@@ -5200,6 +5391,9 @@ private:
     }
 
     void localvarStruct6() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         functionVariableUsage("class Type { };\n"
                               "class A {\n"
                               "public:\n"
@@ -5211,6 +5405,9 @@ private:
     }
 
     void localvarStruct7() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         functionVariableUsage("struct IMAPARG {\n"
                               "  void *text;\n"
                               "};\n"
@@ -5252,6 +5449,9 @@ private:
     }
 
     void localvarStruct8() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         functionVariableUsage("struct s {\n"
                               "     union {\n"
                               "         struct {\n"
@@ -5271,6 +5471,9 @@ private:
     }
 
     void localvarStruct9() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         functionVariableUsage("struct XY { int x; int y; };\n"
                               "\n"
                               "void foo() {\n"
@@ -5331,6 +5534,9 @@ private:
     }
 
     void localvarStructArray() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         // extracttests.start: struct X {int a;};
 
         // #3633 - detect that struct array is assigned a value
@@ -5342,6 +5548,9 @@ private:
     }
 
     void localvarUnion1() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         // #9707
         functionVariableUsage("static short read(FILE *fp) {\n"
                               "    typedef union { short s; unsigned char c[2]; } u;\n"
@@ -5354,6 +5563,9 @@ private:
     }
 
     void localvarOp() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         constexpr char op[] = "+-*/%&|^";
         for (const char *p = op; *p; ++p) {
             std::string code("int main()\n"
@@ -5367,6 +5579,9 @@ private:
     }
 
     void localvarInvert() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         functionVariableUsage("int main()\n"
                               "{\n"
                               "    int tmp = 10;\n"
@@ -5376,6 +5591,9 @@ private:
     }
 
     void localvarIf() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         functionVariableUsage("int main()\n"
                               "{\n"
                               "    int tmp = 10;\n"
@@ -5387,6 +5605,9 @@ private:
     }
 
     void localvarIfElse() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         functionVariableUsage("int foo()\n"
                               "{\n"
                               "    int tmp1 = 1;\n"
@@ -5398,6 +5619,9 @@ private:
     }
 
     void localvarDeclaredInIf() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         functionVariableUsage("int foo(int x)\n"
                               "{\n"
                               "    if (int y = x % 2)\n"
@@ -5458,6 +5682,9 @@ private:
     }
 
     void localvarOpAssign() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         functionVariableUsage("void foo()\n"
                               "{\n"
                               "    int a = 1;\n"
@@ -5513,6 +5740,9 @@ private:
     }
 
     void localvarFor() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         functionVariableUsage("void foo()\n"
                               "{\n"
                               "    int a = 1;\n"
@@ -5548,6 +5778,9 @@ private:
     }
 
     void localvarShift1() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         functionVariableUsage("int foo()\n"
                               "{\n"
                               "    int var = 1;\n"
@@ -5573,6 +5806,9 @@ private:
     }
 
     void localvarCast() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         functionVariableUsage("int foo()\n"
                               "{\n"
                               "    int a = 1;\n"
@@ -5583,6 +5819,9 @@ private:
     }
 
     void localvarClass() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         functionVariableUsage("int foo()\n"
                               "{\n"
                               "    class B : public A {\n"
@@ -5594,6 +5833,9 @@ private:
     }
 
     void localvarUnused() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         functionVariableUsage("int foo()\n"
                               "{\n"
                               "    bool test __attribute__((unused));\n"
@@ -5639,6 +5881,9 @@ private:
     }
 
     void localvarFunction() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         functionVariableUsage("void check_dlsym(void*& h)\n"
                               "{\n"
                               "  typedef void (*function_type) (void);\n"
@@ -5650,6 +5895,9 @@ private:
     }
 
     void localvarstatic() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         functionVariableUsage("void foo()\n"
                               "{\n"
                               "    static int i;\n"
@@ -5733,6 +5981,9 @@ private:
     }
 
     void localvarextern() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         functionVariableUsage("void foo() {\n"
                               "    extern int i;\n"
                               "    i = 0;\n"
@@ -5741,6 +5992,9 @@ private:
     }
 
     void localvardynamic1() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         functionVariableUsage("void foo()\n"
                               "{\n"
                               "    void* ptr = malloc(16);\n"
@@ -5840,6 +6094,9 @@ private:
     }
 
     void localvardynamic2() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         functionVariableUsage("struct Fred { int i; };\n"
                               "void foo()\n"
                               "{\n"
@@ -5964,6 +6221,9 @@ private:
     }
 
     void localvardynamic3() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         // Ticket #3467 - False positive that 'data' is not assigned a value
         functionVariableUsage("void foo() {\n"
                               "    int* data = new int[100];\n"
@@ -5977,6 +6237,9 @@ private:
     }
 
     void localvararray1() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         functionVariableUsage("void foo() {\n"
                               "    int p[5];\n"
                               "    *p = 0;\n"
@@ -5985,6 +6248,9 @@ private:
     }
 
     void localvararray2() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         functionVariableUsage("int foo() {\n"
                               "    int p[5][5];\n"
                               "    p[0][0] = 0;\n"
@@ -5994,6 +6260,9 @@ private:
     }
 
     void localvararray3() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         functionVariableUsage("int foo() {\n"
                               "    int p[5][5];\n"
                               "    *((int*)p[0]) = 0;\n"
@@ -6003,6 +6272,9 @@ private:
     }
 
     void localvararray4() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         functionVariableUsage("void foo() {\n"
                               "    int p[1];\n"
                               "    int *pp[0];\n"
@@ -6013,6 +6285,9 @@ private:
     }
 
     void localvararray5() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         functionVariableUsage("int foo() {\n"
                               "    int p[5][5];\n"
                               "    dostuff(*p);\n"
@@ -6092,6 +6367,9 @@ private:
     }
 
     void localvarconst1() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         functionVariableUsage("void foo() {\n"
                               "    const bool b = true;\n"
                               "}");
@@ -6099,6 +6377,9 @@ private:
     }
 
     void localvarconst2() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         functionVariableUsage("void foo() {\n"
                               "    const int N = 10;\n"
                               "    struct X { int x[N]; };\n"
@@ -6122,6 +6403,9 @@ private:
     }
 
     void localvarmaybeunused() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         functionVariableUsage("int main() {\n"
                               "    [[maybe_unused]] int x;\n"
                               "}");
@@ -6217,6 +6501,9 @@ private:
     }
 
     void localVarStd() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         // extracttests.start: struct MyClass {int x;}; std::string foo();
 
         functionVariableUsage("void f() {\n"
@@ -6294,6 +6581,9 @@ private:
     }
 
     void localVarClass() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         functionVariableUsage("void f() {\n"
                               "    Fred f;\n"
                               "}");
@@ -6336,6 +6626,9 @@ private:
     }
 
     void localVarSmartPtr() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         // handling of smart pointers (#9680)
         functionVariableUsage("static int s_i = 0;\n"
                               "\n"
@@ -6391,6 +6684,9 @@ private:
 
     // ticket #3104 - false positive when variable is read with "if (NOT var)"
     void localvarIfNOT() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         functionVariableUsage("void f() {\n"
                               "    bool x = foo();\n"
                               "    if (NOT x) { }\n"
@@ -6480,6 +6776,9 @@ private:
     }
 
     void localvarUnusedGoto() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         // #4447
         functionVariableUsage("bool f(const int &i) {\n"
                               " int X = i;\n"
@@ -6511,6 +6810,9 @@ private:
     }
 
     void localvarLambda() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         functionVariableUsage("int foo() {\n"
                               "    auto f = []{return 1};\n"
                               "    return f();\n"
@@ -6544,6 +6846,9 @@ private:
 
 
     void localvarStructuredBinding() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         functionVariableUsage("void f() {\n" // #10368
                               "    std::map<int, double> m;\n"
                               "    m[2] = 2.0;\n"
@@ -6553,6 +6858,9 @@ private:
     }
 
     void localvarCppInitialization() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         functionVariableUsage("void foo() {\n"
                               "    int buf[6];\n"
                               "    Data data(buf);\n"
@@ -6561,6 +6869,9 @@ private:
     }
 
     void localvarCpp11Initialization() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         // #6160
         functionVariableUsage("void foo() {\n"
                               "    int myNewValue{ 3u };\n"
@@ -6580,6 +6891,9 @@ private:
     }
 
     void localvarRangeBasedFor() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         // #7075
         functionVariableUsage("void reset() {\n"
                               "    for (auto & e : array)\n"
@@ -6589,6 +6903,9 @@ private:
     }
 
     void localvarAssignInWhile() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         functionVariableUsage("void foo() {\n"
                               "  int a = 0;\n"
                               "  do {\n"
@@ -6605,6 +6922,9 @@ private:
     }
 
     void localvarTemplate() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         functionVariableUsage("template<int A> void f() {}\n"
                               "void foo() {\n"
                               "  const int x = 0;\n"
@@ -6636,6 +6956,9 @@ private:
     }
 
     void localvarFuncPtr() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         functionVariableUsage("int main() {\n"
                               "    void(*funcPtr)(void)(x);\n"
                               "}");
@@ -6690,6 +7013,9 @@ private:
     }
 
     void chainedAssignment() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         // #5466
         functionVariableUsage("void NotUsed(double* pdD, int n) {\n"
                               "    double sum = 0.0;\n"
@@ -6700,6 +7026,9 @@ private:
     }
 
     void crash1() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         functionVariableUsage("SAL_WNODEPRECATED_DECLARATIONS_PUSH\n"
                               "void convertToTokenArray() {\n"
                               "}\n"
@@ -6707,6 +7036,9 @@ private:
     }
 
     void crash2() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         functionVariableUsage("template<unsigned dim>\n"
                               "struct Y: Y<dim-1> { };\n"
                               "template<>\n"
@@ -6717,6 +7049,9 @@ private:
     }
 
     void usingNamespace() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         functionVariableUsage("int foo() {\n"
                               "   using namespace ::com::sun::star::i18n;\n"
                               "   bool b = false;\n"
@@ -6733,6 +7068,9 @@ private:
     }
 
     void lambdaFunction() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         // #7026
         functionVariableUsage("void f() {\n"
                               "  bool first = true;\n"
@@ -6783,6 +7121,9 @@ private:
     }
 
     void bracesInitCpp11() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         functionVariableUsage(
             "int fun() {\n"
             " static int fpUnread{0};\n"
@@ -6793,6 +7134,9 @@ private:
     }
 
     void argument() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         functionVariableUsage(
             "void fun(Value value) {\n"
             " value[10] = 123;\n"
@@ -6857,6 +7201,9 @@ private:
     }
 
     void argumentClass() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         functionVariableUsage(
             "void foo(std::insert_iterator<C> it) {\n"
             "  it = 123;\n"
@@ -6865,6 +7212,9 @@ private:
     }
 
     void escapeAlias() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         functionVariableUsage(
             "struct A {\n"
             "    std::map<int, int> m;\n"
@@ -6880,6 +7230,9 @@ private:
     }
 
     void volatileData() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         functionVariableUsage(
             "struct Data { unsigned int n; };\n"
             "int main() {\n"
@@ -6889,6 +7242,9 @@ private:
     }
 
     void globalData() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         // #10276
         functionVariableUsage(
             "void f(void) {\n"

@@ -1,3 +1,5 @@
+#include <stdio.h>
+#include <pthread.h>
 /*
  * Cppcheck - A tool for static C/C++ code analysis
  * Copyright (C) 2007-2023 Cppcheck team.
@@ -30,6 +32,9 @@ CheckStatistics::CheckStatistics(QObject *parent)
 
 static void addItem(QMap<QString,unsigned> &m, const QString &key)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (m.contains(key))
         m[key]++;
     else
@@ -38,6 +43,9 @@ static void addItem(QMap<QString,unsigned> &m, const QString &key)
 
 void CheckStatistics::addItem(const QString &tool, ShowTypes::ShowType type)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     const QString lower = tool.toLower();
     switch (type) {
     case ShowTypes::ShowStyle:
@@ -67,11 +75,17 @@ void CheckStatistics::addItem(const QString &tool, ShowTypes::ShowType type)
 
 void CheckStatistics::addChecker(const QString &checker)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     mActiveCheckers.insert(checker.toStdString());
 }
 
 void CheckStatistics::clear()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     mStyle.clear();
     mWarning.clear();
     mPerformance.clear();
@@ -84,6 +98,9 @@ void CheckStatistics::clear()
 
 unsigned CheckStatistics::getCount(const QString &tool, ShowTypes::ShowType type) const
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     const QString lower = tool.toLower();
     switch (type) {
     case ShowTypes::ShowStyle:
@@ -107,6 +124,9 @@ unsigned CheckStatistics::getCount(const QString &tool, ShowTypes::ShowType type
 
 QStringList CheckStatistics::getTools() const
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     QSet<QString> ret;
     for (const QString& tool: mStyle.keys()) ret.insert(tool);
     for (const QString& tool: mWarning.keys()) ret.insert(tool);

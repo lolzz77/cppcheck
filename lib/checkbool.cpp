@@ -1,3 +1,5 @@
+#include <stdio.h>
+#include <pthread.h>
 /*
  * Cppcheck - A tool for static C/C++ code analysis
  * Copyright (C) 2007-2023 Cppcheck team.
@@ -44,12 +46,18 @@ static const CWE CWE704(704U);  // Incorrect Type Conversion or Cast
 
 static bool isBool(const Variable* var)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     return (var && Token::Match(var->typeEndToken(), "bool|_Bool"));
 }
 
 //---------------------------------------------------------------------------
 void CheckBool::checkIncrementBoolean()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (!mSettings->severity.isEnabled(Severity::style))
         return;
 
@@ -67,6 +75,9 @@ void CheckBool::checkIncrementBoolean()
 
 void CheckBool::incrementBooleanError(const Token *tok)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     reportError(
         tok,
         Severity::style,
@@ -79,6 +90,9 @@ void CheckBool::incrementBooleanError(const Token *tok)
 
 static bool isConvertedToBool(const Token* tok)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (!tok->astParent())
         return false;
     return astIsBool(tok->astParent()) || Token::Match(tok->astParent()->previous(), "if|while (");
@@ -90,6 +104,9 @@ static bool isConvertedToBool(const Token* tok)
 //---------------------------------------------------------------------------
 void CheckBool::checkBitwiseOnBoolean()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (!mSettings->severity.isEnabled(Severity::style))
         return;
 
@@ -133,6 +150,9 @@ void CheckBool::checkBitwiseOnBoolean()
 
 void CheckBool::bitwiseOnBooleanError(const Token* tok, const std::string& expression, const std::string& op, bool isCompound)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     std::string msg = "Boolean expression '" + expression + "' is used in bitwise operation.";
     if (!isCompound)
         msg += " Did you mean '" + op + "'?";
@@ -150,6 +170,9 @@ void CheckBool::bitwiseOnBooleanError(const Token* tok, const std::string& expre
 
 void CheckBool::checkComparisonOfBoolWithInt()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (!mSettings->severity.isEnabled(Severity::warning) || !mTokenizer->isCPP())
         return;
 
@@ -177,6 +200,9 @@ void CheckBool::checkComparisonOfBoolWithInt()
 
 void CheckBool::comparisonOfBoolWithInvalidComparator(const Token *tok, const std::string &expression)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     reportError(tok, Severity::warning, "comparisonOfBoolWithInvalidComparator",
                 "Comparison of a boolean value using relational operator (<, >, <= or >=).\n"
                 "The result of the expression '" + expression + "' is of type 'bool'. "
@@ -190,6 +216,9 @@ void CheckBool::comparisonOfBoolWithInvalidComparator(const Token *tok, const st
 
 static bool tokenIsFunctionReturningBool(const Token* tok)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     const Function* func = tok ? tok->function() : nullptr;
     if (func && Token::Match(tok, "%name% (")) {
         if (func->tokenDef && Token::Match(func->tokenDef->previous(), "bool|_Bool")) {
@@ -201,6 +230,9 @@ static bool tokenIsFunctionReturningBool(const Token* tok)
 
 void CheckBool::checkComparisonOfFuncReturningBool()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (!mSettings->severity.isEnabled(Severity::style))
         return;
 
@@ -245,6 +277,9 @@ void CheckBool::checkComparisonOfFuncReturningBool()
 
 void CheckBool::comparisonOfFuncReturningBoolError(const Token *tok, const std::string &expression)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     reportError(tok, Severity::style, "comparisonOfFuncReturningBoolError",
                 "Comparison of a function returning boolean value using relational (<, >, <= or >=) operator.\n"
                 "The return type of function '" + expression + "' is 'bool' "
@@ -254,6 +289,9 @@ void CheckBool::comparisonOfFuncReturningBoolError(const Token *tok, const std::
 
 void CheckBool::comparisonOfTwoFuncsReturningBoolError(const Token *tok, const std::string &expression1, const std::string &expression2)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     reportError(tok, Severity::style, "comparisonOfTwoFuncsReturningBoolError",
                 "Comparison of two functions returning boolean value using relational (<, >, <= or >=) operator.\n"
                 "The return type of function '" + expression1 + "' and function '" + expression2 + "' is 'bool' "
@@ -267,6 +305,9 @@ void CheckBool::comparisonOfTwoFuncsReturningBoolError(const Token *tok, const s
 
 void CheckBool::checkComparisonOfBoolWithBool()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (!mSettings->severity.isEnabled(Severity::style))
         return;
 
@@ -308,6 +349,9 @@ void CheckBool::checkComparisonOfBoolWithBool()
 
 void CheckBool::comparisonOfBoolWithBoolError(const Token *tok, const std::string &expression)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     reportError(tok, Severity::style, "comparisonOfBoolWithBoolError",
                 "Comparison of a variable having boolean value using relational (<, >, <= or >=) operator.\n"
                 "The variable '" + expression + "' is of type 'bool' "
@@ -318,6 +362,9 @@ void CheckBool::comparisonOfBoolWithBoolError(const Token *tok, const std::strin
 //-----------------------------------------------------------------------------
 void CheckBool::checkAssignBoolToPointer()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     logChecker("CheckBool::checkAssignBoolToPointer");
     const SymbolDatabase *symbolDatabase = mTokenizer->getSymbolDatabase();
     for (const Scope * scope : symbolDatabase->functionScopes) {
@@ -331,6 +378,9 @@ void CheckBool::checkAssignBoolToPointer()
 
 void CheckBool::assignBoolToPointerError(const Token *tok)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     reportError(tok, Severity::error, "assignBoolToPointer",
                 "Boolean value assigned to pointer.", CWE587, Certainty::normal);
 }
@@ -339,6 +389,9 @@ void CheckBool::assignBoolToPointerError(const Token *tok)
 //-----------------------------------------------------------------------------
 void CheckBool::checkComparisonOfBoolExpressionWithInt()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (!mSettings->severity.isEnabled(Severity::warning))
         return;
 
@@ -399,6 +452,9 @@ void CheckBool::checkComparisonOfBoolExpressionWithInt()
 
 void CheckBool::comparisonOfBoolExpressionWithIntError(const Token *tok, bool not0or1)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (not0or1)
         reportError(tok, Severity::warning, "compareBoolExpressionWithInt",
                     "Comparison of a boolean expression with an integer other than 0 or 1.", CWE398, Certainty::normal);
@@ -410,6 +466,9 @@ void CheckBool::comparisonOfBoolExpressionWithIntError(const Token *tok, bool no
 
 void CheckBool::pointerArithBool()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     logChecker("CheckBool::pointerArithBool");
 
     const SymbolDatabase* symbolDatabase = mTokenizer->getSymbolDatabase();
@@ -433,6 +492,9 @@ void CheckBool::pointerArithBool()
 
 void CheckBool::pointerArithBoolCond(const Token *tok)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (!tok)
         return;
     if (Token::Match(tok, "&&|%oror%")) {
@@ -453,6 +515,9 @@ void CheckBool::pointerArithBoolCond(const Token *tok)
 
 void CheckBool::pointerArithBoolError(const Token *tok)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     reportError(tok,
                 Severity::error,
                 "pointerArithBool",
@@ -462,6 +527,9 @@ void CheckBool::pointerArithBoolError(const Token *tok)
 
 void CheckBool::checkAssignBoolToFloat()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (!mTokenizer->isCPP())
         return;
     if (!mSettings->severity.isEnabled(Severity::style))
@@ -479,12 +547,18 @@ void CheckBool::checkAssignBoolToFloat()
 
 void CheckBool::assignBoolToFloatError(const Token *tok)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     reportError(tok, Severity::style, "assignBoolToFloat",
                 "Boolean value assigned to floating point variable.", CWE704, Certainty::normal);
 }
 
 void CheckBool::returnValueOfFunctionReturningBool()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (!mSettings->severity.isEnabled(Severity::style))
         return;
 
@@ -513,5 +587,8 @@ void CheckBool::returnValueOfFunctionReturningBool()
 
 void CheckBool::returnValueBoolError(const Token *tok)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     reportError(tok, Severity::style, "returnNonBoolInBooleanFunction", "Non-boolean value returned from function returning bool");
 }

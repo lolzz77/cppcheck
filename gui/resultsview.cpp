@@ -1,3 +1,5 @@
+#include <stdio.h>
+#include <pthread.h>
 /*
  * Cppcheck - A tool for static C/C++ code analysis
  * Copyright (C) 2007-2023 Cppcheck team.
@@ -96,6 +98,9 @@ ResultsView::ResultsView(QWidget * parent) :
 
 void ResultsView::initialize(QSettings *settings, ApplicationList *list, ThreadHandler *checkThreadHandler)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     mUI->mProgress->setMinimum(0);
     mUI->mProgress->setVisible(false);
     mUI->mLabelCriticalErrors->setVisible(false);
@@ -118,6 +123,9 @@ ResultsView::~ResultsView()
 
 void ResultsView::clear(bool results)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (results) {
         mUI->mTree->clear();
     }
@@ -140,11 +148,17 @@ void ResultsView::clear(bool results)
 
 void ResultsView::clear(const QString &filename)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     mUI->mTree->clear(filename);
 }
 
 void ResultsView::clearRecheckFile(const QString &filename)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     mUI->mTree->clearRecheckFile(filename);
 }
 
@@ -155,12 +169,18 @@ const ShowTypes & ResultsView::getShowTypes() const
 
 void ResultsView::progress(int value, const QString& description)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     mUI->mProgress->setValue(value);
     mUI->mProgress->setFormat(QString("%p% (%1)").arg(description));
 }
 
 void ResultsView::error(const ErrorItem &item)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (item.severity == Severity::none && (item.errorId == "logChecker" || item.errorId.endsWith("-logChecker"))) {
         mStatistics->addChecker(item.message);
         return;
@@ -176,11 +196,17 @@ void ResultsView::error(const ErrorItem &item)
 
 void ResultsView::filterResults(const QString& filter)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     mUI->mTree->filterResults(filter);
 }
 
 void ResultsView::saveStatistics(const QString &filename) const
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     QFile f(filename);
     if (!f.open(QIODevice::Text | QIODevice::Append))
         return;
@@ -198,11 +224,17 @@ void ResultsView::saveStatistics(const QString &filename) const
 
 void ResultsView::updateFromOldReport(const QString &filename) const
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     mUI->mTree->updateFromOldReport(filename);
 }
 
 void ResultsView::save(const QString &filename, Report::Type type) const
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     Report *report = nullptr;
 
     switch (type) {
@@ -238,6 +270,9 @@ void ResultsView::save(const QString &filename, Report::Type type) const
 
 void ResultsView::print()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     QPrinter printer;
     QPrintDialog dialog(&printer, this);
     dialog.setWindowTitle(tr("Print Report"));
@@ -249,6 +284,9 @@ void ResultsView::print()
 
 void ResultsView::printPreview()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     QPrinter printer;
     QPrintPreviewDialog dialog(&printer, this);
     connect(&dialog, SIGNAL(paintRequested(QPrinter*)), SLOT(print(QPrinter*)));
@@ -257,6 +295,9 @@ void ResultsView::printPreview()
 
 void ResultsView::print(QPrinter* printer)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (!hasResults()) {
         QMessageBox msgBox;
         msgBox.setText(tr("No errors found, nothing to print."));
@@ -278,28 +319,43 @@ void ResultsView::updateSettings(bool showFullPath,
                                  bool showErrorId,
                                  bool showInconclusive)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     mUI->mTree->updateSettings(showFullPath, saveFullPath, saveAllErrors, showErrorId, showInconclusive);
     mShowNoErrorsMessage = showNoErrorsMessage;
 }
 
 void ResultsView::updateStyleSetting(QSettings *settings)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     CodeEditorStyle theStyle(CodeEditorStyle::loadSettings(settings));
     mUI->mCode->setStyle(theStyle);
 }
 
 void ResultsView::setCheckDirectory(const QString &dir)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     mUI->mTree->setCheckDirectory(dir);
 }
 
 QString ResultsView::getCheckDirectory()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     return mUI->mTree->getCheckDirectory();
 }
 
 void ResultsView::setCheckSettings(const Settings &settings)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     delete mCheckSettings;
     mCheckSettings = new Settings;
     *mCheckSettings = settings;
@@ -307,6 +363,9 @@ void ResultsView::setCheckSettings(const Settings &settings)
 
 void ResultsView::checkingStarted(int count)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     mSuccess = true;
     mUI->mProgress->setVisible(true);
     mUI->mProgress->setMaximum(PROGRESS_MAX);
@@ -316,6 +375,9 @@ void ResultsView::checkingStarted(int count)
 
 void ResultsView::checkingFinished()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     mUI->mProgress->setVisible(false);
     mUI->mProgress->setFormat("%p%");
 
@@ -358,16 +420,25 @@ void ResultsView::checkingFinished()
 
 bool ResultsView::hasVisibleResults() const
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     return mUI->mTree->hasVisibleResults();
 }
 
 bool ResultsView::hasResults() const
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     return mUI->mTree->hasResults();
 }
 
 void ResultsView::saveSettings(QSettings *settings)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     mUI->mTree->saveSettings();
     QByteArray state = mUI->mVerticalSplitter->saveState();
     settings->setValue(SETTINGS_MAINWND_SPLITTER_STATE, state);
@@ -376,17 +447,26 @@ void ResultsView::saveSettings(QSettings *settings)
 
 void ResultsView::translate()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     mUI->retranslateUi(this);
     mUI->mTree->translate();
 }
 
 void ResultsView::disableProgressbar()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     mUI->mProgress->setEnabled(false);
 }
 
 void ResultsView::readErrorsXml(const QString &filename)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     mSuccess = false; // Don't know if results come from an aborted analysis
 
     const int version = XmlReport::determineVersion(filename);
@@ -433,6 +513,9 @@ void ResultsView::readErrorsXml(const QString &filename)
 
 void ResultsView::updateDetails(const QModelIndex &index)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     const QStandardItemModel *model = qobject_cast<const QStandardItemModel*>(mUI->mTree->model());
     QStandardItem *item = model->itemFromIndex(index);
 
@@ -498,21 +581,33 @@ void ResultsView::updateDetails(const QModelIndex &index)
 
 void ResultsView::log(const QString &str)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     mUI->mListLog->addItem(str);
 }
 
 void ResultsView::debugError(const ErrorItem &item)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     mUI->mListLog->addItem(item.toString());
 }
 
 void ResultsView::logClear()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     mUI->mListLog->clear();
 }
 
 void ResultsView::logCopyEntry()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     const QListWidgetItem * item = mUI->mListLog->currentItem();
     if (nullptr != item) {
         QClipboard *clipboard = QApplication::clipboard();
@@ -522,6 +617,9 @@ void ResultsView::logCopyEntry()
 
 void ResultsView::logCopyComplete()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     QString logText;
     for (int i=0; i < mUI->mListLog->count(); ++i) {
         const QListWidgetItem * item = mUI->mListLog->item(i);
@@ -535,6 +633,9 @@ void ResultsView::logCopyComplete()
 
 void ResultsView::on_mListLog_customContextMenuRequested(const QPoint &pos)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (mUI->mListLog->count() <= 0)
         return;
 
@@ -550,6 +651,9 @@ void ResultsView::on_mListLog_customContextMenuRequested(const QPoint &pos)
 
 void ResultsView::stopAnalysis()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     mSuccess = false;
     mUI->mLabelCriticalErrors->setText(tr("Analysis was stopped"));
     mUI->mLabelCriticalErrors->setVisible(true);
@@ -557,6 +661,9 @@ void ResultsView::stopAnalysis()
 
 void ResultsView::handleCriticalError(const ErrorItem &item)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (ErrorLogger::isCriticalErrorId(item.errorId.toStdString())) {
         if (!mCriticalErrors.contains(item.errorId)) {
             if (!mCriticalErrors.isEmpty())
@@ -574,5 +681,8 @@ void ResultsView::handleCriticalError(const ErrorItem &item)
 }
 
 bool ResultsView::isSuccess() const {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     return mSuccess;
 }

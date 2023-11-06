@@ -1,3 +1,5 @@
+#include <stdio.h>
+#include <pthread.h>
 
 // Test library configuration for gtk.cfg
 //
@@ -14,6 +16,9 @@
 
 void validCode(int argInt, GHashTableIter * hash_table_iter, GHashTable * hash_table)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     g_assert_cmpint(4 + 1, >=, 5);
     g_assert_cmpstr("test", ==, "test");
 
@@ -74,6 +79,9 @@ void validCode(int argInt, GHashTableIter * hash_table_iter, GHashTable * hash_t
 
 void g_malloc_test()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     // cppcheck-suppress leakReturnValNotUsed
     g_malloc(8);
 
@@ -86,6 +94,9 @@ void g_malloc_test()
 
 void g_malloc0_test()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     // cppcheck-suppress leakReturnValNotUsed
     g_malloc0(8);
 
@@ -98,6 +109,9 @@ void g_malloc0_test()
 
 void g_malloc_n_test()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     // cppcheck-suppress leakReturnValNotUsed
     g_malloc_n(8, 1);
 
@@ -110,6 +124,9 @@ void g_malloc_n_test()
 
 void g_malloc0_n_test()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     // cppcheck-suppress leakReturnValNotUsed
     g_malloc0_n(8, 1);
 
@@ -122,6 +139,9 @@ void g_malloc0_n_test()
 
 void g_try_malloc_test()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     // cppcheck-suppress leakReturnValNotUsed
     g_try_malloc(8);
 
@@ -134,6 +154,9 @@ void g_try_malloc_test()
 
 void g_try_malloc0_test()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     // cppcheck-suppress leakReturnValNotUsed
     g_try_malloc0(8);
 
@@ -146,6 +169,9 @@ void g_try_malloc0_test()
 
 void g_try_malloc_n_test()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     // cppcheck-suppress leakReturnValNotUsed
     g_try_malloc_n(8, 1);
 
@@ -158,6 +184,9 @@ void g_try_malloc_n_test()
 
 void g_try_malloc0_n_test()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     // cppcheck-suppress leakReturnValNotUsed
     g_try_malloc0_n(8, 1);
 
@@ -170,6 +199,9 @@ void g_try_malloc0_n_test()
 
 void g_realloc_test()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     // cppcheck-suppress ignoredReturnValue
     // cppcheck-suppress leakReturnValNotUsed
     g_realloc(NULL, 1);
@@ -183,6 +215,9 @@ void g_realloc_test()
 
 void g_realloc_n_test()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     // cppcheck-suppress ignoredReturnValue
     // cppcheck-suppress leakReturnValNotUsed
     g_realloc_n(NULL, 1, 2);
@@ -196,6 +231,9 @@ void g_realloc_n_test()
 
 void g_try_realloc_test()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     // cppcheck-suppress ignoredReturnValue
     // cppcheck-suppress leakReturnValNotUsed
     g_try_realloc(NULL, 1);
@@ -210,6 +248,9 @@ void g_try_realloc_test()
 
 void g_try_realloc_n_test()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     // cppcheck-suppress ignoredReturnValue
     // cppcheck-suppress leakReturnValNotUsed
     g_try_realloc_n(NULL, 1, 2);
@@ -224,6 +265,9 @@ void g_try_realloc_n_test()
 
 void g_assert_test()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     int a;
     // cppcheck-suppress checkLibraryNoReturn
     // cppcheck-suppress assignmentInAssert
@@ -232,6 +276,9 @@ void g_assert_test()
 
 void g_print_test()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     // cppcheck-suppress invalidPrintfArgType_uint
     g_print("%u", -1);
     // cppcheck-suppress invalidPrintfArgType_uint
@@ -240,6 +287,9 @@ void g_print_test()
 
 void g_alloca_test()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     // cppcheck-suppress allocaCalled
     char * pBuf1 = g_alloca(5);
     pBuf1[0] = '\0';
@@ -247,6 +297,9 @@ void g_alloca_test()
 
 void g_new_test()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     struct a {
         int b;
     };
@@ -265,6 +318,9 @@ void g_new_test()
 
 void g_new_if_test()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     struct a {
         int b;
     };
@@ -278,6 +334,9 @@ void g_new_if_test()
 
 void g_new0_test()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     struct a {
         int b;
     };
@@ -296,6 +355,9 @@ void g_new0_test()
 
 void g_try_new_test()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     struct a {
         int b;
     };
@@ -313,6 +375,9 @@ void g_try_new_test()
 }
 void g_try_new0_test()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     struct a {
         int b;
     };
@@ -331,6 +396,9 @@ void g_try_new0_test()
 
 void g_renew_test()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     struct a {
         int b;
     };
@@ -346,6 +414,9 @@ void g_renew_test()
 
 void g_try_renew_test()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     struct a {
         int b;
     };
@@ -362,6 +433,9 @@ void g_try_renew_test()
 
 void g_error_new_test()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     // valid
     GError * pNew1 = g_error_new(1, -2, "a %d", 1);
     printf("%p", pNew1);
@@ -377,6 +451,9 @@ void g_error_new_test()
 
 void g_once_init_enter_leave_test()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     static gsize init_val;
     if (g_once_init_enter(&init_val)) {
         gsize result_val = 0;
@@ -408,6 +485,9 @@ void g_once_init_enter_leave_test()
 
 void g_strchug_g_strchomp_test(gchar * str1)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     g_strchug(str1);
     g_strchomp(str1);
     g_strchug(g_strchomp(str1));
@@ -421,6 +501,9 @@ void g_strchug_g_strchomp_test(gchar * str1)
 
 void g_abort_test()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     g_abort();
     //cppcheck-suppress unreachableCode
     printf("Never reached");

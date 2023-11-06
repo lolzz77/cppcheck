@@ -1,3 +1,5 @@
+#include <stdio.h>
+#include <pthread.h>
 /*
  * Cppcheck - A tool for static C/C++ code analysis
  * Copyright (C) 2007-2023 Cppcheck team.
@@ -43,6 +45,9 @@ NewSuppressionDialog::NewSuppressionDialog(QWidget *parent) :
     public:
         void reportOut(const std::string & /*outmsg*/, Color /*c*/) override {}
         void reportErr(const ErrorMessage &msg) override {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
             errorIds << QString::fromStdString(msg.id);
         }
         QStringList errorIds;
@@ -77,6 +82,9 @@ Suppressions::Suppression NewSuppressionDialog::getSuppression() const
 
 void NewSuppressionDialog::setSuppression(const Suppressions::Suppression &suppression)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     setWindowTitle(tr("Edit suppression"));
     mUI->mComboErrorId->setCurrentText(QString::fromStdString(suppression.errorId));
     mUI->mTextFileName->setText(QString::fromStdString(suppression.fileName));

@@ -1,3 +1,5 @@
+#include <stdio.h>
+#include <pthread.h>
 #include "stdint.h"
 #include "stdio.h"
 
@@ -15,6 +17,9 @@
 // TODO: fix all format specifiers
 int main(void)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     PRINT_DEF(INTMAX_MIN, ld);
     PRINT_DEF(INTMAX_MAX, ld);
     PRINT_DEF(UINTMAX_MAX, lu);

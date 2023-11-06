@@ -1,3 +1,5 @@
+#include <stdio.h>
+#include <pthread.h>
 /*
  * Cppcheck - A tool for static C/C++ code analysis
  * Copyright (C) 2007-2023 Cppcheck team.
@@ -70,12 +72,18 @@ static std::string stripTemplateParameters(const std::string& funcName) {
 
 void CheckUnusedFunctions::clear()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     instance.mFunctions.clear();
     instance.mFunctionCalls.clear();
 }
 
 void CheckUnusedFunctions::parseTokens(const Tokenizer &tokenizer, const char FileName[], const Settings *settings)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     const bool doMarkup = settings->library.markupFile(FileName);
 
     // Function declarations..
@@ -274,6 +282,9 @@ void CheckUnusedFunctions::parseTokens(const Tokenizer &tokenizer, const char Fi
 
 static bool isOperatorFunction(const std::string & funcName)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     /* Operator functions are invalid function names for C, so no need to check
      * this in here. As result the returned error function might be incorrect.
      *
@@ -321,6 +332,9 @@ static bool isOperatorFunction(const std::string & funcName)
 
 bool CheckUnusedFunctions::check(ErrorLogger * const errorLogger, const Settings& settings) const
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     using ErrorParams = std::tuple<std::string, unsigned int, unsigned int, std::string>;
     std::vector<ErrorParams> errors; // ensure well-defined order
 
@@ -357,6 +371,9 @@ void CheckUnusedFunctions::unusedFunctionError(ErrorLogger * const errorLogger,
                                                const std::string &filename, unsigned int fileIndex, unsigned int lineNumber,
                                                const std::string &funcname)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     std::list<ErrorMessage::FileLocation> locationList;
     if (!filename.empty()) {
         locationList.emplace_back(filename, lineNumber);
@@ -381,6 +398,9 @@ Check::FileInfo *CheckUnusedFunctions::getFileInfo(const Tokenizer *tokenizer, c
 
 bool CheckUnusedFunctions::analyseWholeProgram(const CTU::FileInfo *ctu, const std::list<Check::FileInfo*> &fileInfo, const Settings& settings, ErrorLogger &errorLogger)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     (void)ctu;
     (void)fileInfo;
     CheckUnusedFunctions dummy(nullptr, &settings, &errorLogger);
@@ -418,6 +438,9 @@ namespace {
 
 void CheckUnusedFunctions::analyseWholeProgram(const Settings &settings, ErrorLogger * const errorLogger, const std::string &buildDir)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     std::map<std::string, Location> decls;
     std::set<std::string> calls;
 

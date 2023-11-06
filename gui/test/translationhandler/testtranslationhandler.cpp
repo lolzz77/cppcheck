@@ -1,3 +1,5 @@
+#include <stdio.h>
+#include <pthread.h>
 /*
  * Cppcheck - A tool for static C/C++ code analysis
  * Copyright (C) 2007-2021 Cppcheck team.
@@ -26,6 +28,9 @@
 
 static const QStringList getTranslationNames(const TranslationHandler& handler)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     QStringList names;
     for (const TranslationInfo& translation : handler.getTranslations()) {
         names.append(translation.mName);
@@ -35,6 +40,9 @@ static const QStringList getTranslationNames(const TranslationHandler& handler)
 
 void TestTranslationHandler::construct() const
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     TranslationHandler handler;
     QCOMPARE(getTranslationNames(handler).size(), 13);  // 12 translations + english
     QCOMPARE(handler.getCurrentLanguage(), QString("en"));

@@ -1,3 +1,5 @@
+#include <stdio.h>
+#include <pthread.h>
 /*
  * Cppcheck - A tool for static C/C++ code analysis
  * Copyright (C) 2007-2021 Cppcheck team.
@@ -27,6 +29,9 @@
 
 void TestFileList::addFile() const
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     // Accepted extensions: *.cpp, *.cxx, *.cc, *.c, *.c++, *.txx, *.tpp, *.ipp, *.ixx"
     FileList list;
     list.addFile(QString(SRCDIR) + "/../data/files/foo1.cpp");
@@ -44,6 +49,9 @@ void TestFileList::addFile() const
 
 void TestFileList::addPathList() const
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     // Accepted extensions: *.cpp, *.cxx, *.cc, *.c, *.c++, *.txx, *.tpp, *.ipp, *.ixx"
     QStringList paths;
     paths << QString(SRCDIR) + "/../data/files/foo1.cpp";
@@ -63,6 +71,9 @@ void TestFileList::addPathList() const
 
 void TestFileList::addFile_notexist() const
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     FileList list;
     list.addFile(QString(SRCDIR) + "/../data/files/bar1.cpp");
     QStringList files = list.getFileList();
@@ -71,6 +82,9 @@ void TestFileList::addFile_notexist() const
 
 void TestFileList::addFile_unknown() const
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     FileList list;
     list.addFile(QString(SRCDIR) + "/../data/files/bar1");
     list.addFile(QString(SRCDIR) + "/../data/files/bar1.foo");
@@ -80,6 +94,9 @@ void TestFileList::addFile_unknown() const
 
 void TestFileList::addDirectory() const
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     FileList list;
     list.addDirectory(QString(SRCDIR) + "/../data/files");
     QStringList files = list.getFileList();
@@ -88,6 +105,9 @@ void TestFileList::addDirectory() const
 
 void TestFileList::addDirectory_recursive() const
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     FileList list;
     list.addDirectory(QString(SRCDIR) + "/../data/files", true);
     QStringList files = list.getFileList();
@@ -101,6 +121,9 @@ void TestFileList::addDirectory_recursive() const
 
 void TestFileList::filterFiles() const
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     FileList list;
     QStringList filters;
     filters << "foo1.cpp" << "foo3.cc";
@@ -124,6 +147,9 @@ void TestFileList::filterFiles() const
 
 void TestFileList::filterFiles2() const
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     FileList list;
     QStringList filters;
     filters << "foo1.cpp" << "foo3.cc";
@@ -139,6 +165,9 @@ void TestFileList::filterFiles2() const
 
 void TestFileList::filterFiles3() const
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     FileList list;
     QStringList filters;
     filters << "foo1.cpp" << "foo3.cc";
@@ -156,6 +185,9 @@ void TestFileList::filterFiles3() const
 
 void TestFileList::filterFiles4() const
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     FileList list;
     QStringList filters;
     filters << "dir1/";
@@ -171,6 +203,9 @@ void TestFileList::filterFiles4() const
 
 void TestFileList::filterFiles5() const
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     FileList list;
     QStringList filters;
     filters << QDir(QString(SRCDIR) + "/../data/files/dir1/").absolutePath() + "/";

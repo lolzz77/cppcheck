@@ -1,3 +1,5 @@
+#include <stdio.h>
+#include <pthread.h>
 /*
  * Cppcheck - A tool for static C/C++ code analysis
  * Copyright (C) 2007-2023 Cppcheck team.
@@ -36,6 +38,9 @@ private:
     const Settings settings = settingsBuilder().severity(Severity::warning).severity(Severity::style).build();
 
     void run() override {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         TEST_CASE(stringLiteralWrite);
 
         TEST_CASE(alwaysTrueFalseStringCompare);
@@ -79,6 +84,9 @@ private:
     }
 
     void stringLiteralWrite() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("void f() {\n"
               "  char *abc = \"abc\";\n"
               "  abc[0] = 'a';\n"
@@ -147,6 +155,9 @@ private:
     }
 
     void alwaysTrueFalseStringCompare() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("void f() {\n"
               "  if (strcmp(\"A\",\"A\")){}\n"
               "  if (strncmp(\"A\",\"A\",1)){}\n"
@@ -297,6 +308,9 @@ private:
     }
 
     void suspiciousStringCompare() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("bool foo(char* c) {\n"
               "    return c == \"x\";\n"
               "}");
@@ -417,6 +431,9 @@ private:
     }
 
     void suspiciousStringCompare_char() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("bool foo(char* c) {\n"
               "    return c == 'x';\n"
               "}");
@@ -492,6 +509,9 @@ private:
 
 
     void snprintf1() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("void foo()\n"
               "{\n"
               "    char buf[100];\n"
@@ -501,6 +521,9 @@ private:
     }
 
     void sprintf1() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("void foo()\n"
               "{\n"
               "    char buf[100];\n"
@@ -510,6 +533,9 @@ private:
     }
 
     void sprintf2() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("void foo()\n"
               "{\n"
               "    char buf[100];\n"
@@ -519,6 +545,9 @@ private:
     }
 
     void sprintf3() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("void foo()\n"
               "{\n"
               "    char buf[100];\n"
@@ -529,6 +558,9 @@ private:
     }
 
     void sprintf4() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("struct A\n"
               "{\n"
               "    char filename[128];\n"
@@ -544,6 +576,9 @@ private:
     }
 
     void sprintf5() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("struct A\n"
               "{\n"
               "    char filename[128];\n"
@@ -557,6 +592,9 @@ private:
     }
 
     void sprintf6() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("void foo()\n"
               "{\n"
               "    char buf[100];\n"
@@ -566,6 +604,9 @@ private:
     }
 
     void sprintf7() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("void foo()\n"
               "{\n"
               "    char buf[100];\n"
@@ -575,6 +616,9 @@ private:
     }
 
     void wsprintf1() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("void foo()\n"
               "{\n"
               "    wchar_t buf[100];\n"
@@ -584,6 +628,9 @@ private:
     }
 
     void strPlusChar1() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         // Strange looking pointer arithmetic..
         check("void foo()\n"
               "{\n"
@@ -593,6 +640,9 @@ private:
     }
 
     void strPlusChar2() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         // Strange looking pointer arithmetic..
         check("void foo()\n"
               "{\n"
@@ -612,6 +662,9 @@ private:
     }
 
     void strPlusChar3() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         // Strange looking pointer arithmetic..
         check("void foo()\n"
               "{\n"
@@ -622,6 +675,9 @@ private:
     }
 
     void strPlusChar4() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         // Strange looking pointer arithmetic, wide char..
         check("void foo()\n"
               "{\n"
@@ -637,6 +693,9 @@ private:
     }
 
     void incorrectStringCompare() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("int f() {\n"
               "    return test.substr( 0 , 4 ) == \"Hello\" ? 0 : 1 ;\n"
               "}");
@@ -801,6 +860,9 @@ private:
     }
 
     void deadStrcmp() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("void f(const char *str) {\n"
               "  if (strcmp(str, \"abc\") == 0 || strcmp(str, \"def\")) {}\n"
               "}");

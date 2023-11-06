@@ -1,3 +1,5 @@
+#include <stdio.h>
+#include <pthread.h>
 /*
  * Cppcheck - A tool for static C/C++ code analysis
  * Copyright (C) 2007-2023 Cppcheck team.
@@ -38,6 +40,9 @@ const Scope* PathAnalysis::findOuterScope(const Scope * scope)
 
 static const Token* assignExpr(const Token* tok)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     while (tok->astParent() && astIsLHS(tok)) {
         if (Token::Match(tok->astParent(), "%assign%"))
             return tok->astParent();
@@ -174,6 +179,9 @@ PathAnalysis::Progress PathAnalysis::forwardRange(const Token* startToken, const
 
 void PathAnalysis::forward(const std::function<Progress(const Info&)>& f) const
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     const Scope * endScope = findOuterScope(start->scope());
     if (!endScope)
         return;
@@ -184,6 +192,9 @@ void PathAnalysis::forward(const std::function<Progress(const Info&)>& f) const
 
 bool reaches(const Token * start, const Token * dest, const Library& library, ErrorPath* errorPath)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     PathAnalysis::Info info = PathAnalysis{start, library}.forwardFind([&](const PathAnalysis::Info& i) {
         return (i.tok == dest);
     });

@@ -1,3 +1,5 @@
+#include <stdio.h>
+#include <pthread.h>
 /*
  * Cppcheck - A tool for static C/C++ code analysis
  * Copyright (C) 2007-2023 Cppcheck team.
@@ -60,6 +62,9 @@ static const CWE CWE190(190U);   // Integer Overflow or Wraparound
 
 void CheckType::checkTooBigBitwiseShift()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     // unknown sizeof(int) => can't run this checker
     if (mSettings->platform.type == Platform::Type::Unspecified)
         return;
@@ -112,6 +117,9 @@ void CheckType::checkTooBigBitwiseShift()
 
 void CheckType::tooBigBitwiseShiftError(const Token *tok, int lhsbits, const ValueFlow::Value &rhsbits)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     constexpr char id[] = "shiftTooManyBits";
 
     if (!tok) {
@@ -131,6 +139,9 @@ void CheckType::tooBigBitwiseShiftError(const Token *tok, int lhsbits, const Val
 
 void CheckType::tooBigSignedBitwiseShiftError(const Token *tok, int lhsbits, const ValueFlow::Value &rhsbits)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     constexpr char id[] = "shiftTooManyBitsSigned";
 
     const bool cpp14 = mSettings->standards.cpp >= Standards::CPP14;
@@ -166,6 +177,9 @@ void CheckType::tooBigSignedBitwiseShiftError(const Token *tok, int lhsbits, con
 
 void CheckType::checkIntegerOverflow()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     // unknown sizeof(int) => can't run this checker
     if (mSettings->platform.type == Platform::Type::Unspecified || mSettings->platform.int_bit >= MathLib::bigint_bits)
         return;
@@ -214,6 +228,9 @@ void CheckType::checkIntegerOverflow()
 
 void CheckType::integerOverflowError(const Token *tok, const ValueFlow::Value &value)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     const std::string expr(tok ? tok->expressionString() : "");
 
     std::string msg;
@@ -240,6 +257,9 @@ void CheckType::integerOverflowError(const Token *tok, const ValueFlow::Value &v
 
 void CheckType::checkSignConversion()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (!mSettings->severity.isEnabled(Severity::warning))
         return;
 
@@ -272,6 +292,9 @@ void CheckType::checkSignConversion()
 
 void CheckType::signConversionError(const Token *tok, const ValueFlow::Value *negativeValue, const bool constvalue)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     const std::string expr(tok ? tok->expressionString() : "var");
 
     std::ostringstream msg;
@@ -301,6 +324,9 @@ void CheckType::signConversionError(const Token *tok, const ValueFlow::Value *ne
 //---------------------------------------------------------------------------
 static bool checkTypeCombination(const ValueType& src, const ValueType& tgt, const Settings* settings)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     static const std::pair<ValueType::Type, ValueType::Type> typeCombinations[] = {
         { ValueType::Type::INT, ValueType::Type::LONG },
         { ValueType::Type::INT, ValueType::Type::LONGLONG },
@@ -322,6 +348,9 @@ static bool checkTypeCombination(const ValueType& src, const ValueType& tgt, con
 
 void CheckType::checkLongCast()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (!mSettings->severity.isEnabled(Severity::style))
         return;
 
@@ -390,6 +419,9 @@ void CheckType::checkLongCast()
 
 static void makeBaseTypeString(std::string& typeStr)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     const auto pos = typeStr.find("signed");
     if (pos != std::string::npos)
         typeStr.erase(typeStr.begin(), typeStr.begin() + pos + 6 + 1);
@@ -397,6 +429,9 @@ static void makeBaseTypeString(std::string& typeStr)
 
 void CheckType::longCastAssignError(const Token *tok, const ValueType* src, const ValueType* tgt)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     std::string srcStr = src ? src->str() : "int";
     makeBaseTypeString(srcStr);
     std::string tgtStr = tgt ? tgt->str() : "long";
@@ -410,6 +445,9 @@ void CheckType::longCastAssignError(const Token *tok, const ValueType* src, cons
 
 void CheckType::longCastReturnError(const Token *tok, const ValueType* src, const ValueType* tgt)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     std::string srcStr = src ? src->str() : "int";
     makeBaseTypeString(srcStr);
     std::string tgtStr = tgt ? tgt->str() : "long";
@@ -427,6 +465,9 @@ void CheckType::longCastReturnError(const Token *tok, const ValueType* src, cons
 
 void CheckType::checkFloatToIntegerOverflow()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     logChecker("CheckType::checkFloatToIntegerOverflow");
 
     for (const Token *tok = mTokenizer->tokens(); tok; tok = tok->next()) {
@@ -461,6 +502,9 @@ void CheckType::checkFloatToIntegerOverflow()
 
 void CheckType::checkFloatToIntegerOverflow(const Token *tok, const ValueType *vtint, const ValueType *vtfloat, const std::list<ValueFlow::Value> &floatValues)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     // Conversion of float to integer?
     if (!vtint || !vtint->isIntegral())
         return;
@@ -498,6 +542,9 @@ void CheckType::checkFloatToIntegerOverflow(const Token *tok, const ValueType *v
 
 void CheckType::floatToIntegerOverflowError(const Token *tok, const ValueFlow::Value &value)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     std::ostringstream errmsg;
     errmsg << "Undefined behaviour: float (" << value.floatValue << ") to integer conversion overflow.";
     reportError(getErrorPath(tok, &value, "float to integer conversion"),

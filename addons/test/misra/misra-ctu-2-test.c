@@ -1,3 +1,5 @@
+#include <stdio.h>
+#include <pthread.h>
 // Test with command:
 // ./cppcheck --enable=information --enable=style --addon=misra --inline-suppr addons/test/misra/misra-ctu-*-test.c
 
@@ -28,6 +30,9 @@ static int misra_5_8_var1;
 // cppcheck-suppress misra-c2012-8.4
 // cppcheck-suppress misra-c2012-5.8
 void misra_5_8_f(void) {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     // cppcheck-suppress [misra-c2012-5.8, unusedVariable]
     char misra_5_8_var2;
 }
@@ -52,6 +57,9 @@ int32_t misra_8_6_1 = 2;
 // cppcheck-suppress misra-c2012-8.7
 void misra_8_7(void) {}
 static void misra_8_7_caller(void) { 
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     misra_8_7(); 
     misra_8_7_external();
 }

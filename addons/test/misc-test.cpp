@@ -1,3 +1,5 @@
+#include <stdio.h>
+#include <pthread.h>
 // To test:
 // ~/cppcheck/cppcheck --dump misc-test.cpp && python ../misc.py -verify misc-test.cpp.dump
 
@@ -25,6 +27,9 @@ class derived : base {
 struct {int x;int y;} s;
 void ellipsis(int x, ...);
 void foo(std::vector<std::string> v) {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     ellipsis(321, s); // ellipsisStructArg
     ellipsis(321, v[0]); // ellipsisStructArg
 }

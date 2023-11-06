@@ -1,3 +1,5 @@
+#include <stdio.h>
+#include <pthread.h>
 /*
  * Cppcheck - A tool for static C/C++ code analysis
  * Copyright (C) 2007-2023 Cppcheck team.
@@ -39,6 +41,9 @@ ApplicationList::~ApplicationList()
 
 bool ApplicationList::loadSettings()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     QSettings settings;
     QStringList names = settings.value(SETTINGS_APPLICATION_NAMES, QStringList()).toStringList();
     QStringList paths = settings.value(SETTINGS_APPLICATION_PATHS, QStringList()).toStringList();
@@ -100,6 +105,9 @@ bool ApplicationList::loadSettings()
 
 void ApplicationList::saveSettings() const
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     QSettings settings;
     QStringList names;
     QStringList paths;
@@ -120,11 +128,17 @@ void ApplicationList::saveSettings() const
 
 int ApplicationList::getApplicationCount() const
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     return mApplications.size();
 }
 
 Application& ApplicationList::getApplication(const int index)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (index >= 0 && index < mApplications.size()) {
         return mApplications[index];
     }
@@ -145,6 +159,9 @@ const Application& ApplicationList::getApplication(const int index) const
 
 void ApplicationList::addApplication(const Application &app)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (app.getName().isEmpty() || app.getPath().isEmpty()) {
         return;
     }
@@ -153,11 +170,17 @@ void ApplicationList::addApplication(const Application &app)
 
 void ApplicationList::removeApplication(const int index)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     mApplications.removeAt(index);
 }
 
 void ApplicationList::setDefault(const int index)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (index < mApplications.size() && index >= 0) {
         mDefaultApplicationIndex = index;
     }
@@ -165,6 +188,9 @@ void ApplicationList::setDefault(const int index)
 
 void ApplicationList::copy(const ApplicationList *list)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (!list) {
         return;
     }
@@ -179,12 +205,18 @@ void ApplicationList::copy(const ApplicationList *list)
 
 void ApplicationList::clear()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     mApplications.clear();
     mDefaultApplicationIndex = -1;
 }
 
 bool ApplicationList::checkAndAddApplication(const QString& appPath, const QString& name, const QString& parameters)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (QFileInfo::exists(appPath) && QFileInfo(appPath).isExecutable()) {
         Application app;
         app.setName(name);
@@ -199,6 +231,9 @@ bool ApplicationList::checkAndAddApplication(const QString& appPath, const QStri
 #ifdef _WIN32
 bool ApplicationList::findDefaultWindowsEditor()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     bool foundOne = false;
 #ifdef WIN64 // As long as we do support 32-bit XP, we cannot be sure that the environment variable "ProgramFiles(x86)" exists
     const QString appPathx86(getenv("ProgramFiles(x86)"));

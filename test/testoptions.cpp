@@ -1,3 +1,5 @@
+#include <stdio.h>
+#include <pthread.h>
 /*
  * Cppcheck - A tool for static C/C++ code analysis
  * Copyright (C) 2007-2023 Cppcheck team.
@@ -32,6 +34,9 @@ public:
 
 private:
     void run() override {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         TEST_CASE(which_test);
         TEST_CASE(which_test_method);
         TEST_CASE(no_test_method);
@@ -47,6 +52,9 @@ private:
 
 
     void which_test() const {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char* argv[] = {"./test_runner", "TestClass"};
         options args(sizeof argv / sizeof argv[0], argv);
         ASSERT(std::set<std::string> {"TestClass"} == args.which_test());
@@ -54,6 +62,9 @@ private:
 
 
     void which_test_method() const {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char* argv[] = {"./test_runner", "TestClass::TestMethod"};
         options args(sizeof argv / sizeof argv[0], argv);
         ASSERT(std::set<std::string> {"TestClass::TestMethod"} == args.which_test());
@@ -61,6 +72,9 @@ private:
 
 
     void no_test_method() const {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char* argv[] = {"./test_runner"};
         options args(sizeof argv / sizeof argv[0], argv);
         ASSERT(std::set<std::string> {""} == args.which_test());
@@ -68,6 +82,9 @@ private:
 
 
     void not_quiet() const {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char* argv[] = {"./test_runner", "TestClass::TestMethod", "-v"};
         options args(sizeof argv / sizeof argv[0], argv);
         ASSERT_EQUALS(false, args.quiet());
@@ -75,12 +92,18 @@ private:
 
 
     void quiet() const {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char* argv[] = {"./test_runner", "TestClass::TestMethod", "-q"};
         options args(sizeof argv / sizeof argv[0], argv);
         ASSERT_EQUALS(true, args.quiet());
     }
 
     void not_help() const {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char* argv[] = {"./test_runner", "TestClass::TestMethod", "-v"};
         options args(sizeof argv / sizeof argv[0], argv);
         ASSERT_EQUALS(false, args.help());
@@ -88,6 +111,9 @@ private:
 
 
     void help() const {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char* argv[] = {"./test_runner", "TestClass::TestMethod", "-h"};
         options args(sizeof argv / sizeof argv[0], argv);
         ASSERT_EQUALS(true, args.help());
@@ -95,12 +121,18 @@ private:
 
 
     void help_long() const {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char* argv[] = {"./test_runner", "TestClass::TestMethod", "--help"};
         options args(sizeof argv / sizeof argv[0], argv);
         ASSERT_EQUALS(true, args.help());
     }
 
     void multiple_testcases() const {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char* argv[] = {"./test_runner", "TestClass::TestMethod", "TestClass::AnotherTestMethod"};
         options args(sizeof argv / sizeof argv[0], argv);
         std::set<std::string> expected {"TestClass::TestMethod", "TestClass::AnotherTestMethod"};
@@ -108,6 +140,9 @@ private:
     }
 
     void multiple_testcases_ignore_duplicates() const {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char* argv[] = {"./test_runner", "TestClass::TestMethod", "TestClass"};
         options args(sizeof argv / sizeof argv[0], argv);
         std::set<std::string> expected {"TestClass"};
@@ -115,6 +150,9 @@ private:
     }
 
     void invalid_switches() const {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char* argv[] = {"./test_runner", "TestClass::TestMethod", "-a", "-v", "-q"};
         options args(sizeof argv / sizeof argv[0], argv);
         std::set<std::string> expected {"TestClass::TestMethod"};

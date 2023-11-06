@@ -1,3 +1,5 @@
+#include <stdio.h>
+#include <pthread.h>
 /*
  * Cppcheck - A tool for static C/C++ code analysis
  * Copyright (C) 2007-2023 Cppcheck team.
@@ -65,6 +67,9 @@ static bool bStackBelowHeap=false; // lame attempt to locate heap vs. stack addr
  */
 static bool IsAddressOnStack(const void* ptr)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (nullptr==ptr)
         return false;
     char a;
@@ -105,6 +110,9 @@ static const Signalmap_t listofsignals = {
 // cppcheck-suppress constParameterCallback
 static void CppcheckSignalHandler(int signo, siginfo_t * info, void * context)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     int type = -1;
     pid_t killid;
     // TODO: separate these two defines
@@ -300,6 +308,9 @@ static void CppcheckSignalHandler(int signo, siginfo_t * info, void * context)
 
 int check_wrapper_sig(CppCheckExecutor& executor, int (CppCheckExecutor::*f)(CppCheck&), CppCheck& cppcheck)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     // determine stack vs. heap
     char stackVariable;
     char *heapVariable=static_cast<char*>(malloc(1));

@@ -1,3 +1,5 @@
+#include <stdio.h>
+#include <pthread.h>
 /*
  * Cppcheck - A tool for static C/C++ code analysis
  * Copyright (C) 2007-2023 Cppcheck team.
@@ -26,6 +28,9 @@ Platforms::Platforms(QObject *parent)
 
 void Platforms::add(const QString &title, Platform::Type platform)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     PlatformData plat;
     plat.mTitle = title;
     plat.mType = platform;
@@ -35,6 +40,9 @@ void Platforms::add(const QString &title, Platform::Type platform)
 
 void Platforms::init()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     add(tr("Native"), Platform::Type::Native);
     add(tr("Unix 32-bit"), Platform::Type::Unix32);
     add(tr("Unix 64-bit"), Platform::Type::Unix64);
@@ -45,11 +53,17 @@ void Platforms::init()
 
 int Platforms::getCount() const
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     return mPlatforms.count();
 }
 
 PlatformData& Platforms::get(Platform::Type platform)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     QList<PlatformData>::iterator iter = mPlatforms.begin();
     while (iter != mPlatforms.end()) {
         if (iter->mType == platform) {

@@ -1,3 +1,5 @@
+#include <stdio.h>
+#include <pthread.h>
 
 // Test library configuration for qt.cfg
 //
@@ -24,6 +26,9 @@
 
 void QString1(QString s)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     for (int i = 0; i <= s.size(); ++i) {
         // cppcheck-suppress stlOutOfBounds
         s[i] = 'x';
@@ -32,6 +37,9 @@ void QString1(QString s)
 
 bool QString2()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     QString s;
     // cppcheck-suppress knownConditionTrueFalse
     return s.size();
@@ -52,6 +60,9 @@ QString::iterator QString3()
 
 void QString4()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     // cppcheck-suppress unusedVariable
     QString qs;
 }
@@ -63,16 +74,25 @@ bool QString5(QString s) { // #10710
 
 // cppcheck-suppress passedByValue
 QStringList QString6(QString s) {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     return QStringList{ "*" + s + "*" };
 }
 
 // cppcheck-suppress passedByValue
 bool QString7(QString s, const QString& l) {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     return l.startsWith(s);
 }
 
 void QByteArray1(QByteArray byteArrayArg)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     for (int i = 0; i <= byteArrayArg.size(); ++i) {
         // cppcheck-suppress stlOutOfBounds
         byteArrayArg[i] = 'x';
@@ -93,6 +113,9 @@ void QByteArray1(QByteArray byteArrayArg)
 
 void QList1(QList<int> intListArg)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     for (int i = 0; i <= intListArg.size(); ++i) {
         // cppcheck-suppress stlOutOfBounds
         intListArg[i] = 1;
@@ -169,6 +192,9 @@ QList<int>::iterator QList3()
 
 void QLinkedList1()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     // cppcheck-suppress unreadVariable
     QLinkedList<QString> qstringLinkedList1{"one", "two"};
 
@@ -206,6 +232,9 @@ QLinkedList<int>::iterator QLinkedList3()
 
 void QStringList1(QStringList stringlistArg)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     for (int i = 0; i <= stringlistArg.size(); ++i) {
         // cppcheck-suppress stlOutOfBounds
         stringlistArg[i] = "abc";
@@ -262,6 +291,9 @@ QStringList::iterator QStringList2()
 
 void QVector1(QVector<int> intVectorArg)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     for (int i = 0; i <= intVectorArg.size(); ++i) {
         // cppcheck-suppress stlOutOfBounds
         intVectorArg[i] = 1;
@@ -323,6 +355,9 @@ void duplicateExpression_QString_Compare(QString style) //#8723
 
 void QStack1(QStack<int> intStackArg)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     for (int i = 0; i <= intStackArg.size(); ++i) {
         // cppcheck-suppress stlOutOfBounds
         intStackArg[i] = 1;
@@ -375,6 +410,9 @@ QStack<int>::iterator QStack2()
 
 void QStack3()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     QStack<int> intStack;
     intStack.push(1);
     // cppcheck-suppress ignoredReturnValue
@@ -402,6 +440,9 @@ public:
 
 void MacroTest2_test()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     QString str = MacroTest2::tr("hello");
     QByteArray ba = str.toLatin1();
     printf(ba.data());
@@ -415,6 +456,9 @@ void MacroTest2_test()
 
 void MacroTest3()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     QByteArray message = QByteArrayLiteral("Test1");
     message += QByteArrayLiteral("Test2");
     QVERIFY2(2 >= 0, message.constData());
@@ -422,6 +466,9 @@ void MacroTest3()
 
 void validCode(int * pIntPtr, QString & qstrArg, double d)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     Q_UNUSED(d)
     if (QFile::exists("test")) {}
 
@@ -460,6 +507,9 @@ void validCode(int * pIntPtr, QString & qstrArg, double d)
 
 void ignoredReturnValue()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     // cppcheck-suppress ignoredReturnValue
     QFile::exists("test");
     QFile file1("test");
@@ -469,6 +519,9 @@ void ignoredReturnValue()
 
 void nullPointer(int * pIntPtr)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     int * pNullPtr = Q_NULLPTR;
     // cppcheck-suppress nullPointer
     *pNullPtr = 1;
@@ -518,6 +571,9 @@ namespace {
             m_value = 0;
         }
         int value() const {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
             return m_value;
         }
     public slots:
@@ -528,6 +584,9 @@ namespace {
         int m_value;
     };
     void Counter1::setValue(int value) {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         if (value != m_value) {
             m_value = value;
             emit valueChanged(value);
@@ -541,6 +600,9 @@ namespace {
             m_value = 0;
         }
         int value() const {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
             return m_value;
         }
     public Q_SLOTS:
@@ -551,6 +613,9 @@ namespace {
         int m_value;
     };
     void Counter2::setValue(int value) {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         if (value != m_value) {
             m_value = value;
             emit valueChanged(value);

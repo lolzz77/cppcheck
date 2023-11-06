@@ -1,3 +1,5 @@
+#include <stdio.h>
+#include <pthread.h>
 /*
  * Cppcheck - A tool for static C/C++ code analysis
  * Copyright (C) 2007-2023 Cppcheck team.
@@ -42,6 +44,9 @@ Settings::Settings()
 
 void Settings::loadCppcheckCfg()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     std::string fileName = Path::getPathFromFilename(exename) + "cppcheck.cfg";
 #ifdef FILESDIR
     if (Path::isFile(FILESDIR "/cppcheck.cfg"))
@@ -170,6 +175,9 @@ std::string Settings::applyEnabled(const std::string &str, bool enable)
 
 bool Settings::isEnabled(const ValueFlow::Value *value, bool inconclusiveCheck) const
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (!severity.isEnabled(Severity::warning) && (value->condition || value->defaultArg))
         return false;
     if (!certainty.isEnabled(Certainty::inconclusive) && (inconclusiveCheck || value->isInconclusive()))
@@ -179,12 +187,18 @@ bool Settings::isEnabled(const ValueFlow::Value *value, bool inconclusiveCheck) 
 
 void Settings::loadSummaries()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     Summaries::loadReturn(buildDir, summaryReturn);
 }
 
 
 void Settings::setCheckLevelExhaustive()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     // Checking can take a little while. ~ 10 times slower than normal analysis is OK.
     performanceValueFlowMaxIfCount = -1;
     performanceValueFlowMaxSubFunctionArgs = 256;
@@ -192,6 +206,9 @@ void Settings::setCheckLevelExhaustive()
 
 void Settings::setCheckLevelNormal()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     // Checking should finish in reasonable time.
     performanceValueFlowMaxSubFunctionArgs = 8;
     performanceValueFlowMaxIfCount = 100;

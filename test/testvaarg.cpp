@@ -1,3 +1,5 @@
+#include <stdio.h>
+#include <pthread.h>
 /*
  * Cppcheck - A tool for static C/C++ code analysis
  * Copyright (C) 2007-2023 Cppcheck team.
@@ -34,6 +36,9 @@ private:
 
 #define check(code) check_(code, __FILE__, __LINE__)
     void check_(const char code[], const char* file, int line) {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         // Clear the error buffer..
         errout.str("");
 
@@ -47,6 +52,9 @@ private:
     }
 
     void run() override {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         TEST_CASE(wrongParameterTo_va_start);
         TEST_CASE(referenceAs_va_start);
         TEST_CASE(va_end_missing);
@@ -56,6 +64,9 @@ private:
     }
 
     void wrongParameterTo_va_start() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("void Format(char* szFormat, char* szBuffer, size_t nSize, ...) {\n"
               "    va_list arg_ptr;\n"
               "    va_start(arg_ptr, szFormat);\n"
@@ -107,6 +118,9 @@ private:
     }
 
     void referenceAs_va_start() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("void Format(char* szFormat, char (&szBuffer)[_Size], ...) {\n"
               "    va_list arg_ptr;\n"
               "    va_start(arg_ptr, szBuffer);\n"
@@ -123,6 +137,9 @@ private:
     }
 
     void va_end_missing() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("void Format(char* szFormat, char (*szBuffer)[_Size], ...) {\n"
               "    va_list arg_ptr;\n"
               "    va_start(arg_ptr, szBuffer);\n"
@@ -184,6 +201,9 @@ private:
     }
 
     void va_list_usedBeforeStarted() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("void Format(char* szFormat, char (*szBuffer)[_Size], ...) {\n"
               "    va_list arg_ptr;\n"
               "    return va_arg(arg_ptr, float);\n"
@@ -316,6 +336,9 @@ private:
     }
 
     void va_start_subsequentCalls() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("void Format(char* szFormat, char (*szBuffer)[_Size], ...) {\n"
               "    va_list arg_ptr;\n"
               "    va_start(arg_ptr, szBuffer);\n"
@@ -343,6 +366,9 @@ private:
     }
 
     void unknownFunctionScope() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("void BG_TString::Format() {\n"
               "  BG_TChar * f;\n"
               "  va_start(args,f);\n"

@@ -1,3 +1,5 @@
+#include <stdio.h>
+#include <pthread.h>
 /*
  * Cppcheck - A tool for static C/C++ code analysis
  * Copyright (C) 2007-2023 Cppcheck team.
@@ -55,6 +57,9 @@ struct ReverseTraversal {
     }
 
     bool update(Token* tok) {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         Analyzer::Action action = analyzer->analyze(tok, Analyzer::Direction::Reverse);
         if (action.isInconclusive() && !analyzer->lowerToInconclusive())
             return false;
@@ -67,6 +72,9 @@ struct ReverseTraversal {
 
     static Token* getParentFunction(Token* tok)
     {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         if (!tok)
             return nullptr;
         if (!tok->astParent())
@@ -92,6 +100,9 @@ struct ReverseTraversal {
 
     static Token* getTopFunction(Token* tok)
     {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         if (!tok)
             return nullptr;
         if (!tok->astParent())
@@ -104,6 +115,9 @@ struct ReverseTraversal {
     }
 
     bool updateRecursive(Token* start) {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         bool continueB = true;
         visitAstNodes(start, [&](Token* tok) {
             const Token* parent = tok->astParent();
@@ -365,6 +379,9 @@ struct ReverseTraversal {
     }
 
     static Token* assignExpr(Token* tok) {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         if (Token::Match(tok, ")|}"))
             tok = tok->link();
         while (tok->astParent() && (astIsRHS(tok) || !tok->astParent()->isBinaryOp())) {
@@ -376,6 +393,9 @@ struct ReverseTraversal {
     }
 
     static Token* isUnevaluated(Token* tok) {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         if (Token::Match(tok, ")|>") && tok->link()) {
             Token* start = tok->link();
             if (::isUnevaluated(start->previous()))
@@ -389,6 +409,9 @@ struct ReverseTraversal {
 
 void valueFlowGenericReverse(Token* start, const Token* end, const ValuePtr<Analyzer>& a, const Settings& settings)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (a->invalid())
         return;
     ReverseTraversal rt{a, settings};

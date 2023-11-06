@@ -1,3 +1,5 @@
+#include <stdio.h>
+#include <pthread.h>
 /*
  * Cppcheck - A tool for static C/C++ code analysis
  * Copyright (C) 2007-2023 Cppcheck team.
@@ -43,6 +45,9 @@ std::ostringstream output;
 namespace {
     struct CompareFixtures {
         bool operator()(const TestFixture* lhs, const TestFixture* rhs) const {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
             return lhs->classname < rhs->classname;
         }
     };
@@ -58,6 +63,9 @@ public:
     }
 
     void addTest(TestFixture *t) {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         _tests.insert(t);
     }
 
@@ -89,6 +97,9 @@ TestFixture::TestFixture(const char * const _name)
 
 bool TestFixture::prepareTest(const char testname[])
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     mVerbose = false;
     mTemplateFormat.clear();
     mTemplateLocation.clear();
@@ -146,6 +157,9 @@ static std::string writestr(const std::string &str, bool gccStyle = false)
 
 bool TestFixture::assert_(const char * const filename, const unsigned int linenr, const bool condition) const
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (!condition) {
         ++fails_counter;
         errmsg << getLocationStr(filename, linenr) << ": Assertion failed." << std::endl << "_____" << std::endl;
@@ -155,6 +169,9 @@ bool TestFixture::assert_(const char * const filename, const unsigned int linenr
 
 void TestFixture::assertEqualsFailed(const char* const filename, const unsigned int linenr, const std::string& expected, const std::string& actual, const std::string& msg) const
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     ++fails_counter;
     errmsg << getLocationStr(filename, linenr) << ": Assertion failed. " << std::endl
            << "Expected: " << std::endl
@@ -168,6 +185,9 @@ void TestFixture::assertEqualsFailed(const char* const filename, const unsigned 
 
 bool TestFixture::assertEquals(const char * const filename, const unsigned int linenr, const std::string &expected, const std::string &actual, const std::string &msg) const
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (expected != actual) {
         assertEqualsFailed(filename, linenr, expected, actual, msg);
     }
@@ -200,24 +220,39 @@ std::string TestFixture::deleteLineNumber(const std::string &message)
 
 void TestFixture::assertEqualsWithoutLineNumbers(const char * const filename, const unsigned int linenr, const std::string &expected, const std::string &actual, const std::string &msg) const
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     assertEquals(filename, linenr, deleteLineNumber(expected), deleteLineNumber(actual), msg);
 }
 
 bool TestFixture::assertEquals(const char * const filename, const unsigned int linenr, const char expected[], const std::string& actual, const std::string &msg) const
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     return assertEquals(filename, linenr, std::string(expected), actual, msg);
 }
 bool TestFixture::assertEquals(const char * const filename, const unsigned int linenr, const char expected[], const char actual[], const std::string &msg) const
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     return assertEquals(filename, linenr, std::string(expected), std::string(actual), msg);
 }
 bool TestFixture::assertEquals(const char * const filename, const unsigned int linenr, const std::string& expected, const char actual[], const std::string &msg) const
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     return assertEquals(filename, linenr, expected, std::string(actual), msg);
 }
 
 bool TestFixture::assertEquals(const char * const filename, const unsigned int linenr, const long long expected, const long long actual, const std::string &msg) const
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (expected != actual) {
         assertEquals(filename, linenr, std::to_string(expected), std::to_string(actual), msg);
     }
@@ -226,6 +261,9 @@ bool TestFixture::assertEquals(const char * const filename, const unsigned int l
 
 void TestFixture::assertEqualsDouble(const char * const filename, const unsigned int linenr, const double expected, const double actual, const double tolerance, const std::string &msg) const
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (expected < (actual - tolerance) || expected > (actual + tolerance)) {
         std::ostringstream ostr1;
         ostr1 << expected;
@@ -240,6 +278,9 @@ void TestFixture::todoAssertEquals(const char * const filename, const unsigned i
                                    const std::string &current,
                                    const std::string &actual) const
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (wanted == actual) {
         errmsg << getLocationStr(filename, linenr) << ": Assertion succeeded unexpectedly. "
                << "Result: " << writestr(wanted, true)  << std::endl << "_____" << std::endl;
@@ -256,17 +297,26 @@ void TestFixture::todoAssertEquals(const char* const filename, const unsigned in
                                    const char current[],
                                    const std::string& actual) const
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     todoAssertEquals(filename, linenr, std::string(wanted), std::string(current), actual);
 }
 
 
 void TestFixture::todoAssertEquals(const char * const filename, const unsigned int linenr, const long long wanted, const long long current, const long long actual) const
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     todoAssertEquals(filename, linenr, std::to_string(wanted), std::to_string(current), std::to_string(actual));
 }
 
 void TestFixture::assertThrow(const char * const filename, const unsigned int linenr) const
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     ++fails_counter;
     errmsg << getLocationStr(filename, linenr) << ": Assertion succeeded. "
            << "The expected exception was thrown" << std::endl << "_____" << std::endl;
@@ -275,6 +325,9 @@ void TestFixture::assertThrow(const char * const filename, const unsigned int li
 
 void TestFixture::assertThrowFail(const char * const filename, const unsigned int linenr) const
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     ++fails_counter;
     errmsg << getLocationStr(filename, linenr) << ": Assertion failed. "
            << "The expected exception was not thrown"  << std::endl << "_____" << std::endl;
@@ -283,6 +336,9 @@ void TestFixture::assertThrowFail(const char * const filename, const unsigned in
 
 void TestFixture::assertNoThrowFail(const char * const filename, const unsigned int linenr) const
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     ++fails_counter;
     errmsg << getLocationStr(filename, linenr) << ": Assertion failed. "
            << "Unexpected exception was thrown"  << std::endl << "_____" << std::endl;
@@ -291,6 +347,9 @@ void TestFixture::assertNoThrowFail(const char * const filename, const unsigned 
 
 void TestFixture::printHelp()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     std::cout << "Testrunner - run Cppcheck tests\n"
         "\n"
         "Syntax:\n"
@@ -311,6 +370,9 @@ void TestFixture::printHelp()
 
 void TestFixture::run(const std::string &str)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     testToRun = str;
     try {
         if (quiet_tests) {
@@ -337,6 +399,9 @@ void TestFixture::run(const std::string &str)
 
 void TestFixture::processOptions(const options& args)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     quiet_tests = args.quiet();
     exename = args.exe();
 }
@@ -383,6 +448,9 @@ void TestFixture::reportOut(const std::string & outmsg, Color /*c*/)
 
 void TestFixture::reportErr(const ErrorMessage &msg)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (msg.severity == Severity::none && msg.id == "logChecker")
         return;
     const std::string errormessage(msg.toString(mVerbose, mTemplateFormat, mTemplateLocation));
@@ -392,6 +460,9 @@ void TestFixture::reportErr(const ErrorMessage &msg)
 
 void TestFixture::setTemplateFormat(const std::string &templateFormat)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (templateFormat == "multiline") {
         mTemplateFormat = "{file}:{line}:{severity}:{message}";
         mTemplateLocation = "{file}:{line}:note:{info}";

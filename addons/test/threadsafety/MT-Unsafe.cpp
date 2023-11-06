@@ -1,3 +1,5 @@
+#include <stdio.h>
+#include <pthread.h>
 /*
  * Cppcheck - A tool for static C/C++ code analysis
  * Copyright (C) 2023 Cppcheck team.
@@ -30,6 +32,9 @@
 
 void threadsafety_static()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     // cppcheck-suppress threadsafety-threadsafety
     static unsigned int nCount = 0;
 
@@ -39,6 +44,9 @@ void threadsafety_static()
 
 void threadsafety_call()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     time_t now = time(nullptr);
     // cppcheck-suppress threadsafety-unsafe-call
     printf("%s\n", ctime(&now));
@@ -48,6 +56,9 @@ void threadsafety_call()
 // should *not* find any problems with this function.
 void threadsafety_safecall()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     char haystack[] = "alphabet";
     char needle[] = "Alph";
     char* found = strcasestr(haystack, needle);
@@ -55,6 +66,9 @@ void threadsafety_safecall()
 }
 
 int main() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     threadsafety_static();
     
     threadsafety_call();

@@ -1,3 +1,5 @@
+#include <stdio.h>
+#include <pthread.h>
 
 // Test library configuration for opencv2.cfg
 //
@@ -13,6 +15,9 @@
 
 void validCode(const char* argStr)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     cv::Mat image;
     image = cv::imread(argStr, cv::IMREAD_COLOR);
     if (!image.data) {
@@ -33,12 +38,18 @@ void validCode(const char* argStr)
 
 void ignoredReturnValue()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     // cppcheck-suppress ignoredReturnValue
     cv::imread("42.png");
 }
 
 void memleak()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     char * pBuf = (char *)cv::fastMalloc(1000); // cppcheck-suppress cstyleCast
     std::cout << pBuf;
     // cppcheck-suppress memleak

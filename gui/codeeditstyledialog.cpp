@@ -1,3 +1,5 @@
+#include <stdio.h>
+#include <pthread.h>
 /*
  * Cppcheck - A tool for static C/C++ code analysis
  * Copyright (C) 2007-2023 Cppcheck team.
@@ -208,6 +210,9 @@ StyleEditDialog::StyleEditDialog(const CodeEditorStyle& newStyle,
 
 void StyleEditDialog::updateControls()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     mBtnWidgetColorFG->setColor(mStyleOutgoing.widgetFGColor);
     mBtnWidgetColorBG->setColor(mStyleOutgoing.widgetBGColor);
     mBtnHighlightBG->setColor(mStyleOutgoing.highlightBGColor);
@@ -228,6 +233,9 @@ void StyleEditDialog::updateControls()
 
 void StyleEditDialog::updateStyle()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     mBtnDefaultLight->setEnabled(mStyleOutgoing != defaultStyleLight);
     mBtnDefaultDark->setEnabled(mStyleOutgoing != defaultStyleDark);
     // set Editor Styling
@@ -236,11 +244,17 @@ void StyleEditDialog::updateStyle()
 
 CodeEditorStyle StyleEditDialog::getStyle()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     return mStyleOutgoing;
 }
 
 void StyleEditDialog::resetStyle()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     mStyleOutgoing = mStyleIncoming;
     updateControls();
     updateStyle();
@@ -248,6 +262,9 @@ void StyleEditDialog::resetStyle()
 
 void StyleEditDialog::setStyleDefaultLight()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     mStyleOutgoing = defaultStyleLight;
     updateControls();
     updateStyle();
@@ -255,6 +272,9 @@ void StyleEditDialog::setStyleDefaultLight()
 
 void StyleEditDialog::setStyleDefaultDark()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     mStyleOutgoing = defaultStyleDark;
     updateControls();
     updateStyle();
@@ -262,96 +282,144 @@ void StyleEditDialog::setStyleDefaultDark()
 
 void StyleEditDialog::colorChangedWidgetFG(const QColor& newColor)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     mStyleOutgoing.widgetFGColor = newColor;
     updateStyle();
 }
 
 void StyleEditDialog::colorChangedWidgetBG(const QColor& newColor)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     mStyleOutgoing.widgetBGColor = newColor;
     updateStyle();
 }
 
 void StyleEditDialog::colorChangedHighlightBG(const QColor& newColor)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     mStyleOutgoing.highlightBGColor = newColor;
     updateStyle();
 }
 
 void StyleEditDialog::colorChangedLineNumFG(const QColor& newColor)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     mStyleOutgoing.lineNumFGColor = newColor;
     updateStyle();
 }
 
 void StyleEditDialog::colorChangedLineNumBG(const QColor& newColor)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     mStyleOutgoing.lineNumBGColor = newColor;
     updateStyle();
 }
 
 void StyleEditDialog::colorChangedKeywordFG(const QColor& newColor)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     mStyleOutgoing.keywordColor = newColor;
     updateStyle();
 }
 
 void StyleEditDialog::weightChangedKeyword(QFont::Weight newWeight)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     mStyleOutgoing.keywordWeight = newWeight;
     updateStyle();
 }
 
 void StyleEditDialog::colorChangedClassFG(const QColor& newColor)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     mStyleOutgoing.classColor = newColor;
     updateStyle();
 }
 
 void StyleEditDialog::weightChangedClass(QFont::Weight newWeight)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     mStyleOutgoing.classWeight = newWeight;
     updateStyle();
 }
 
 void StyleEditDialog::colorChangedQuoteFG(const QColor& newColor)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     mStyleOutgoing.quoteColor = newColor;
     updateStyle();
 }
 
 void StyleEditDialog::weightChangedQuote(QFont::Weight newWeight)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     mStyleOutgoing.quoteWeight = newWeight;
     updateStyle();
 }
 
 void StyleEditDialog::colorChangedCommentFG(const QColor& newColor)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     mStyleOutgoing.commentColor = newColor;
     updateStyle();
 }
 
 void StyleEditDialog::weightChangedComment(QFont::Weight newWeight)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     mStyleOutgoing.commentWeight = newWeight;
     updateStyle();
 }
 
 void StyleEditDialog::colorChangedSymbolFG(const QColor& newColor)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     mStyleOutgoing.symbolFGColor = newColor;
     updateStyle();
 }
 
 void StyleEditDialog::colorChangedSymbolBG(const QColor& newColor)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     mStyleOutgoing.symbolBGColor = newColor;
     updateStyle();
 }
 
 void StyleEditDialog::weightChangedSymbol(QFont::Weight newWeight)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     mStyleOutgoing.symbolWeight = newWeight;
     updateStyle();
 }

@@ -1,3 +1,5 @@
+#include <stdio.h>
+#include <pthread.h>
 /*
  * Cppcheck - A tool for static C/C++ code analysis
  * Copyright (C) 2007-2023 Cppcheck team.
@@ -53,6 +55,9 @@ namespace {
 
 static bool checkNullpointerFunctionCallPlausibility(const Function* func, unsigned int arg)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     return !func || (func->argCount() >= arg && func->getArgumentVar(arg - 1) && func->getArgumentVar(arg - 1)->isPointer());
 }
 
@@ -64,6 +69,9 @@ static bool checkNullpointerFunctionCallPlausibility(const Function* func, unsig
  */
 void CheckNullPointer::parseFunctionCall(const Token &tok, std::list<const Token *> &var, const Library *library)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (Token::Match(&tok, "%name% ( )") || !tok.tokAt(2))
         return;
 
@@ -148,11 +156,17 @@ namespace {
  */
 bool CheckNullPointer::isPointerDeRef(const Token *tok, bool &unknown) const
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     return isPointerDeRef(tok, unknown, mSettings);
 }
 
 bool CheckNullPointer::isPointerDeRef(const Token *tok, bool &unknown, const Settings *settings)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     unknown = false;
 
     // Is pointer used as function parameter?
@@ -265,6 +279,9 @@ bool CheckNullPointer::isPointerDeRef(const Token *tok, bool &unknown, const Set
 
 static bool isNullablePointer(const Token* tok, const Settings* settings)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (!tok)
         return false;
     if (Token::simpleMatch(tok, "new") && tok->varId() == 0)
@@ -283,6 +300,9 @@ static bool isNullablePointer(const Token* tok, const Settings* settings)
 
 void CheckNullPointer::nullPointerByDeRefAndChec()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     const bool printInconclusive = (mSettings->certainty.isEnabled(Certainty::inconclusive));
 
     for (const Token *tok = mTokenizer->tokens(); tok; tok = tok->next()) {
@@ -320,6 +340,9 @@ void CheckNullPointer::nullPointerByDeRefAndChec()
 
 void CheckNullPointer::nullPointer()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     logChecker("CheckNullPointer::nullPointer");
     nullPointerByDeRefAndChec();
 }
@@ -334,6 +357,9 @@ namespace {
 /** Dereferencing null constant (simplified token list) */
 void CheckNullPointer::nullConstantDereference()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     logChecker("CheckNullPointer::nullConstantDereference");
 
     const SymbolDatabase *symbolDatabase = mTokenizer->getSymbolDatabase();
@@ -428,6 +454,9 @@ void CheckNullPointer::nullConstantDereference()
 
 void CheckNullPointer::nullPointerError(const Token *tok, const std::string &varname, const ValueFlow::Value *value, bool inconclusive)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     const std::string errmsgcond("$symbol:" + varname + '\n' + ValueFlow::eitherTheConditionIsRedundant(value ? value->condition : nullptr) + " or there is possible null pointer dereference: $symbol.");
     const std::string errmsgdefarg("$symbol:" + varname + "\nPossible null pointer dereference if the default parameter value is used: $symbol");
 
@@ -467,6 +496,9 @@ void CheckNullPointer::nullPointerError(const Token *tok, const std::string &var
 
 void CheckNullPointer::arithmetic()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     logChecker("CheckNullPointer::arithmetic");
     const SymbolDatabase *symbolDatabase = mTokenizer->getSymbolDatabase();
     for (const Scope * scope : symbolDatabase->functionScopes) {
@@ -514,6 +546,9 @@ static std::string arithmeticTypeString(const Token *tok)
 
 void CheckNullPointer::pointerArithmeticError(const Token* tok, const ValueFlow::Value *value, bool inconclusive)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     std::string arithmetic = arithmeticTypeString(tok);
     std::string errmsg;
     if (tok && tok->str()[0] == '-') {
@@ -532,6 +567,9 @@ void CheckNullPointer::pointerArithmeticError(const Token* tok, const ValueFlow:
 
 void CheckNullPointer::redundantConditionWarning(const Token* tok, const ValueFlow::Value *value, const Token *condition, bool inconclusive)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     std::string arithmetic = arithmeticTypeString(tok);
     std::string errmsg;
     if (tok && tok->str()[0] == '-') {
@@ -551,6 +589,9 @@ void CheckNullPointer::redundantConditionWarning(const Token* tok, const ValueFl
 // NOLINTNEXTLINE(readability-non-const-parameter) - used as callback so we need to preserve the signature
 static bool isUnsafeUsage(const Check *check, const Token *vartok, MathLib::bigint *value)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     (void)value;
     const CheckNullPointer *checkNullPointer = dynamic_cast<const CheckNullPointer *>(check);
     bool unknown = false;
@@ -598,6 +639,9 @@ Check::FileInfo * CheckNullPointer::loadFileInfoFromXml(const tinyxml2::XMLEleme
 
 bool CheckNullPointer::analyseWholeProgram(const CTU::FileInfo *ctu, const std::list<Check::FileInfo*> &fileInfo, const Settings& settings, ErrorLogger &errorLogger)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (!ctu)
         return false;
     bool foundErrors = false;

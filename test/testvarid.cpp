@@ -1,3 +1,5 @@
+#include <stdio.h>
+#include <pthread.h>
 /*
  * Cppcheck - A tool for static C/C++ code analysis
  * Copyright (C) 2007-2023 Cppcheck team.
@@ -34,6 +36,9 @@ public:
 private:
     const Settings settings = settingsBuilder().c(Standards::C89).cpp(Standards::CPPLatest).platform(Platform::Type::Unix64).build();
     void run() override {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         TEST_CASE(varid1);
         TEST_CASE(varid2);
         TEST_CASE(varid3);
@@ -291,6 +296,9 @@ private:
     }
 
     void varid1() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         {
             const std::string actual = tokenize(
                 "static int i = 1;\n"
@@ -343,6 +351,9 @@ private:
     }
 
     void varid2() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const std::string actual = tokenize(
             "void f()\n"
             "{\n"
@@ -362,6 +373,9 @@ private:
     }
 
     void varid3() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const std::string actual = tokenize(
             "static char str[4];\n"
             "void f()\n"
@@ -381,6 +395,9 @@ private:
     }
 
     void varid4() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const std::string actual = tokenize(
             "void f(const unsigned int a[])\n"
             "{\n"
@@ -396,6 +413,9 @@ private:
     }
 
     void varid5() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const std::string actual = tokenize(
             "void f()\n"
             "{\n"
@@ -412,6 +432,9 @@ private:
 
 
     void varid6() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const std::string actual = tokenize(
             "int f(int a, int b)\n"
             "{\n"
@@ -428,6 +451,9 @@ private:
 
 
     void varid7() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const std::string actual = tokenize(
             "void func() {\n"
             "    char a[256] = \"test\";\n"
@@ -447,6 +473,9 @@ private:
     }
 
     void varidReturn1() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const std::string actual = tokenize(
             "int f()\n"
             "{\n"
@@ -464,6 +493,9 @@ private:
     }
 
     void varidReturn2() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const std::string actual = tokenize(
             "void foo()\n"
             "{\n"
@@ -481,6 +513,9 @@ private:
     }
 
     void varid8() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const std::string actual = tokenize(
             "void func()\n"
             "{\n"
@@ -498,6 +533,9 @@ private:
     }
 
     void varid9() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const std::string actual = tokenize(
             "typedef int INT32;\n", "test.c");
 
@@ -507,6 +545,9 @@ private:
     }
 
     void varid10() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const std::string actual = tokenize(
             "void foo()\n"
             "{\n"
@@ -524,6 +565,9 @@ private:
     }
 
     void varid11() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const std::string actual = tokenize("class Foo;");
 
         const char expected[] = "1: class Foo ;\n";
@@ -532,6 +576,9 @@ private:
     }
 
     void varid12() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const std::string actual = tokenize(
             "static void a()\n"
             "{\n"
@@ -547,6 +594,9 @@ private:
     }
 
     void varid13() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const std::string actual = tokenize(
             "void f()\n"
             "{\n"
@@ -564,6 +614,9 @@ private:
     }
 
     void varid14() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         // Overloaded operator*
         const std::string actual = tokenize(
             "void foo()\n"
@@ -584,6 +637,9 @@ private:
     }
 
     void varid15() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         {
             const std::string actual = tokenize(
                 "struct S {\n"
@@ -616,6 +672,9 @@ private:
     }
 
     void varid16() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char code[] ="void foo()\n"
                             "{\n"
                             "    int x = 1;\n"
@@ -648,6 +707,9 @@ private:
     }
 
     void varid18() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char code[] ="char foo(char c)\n"
                             "{\n"
                             "    bar::c = c;\n"
@@ -662,6 +724,9 @@ private:
     }
 
     void varid19() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char code[] ="void foo()\n"
                             "{\n"
                             "    std::pair<std::vector<double>, int> x;\n"
@@ -676,6 +741,9 @@ private:
     }
 
     void varid20() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char code[] ="void foo()\n"
                             "{\n"
                             "    pair<vector<int>, vector<double> > x;\n"
@@ -690,6 +758,9 @@ private:
     }
 
     void varid24() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char code[] ="class foo()\n"
                             "{\n"
                             "public:\n"
@@ -710,6 +781,9 @@ private:
     }
 
     void varid25() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char code[] ="class foo()\n"
                             "{\n"
                             "public:\n"
@@ -730,12 +804,18 @@ private:
     }
 
     void varid26() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char code[] ="list<int (*)()> functions;\n";
         const char expected[] = "1: list < int ( * ) ( ) > functions@1 ;\n";
         ASSERT_EQUALS(expected, tokenize(code));
     }
 
     void varid27() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char code[] ="int fooled_ya;\n"
                             "fooled_ya::iterator iter;\n";
         const char expected[] = "1: int fooled_ya@1 ;\n"
@@ -748,6 +828,9 @@ private:
     }
 
     void varid29() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char code[] ="class A {\n"
                             "    B<C<1>,1> b;\n"
                             "};\n";
@@ -855,6 +938,9 @@ private:
     }
 
     void varid37() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         {
             const char code[] = "void blah() {"
                                 "    Bar bar(*x);"
@@ -872,12 +958,18 @@ private:
     }
 
     void varid38() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char code[] = "FOO class C;\n";
         ASSERT_EQUALS("1: FOO class C ;\n",
                       tokenize(code));
     }
 
     void varid39() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         // const..
         {
             const char code[] = "void f(FOO::BAR const);\n";
@@ -892,12 +984,18 @@ private:
     }
 
     void varid40() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char code[] ="extern \"C\" int (*a())();";
         ASSERT_EQUALS("1: int * a ( ) ;\n",
                       tokenize(code));
     }
 
     void varid41() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char code1[] = "union evt; void f(const evt & event);";
         ASSERT_EQUALS("1: union evt ; void f ( const evt & event@1 ) ;\n",
                       tokenize(code1));
@@ -910,6 +1008,9 @@ private:
     }
 
     void varid42() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char code[] ="namespace fruit { struct banana {}; };\n"
                             "class Fred {\n"
                             "public:\n"
@@ -924,12 +1025,18 @@ private:
     }
 
     void varid43() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char code[] ="int main(int flag) { if(a & flag) { return 1; } }";
         ASSERT_EQUALS("1: int main ( int flag@1 ) { if ( a & flag@1 ) { return 1 ; } }\n",
                       tokenize(code, "test.c"));
     }
 
     void varid44() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char code[] ="class A:public B,public C,public D {};";
         ASSERT_EQUALS("1: class A : public B , public C , public D { } ;\n",
                       tokenize(code));
@@ -992,6 +1099,9 @@ private:
     }
 
     void varid52() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char code[] ="A<B<C>::D> e;\n"
                             "B< C<> > b[10];\n"
                             "B<C<>> c[10];";
@@ -1144,6 +1254,9 @@ private:
     }
 
     void varid61() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char code[] = "void foo(int b) {\n"
                             "  void bar(int a, int b) {}\n"
                             "}";
@@ -1154,6 +1267,9 @@ private:
     }
 
     void varid62() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char code[] = "void bar(int,int);\n"
                             "void f() {\n"
                             "    for (size_t c = 0; c < 42; ++c) {\n"
@@ -1166,12 +1282,18 @@ private:
     }
 
     void varid63() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char code[] = "void f(boost::optional<int> const& x) {}";
         const char expected[] = "1: void f ( const boost :: optional < int > & x@1 ) { }\n";
         ASSERT_EQUALS(expected, tokenize(code));
     }
 
     void varid64() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char code[] = "extern const char (*x[256]);";
         const char expected[] = "1: extern const char ( * x@1 [ 256 ] ) ;\n";
         ASSERT_EQUALS(expected, tokenize(code));
@@ -1201,6 +1323,9 @@ private:
     }
 
     void varid66() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         {
             const char code[] = "std::string g();\n"
                                 "const std::string s(g() + \"abc\");\n";
@@ -1243,6 +1368,9 @@ private:
     }
 
     void varid69() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char code1[] = "void f() {\n"
                              "    auto g = [](int&, int& r, int i) {};\n"
                              "}";
@@ -1253,6 +1381,9 @@ private:
     }
 
     void varid_for_1() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char code[] = "void foo(int a, int b) {\n"
                             "  for (int a=1,b=2;;) {}\n"
                             "}";
@@ -1263,6 +1394,9 @@ private:
     }
 
     void varid_for_2() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char code[] = "void foo(int a, int b) {\n"
                             "  for (int a=f(x,y,z),b=2;;) {}\n"
                             "}";
@@ -1273,6 +1407,9 @@ private:
     }
 
     void varid_cpp_keywords_in_c_code() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char code[] = "void f() {\n"
                             "    delete d;\n"
                             "    throw t;\n"
@@ -1306,6 +1443,9 @@ private:
     }
 
     void varidFunctionCall1() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char code[] ="void f() {\n"
                             "    int x;\n"
                             "    x = a(y*x,10);\n"
@@ -1318,6 +1458,9 @@ private:
     }
 
     void varidFunctionCall2() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         // #2491
         const char code[] ="void f(int b) {\n"
                             "    x(a*b,10);\n"
@@ -1330,6 +1473,9 @@ private:
     }
 
     void varidFunctionCall3() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         // Ticket #2339
         const char code[] ="void f() {\n"
                             "    int a = 0;\n"
@@ -1345,6 +1491,9 @@ private:
     }
 
     void varidFunctionCall4() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         // Ticket #3280
         const char code1[] = "void f() { int x; fun(a,b*x); }";
         ASSERT_EQUALS("1: void f ( ) { int x@1 ; fun ( a , b * x@1 ) ; }\n",
@@ -1355,12 +1504,18 @@ private:
     }
 
     void varidFunctionCall5() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char code[] = "void foo() { (f(x[2]))(x[2]); }";
         ASSERT_EQUALS("1: void foo ( ) { f ( x [ 2 ] ) ( x [ 2 ] ) ; }\n",
                       tokenize(code, "test.c"));
     }
 
     void varidStl() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const std::string actual = tokenize(
             "list<int> ints;\n"
             "list<int>::iterator it;\n"
@@ -1386,6 +1541,9 @@ private:
     }
 
     void varidStl2() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const std::string actual = tokenize("std::bitset<static_cast<int>(2)> x;");
 
         const char expected[] = "1: std :: bitset < static_cast < int > ( 2 ) > x@1 ;\n";
@@ -1394,11 +1552,17 @@ private:
     }
 
     void varid_newauto() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         ASSERT_EQUALS("1: void f ( ) { const new auto ( 0 ) ; }\n",
                       tokenize("void f(){new const auto(0);}"));
     }
 
     void varid_delete() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const std::string actual = tokenize(
             "void f()\n"
             "{\n"
@@ -1416,6 +1580,9 @@ private:
     }
 
     void varid_functions() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         {
             const std::string actual = tokenize(
                 "void f();\n"
@@ -1487,12 +1654,18 @@ private:
     }
 
     void varid_sizeof() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char code[] = "x = sizeof(a*b);";
         const char expected[] = "1: x = sizeof ( a * b ) ;\n";
         ASSERT_EQUALS(expected, tokenize(code, "test.c"));
     }
 
     void varid_reference_to_containers() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const std::string actual = tokenize(
             "void f()\n"
             "{\n"
@@ -1512,6 +1685,9 @@ private:
     }
 
     void varid_in_class1() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         {
             const std::string actual = tokenize(
                 "class Foo\n"
@@ -1566,6 +1742,9 @@ private:
     }
 
     void varid_in_class2() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const std::string actual = tokenize(
             "struct Foo {\n"
             "    int x;\n"
@@ -1599,6 +1778,9 @@ private:
     }
 
     void varid_in_class3() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char code[] = "class Foo {\n"
                             "    void blah() {\n"
                             "        Bar x(*this);\n"  // <- ..
@@ -1614,6 +1796,9 @@ private:
     }
 
     void varid_in_class4() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char code[] = "class Foo {\n"
                             "public: class C;\n"
                             "};";
@@ -1624,6 +1809,9 @@ private:
     }
 
     void varid_in_class5() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char code[] = "struct Foo {\n"
                             "    std::vector<::X> v;\n"
                             "}";
@@ -1634,6 +1822,9 @@ private:
     }
 
     void varid_in_class6() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char code[] = "class A {\n"
                             "    void f(const char *str) const {\n"
                             "        std::stringstream sst;\n"
@@ -1650,6 +1841,9 @@ private:
     }
 
     void varid_in_class7() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char code[] = "class A {\n"
                             "    void f() {\n"
                             "        abc.a = 0;\n"
@@ -1716,6 +1910,9 @@ private:
     }
 
     void varid_in_class10() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char code[] = "class Foo : public FooBase {\n"
                             "    void Clone(FooBase& g);\n"
                             "    short m_bar;\n"
@@ -1801,6 +1998,9 @@ private:
     }
 
     void varid_in_class13() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char code1[] = "struct a { char typename; };";
         ASSERT_EQUALS("1: struct a { char typename@1 ; } ;\n",
                       tokenize(code1, "test.c"));
@@ -1815,6 +2015,9 @@ private:
     }
 
     void varid_in_class14() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char code[] = "class Tokenizer { TokenList list; };\n"
                             "\n"
                             "void Tokenizer::f() {\n"
@@ -1914,6 +2117,9 @@ private:
     }
 
     void varid_in_class18() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char code[] = "class A {\n"
                             "    class B;\n"
                             "};\n"
@@ -1937,6 +2143,9 @@ private:
     }
 
     void varid_in_class19() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char code[] = "class Fred {\n"
                             "    char *str1;\n"
                             "    ~Fred();\n"
@@ -1954,6 +2163,9 @@ private:
     }
 
     void varid_in_class20() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char code[] = "template<class C> class cacheEntry {\n"
                             "protected:\n"
                             "    int m_key;\n"
@@ -1974,6 +2186,9 @@ private:
     }
 
     void varid_in_class21() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char code[] = "template <typename t1,typename t2>\n"
                             "class A::B {\n"
                             "    B();\n"
@@ -1996,6 +2211,9 @@ private:
     }
 
     void varid_in_class22() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char code[] = "struct data {};\n"
                             "    struct S {\n"
                             "    std::vector<data> std;\n"
@@ -2042,6 +2260,9 @@ private:
     }
 
     void varid_in_class24() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char *code{}, *expected{};
 
         code = "class A {\n"
@@ -2068,6 +2289,9 @@ private:
     }
 
     void varid_in_class25() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const Settings s = settingsBuilder(settings).library("std.cfg").build();
 
         const char *code{}, *expected{};
@@ -2171,6 +2395,9 @@ private:
     }
 
     void varid_namespace_4() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char code[] = "namespace X {\n"
                             "  struct foo { int x;};\n"
                             "  struct bar: public foo {\n"
@@ -2188,6 +2415,9 @@ private:
     }
 
     void varid_namespace_5() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char code[] = "namespace X {\n"
                             "  struct foo { int x;};\n"
                             "  namespace Y {\n"
@@ -2209,6 +2439,9 @@ private:
     }
 
     void varid_namespace_6() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char code[] = "namespace N {\n" // #12077
                             "    namespace O {\n"
                             "        U::U(int* map) : id(0) {\n"
@@ -2232,6 +2465,9 @@ private:
     }
 
     void varid_initList() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char code1[] = "class A {\n"
                              "  A() : x(0) {}\n"
                              "  int x;\n"
@@ -2342,6 +2578,9 @@ private:
     }
 
     void varid_initListWithBaseTemplate() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char code1[] = "class A : B<C,D> {\n"
                              "  A() : B<C,D>(), x(0) {}\n"
                              "  int x;\n"
@@ -2402,6 +2641,9 @@ private:
     }
 
     void varid_initListWithScope() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char code1[] = "class A : public B::C {\n"
                              "  A() : B::C(), x(0) {}\n"
                              "  int x;\n"
@@ -2414,6 +2656,9 @@ private:
     }
 
     void varid_operator() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         {
             const std::string actual = tokenize(
                 "class Foo\n"
@@ -2455,6 +2700,9 @@ private:
     }
 
     void varid_unknown_macro() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         // #2638 - unknown macro
         const char code[] = "void f() {\n"
                             "    int a[10];\n"
@@ -2470,6 +2718,9 @@ private:
     }
 
     void varid_using() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         // #3648
         const char code[] = "using std::size_t;";
         const char expected[] = "1: using unsigned long ;\n";
@@ -2477,6 +2728,9 @@ private:
     }
 
     void varid_catch() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char code[] = "void f() {\n"
                             "    try { dostuff(); }\n"
                             "    catch (exception &e) { }\n"
@@ -2489,23 +2743,38 @@ private:
     }
 
     void varid_functionPrototypeTemplate() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         ASSERT_EQUALS("1: function < void ( ) > fptr@1 ;\n", tokenize("function<void(void)> fptr;"));
     }
 
     void varid_templatePtr() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         ASSERT_EQUALS("1: std :: map < int , FooTemplate < int > * > dummy_member@1 [ 1 ] ;\n", tokenize("std::map<int, FooTemplate<int>*> dummy_member[1];"));
     }
 
     void varid_templateNamespaceFuncPtr() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         ASSERT_EQUALS("1: KeyListT < float , & NIFFile :: getFloat > mKeyList@1 [ 4 ] ;\n", tokenize("KeyListT<float, &NIFFile::getFloat> mKeyList[4];"));
     }
 
     void varid_templateArray() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         ASSERT_EQUALS("1: VertexArrayIterator < float [ 2 ] > attrPos@1 ; attrPos@1 = m_AttributePos . GetIterator < float [ 2 ] > ( ) ;\n",
                       tokenize("VertexArrayIterator<float[2]> attrPos = m_AttributePos.GetIterator<float[2]>();"));
     }
 
     void varid_templateParameter() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         {
             const char code[] = "const int X = 0;\n" // #7046 set varid for "X":  std::array<int,X> Y;
                                 "std::array<int,X> Y;\n";
@@ -2523,6 +2792,9 @@ private:
     }
 
     void varid_templateParameterFunctionPointer() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         {
             const char code[] = "template <class, void (*F)()>\n"
                                 "struct a;\n";
@@ -2541,6 +2813,9 @@ private:
     }
 
     void varid_templateSpecializationFinal() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char code[] = "template <typename T>\n"
                             "struct S;\n"
                             "template <>\n"
@@ -2554,6 +2829,9 @@ private:
     }
 
     void varid_not_template_in_condition() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char code1[] = "void f() { if (x<a||x>b); }";
         ASSERT_EQUALS("1: void f ( ) { if ( x < a || x > b ) { ; } }\n", tokenize(code1));
 
@@ -2568,6 +2846,9 @@ private:
     }
 
     void varid_cppcast() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         ASSERT_EQUALS("1: const_cast < int * > ( code ) [ 0 ] = 0 ;\n",
                       tokenize("const_cast<int *>(code)[0] = 0;"));
 
@@ -2582,10 +2863,16 @@ private:
     }
 
     void varid_variadicFunc() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         ASSERT_EQUALS("1: int foo ( ... ) ;\n", tokenize("int foo(...);"));
     }
 
     void varid_typename() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         ASSERT_EQUALS("1: template < int d , class A , class B > struct S { } ;\n", tokenize("template<int d, class A, class B> struct S {};"));
 
         ASSERT_EQUALS("1: template < int d , typename A , typename B > struct S { } ;\n", tokenize("template<int d, typename A, typename B> struct S {};"));
@@ -2594,6 +2881,9 @@ private:
     }
 
     void varid_rvalueref() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         ASSERT_EQUALS("1: int && a@1 ;\n", tokenize("int&& a;"));
 
         ASSERT_EQUALS("1: void foo ( int && a@1 ) { }\n", tokenize("void foo(int&& a) {}"));
@@ -2609,10 +2899,16 @@ private:
     }
 
     void varid_arrayFuncPar() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         ASSERT_EQUALS("1: void check ( const char fname@1 [ ] = 0 ) { }\n", tokenize("void check( const char fname[] = 0) { }"));
     }
 
     void varid_sizeofPassed() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         ASSERT_EQUALS("1: void which_test ( ) {\n"
                       "2: const char * argv@1 [ 2 ] = { \"./test_runner\" , \"TestClass\" } ;\n"
                       "3: options args@2 ( sizeof ( argv@1 ) / sizeof ( argv@1 [ 0 ] ) , argv@1 ) ;\n"
@@ -2626,6 +2922,9 @@ private:
     }
 
     void varid_classInFunction() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         ASSERT_EQUALS("1: void AddSuppression ( ) {\n"
                       "2: class QErrorLogger {\n"
                       "3: void reportErr ( ErrorLogger :: ErrorMessage & msg@1 ) {\n"
@@ -2641,6 +2940,9 @@ private:
     }
 
     void varid_pointerToArray() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         ASSERT_EQUALS("1: int ( * a1@1 ) [ 10 ] ;\n"
                       "2: void f1 ( ) {\n"
                       "3: int ( * a2@2 ) [ 10 ] ;\n"
@@ -2666,6 +2968,9 @@ private:
     }
 
     void varid_cpp11initialization() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         ASSERT_EQUALS("1: int i@1 { 1 } ;\n"
                       "2: std :: vector < int > vec@2 { 1 , 2 , 3 } ;\n"
                       "3: namespace n { int z@3 ; } ;\n"
@@ -2701,6 +3006,9 @@ private:
     }
 
     void varid_inheritedMembers() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         ASSERT_EQUALS("1: class A {\n"
                       "2: int a@1 ;\n"
                       "3: } ;\n"
@@ -2777,6 +3085,9 @@ private:
     }
 
     void varid_header() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         ASSERT_EQUALS("1: class A ;\n"
                       "2: struct B {\n"
                       "3: void setData ( const A & a@1 ) ;\n"
@@ -2788,6 +3099,9 @@ private:
     }
 
     void varid_rangeBasedFor() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         ASSERT_EQUALS("1: void reset ( Foo array@1 ) {\n"
                       "2: for ( auto & e@2 : array@1 ) {\n"
                       "3: foo ( e@2 ) ; }\n"
@@ -2866,6 +3180,9 @@ private:
     }
 
     void varid_lambda_arg() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         // #8664
         {
             const char code[] = "static void func(int ec) {\n"
@@ -2923,6 +3240,9 @@ private:
     }
 
     void varid_lambda_mutable() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         // #8957
         {
             const char code[] = "static void func() {\n"
@@ -2996,6 +3316,9 @@ private:
     }
 
     void varid_for_auto_cpp17() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char code[] = "void f() {\n"
                             "  for (auto [x,y,z]: xyz) {\n"
                             "    x+y+z;\n"
@@ -3022,6 +3345,9 @@ private:
     }
 
     void varid_declInIfCondition() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         // if
         ASSERT_EQUALS("1: void f ( int x@1 ) {\n"
                       "2: if ( int x@2 = 0 ) { x@2 ; }\n"
@@ -3069,6 +3395,9 @@ private:
     }
 
     void varid_globalScope() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char code1[] = "int a[5];\n"
                              "namespace Z { struct B { int a[5]; } b; }\n"
                              "void f() {\n"
@@ -3092,6 +3421,9 @@ private:
     }
 
     void varid_function_pointer_args() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char code1[] = "void foo() {\n"
                              "    char *text;\n"
                              "    void (*cb)(char* text);\n"
@@ -3115,6 +3447,9 @@ private:
     }
 
     void varid_alignas() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char code[] = "extern alignas(16) int x;\n"
                             "alignas(16) int x;";
         const char expected[] = "1: extern alignas ( 16 ) int x@1 ;\n"
@@ -3123,6 +3458,9 @@ private:
     }
 
     void varidclass1() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const std::string actual = tokenize(
             "class Fred\n"
             "{\n"
@@ -3163,6 +3501,9 @@ private:
 
 
     void varidclass2() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const std::string actual = tokenize(
             "class Fred\n"
             "{ void f(); };\n"
@@ -3195,6 +3536,9 @@ private:
 
 
     void varidclass3() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const std::string actual = tokenize(
             "class Fred\n"
             "{ int i; void f(); };\n"
@@ -3227,6 +3571,9 @@ private:
 
 
     void varidclass4() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const std::string actual = tokenize(
             "class Fred\n"
             "{ int i; void f(); };\n"
@@ -3250,6 +3597,9 @@ private:
     }
 
     void varidclass5() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const std::string actual = tokenize(
             "class A { };\n"
             "class B\n"
@@ -3271,6 +3621,9 @@ private:
     }
 
     void varidclass6() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const std::string actual = tokenize(
             "class A\n"
             "{\n"
@@ -3300,6 +3653,9 @@ private:
     }
 
     void varidclass7() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const std::string actual = tokenize(
             "int main()\n"
             "{\n"
@@ -3317,6 +3673,9 @@ private:
     }
 
     void varidclass8() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char code[] ="class Fred {\n"
                             "public:\n"
                             "    void foo(int d) {\n"
@@ -3337,6 +3696,9 @@ private:
     }
 
     void varidclass9() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char code[] ="typedef char Str[10];"
                             "class A {\n"
                             "public:\n"
@@ -3360,6 +3722,9 @@ private:
     }
 
     void varidclass10() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char code[] ="class A {\n"
                             "    void f() {\n"
                             "        a = 3;\n"
@@ -3377,6 +3742,9 @@ private:
     }
 
     void varidclass11() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char code[] ="class Fred {\n"
                             "    int a;\n"
                             "    void f();\n"
@@ -3403,6 +3771,9 @@ private:
     }
 
     void varidclass12() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char code[] ="class Fred {\n"
                             "    int a;\n"
                             "    void f() { Fred::a = 0; }\n"
@@ -3417,6 +3788,9 @@ private:
     }
 
     void varidclass13() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char code[] ="class Fred {\n"
                             "    int a;\n"
                             "    void f() { Foo::Fred::a = 0; }\n"
@@ -3431,6 +3805,9 @@ private:
     }
 
     void varidclass14() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         // don't give friend classes varid
         {
             const char code[] ="class A {\n"
@@ -3458,6 +3835,9 @@ private:
     }
 
     void varidclass15() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char code[] = "class A {\n"
                             "    int a;\n"
                             "    int b;\n"
@@ -3474,6 +3854,9 @@ private:
     }
 
     void varidclass16() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char code[] = "struct A;\n"
                             "typedef bool (A::* FuncPtr)();\n"
                             "struct A {\n"
@@ -3498,6 +3881,9 @@ private:
     }
 
     void varidclass17() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char code[] = "class A: public B, public C::D {\n"
                             "    int i;\n"
                             "    A(int i): B(i), C::D(i), i(i) {\n"
@@ -3526,6 +3912,9 @@ private:
     }
 
     void varidclass18() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char code[] = "class A {\n"
                             "    int a;\n"
                             "    int b;\n"
@@ -3542,6 +3931,9 @@ private:
     }
 
     void varidclass19() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char code[] = "class A : public ::B {\n"
                             "  int a;\n"
                             "  A();\n"
@@ -3570,6 +3962,9 @@ private:
     }
 
     void varidenum1() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char code[] = "const int eStart = 6;\n"
                             "enum myEnum {\n"
                             "  A = eStart;\n"
@@ -3582,6 +3977,9 @@ private:
     }
 
     void varidenum2() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char code[] = "const int eStart = 6;\n"
                             "enum myEnum {\n"
                             "  A = f(eStart);\n"
@@ -3594,6 +3992,9 @@ private:
     }
 
     void varidenum3() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char code[] = "const int eStart = 6;\n"
                             "enum myEnum {\n"
                             "  A = f(eStart, x);\n"
@@ -3606,6 +4007,9 @@ private:
     }
 
     void varidenum4() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char code[] = "const int eStart = 6;\n"
                             "enum myEnum {\n"
                             "  A = f(x, eStart);\n"
@@ -3618,6 +4022,9 @@ private:
     }
 
     void varidenum5() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char code[] = "const int eStart = 6;\n"
                             "enum myEnum {\n"
                             "  A = f(x, eStart, y);\n"
@@ -3656,6 +4063,9 @@ private:
     }
 
     void varid_classnameshaddowsvariablename() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char code[] = "class Data;\n"
                             "void strange_declarated(const Data& Data);\n"
                             "void handleData(const Data& data) {\n"
@@ -3671,6 +4081,9 @@ private:
     }
 
     void varid_classnametemplate() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char code[] = "template <typename T>\n"
                             "struct BBB {\n"
                             "  struct inner;\n"
@@ -3702,6 +4115,9 @@ private:
     }
 
     void varidnamespace1() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char code[] = "namespace A {\n"
                             "    char buf[20];\n"
                             "}\n"
@@ -3720,6 +4136,9 @@ private:
     }
 
     void varidnamespace2() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char code[] = "namespace A {\n"
                             "  namespace B {\n"
                             "    char buf[20];\n"
@@ -3742,6 +4161,9 @@ private:
     }
 
     void usingNamespace1() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char code[] = "namespace NS {\n"
                             "  class A { int x; void dostuff(); };\n"
                             "}\n"
@@ -3756,6 +4178,9 @@ private:
     }
 
     void usingNamespace2() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char code[] = "class A { int x; void dostuff(); };\n"
                             "using namespace NS;\n"
                             "void A::dostuff() { x = 0; }\n";
@@ -3766,6 +4191,9 @@ private:
     }
 
     void usingNamespace3() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char code[] = "namespace A {\n"
                             "    namespace B {\n"
                             "        class C {\n"
@@ -3792,6 +4220,9 @@ private:
     }
 
     void setVarIdStructMembers1() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char code[] = "void f(Foo foo)\n"
                             "{\n"
                             "    foo.size = 0;\n"
@@ -3806,18 +4237,27 @@ private:
     }
 
     void decltype1() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char code[] = "void foo(int x, decltype(A::b) *p);";
         const char expected[] = "1: void foo ( int x@1 , decltype ( A :: b ) * p@2 ) ;\n";
         ASSERT_EQUALS(expected, tokenize(code));
     }
 
     void decltype2() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char code[] = "int x; decltype(x) y;";
         const char expected[] = "1: int x@1 ; decltype ( x@1 ) y@2 ;\n";
         ASSERT_EQUALS(expected, tokenize(code));
     }
 
     void exprid1() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const std::string actual = tokenizeExpr(
             "struct A {\n"
             "    int x, y;\n"
@@ -3842,6 +4282,9 @@ private:
     }
 
     void exprid2() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const std::string actual = tokenizeExpr( // #11739
             "struct S { std::unique_ptr<int> u; };\n"
             "auto f = [](const S& s) -> std::unique_ptr<int> {\n"
@@ -3861,6 +4304,9 @@ private:
     }
 
     void structuredBindings() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char code[] = "int foo() { auto [x,y] = xy(); return x+y; }";
         ASSERT_EQUALS("1: int foo ( ) { auto [ x@1 , y@2 ] = xy ( ) ; return x@1 + y@2 ; }\n",
                       tokenize(code));

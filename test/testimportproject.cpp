@@ -1,3 +1,5 @@
+#include <stdio.h>
+#include <pthread.h>
 /*
  * Cppcheck - A tool for static C/C++ code analysis
  * Copyright (C) 2007-2023 Cppcheck team.
@@ -45,6 +47,9 @@ public:
 private:
 
     void run() override {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         TEST_CASE(setDefines);
         TEST_CASE(setIncludePaths1);
         TEST_CASE(setIncludePaths2);
@@ -67,6 +72,9 @@ private:
     }
 
     void setDefines() const {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         FileSettings fs;
 
         ImportProject::fsSetDefines(fs, "A");
@@ -83,6 +91,9 @@ private:
     }
 
     void setIncludePaths1() const {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         FileSettings fs;
         std::list<std::string> in(1, "../include");
         std::map<std::string, std::string, cppcheck::stricmp> variables;
@@ -92,6 +103,9 @@ private:
     }
 
     void setIncludePaths2() const {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         FileSettings fs;
         std::list<std::string> in(1, "$(SolutionDir)other");
         std::map<std::string, std::string, cppcheck::stricmp> variables;
@@ -112,6 +126,9 @@ private:
     }
 
     void importCompileCommands1() const {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         constexpr char json[] = R"([{
                                    "directory": "/tmp",
                                    "command": "gcc -DTEST1 -DTEST2=2 -o /tmp/src.o -c /tmp/src.c",
@@ -125,6 +142,9 @@ private:
     }
 
     void importCompileCommands2() const {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         // Absolute file path
 #ifdef _WIN32
         const char json[] = R"([{
@@ -152,6 +172,9 @@ private:
     }
 
     void importCompileCommands3() const {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char json[] = R"([{
                                     "directory": "/tmp/",
                                     "command": "gcc -c src.c",
@@ -165,6 +188,9 @@ private:
     }
 
     void importCompileCommands4() const {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         constexpr char json[] = R"([{
                                     "directory": "/tmp/",
                                     "command": "gcc -c src.mm",
@@ -177,6 +203,9 @@ private:
     }
 
     void importCompileCommands5() const {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         constexpr char json[] =
             R"([{
                 "directory": "C:/Users/dan/git/build-test-cppcheck-Desktop_Qt_5_15_0_MSVC2019_64bit-Debug",
@@ -196,6 +225,9 @@ private:
     }
 
     void importCompileCommands6() const {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         constexpr char json[] =
             R"([{
                 "directory": "C:/Users/dan/git/build-test-cppcheck-Desktop_Qt_5_15_0_MSVC2019_64bit-Debug",
@@ -217,6 +249,9 @@ private:
 
 
     void importCompileCommands7() const {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         // cmake -DFILESDIR="/some/path" ..
         constexpr char json[] =
             R"([{
@@ -237,6 +272,9 @@ private:
     }
 
     void importCompileCommands8() const {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         // cmake -DFILESDIR="C:\Program Files\Cppcheck" -G"NMake Makefiles" ..
         constexpr char json[] =
             R"([{
@@ -250,6 +288,9 @@ private:
     }
 
     void importCompileCommands9() const {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         // IAR output (https://sourceforge.net/p/cppcheck/discussion/general/thread/608af51e0a/)
         constexpr char json[] =
             R"([{
@@ -307,6 +348,9 @@ private:
     }
 
     void importCompileCommandsArgumentsSection() const {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         constexpr char json[] = "[ { \"directory\": \"/tmp/\","
                                 "\"arguments\": [\"gcc\", \"-c\", \"src.c\"],"
                                 "\"file\": \"src.c\" } ]";
@@ -318,6 +362,9 @@ private:
     }
 
     void importCompileCommandsNoCommandSection() const {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         constexpr char json[] = "[ { \"directory\": \"/tmp/\","
                                 "\"file\": \"src.mm\" } ]";
         std::istringstream istr(json);
@@ -327,6 +374,9 @@ private:
     }
 
     void importCppcheckGuiProject() const {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         constexpr char xml[] = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
                                "<project version=\"1\">\n"
                                "    <root name=\".\"/>\n"
@@ -354,6 +404,9 @@ private:
     }
 
     void ignorePaths() const {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         FileSettings fs1, fs2;
         fs1.filename = "foo/bar";
         fs2.filename = "qwe/rty";

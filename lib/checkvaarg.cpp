@@ -1,3 +1,5 @@
+#include <stdio.h>
+#include <pthread.h>
 /*
  * Cppcheck - A tool for static C/C++ code analysis
  * Copyright (C) 2007-2023 Cppcheck team.
@@ -49,6 +51,9 @@ static const CWE CWE758(758U);   // Reliance on Undefined, Unspecified, or Imple
 
 void CheckVaarg::va_start_argument()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     const SymbolDatabase* const symbolDatabase = mTokenizer->getSymbolDatabase();
     const std::size_t functions = symbolDatabase->functionScopes.size();
     const bool printWarnings = mSettings->severity.isEnabled(Severity::warning);
@@ -83,12 +88,18 @@ void CheckVaarg::va_start_argument()
 
 void CheckVaarg::wrongParameterTo_va_start_error(const Token *tok, const std::string& paramIsName, const std::string& paramShouldName)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     reportError(tok, Severity::warning,
                 "va_start_wrongParameter", "'" + paramIsName + "' given to va_start() is not last named argument of the function. Did you intend to pass '" + paramShouldName + "'?", CWE688, Certainty::normal);
 }
 
 void CheckVaarg::referenceAs_va_start_error(const Token *tok, const std::string& paramName)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     reportError(tok, Severity::error,
                 "va_start_referencePassed", "Using reference '" + paramName + "' as parameter for va_start() results in undefined behaviour.", CWE758, Certainty::normal);
 }
@@ -100,6 +111,9 @@ void CheckVaarg::referenceAs_va_start_error(const Token *tok, const std::string&
 
 void CheckVaarg::va_list_usage()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (mSettings->clang)
         return;
 
@@ -165,18 +179,27 @@ void CheckVaarg::va_list_usage()
 
 void CheckVaarg::va_end_missingError(const Token *tok, const std::string& varname)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     reportError(tok, Severity::error,
                 "va_end_missing", "va_list '" + varname + "' was opened but not closed by va_end().", CWE664, Certainty::normal);
 }
 
 void CheckVaarg::va_list_usedBeforeStartedError(const Token *tok, const std::string& varname)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     reportError(tok, Severity::error,
                 "va_list_usedBeforeStarted", "va_list '" + varname + "' used before va_start() was called.", CWE664, Certainty::normal);
 }
 
 void CheckVaarg::va_start_subsequentCallsError(const Token *tok, const std::string& varname)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     reportError(tok, Severity::error,
                 "va_start_subsequentCalls", "va_start() or va_copy() called subsequently on '" + varname + "' without va_end() in between.", CWE664, Certainty::normal);
 }

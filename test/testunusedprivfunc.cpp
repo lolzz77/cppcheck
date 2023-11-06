@@ -1,3 +1,5 @@
+#include <stdio.h>
+#include <pthread.h>
 /*
  * Cppcheck - A tool for static C/C++ code analysis
  * Copyright (C) 2007-2023 Cppcheck team.
@@ -36,6 +38,9 @@ private:
     const Settings settings = settingsBuilder().severity(Severity::style).build();
 
     void run() override {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         TEST_CASE(test1);
         TEST_CASE(test2);
         TEST_CASE(test3);
@@ -106,6 +111,9 @@ private:
     }
 
     void test1() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("class Fred\n"
               "{\n"
               "private:\n"
@@ -174,6 +182,9 @@ private:
 
 
     void test2() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("class A {\n"
               "public:\n"
               "    A();\n"
@@ -192,6 +203,9 @@ private:
 
 
     void test3() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("class A {\n"
               "public:\n"
               "    A() { }\n"
@@ -207,6 +221,9 @@ private:
 
 
     void test4() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("class A {\n"
               "public:\n"
               "    A();\n"
@@ -222,6 +239,9 @@ private:
 
 
     void test5() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("class A {\n"
               "private:\n"
               "    A() : lock(new Lock())\n"
@@ -253,6 +273,9 @@ private:
 
 
     void func_pointer1() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("class Fred\n"
               "{\n"
               "private:\n"
@@ -279,6 +302,9 @@ private:
 
 
     void func_pointer2() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("class UnusedPrivateFunctionMemberPointer\n"
               "{\n"
               "public:\n"
@@ -296,6 +322,9 @@ private:
 
 
     void func_pointer3() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("class c1\n"
               "{\n"
               "public:\n"
@@ -324,6 +353,9 @@ private:
 
 
     void func_pointer5() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("class A {\n"
               "public:\n"
               "    A() { f = A::func; }\n"
@@ -375,6 +407,9 @@ private:
 
 
     void ctor() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("class PrivateCtor\n"
               "{\n"
               "private:\n"
@@ -390,6 +425,9 @@ private:
     }
 
     void ctor2() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("struct State {\n"
               "  State(double const totalWeighting= TotalWeighting()) :\n"
               "    totalWeighting_(totalWeighting) {}\n"
@@ -403,6 +441,9 @@ private:
 
 
     void classInClass() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("class A\n"
               "{\n"
               "public:\n"
@@ -450,6 +491,9 @@ private:
 
 
     void sameFunctionNames() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("class A\n"
               "{\n"
               "public:\n"
@@ -466,6 +510,9 @@ private:
     }
 
     void incompleteImplementation() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         // The implementation for "A::a" is missing - so don't check if
         // "A::b" is used or not
         check("#file \"test.h\"\n"
@@ -484,6 +531,9 @@ private:
     }
 
     void derivedClass() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         // skip warning in derived classes in case the base class is invisible
         check("class derived : public base\n"
               "{\n"
@@ -545,6 +595,9 @@ private:
     }
 
     void friendClass() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         // ticket #2459 - friend class
         check("class Foo {\n"
               "private:\n"
@@ -597,6 +650,9 @@ private:
     }
 
     void borland1() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         // ticket #2034 - Borland C++ __property
         check("class Foo {\n"
               "private:\n"
@@ -611,6 +667,9 @@ private:
     }
 
     void borland2() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         // ticket #3661 - Borland C++ __published
         check("class Foo {\n"
               "__published:\n"
@@ -624,6 +683,9 @@ private:
     }
 
     void template1() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         // ticket #2067 - Template methods do not "use" private ones
         check("class A {\n"
               "public:\n"
@@ -642,6 +704,9 @@ private:
     }
 
     void fp_operator() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         // #2407 - FP when function is called from operator()
         check("class Fred\n"
               "{\n"
@@ -683,6 +748,9 @@ private:
     }
 
     void testDoesNotIdentifyMethodAsFirstFunctionArgument() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("void callback(void (*func)(int), int arg)"
               "{"
               "    (*func)(arg);"
@@ -710,6 +778,9 @@ private:
     }
 
     void testDoesNotIdentifyMethodAsMiddleFunctionArgument() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("void callback(char, void (*func)(int), int arg)"
               "{"
               "    (*func)(arg);"
@@ -737,6 +808,9 @@ private:
     }
 
     void testDoesNotIdentifyMethodAsLastFunctionArgument() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("void callback(int arg, void (*func)(int))"
               "{"
               "    (*func)(arg);"
@@ -795,6 +869,9 @@ private:
     }
 
     void hierarchy_loop() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("class InfiniteB : InfiniteA {\n"
               "    class D {\n"
               "    };\n"
@@ -814,6 +891,9 @@ private:
     }
 
     void staticVariable() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("class Foo {\n"
               "    static int i;\n"
               "    static int F() const { return 1; }\n"
@@ -862,6 +942,9 @@ private:
     }
 
     void maybeUnused() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("class C {\n"
               "    [[maybe_unused]] int f() { return 42; }\n"
               "};");

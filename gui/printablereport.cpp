@@ -1,3 +1,5 @@
+#include <stdio.h>
+#include <pthread.h>
 /*
  * Cppcheck - A tool for static C/C++ code analysis
  * Copyright (C) 2007-2023 Cppcheck team.
@@ -29,21 +31,33 @@ PrintableReport::PrintableReport() :
 
 bool PrintableReport::create()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     return true;
 }
 
 void PrintableReport::writeHeader()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     // No header for printable report
 }
 
 void PrintableReport::writeFooter()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     // No footer for printable report
 }
 
 void PrintableReport::writeError(const ErrorItem &error)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     const QString file = QDir::toNativeSeparators(error.errorPath.back().file);
     QString line = QString("%1,%2,").arg(file).arg(error.errorPath.back().line);
     line += QString("%1,%2").arg(GuiSeverity::toString(error.severity)).arg(error.summary);
@@ -54,6 +68,9 @@ void PrintableReport::writeError(const ErrorItem &error)
 
 QString PrintableReport::getFormattedReportText() const
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     return mFormattedReport;
 }
 

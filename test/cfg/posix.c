@@ -1,3 +1,5 @@
+#include <stdio.h>
+#include <pthread.h>
 
 // Test library configuration for posix.cfg
 //
@@ -42,6 +44,9 @@
 
 #if !(defined(__APPLE__) && defined(__MACH__))
 void nullPointer_mq_timedsend(mqd_t mqdes, const char* msg_ptr, size_t msg_len, unsigned msg_prio, const struct timespec* abs_timeout) {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     // cppcheck-suppress nullPointer
     (void) mq_timedsend(mqdes, NULL, msg_len, msg_prio, abs_timeout);
     // cppcheck-suppress nullPointer
@@ -53,6 +58,9 @@ void nullPointer_mq_timedsend(mqd_t mqdes, const char* msg_ptr, size_t msg_len, 
 
 void nullPointer_posix_trace_event(trace_event_id_t event_id, const void* restrictdata_ptr, size_t data_len)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     // cppcheck-suppress nullPointer
     (void) posix_trace_event(event_id, NULL, data_len);
     (void) posix_trace_event(event_id, restrictdata_ptr, 0);
@@ -63,6 +71,9 @@ void nullPointer_posix_trace_trygetnext_event(trace_id_t trid,
                                               void *data, size_t num_bytes,
                                               size_t *data_len, int *unavailable)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     // cppcheck-suppress nullPointer
     (void) posix_trace_trygetnext_event(trid, NULL, data, num_bytes, data_len, unavailable);
     // cppcheck-suppress nullPointer
@@ -75,6 +86,9 @@ void nullPointer_posix_trace_trygetnext_event(trace_id_t trid,
 
 int nullPointer_posix_trace_timedgetnext_event(trace_id_t trid, struct posix_trace_event_info *restrict event, void *restrict data, size_t num_bytes, size_t *restrict data_len, int *restrict unavailable, const struct timespec *restrict abstime)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     // cppcheck-suppress nullPointer
     (void) posix_trace_timedgetnext_event(trid, NULL, data, num_bytes, data_len, unavailable, abstime);
     // cppcheck-suppress nullPointer
@@ -90,6 +104,9 @@ int nullPointer_posix_trace_timedgetnext_event(trace_id_t trid, struct posix_tra
 
 int nullPointer_posix_trace_getnext_event(trace_id_t trid, struct posix_trace_event_info *restrict event, const void *restrict data, size_t num_bytes, size_t *restrict data_len, int *restrict unavailable)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     // cppcheck-suppress nullPointer
     (void) posix_trace_getnext_event(trid, NULL, data, num_bytes, data_len, unavailable);
     // cppcheck-suppress nullPointer
@@ -103,6 +120,9 @@ int nullPointer_posix_trace_getnext_event(trace_id_t trid, struct posix_trace_ev
 #endif // __TRACE_H__
 
 void nullPointer_pthread_attr_getstack(const pthread_attr_t *attr, void *stackaddr, size_t stacksize) {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     // cppcheck-suppress nullPointer
     (void) pthread_attr_getstack(NULL, &stackaddr, &stacksize);
     // cppcheck-suppress nullPointer
@@ -120,6 +140,9 @@ void nullPointer_pthread_attr_getstack(const pthread_attr_t *attr, void *stackad
 }
 
 void nullPointer_pthread_attr_setstack(const pthread_attr_t *attr) {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     // cppcheck-suppress nullPointer
     (void) pthread_attr_setstack(NULL, NULL, 0);
     (void) pthread_attr_setstack(attr, NULL, 0);
@@ -129,12 +152,18 @@ void nullPointer_pthread_attr_setstack(const pthread_attr_t *attr) {
 
 void nullPointer_setkey(const char *key)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     // cppcheck-suppress nullPointer
     setkey(NULL);
 }
 
 void nullPointer_encrypt(const char block[64], int edflag)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     // cppcheck-suppress nullPointer
     encrypt(NULL, edflag);
     encrypt(block, edflag);
@@ -142,6 +171,9 @@ void nullPointer_encrypt(const char block[64], int edflag)
 
 int nullPointer_getopt(int argc, char* const argv[], const char* optstring)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     // cppcheck-suppress nullPointer
     (void) getopt(argc, NULL, optstring);
     // cppcheck-suppress nullPointer
@@ -152,6 +184,9 @@ int nullPointer_getopt(int argc, char* const argv[], const char* optstring)
 #if !(defined(__APPLE__) && defined(__MACH__))
 int invalidFunctionArgStr_mq_send(mqd_t mqdes, const char *msg_ptr, size_t msg_len, unsigned msg_prio)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     // No warning is expected for:
     const char msg = '0';
     (void) mq_send(mqdes, &msg, 1, 0);
@@ -161,6 +196,9 @@ int invalidFunctionArgStr_mq_send(mqd_t mqdes, const char *msg_ptr, size_t msg_l
 
 void invalidFunctionArgStr_mbsnrtowcs(void)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     wchar_t wenough[10];
     mbstate_t s;
     memset (&s, '\0', sizeof (s));
@@ -172,6 +210,9 @@ void invalidFunctionArgStr_mbsnrtowcs(void)
 
 struct tm * ignoredReturnValue_localtime(const time_t *tp)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     // cppcheck-suppress [ignoredReturnValue,localtimeCalled]
     localtime(tp);
     // cppcheck-suppress localtimeCalled
@@ -180,6 +221,9 @@ struct tm * ignoredReturnValue_localtime(const time_t *tp)
 
 int nullPointer_getpwuid_r(uid_t uid, struct passwd *pwd, char *buffer, size_t bufsize, struct passwd **result)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     // cppcheck-suppress nullPointer
     (void) getpwuid_r(uid, NULL, buffer, bufsize, result);
     // cppcheck-suppress nullPointer
@@ -191,6 +235,9 @@ int nullPointer_getpwuid_r(uid_t uid, struct passwd *pwd, char *buffer, size_t b
 
 int nullPointer_getpwnam_r(const char *name, struct passwd *pwd, char *buffer, size_t bufsize, struct passwd **result)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     // cppcheck-suppress nullPointer
     (void) getpwnam_r(NULL, pwd, buffer, bufsize, result);
     // cppcheck-suppress nullPointer
@@ -204,6 +251,9 @@ int nullPointer_getpwnam_r(const char *name, struct passwd *pwd, char *buffer, s
 
 int nullPointer_fgetpwent_r(FILE *restrict stream, const struct passwd *restrict pwbuf, char *restrict buf, size_t buflen, struct passwd **restrict pwbufp)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     // cppcheck-suppress nullPointer
     (void) fgetpwent_r(NULL, pwbuf, buf, buflen, pwbufp);
     // cppcheck-suppress nullPointer
@@ -217,6 +267,9 @@ int nullPointer_fgetpwent_r(FILE *restrict stream, const struct passwd *restrict
 
 int nullPointer_getpwent_r(const struct passwd *restrict pwbuf, char *restrict buf, size_t buflen, struct passwd **restrict pwbufp)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     // cppcheck-suppress nullPointer
     (void) getpwent_r(NULL, buf, buflen, pwbufp);
     // cppcheck-suppress nullPointer
@@ -228,6 +281,9 @@ int nullPointer_getpwent_r(const struct passwd *restrict pwbuf, char *restrict b
 
 int nullPointer_getgrgid_r(gid_t gid, struct group *restrict grp, char *restrict buf, size_t buflen, struct group **restrict result)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     // cppcheck-suppress nullPointer
     (void) getgrgid_r(gid, NULL, buf, buflen, result);
     // cppcheck-suppress nullPointer
@@ -239,6 +295,9 @@ int nullPointer_getgrgid_r(gid_t gid, struct group *restrict grp, char *restrict
 
 int nullPointer_getgrnam_r(const char *restrict name, struct group *restrict grp, char *restrict buf, size_t buflen, struct group **restrict result)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     // cppcheck-suppress nullPointer
     (void) getgrnam_r(NULL, grp, buf, buflen, result);
     // cppcheck-suppress nullPointer
@@ -252,6 +311,9 @@ int nullPointer_getgrnam_r(const char *restrict name, struct group *restrict grp
 
 void knownConditionTrueFalse_ffs(int i)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     // ffs() returns the position of the first bit set, or 0 if no bits are set in i.
     const int x = ffs(0);
     // cppcheck-suppress knownConditionTrueFalse
@@ -263,6 +325,9 @@ void knownConditionTrueFalse_ffs(int i)
 
 ssize_t nullPointer_readlink(const char *path, char *buf, size_t bufsiz)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     // cppcheck-suppress nullPointer
     (void)readlink(NULL, buf, bufsiz);
     // cppcheck-suppress nullPointer
@@ -272,6 +337,9 @@ ssize_t nullPointer_readlink(const char *path, char *buf, size_t bufsiz)
 
 int nullPointer_readlinkat(int dirfd, const char *pathname, char *buf, size_t bufsiz)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     // cppcheck-suppress nullPointer
     (void) readlinkat(dirfd, NULL, buf, bufsiz);
     // cppcheck-suppress nullPointer
@@ -281,6 +349,9 @@ int nullPointer_readlinkat(int dirfd, const char *pathname, char *buf, size_t bu
 
 ssize_t nullPointer_recv(int sockfd, void *buf, size_t len, int flags)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     // cppcheck-suppress nullPointer
     (void) recv(sockfd, NULL, len, flags);
     return recv(sockfd, buf, len, flags);
@@ -289,6 +360,9 @@ ssize_t nullPointer_recv(int sockfd, void *buf, size_t len, int flags)
 ssize_t nullPointer_recvfrom(int sockfd, void *buf, size_t len, int flags,
                              struct sockaddr *src_addr, socklen_t *addrlen)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     // If src_addr is not NULL, and the underlying protocol provides the source address, this source address is filled in.
     (void) recvfrom(sockfd, buf, len, flags, NULL, addrlen);
     (void) recvfrom(sockfd, buf, len, flags, src_addr, NULL);
@@ -299,6 +373,9 @@ ssize_t nullPointer_recvfrom(int sockfd, void *buf, size_t len, int flags,
 }
 int nullPointer_semop(int semid, struct sembuf *sops, size_t nsops)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     // cppcheck-suppress nullPointer
     (void)semop(semid, NULL, nsops);
     return semop(semid, sops, nsops);
@@ -306,6 +383,9 @@ int nullPointer_semop(int semid, struct sembuf *sops, size_t nsops)
 
 int nullPointer_socketpair(int domain, int t, int protocol, int sv[2])
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     // cppcheck-suppress nullPointer
     (void) socketpair(domain, t, protocol, NULL);
     return socketpair(domain, t, protocol, sv);
@@ -313,6 +393,9 @@ int nullPointer_socketpair(int domain, int t, int protocol, int sv[2])
 
 void nullPointer_lcong48(const unsigned short param[7])
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     // cppcheck-suppress nullPointer
     (void) lcong48(NULL);
     return lcong48(param);
@@ -320,6 +403,9 @@ void nullPointer_lcong48(const unsigned short param[7])
 
 long int nullPointer_jrand48(unsigned short xsubi[3])
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     // cppcheck-suppress nullPointer
     (void) jrand48(NULL);
     return jrand48(xsubi);
@@ -327,6 +413,9 @@ long int nullPointer_jrand48(unsigned short xsubi[3])
 
 long int nullPointer_nrand48(unsigned short xsubi[3])
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     // cppcheck-suppress nullPointer
     (void) nrand48(NULL);
     return nrand48(xsubi);
@@ -348,6 +437,9 @@ double non_const_parameter_erand48(struct non_const_parameter_erand48_struct *da
 
 unsigned short *nullPointer_seed48(const unsigned short seed16v[3])
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     // cppcheck-suppress nullPointer
     (void) seed48(NULL);
     return seed48(seed16v);
@@ -355,6 +447,9 @@ unsigned short *nullPointer_seed48(const unsigned short seed16v[3])
 
 int nullPointer_getlogin_r(char *buf, size_t bufsize)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     // cppcheck-suppress nullPointer
     (void)getlogin_r(NULL,bufsize);
     return getlogin_r(buf,bufsize);
@@ -362,6 +457,9 @@ int nullPointer_getlogin_r(char *buf, size_t bufsize)
 
 ssize_t uninitvar_pread(int fd, void *buf, size_t nbyte, off_t offset)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     int Fd;
     // cppcheck-suppress uninitvar
     (void)pread(Fd,buf,nbyte,offset);
@@ -376,6 +474,9 @@ ssize_t uninitvar_pread(int fd, void *buf, size_t nbyte, off_t offset)
 
 ssize_t nullPointer_pwrite(int fd, const void *buf, size_t nbyte, off_t offset)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     // cppcheck-suppress nullPointer
     (void)pwrite(fd,NULL,nbyte,offset);
     return pwrite(fd,buf,nbyte,offset);
@@ -383,6 +484,9 @@ ssize_t nullPointer_pwrite(int fd, const void *buf, size_t nbyte, off_t offset)
 
 int nullPointer_ttyname_r(int fd, char *buf, size_t buflen)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     // cppcheck-suppress nullPointer
     (void)ttyname_r(fd,NULL,buflen);
     return ttyname_r(fd,buf,buflen);
@@ -390,6 +494,9 @@ int nullPointer_ttyname_r(int fd, char *buf, size_t buflen)
 
 size_t bufferAccessOutOfBounds_wcsnrtombs(char *restrict dest, const wchar_t **restrict src, size_t nwc, size_t len, mbstate_t *restrict ps)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     char buf[42];
     (void)wcsnrtombs(buf,src,nwc,42,ps);
     // cppcheck-suppress bufferAccessOutOfBounds
@@ -399,6 +506,9 @@ size_t bufferAccessOutOfBounds_wcsnrtombs(char *restrict dest, const wchar_t **r
 
 size_t nullPointer_wcsnrtombs(char *restrict dest, const wchar_t **restrict src, size_t nwc, size_t len, mbstate_t *restrict ps)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     // It is allowed to set the first arg to NULL
     (void)wcsnrtombs(NULL,src,nwc,len,ps);
     // cppcheck-suppress nullPointer
@@ -410,6 +520,9 @@ size_t nullPointer_wcsnrtombs(char *restrict dest, const wchar_t **restrict src,
 
 int nullPointer_wcsncasecmp(const wchar_t *s1, const wchar_t *s2, size_t n)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     // cppcheck-suppress nullPointer
     (void)wcsncasecmp(NULL,s2,n);
     // cppcheck-suppress nullPointer
@@ -419,6 +532,9 @@ int nullPointer_wcsncasecmp(const wchar_t *s1, const wchar_t *s2, size_t n)
 
 int uninitvar_wcwidth(const wchar_t c)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     wchar_t wc;
     // cppcheck-suppress uninitvar
     (void)wcwidth(wc);
@@ -428,6 +544,9 @@ int uninitvar_wcwidth(const wchar_t c)
 
 int nullPointer_wcsnlen(const wchar_t *s, size_t n)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     // cppcheck-suppress nullPointer
     (void)wcsnlen(NULL, n);
     // No warning is expected
@@ -445,6 +564,9 @@ size_t bufferAccessOutOfBounds_wcsnlen(void) // #10997
 
 int nullPointer_gethostname(char *s, size_t n)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     // cppcheck-suppress nullPointer
     (void)gethostname(NULL, n);
     // No warning is expected
@@ -453,6 +575,9 @@ int nullPointer_gethostname(char *s, size_t n)
 
 int nullPointer_wcswidth(const wchar_t *s, size_t n)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     // cppcheck-suppress nullPointer
     (void)wcswidth(NULL, n);
     // No warning is expected
@@ -461,6 +586,9 @@ int nullPointer_wcswidth(const wchar_t *s, size_t n)
 
 int nullPointer_aio_cancel(int fd, struct aiocb *aiocbp)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     // No warning is expected
     (void)aio_cancel(fd, NULL);
     // No warning is expected
@@ -469,6 +597,9 @@ int nullPointer_aio_cancel(int fd, struct aiocb *aiocbp)
 
 int nullPointer_aio_fsync(int op, struct aiocb *aiocbp)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     // cppcheck-suppress nullPointer
     (void)aio_fsync(op, NULL);
     // No warning is expected
@@ -477,6 +608,9 @@ int nullPointer_aio_fsync(int op, struct aiocb *aiocbp)
 
 ssize_t nullPointer_aio_return(struct aiocb *aiocbp)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     // cppcheck-suppress nullPointer
     (void)aio_return(NULL);
     // No warning is expected
@@ -485,6 +619,9 @@ ssize_t nullPointer_aio_return(struct aiocb *aiocbp)
 
 int nullPointer_aio_error(const struct aiocb *aiocbp)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     // cppcheck-suppress nullPointer
     (void)aio_error(NULL);
     // No warning is expected
@@ -493,6 +630,9 @@ int nullPointer_aio_error(const struct aiocb *aiocbp)
 
 int nullPointer_aio_read(struct aiocb *aiocbp)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     // cppcheck-suppress nullPointer
     (void)aio_read(NULL);
     // No warning is expected
@@ -501,6 +641,9 @@ int nullPointer_aio_read(struct aiocb *aiocbp)
 
 int nullPointer_aio_write(struct aiocb *aiocbp)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     // cppcheck-suppress nullPointer
     (void)aio_write(NULL);
     // No warning is expected
@@ -509,6 +652,9 @@ int nullPointer_aio_write(struct aiocb *aiocbp)
 
 int nullPointer_aio_suspend(const struct aiocb *const aiocb_list[], int nitems, const struct timespec *restrict timeout)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     // cppcheck-suppress nullPointer
     (void)aio_suspend(NULL, nitems, timeout);
     // No warning is expected
@@ -519,6 +665,9 @@ int nullPointer_aio_suspend(const struct aiocb *const aiocb_list[], int nitems, 
 // Note: Since glibc 2.28, this function symbol is no longer available to newly linked applications.
 void invalidFunctionArg_llseek(int fd, loff_t offset, int origin)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     // cppcheck-suppress llseekCalled
     // cppcheck-suppress invalidFunctionArg
     (void)llseek(-1, offset, SEEK_SET);
@@ -550,6 +699,9 @@ void invalidFunctionArg_llseek(int fd, loff_t offset, int origin)
 
 void invalidFunctionArg_lseek64(int fd, off_t offset, int origin)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     // cppcheck-suppress invalidFunctionArg
     (void)lseek64(-1, offset, SEEK_SET);
     // cppcheck-suppress invalidFunctionArg
@@ -570,6 +722,9 @@ void invalidFunctionArg_lseek64(int fd, off_t offset, int origin)
 
 void invalidFunctionArg_lseek(int fd, off_t offset, int origin)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     // cppcheck-suppress invalidFunctionArg
     (void)lseek(-1, offset, SEEK_SET);
     // cppcheck-suppress invalidFunctionArg
@@ -590,6 +745,9 @@ void invalidFunctionArg_lseek(int fd, off_t offset, int origin)
 
 void invalidFunctionArg_fseeko(FILE* stream, off_t offset, int origin)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     // cppcheck-suppress invalidFunctionArg
     (void)fseeko(stream, offset, -1);
     // cppcheck-suppress invalidFunctionArg
@@ -607,6 +765,9 @@ void invalidFunctionArg_fseeko(FILE* stream, off_t offset, int origin)
 
 wchar_t *nullPointer_wcpncpy(wchar_t *dest, const wchar_t *src, size_t n)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     // cppcheck-suppress nullPointer
     (void)wcpncpy(NULL, src, n);
     // cppcheck-suppress nullPointer
@@ -616,6 +777,9 @@ wchar_t *nullPointer_wcpncpy(wchar_t *dest, const wchar_t *src, size_t n)
 
 int nullPointer_utimes(const char *path, const struct timeval times[2])
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     // cppcheck-suppress nullPointer
     // cppcheck-suppress utimesCalled
     (void)utimes(NULL, times);
@@ -625,6 +789,9 @@ int nullPointer_utimes(const char *path, const struct timeval times[2])
 
 char * overlappingWriteFunction_stpcpy(char *src, char *dest)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     // No warning shall be shown:
     (void) stpcpy(dest, src);
     // cppcheck-suppress overlappingWriteFunction
@@ -633,6 +800,9 @@ char * overlappingWriteFunction_stpcpy(char *src, char *dest)
 
 int nullPointer_strcasecmp(const char *a, const char *b)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     // No warning shall be shown:
     (void) strcasecmp(a, b);
     // cppcheck-suppress nullPointer
@@ -643,6 +813,9 @@ int nullPointer_strcasecmp(const char *a, const char *b)
 
 int nullPointer_strncasecmp(const char *a, const char *b, size_t n)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     // No warning shall be shown:
     (void) strncasecmp(a, b, n);
     // cppcheck-suppress nullPointer
@@ -653,6 +826,9 @@ int nullPointer_strncasecmp(const char *a, const char *b, size_t n)
 
 int nullPointer_bcmp(const void *a, const void *b, size_t n)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     // No nullPointer warning shall be shown:
     // cppcheck-suppress bcmpCalled
     (void) bcmp(a, b, n);
@@ -666,6 +842,9 @@ int nullPointer_bcmp(const void *a, const void *b, size_t n)
 
 void nullPointer_bzero(void *s, size_t n)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     // cppcheck-suppress nullPointer
     // cppcheck-suppress bzeroCalled
     bzero(NULL,n);
@@ -676,6 +855,9 @@ void nullPointer_bzero(void *s, size_t n)
 
 void bufferAccessOutOfBounds_bzero(void *s, size_t n)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     char buf[42];
     // cppcheck-suppress bufferAccessOutOfBounds
     // cppcheck-suppress bzeroCalled
@@ -689,6 +871,9 @@ void bufferAccessOutOfBounds_bzero(void *s, size_t n)
 
 size_t bufferAccessOutOfBounds_strnlen(const char *s, size_t maxlen)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     const char buf[2]={'4','2'};
     size_t len = strnlen(buf,2);
     // cppcheck-suppress bufferAccessOutOfBounds
@@ -698,6 +883,9 @@ size_t bufferAccessOutOfBounds_strnlen(const char *s, size_t maxlen)
 
 void bufferAccessOutOfBounds_wcpncpy()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     wchar_t s[16];
     wcpncpy(s, L"abc", 16);
     // cppcheck-suppress bufferAccessOutOfBounds
@@ -706,6 +894,9 @@ void bufferAccessOutOfBounds_wcpncpy()
 
 size_t nullPointer_strnlen(const char *s, size_t maxlen)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     // No warning shall be shown:
     (void) strnlen(s, maxlen);
     // cppcheck-suppress nullPointer
@@ -714,6 +905,9 @@ size_t nullPointer_strnlen(const char *s, size_t maxlen)
 
 char * nullPointer_stpcpy(const char *src, char *dest)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     // No warning shall be shown:
     (void) stpcpy(dest, src);
     // cppcheck-suppress nullPointer
@@ -724,6 +918,9 @@ char * nullPointer_stpcpy(const char *src, char *dest)
 
 char * nullPointer_strsep(char **stringptr, char *delim)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     // No warning shall be shown:
     (void) strsep(stringptr, delim);
     // cppcheck-suppress nullPointer
@@ -734,6 +931,9 @@ char * nullPointer_strsep(char **stringptr, char *delim)
 
 void overlappingWriteFunction_bcopy(char *buf, const size_t count)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     // No warning shall be shown:
     // cppcheck-suppress bcopyCalled
     bcopy(&buf[0], &buf[3], count); // size is not known
@@ -745,6 +945,9 @@ void overlappingWriteFunction_bcopy(char *buf, const size_t count)
 
 void nullPointer_bcopy(const void *src, void *dest, size_t n)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     // No warning shall be shown:
     // cppcheck-suppress bcopyCalled
     bcopy(src, dest, n);
@@ -758,6 +961,9 @@ void nullPointer_bcopy(const void *src, void *dest, size_t n)
 
 void overlappingWriteFunction_memccpy(const unsigned char *src, unsigned char *dest, int c, size_t count)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     // No warning shall be shown:
     (void)memccpy(dest, src, c, count);
     (void)memccpy(dest, src, 42, count);
@@ -769,6 +975,9 @@ void overlappingWriteFunction_memccpy(const unsigned char *src, unsigned char *d
 
 void overlappingWriteFunction_stpncpy(char *src, char *dest, ssize_t n)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     // No warning shall be shown:
     (void) stpncpy(dest, src, n);
     // cppcheck-suppress overlappingWriteFunction
@@ -777,6 +986,9 @@ void overlappingWriteFunction_stpncpy(char *src, char *dest, ssize_t n)
 
 wchar_t* overlappingWriteFunction_wcpncpy(wchar_t *src, wchar_t *dest, ssize_t n)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     // No warning shall be shown:
     (void) wcpncpy(dest, src, n);
     // cppcheck-suppress overlappingWriteFunction
@@ -785,6 +997,9 @@ wchar_t* overlappingWriteFunction_wcpncpy(wchar_t *src, wchar_t *dest, ssize_t n
 
 void overlappingWriteFunction_swab(char *src, char *dest, ssize_t n)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     // No warning shall be shown:
     swab(src, dest, n);
     // cppcheck-suppress overlappingWriteFunction
@@ -793,6 +1008,9 @@ void overlappingWriteFunction_swab(char *src, char *dest, ssize_t n)
 
 void bufferAccessOutOfBounds_swab(char *src, char *dest, ssize_t n)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     // No warning shall be shown:
     swab(dest, src, n);
     const char srcBuf[42] = {0};
@@ -807,6 +1025,9 @@ void bufferAccessOutOfBounds_swab(char *src, char *dest, ssize_t n)
 
 void nullPointer_swab(char *src, char *dest, ssize_t n)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     // No warning shall be shown:
     swab(dest, src, n);
     // cppcheck-suppress nullPointer
@@ -817,6 +1038,9 @@ void nullPointer_swab(char *src, char *dest, ssize_t n)
 
 bool invalidFunctionArgBool_isascii(bool b, int c)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     // cppcheck-suppress invalidFunctionArgBool
     (void)isascii(b);
     // cppcheck-suppress invalidFunctionArgBool
@@ -825,6 +1049,9 @@ bool invalidFunctionArgBool_isascii(bool b, int c)
 
 void uninitvar_putenv(char * envstr)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     // No warning is expected
     (void)putenv(envstr);
 
@@ -835,6 +1062,9 @@ void uninitvar_putenv(char * envstr)
 
 void nullPointer_putenv(char * envstr)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     // No warning is expected
     (void)putenv(envstr);
 
@@ -845,6 +1075,9 @@ void nullPointer_putenv(char * envstr)
 
 void memleak_scandir(void)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     struct dirent **namelist;
     int n = scandir(".", &namelist, NULL, alphasort);
     if (n == -1) {
@@ -864,6 +1097,9 @@ void memleak_scandir(void)
 
 void no_memleak_scandir(void)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     struct dirent **namelist;
     int n = scandir(".", &namelist, NULL, alphasort);
     if (n == -1) {
@@ -877,6 +1113,9 @@ void no_memleak_scandir(void)
 
 void validCode(va_list valist_arg1, va_list valist_arg2)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     void *ptr;
     if (posix_memalign(&ptr, sizeof(void *), sizeof(void *)) == 0)
         free(ptr);
@@ -893,6 +1132,9 @@ void validCode(va_list valist_arg1, va_list valist_arg2)
 
 ssize_t nullPointer_send(int socket, const void *buf, size_t len, int flags)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     // cppcheck-suppress nullPointer
     (void) send(socket, NULL, len, flags);
     return send(socket, buf, len, flags);
@@ -902,6 +1144,9 @@ ssize_t nullPointer_sendto(int socket, const void *message, size_t length,
                            int flags, const struct sockaddr *dest_addr,
                            socklen_t dest_len)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     // cppcheck-suppress nullPointer
     (void) sendto(socket, NULL, length, flags, dest_addr, dest_len);
     (void) sendto(socket, message, length, flags, NULL, dest_len);
@@ -910,6 +1155,9 @@ ssize_t nullPointer_sendto(int socket, const void *message, size_t length,
 
 void bufferAccessOutOfBounds(int fd)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     char a[5];
     read(fd,a,5);
     // cppcheck-suppress bufferAccessOutOfBounds
@@ -945,6 +1193,9 @@ void bufferAccessOutOfBounds(int fd)
 
 void nullPointer(char *p, int fd, pthread_mutex_t mutex)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     // cppcheck-suppress ignoredReturnValue
     isatty(0);
     mkdir(p, 0);
@@ -993,6 +1244,9 @@ void nullPointer(char *p, int fd, pthread_mutex_t mutex)
 
 void memleak_getaddrinfo()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     //TODO: nothing to report yet, see http://sourceforge.net/p/cppcheck/discussion/general/thread/d9737d5d/
     struct addrinfo * res=NULL;
     getaddrinfo("node", NULL, NULL, &res);
@@ -1001,6 +1255,9 @@ void memleak_getaddrinfo()
 
 void memleak_mmap(int fd)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     // cppcheck-suppress [unusedAllocatedMemory, unreadVariable, constVariablePointer]
     void *addr = mmap(NULL, 255, PROT_NONE, MAP_PRIVATE, fd, 0);
     // cppcheck-suppress memleak
@@ -1055,6 +1312,9 @@ int munmap_no_double_free(int tofd, // #11396
 
 void resourceLeak_fdopen(int fd)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     // cppcheck-suppress [unreadVariable, constVariablePointer]
     FILE *f = fdopen(fd, "r");
     // cppcheck-suppress resourceLeak
@@ -1062,6 +1322,9 @@ void resourceLeak_fdopen(int fd)
 
 void resourceLeak_mkstemp(char *template)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     // cppcheck-suppress unreadVariable
     int fp = mkstemp(template);
     // cppcheck-suppress resourceLeak
@@ -1069,17 +1332,26 @@ void resourceLeak_mkstemp(char *template)
 
 void no_resourceLeak_mkstemp_01(char *template)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     int fp = mkstemp(template);
     close(fp);
 }
 
 int no_resourceLeak_mkstemp_02(char *template)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     return mkstemp(template);
 }
 
 void resourceLeak_fdopendir(int fd)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     // cppcheck-suppress [unreadVariable, constVariablePointer]
     DIR* leak1 = fdopendir(fd);
     // cppcheck-suppress resourceLeak
@@ -1087,6 +1359,9 @@ void resourceLeak_fdopendir(int fd)
 
 void resourceLeak_opendir(void)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     // cppcheck-suppress [unreadVariable, constVariablePointer]
     DIR* leak1 = opendir("abc");
     // cppcheck-suppress resourceLeak
@@ -1094,6 +1369,9 @@ void resourceLeak_opendir(void)
 
 void resourceLeak_socket(void)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     // cppcheck-suppress unreadVariable
     int s = socket(AF_INET, SOCK_STREAM, 0);
     // cppcheck-suppress resourceLeak
@@ -1101,6 +1379,9 @@ void resourceLeak_socket(void)
 
 void resourceLeak_open1(void)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     // cppcheck-suppress unreadVariable
     int fd = open("file", O_RDWR | O_CREAT);
     // cppcheck-suppress resourceLeak
@@ -1108,6 +1389,9 @@ void resourceLeak_open1(void)
 
 void resourceLeak_open2(void)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     // cppcheck-suppress unreadVariable
     int fd = open("file", O_RDWR | O_CREAT, S_IRUSR | S_IWUSR);
     // cppcheck-suppress resourceLeak
@@ -1115,6 +1399,9 @@ void resourceLeak_open2(void)
 
 void noleak(int x, int y, int z)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     DIR *p1 = fdopendir(x);
     closedir(p1);
     DIR *p2 = opendir("abc");
@@ -1138,6 +1425,9 @@ void noleak(int x, int y, int z)
 
 void ignoredReturnValue(const void *addr, int fd)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     // cppcheck-suppress leakReturnValNotUsed
     mmap(addr, 255, PROT_NONE, MAP_PRIVATE, fd, 0);
     // cppcheck-suppress ignoredReturnValue
@@ -1153,6 +1443,9 @@ void ignoredReturnValue(const void *addr, int fd)
 
 void invalidFunctionArg()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     // cppcheck-suppress invalidFunctionArg
     // cppcheck-suppress usleepCalled
     usleep(-1);
@@ -1167,6 +1460,9 @@ void invalidFunctionArg()
 
 void invalidFunctionArg_close(int fd)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (fd < 0) {
         // cppcheck-suppress invalidFunctionArg
         (void)close(fd);
@@ -1175,6 +1471,9 @@ void invalidFunctionArg_close(int fd)
 
 void uninitvar(int fd)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     int x1, x2, x3, x4;
     char buf[2];
     int decimal, sign;
@@ -1247,6 +1546,9 @@ void uninitvar(int fd)
 
 void uninitvar_getcwd(void)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     char *buf;
     size_t size;
     // cppcheck-suppress uninitvar
@@ -1256,6 +1558,9 @@ void uninitvar_getcwd(void)
 
 void uninitvar_types(void)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     // cppcheck-suppress unassignedVariable
     blkcnt_t b;
     // cppcheck-suppress [uninitvar,constStatement]
@@ -1268,6 +1573,9 @@ void uninitvar_types(void)
 
 void timet_h(const struct timespec* ptp1)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     clockid_t clk_id1, clk_id2, clk_id3;
     // cppcheck-suppress constVariablePointer
     struct timespec* ptp;
@@ -1292,6 +1600,9 @@ void timet_h(const struct timespec* ptp1)
 
 void dl(const char* libname, const char* func)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     void* lib = dlopen(libname, RTLD_NOW);
     // cppcheck-suppress redundantInitialization
     // cppcheck-suppress resourceLeak
@@ -1310,6 +1621,9 @@ void dl(const char* libname, const char* func)
 
 void asctime_r_test(const struct tm * tm, char * bufSizeUnknown)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     struct tm tm_uninit_data;
     const struct tm * tm_uninit_pointer;
     char bufSize5[5];
@@ -1341,6 +1655,9 @@ void asctime_r_test(const struct tm * tm, char * bufSizeUnknown)
 
 void ctime_r_test(const time_t * timep, char * bufSizeUnknown)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     time_t time_t_uninit_data;
     const time_t * time_t_uninit_pointer;
     char bufSize5[5];

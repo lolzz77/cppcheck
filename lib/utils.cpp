@@ -1,3 +1,5 @@
+#include <stdio.h>
+#include <pthread.h>
 /*
  * Cppcheck - A tool for static C/C++ code analysis
  * Copyright (C) 2007-2023 Cppcheck team.
@@ -27,6 +29,9 @@
 
 int caseInsensitiveStringCompare(const std::string &lhs, const std::string &rhs)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (lhs.size() != rhs.size())
         return (lhs.size() < rhs.size()) ? -1 : 1;
     for (unsigned int i = 0; i < lhs.size(); ++i) {
@@ -40,6 +45,9 @@ int caseInsensitiveStringCompare(const std::string &lhs, const std::string &rhs)
 
 bool isValidGlobPattern(const std::string& pattern)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     for (std::string::const_iterator i = pattern.cbegin(); i != pattern.cend(); ++i) {
         if (*i == '*' || *i == '?') {
             const std::string::const_iterator j = i + 1;
@@ -53,6 +61,9 @@ bool isValidGlobPattern(const std::string& pattern)
 
 bool matchglob(const std::string& pattern, const std::string& name)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     const char* p = pattern.c_str();
     const char* n = name.c_str();
     std::stack<std::pair<const char*, const char*>, std::vector<std::pair<const char*, const char*>>> backtrack;
@@ -116,6 +127,9 @@ bool matchglob(const std::string& pattern, const std::string& name)
 }
 
 bool matchglobs(const std::vector<std::string> &patterns, const std::string &name) {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     return std::any_of(begin(patterns), end(patterns), [&name](const std::string &pattern) {
         return matchglob(pattern, name);
     });
@@ -123,6 +137,9 @@ bool matchglobs(const std::vector<std::string> &patterns, const std::string &nam
 
 void strTolower(std::string& str)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     // This wrapper exists because Sun's CC does not allow a static_cast
     // from extern "C" int(*)(int) to int(*)(int).
     std::transform(str.cbegin(), str.cend(), str.begin(), [](int c) {

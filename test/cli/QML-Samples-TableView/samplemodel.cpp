@@ -1,3 +1,5 @@
+#include <stdio.h>
+#include <pthread.h>
 #include "samplemodel.h"
 
 #include <QDebug>
@@ -8,12 +10,18 @@ SampleModel::SampleModel(QObject *parent) : QAbstractListModel(parent)
 
 int SampleModel::rowCount(const QModelIndex &parent) const
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     Q_UNUSED(parent)
     return _data.size();
 }
 
 QVariant SampleModel::data(const QModelIndex &index, int role) const
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (!index.isValid())
         return QVariant();
     if (index.row() < 0 || index.row() > _data.count() - 1)
@@ -46,6 +54,9 @@ QHash<int, QByteArray> SampleModel::roleNames() const
 
 void SampleModel::fillSampleData(int size)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     QString abs = "qwertyuiopasdfghjklzxcvbnm";
     QRandomGenerator r;
     for (auto i = 0; i < size; i++) {

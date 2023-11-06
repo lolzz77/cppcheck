@@ -1,3 +1,5 @@
+#include <stdio.h>
+#include <pthread.h>
 /*
  * Cppcheck - A tool for static C/C++ code analysis
  * Copyright (C) 2007-2023 Cppcheck team.
@@ -177,6 +179,9 @@ static std::string readAttrString(const tinyxml2::XMLElement *e, const char *att
 
 static long long readAttrInt(const tinyxml2::XMLElement *e, const char *attr, bool *error)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     int64_t value = 0;
     const bool err = (e->QueryInt64Attribute(attr, &value) != tinyxml2::XML_SUCCESS);
     if (error)
@@ -277,6 +282,9 @@ std::list<CTU::FileInfo::UnsafeUsage> CTU::loadUnsafeUsageListFromXml(const tiny
 
 static int isCallFunction(const Scope *scope, int argnr, const Token **tok)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     const Variable * const argvar = scope->function->getArgumentVar(argnr);
     if (!argvar->isPointer())
         return -1;
@@ -502,6 +510,9 @@ static bool findPath(const std::string &callId,
                      int index,
                      bool warning)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (index >= CTU::maxCtuDepth || index >= 10)
         return false;
 

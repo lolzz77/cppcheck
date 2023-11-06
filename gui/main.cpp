@@ -1,3 +1,5 @@
+#include <stdio.h>
+#include <pthread.h>
 /*
  * Cppcheck - A tool for static C/C++ code analysis
  * Copyright (C) 2007-2023 Cppcheck team.
@@ -48,6 +50,9 @@ static bool CheckArgs(const QStringList &args);
 
 int main(int argc, char *argv[])
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
 
 #if (QT_VERSION >= QT_VERSION_CHECK(5, 6, 0)) && (QT_VERSION < QT_VERSION_CHECK(6, 0, 0))
     QApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
@@ -91,6 +96,9 @@ int main(int argc, char *argv[])
 // Rest of the arguments are handled in MainWindow::HandleCLIParams()
 static bool CheckArgs(const QStringList &args)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (args.contains("-h") || args.contains("--help")) {
         ShowUsage();
         return false;
@@ -104,6 +112,9 @@ static bool CheckArgs(const QStringList &args)
 
 static void ShowUsage()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     QString helpMessage = MainWindow::tr(
         "Cppcheck GUI.\n\n"
         "Syntax:\n"
@@ -131,6 +142,9 @@ static void ShowUsage()
 
 static void ShowVersion()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
 #if defined(_WIN32)
     AboutDialog *dlg = new AboutDialog(CppCheck::version(), CppCheck::extraVersion(), 0);
     dlg->exec();

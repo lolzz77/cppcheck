@@ -1,3 +1,5 @@
+#include <stdio.h>
+#include <pthread.h>
 /*
  * Cppcheck - A tool for static C/C++ code analysis
  * Copyright (C) 2007-2023 Cppcheck team.
@@ -39,6 +41,9 @@ private:
     Settings settings1 = settingsBuilder().severity(Severity::style).severity(Severity::warning).build();
 
     void run() override {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char cfg[] = "<?xml version=\"1.0\"?>\n"
                            "<def>\n"
                            "  <function name=\"bar\"> <pure/> </function>\n"
@@ -147,6 +152,9 @@ private:
     }
 
     void assignAndCompare() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         // &
         check("void foo(int x)\n"
               "{\n"
@@ -392,6 +400,9 @@ private:
     }
 
     void mismatchingBitAnd() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("void f(int a) {\n"
               "    int b = a & 0xf0;\n"
               "    b &= 1;\n"
@@ -415,6 +426,9 @@ private:
     }
 
     void comparison() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         // CheckCondition::comparison test cases
         // '=='
         check("void f(int a) {\n assert( (a & 0x07) == 8U );\n}");
@@ -476,6 +490,9 @@ private:
 
 #define checkPureFunction(code) checkPureFunction_(code, __FILE__, __LINE__)
     void multicompare() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("void foo(int x)\n"
               "{\n"
               "    if (x & 7);\n"
@@ -534,6 +551,9 @@ private:
     }
 
     void checkPureFunction_(const char code[], const char* file, int line) {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         // Clear the error buffer..
         errout.str("");
 
@@ -546,6 +566,9 @@ private:
     }
 
     void overlappingElseIfCondition() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("void f(int a, int &b) {\n"
               "    if (a) { b = 1; }\n"
               "    else { if (a) { b = 2; } }\n"
@@ -743,6 +766,9 @@ private:
     }
 
     void oppositeElseIfCondition() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         setMultiline();
 
         check("void f(int x) {\n"
@@ -765,6 +791,9 @@ private:
     }
 
     void checkBadBitmaskCheck() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("bool f(int x) {\n"
               "    bool b = x | 0x02;\n"
               "    return b;\n"
@@ -913,6 +942,9 @@ private:
 
 
     void incorrectLogicOperator1() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("void f(int x) {\n"
               "    if ((x != 1) || (x != 3))\n"
               "        a++;\n"
@@ -1007,6 +1039,9 @@ private:
     }
 
     void incorrectLogicOperator2() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("void f(float x) {\n"
               "    if ((x == 1) && (x == 1.0))\n"
               "        a++;\n"
@@ -1232,6 +1267,9 @@ private:
     }
 
     void incorrectLogicOperator3() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("void f(int x, bool& b) {\n"
               "    b = x > 5 && x == 1;\n"
               "    c = x < 1 && x == 3;\n"
@@ -1245,6 +1283,9 @@ private:
     }
 
     void incorrectLogicOperator4() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("#define ZERO 0\n"
               "void f(int x) {\n"
               "  if (x && x != ZERO) {}\n"
@@ -1354,6 +1395,9 @@ private:
     }
 
     void incorrectLogicOperator11() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("void foo(int i, const int n) { if ( i < n && i == n ) {} }");
         ASSERT_EQUALS("[test.cpp:1]: (warning) Logical conjunction always evaluates to false: i < n && i == n.\n", errout.str());
 
@@ -1462,6 +1506,9 @@ private:
     }
 
     void incorrectLogicOperator13() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         // 8780
         check("void f(const int &v) {\n"
               "    const int x=v;\n"
@@ -1477,6 +1524,9 @@ private:
     }
 
     void incorrectLogicOperator14() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("static const std ::string h;\n"
               "class i {\n"
               "public:\n"
@@ -1684,6 +1734,9 @@ private:
     }
 
     void incorrectLogicOperator15() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         // 10022
         check("struct PipeRoute {\n"
               "    std::deque<int> points;\n"
@@ -1714,6 +1767,9 @@ private:
     }
 
     void secondAlwaysTrueFalseWhenFirstTrueError() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("void f(void) {\n" // #8892
               "    const char c[1] = { \'x\' }; \n"
               "    if(c[0] == \'x\'){;}\n"
@@ -1800,6 +1856,9 @@ private:
     }
 
     void incorrectLogicOp_condSwapping() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("void f(int x) {\n"
               "    if (x < 1 && x > 3)\n"
               "        a++;\n"
@@ -1850,6 +1909,9 @@ private:
     }
 
     void modulo() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("bool f(bool& b1, bool& b2, bool& b3) {\n"
               "    b1 = a % 5 == 4;\n"
               "    b2 = a % c == 100000;\n"
@@ -1894,6 +1956,9 @@ private:
     }
 
     void oppositeInnerCondition() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("void foo(int a, int b) {\n"
               "    if(a==b)\n"
               "        if(a!=b)\n"
@@ -2113,6 +2178,9 @@ private:
     }
 
     void oppositeInnerConditionPointers() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("void f(struct ABC *abc) {\n"
               "   struct AB *ab = abc->ab;\n"
               "   if (ab->a == 123){\n"
@@ -2148,6 +2216,9 @@ private:
     }
 
     void oppositeInnerConditionClass() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         // #6095 - calling member function that might change the state
         check("void f() {\n"
               "  const Fred fred;\n" // <- fred is const, warn
@@ -2197,6 +2268,9 @@ private:
     }
 
     void oppositeInnerConditionUndeclaredVariable() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         // #5731 - fp when undeclared variable is used
         check("void f() {\n"
               "   if (x == -1){\n"
@@ -2254,6 +2328,9 @@ private:
     }
 
     void oppositeInnerConditionAlias() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("void f() {\n"
               "  struct S s;\n"
               "  bool hasFailed = false;\n"
@@ -2268,6 +2345,9 @@ private:
     }
 
     void oppositeInnerCondition2() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         // first comparison: <
         check("void f(int x) {\n"
               "\n"
@@ -2450,6 +2530,9 @@ private:
     }
 
     void oppositeInnerCondition3() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("void f3(char c) { if(c=='x') if(c=='y') {}}");
         ASSERT_EQUALS("[test.cpp:1] -> [test.cpp:1]: (warning) Opposite inner 'if' condition leads to a dead code block.\n", errout.str());
 
@@ -2505,6 +2588,9 @@ private:
     }
 
     void oppositeInnerConditionAnd() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("void f(int x) {\n"
               "  if (a>3 && x > 100) {\n"
               "    if (x < 10) {}\n"
@@ -2521,6 +2607,9 @@ private:
 
     void oppositeInnerConditionOr()
     {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("void f(int x) {\n"
               "    if (x == 1 || x == 2) {\n"
               "        if (x == 3) {}\n"
@@ -2560,6 +2649,9 @@ private:
     }
 
     void oppositeInnerConditionEmpty() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("void f1(const std::string &s) { if(s.size() > 42) if(s.empty()) {}}");
         ASSERT_EQUALS("[test.cpp:1] -> [test.cpp:1]: (warning) Opposite inner 'if' condition leads to a dead code block.\n", errout.str());
 
@@ -2615,6 +2707,9 @@ private:
     }
 
     void oppositeInnerConditionFollowVar() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("struct X {\n"
               "    void f() {\n"
               "        const int flag = get();\n"
@@ -2666,6 +2761,9 @@ private:
     }
 
     void identicalInnerCondition() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("void f1(int a, int b) { if(a==b) if(a==b) {}}");
         ASSERT_EQUALS("[test.cpp:1] -> [test.cpp:1]: (warning) Identical inner 'if' condition is always true.\n", errout.str());
 
@@ -2726,6 +2824,9 @@ private:
     }
 
     void identicalConditionAfterEarlyExit() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("void f(int x) {\n" // #8137
               "  if (x > 100) { return; }\n"
               "  if (x > 100) {}\n"
@@ -2887,6 +2988,9 @@ private:
     }
 
     void innerConditionModified() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("void f(int x, int y) {\n"
               "  if (x == 0) {\n"
               "    x += y;\n"
@@ -2914,6 +3018,9 @@ private:
 
     // clarify conditions with = and comparison
     void clarifyCondition1() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("void f() {\n"
               "    if (x = b() < 0) {}\n" // don't simplify and verify this code
               "}");
@@ -3017,6 +3124,9 @@ private:
 
     // clarify conditions with bitwise operator and comparison
     void clarifyCondition2() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("void f() {\n"
               "    if (x & 3 == 2) {}\n"
               "}");
@@ -3034,6 +3144,9 @@ private:
 
     // clarify condition that uses ! operator and then bitwise operator
     void clarifyCondition3() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("void f(int w) {\n"
               "    if(!w & 0x8000) {}\n"
               "}");
@@ -3105,6 +3218,9 @@ private:
     }
 
     void clarifyCondition6() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("template<class Y>\n"
               "SharedPtr& operator=( SharedPtr<Y> const & r ) {\n"
               "    px = r.px;\n"
@@ -3114,6 +3230,9 @@ private:
     }
 
     void clarifyCondition7() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         // Ensure that binary and unary &, and & in declarations are distinguished properly
         check("void f(bool error) {\n"
               "    bool & withoutSideEffects=found.first->second;\n" // Declaring a reference to a boolean; & is no operator at all
@@ -3123,6 +3242,9 @@ private:
     }
 
     void clarifyCondition8() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         // don't warn when boolean result comes from function call, array index, etc
         // the operator precedence is not unknown then
         check("bool a();\n"
@@ -3150,6 +3272,9 @@ private:
     }
 
     void testBug5895() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("void png_parse(uint64_t init, int buf_size) {\n"
               "    if (init == 0x89504e470d0a1a0a || init == 0x8a4d4e470d0a1a0a)\n"
               "        ;\n"
@@ -3158,6 +3283,9 @@ private:
     }
 
     void testBug5309() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("extern uint64_t value;\n"
               "void foo() {\n"
               "    if( ( value >= 0x7ff0000000000001ULL )\n"
@@ -3167,6 +3295,9 @@ private:
     }
 
     void alwaysTrue() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
 
         check("void f(const struct S *s) {\n" //#8196
               "  int x1 = s->x;\n"
@@ -4536,6 +4667,9 @@ private:
 
     void alwaysTrueSymbolic()
     {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("void f(const uint32_t x) {\n"
               "    uint32_t y[1];\n"
               "    y[0]=x;\n"
@@ -4735,6 +4869,9 @@ private:
     }
 
     void alwaysTrueInfer() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("void f(int x) {\n"
               "    if (x > 5) {\n"
               "        x++;\n"
@@ -4950,6 +5087,9 @@ private:
     }
 
     void alwaysTrueContainer() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         // #9329
         check("void c1(std::vector<double>&);\n"
               "void c2(std::vector<double>&);\n"
@@ -5084,6 +5224,9 @@ private:
 
     void alwaysTrueLoop()
     {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("long foo() {\n"
               "  bool bUpdated = false;\n"
               "  long Ret{};\n"
@@ -5169,6 +5312,9 @@ private:
 
     void alwaysTrueTryCatch()
     {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("void g();\n"
               "void f(int x)\n"
               "{\n"
@@ -5206,6 +5352,9 @@ private:
     }
 
     void multiConditionAlwaysTrue() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("void f() {\n"
               "  int val = 0;\n"
               "  if (val < 0) continue;\n"
@@ -5256,6 +5405,9 @@ private:
     }
 
     void duplicateCondition() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("void f(bool x) {\n"
               "    if(x) {}\n"
               "    if(x) {}\n"
@@ -5446,6 +5598,9 @@ private:
     }
 
     void checkInvalidTestForOverflow() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("void f(char *p, unsigned int x) {\n"
               "    assert((p + x) < p);\n"
               "}");
@@ -5531,6 +5686,9 @@ private:
     }
 
     void checkConditionIsAlwaysTrueOrFalseInsideIfWhile() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("void f() {\n"
               "    enum states {A,B,C};\n"
               "    const unsigned g_flags = B|C;\n"
@@ -5558,6 +5716,9 @@ private:
     }
 
     void alwaysTrueFalseInLogicalOperators() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("bool f();\n"
               "void foo() { bool x = true; if(x||f()) {}}");
         ASSERT_EQUALS("[test.cpp:2]: (style) Condition 'x' is always true\n", errout.str());
@@ -5594,6 +5755,9 @@ private:
     }
 
     void pointerAdditionResultNotNull() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("void f(char *ptr) {\n"
               "  if (ptr + 1 != 0);\n"
               "}");
@@ -5601,6 +5765,9 @@ private:
     }
 
     void duplicateConditionalAssign() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         setMultiline();
 
         check("void f(int& x, int y) {\n"
@@ -5693,6 +5860,9 @@ private:
     }
 
     void checkAssignmentInCondition() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("void f(std::string s) {\n"
               "    if (s=\"123\"){}\n"
               "}");
@@ -5712,6 +5882,9 @@ private:
     }
 
     void compareOutOfTypeRange() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const Settings settingsUnix64 = settingsBuilder().severity(Severity::style).platform(Platform::Type::Unix64).build();
 
         check("void f(unsigned char c) {\n"

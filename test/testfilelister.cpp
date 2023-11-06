@@ -1,3 +1,5 @@
+#include <stdio.h>
+#include <pthread.h>
 /*
  * Cppcheck - A tool for static C/C++ code analysis
  * Copyright (C) 2007-2023 Cppcheck team.
@@ -34,6 +36,9 @@ public:
 
 private:
     void run() override {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         TEST_CASE(recursiveAddFiles);
         TEST_CASE(recursiveAddFilesEmptyPath);
         TEST_CASE(excludeFile1);
@@ -54,6 +59,9 @@ private:
     }
 
     void recursiveAddFiles() const {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const std::string adddir = findBaseDir() + ".";
 
         // Recursively add add files..
@@ -85,12 +93,18 @@ private:
     }
 
     void recursiveAddFilesEmptyPath() const {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         std::map<std::string, std::size_t> files;
         const std::string err = FileLister::recursiveAddFiles(files, "", PathMatch({}));
         ASSERT_EQUALS("no path specified", err);
     }
 
     void excludeFile1() const {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const std::string basedir = findBaseDir();
 
         std::map<std::string, std::size_t> files;
@@ -102,6 +116,9 @@ private:
     }
 
     void excludeFile2() const {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const std::string basedir = findBaseDir();
 
         std::map<std::string, std::size_t> files;

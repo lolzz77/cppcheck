@@ -1,3 +1,5 @@
+#include <stdio.h>
+#include <pthread.h>
 /*
  * Cppcheck - A tool for static C/C++ code analysis
  * Copyright (C) 2007-2023 Cppcheck team.
@@ -56,6 +58,9 @@ static const CWE CWE688(688U);  // Function Call With Incorrect Variable or Refe
 
 void CheckFunctions::checkProhibitedFunctions()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     const bool checkAlloca = mSettings->severity.isEnabled(Severity::warning) && ((mSettings->standards.c >= Standards::C99 && mTokenizer->isC()) || mSettings->standards.cpp >= Standards::CPP11);
 
     logChecker("CheckFunctions::checkProhibitedFunctions");
@@ -103,6 +108,9 @@ void CheckFunctions::checkProhibitedFunctions()
 //---------------------------------------------------------------------------
 void CheckFunctions::invalidFunctionUsage()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     logChecker("CheckFunctions::invalidFunctionUsage");
     const SymbolDatabase* symbolDatabase = mTokenizer->getSymbolDatabase();
     for (const Scope *scope : symbolDatabase->functionScopes) {
@@ -194,6 +202,9 @@ void CheckFunctions::invalidFunctionUsage()
 
 void CheckFunctions::invalidFunctionArgError(const Token *tok, const std::string &functionName, int argnr, const ValueFlow::Value *invalidValue, const std::string &validstr)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     std::ostringstream errmsg;
     errmsg << "$symbol:" << functionName << '\n';
     if (invalidValue && invalidValue->condition)
@@ -223,6 +234,9 @@ void CheckFunctions::invalidFunctionArgError(const Token *tok, const std::string
 
 void CheckFunctions::invalidFunctionArgBoolError(const Token *tok, const std::string &functionName, int argnr)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     std::ostringstream errmsg;
     errmsg << "$symbol:" << functionName << '\n';
     errmsg << "Invalid $symbol() argument nr " << argnr << ". A non-boolean value is required.";
@@ -231,6 +245,9 @@ void CheckFunctions::invalidFunctionArgBoolError(const Token *tok, const std::st
 
 void CheckFunctions::invalidFunctionArgStrError(const Token *tok, const std::string &functionName, nonneg int argnr)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     std::ostringstream errmsg;
     errmsg << "$symbol:" << functionName << '\n';
     errmsg << "Invalid $symbol() argument nr " << argnr << ". A nul-terminated string is required.";
@@ -242,6 +259,9 @@ void CheckFunctions::invalidFunctionArgStrError(const Token *tok, const std::str
 //---------------------------------------------------------------------------
 void CheckFunctions::checkIgnoredReturnValue()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (!mSettings->severity.isEnabled(Severity::warning) && !mSettings->severity.isEnabled(Severity::style))
         return;
 
@@ -290,12 +310,18 @@ void CheckFunctions::checkIgnoredReturnValue()
 
 void CheckFunctions::ignoredReturnValueError(const Token* tok, const std::string& function)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     reportError(tok, Severity::warning, "ignoredReturnValue",
                 "$symbol:" + function + "\nReturn value of function $symbol() is not used.", CWE252, Certainty::normal);
 }
 
 void CheckFunctions::ignoredReturnErrorCode(const Token* tok, const std::string& function)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     reportError(tok, Severity::style, "ignoredReturnErrorCode",
                 "$symbol:" + function + "\nError code from the return value of function $symbol() is not used.", CWE252, Certainty::normal);
 }
@@ -307,6 +333,9 @@ static const Token *checkMissingReturnScope(const Token *tok, const Library &lib
 
 void CheckFunctions::checkMissingReturn()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     logChecker("CheckFunctions::checkMissingReturn");
     const SymbolDatabase *symbolDatabase = mTokenizer->getSymbolDatabase();
     for (const Scope *scope : symbolDatabase->functionScopes) {
@@ -329,6 +358,9 @@ void CheckFunctions::checkMissingReturn()
 
 static bool isForwardJump(const Token *gotoToken)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (!Token::Match(gotoToken, "goto %name% ;"))
         return false;
     for (const Token *prev = gotoToken; gotoToken; gotoToken = gotoToken->previous()) {
@@ -342,6 +374,9 @@ static bool isForwardJump(const Token *gotoToken)
 
 static const Token *checkMissingReturnScope(const Token *tok, const Library &library)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     const Token *lastStatement = nullptr;
     while ((tok = tok->previous()) != nullptr) {
         if (tok->str() == ")")
@@ -413,6 +448,9 @@ static const Token *checkMissingReturnScope(const Token *tok, const Library &lib
 
 void CheckFunctions::missingReturnError(const Token* tok)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     reportError(tok, Severity::error, "missingReturn",
                 "Found an exit path from function with non-void return type that has missing return statement", CWE758, Certainty::normal);
 }
@@ -421,6 +459,9 @@ void CheckFunctions::missingReturnError(const Token* tok)
 //---------------------------------------------------------------------------
 void CheckFunctions::checkMathFunctions()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     const bool styleC99 = mSettings->severity.isEnabled(Severity::style) && mSettings->standards.c != Standards::C89 && mSettings->standards.cpp != Standards::CPP03;
     const bool printWarnings = mSettings->severity.isEnabled(Severity::warning);
 
@@ -482,6 +523,9 @@ void CheckFunctions::checkMathFunctions()
 
 void CheckFunctions::mathfunctionCallWarning(const Token *tok, const nonneg int numParam)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (tok) {
         if (numParam == 1)
             reportError(tok, Severity::warning, "wrongmathcall", "$symbol:" + tok->str() + "\nPassing value " + tok->strAt(2) + " to $symbol() leads to implementation-defined result.", CWE758, Certainty::normal);
@@ -493,6 +537,9 @@ void CheckFunctions::mathfunctionCallWarning(const Token *tok, const nonneg int 
 
 void CheckFunctions::mathfunctionCallWarning(const Token *tok, const std::string& oldexp, const std::string& newexp)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     reportError(tok, Severity::style, "unpreciseMathCall", "Expression '" + oldexp + "' can be replaced by '" + newexp + "' to avoid loss of precision.", CWE758, Certainty::normal);
 }
 
@@ -501,6 +548,9 @@ void CheckFunctions::mathfunctionCallWarning(const Token *tok, const std::string
 //---------------------------------------------------------------------------
 void CheckFunctions::memsetZeroBytes()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
 // FIXME:
 //  Replace this with library configuration.
 //  For instance:
@@ -530,6 +580,9 @@ void CheckFunctions::memsetZeroBytes()
 
 void CheckFunctions::memsetZeroBytesError(const Token *tok)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     const std::string summary("memset() called to fill 0 bytes.");
     const std::string verbose(summary + " The second and third arguments might be inverted."
                               " The function memset ( void * ptr, int value, size_t num ) sets the"
@@ -539,6 +592,9 @@ void CheckFunctions::memsetZeroBytesError(const Token *tok)
 
 void CheckFunctions::memsetInvalid2ndParam()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
 // FIXME:
 //  Replace this with library configuration.
 //  For instance:
@@ -587,6 +643,9 @@ void CheckFunctions::memsetInvalid2ndParam()
 
 void CheckFunctions::memsetFloatError(const Token *tok, const std::string &var_value)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     const std::string message("The 2nd memset() argument '" + var_value +
                               "' is a float, its representation is implementation defined.");
     const std::string verbose(message + " memset() is used to set each byte of a block of memory to a specific value and"
@@ -596,6 +655,9 @@ void CheckFunctions::memsetFloatError(const Token *tok, const std::string &var_v
 
 void CheckFunctions::memsetValueOutOfRangeError(const Token *tok, const std::string &value)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     const std::string message("The 2nd memset() argument '" + value + "' doesn't fit into an 'unsigned char'.");
     const std::string verbose(message + " The 2nd parameter is passed as an 'int', but the function fills the block of memory using the 'unsigned char' conversion of this value.");
     reportError(tok, Severity::warning, "memsetValueOutOfRange", message + "\n" + verbose, CWE686, Certainty::normal);
@@ -607,6 +669,9 @@ void CheckFunctions::memsetValueOutOfRangeError(const Token *tok, const std::str
 
 void CheckFunctions::checkLibraryMatchFunctions()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (!mSettings->checkLibrary)
         return;
 
@@ -679,6 +744,9 @@ void CheckFunctions::checkLibraryMatchFunctions()
 // details: https://en.cppreference.com/w/cpp/language/copy_elision
 void CheckFunctions::returnLocalStdMove()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (!mTokenizer->isCPP() || mSettings->standards.cpp < Standards::CPP11)
         return;
 
@@ -709,6 +777,9 @@ void CheckFunctions::returnLocalStdMove()
 
 void CheckFunctions::copyElisionError(const Token *tok)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     reportError(tok,
                 Severity::performance,
                 "returnStdMoveLocal",
@@ -718,6 +789,9 @@ void CheckFunctions::copyElisionError(const Token *tok)
 
 void CheckFunctions::useStandardLibrary()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (!mSettings->severity.isEnabled(Severity::style))
         return;
 
@@ -822,6 +896,9 @@ void CheckFunctions::useStandardLibrary()
 
 void CheckFunctions::useStandardLibraryError(const Token *tok, const std::string& expected)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     reportError(tok, Severity::style,
                 "useStandardLibrary",
                 "Consider using " + expected + " instead of loop.");

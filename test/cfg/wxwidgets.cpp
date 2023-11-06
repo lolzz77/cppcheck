@@ -1,3 +1,5 @@
+#include <stdio.h>
+#include <pthread.h>
 
 // Test library configuration for wxwidgets.cfg
 //
@@ -31,6 +33,9 @@
 
 void uninitvar_wxRegEx_GetMatch(wxRegEx &obj, size_t *start, size_t *len, size_t index)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     size_t s,l;
     size_t *sPtr,*lPtr;
     // cppcheck-suppress uninitvar
@@ -48,6 +53,9 @@ void uninitvar_wxRegEx_GetMatch(wxRegEx &obj, size_t *start, size_t *len, size_t
 // This function does not terminate execution.
 bool duplicateBreak_wxLogApiError(const wxString &msg, const HRESULT &hr, wxString &str)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (hr) {
         wxLogApiError(msg,hr);
         str = "fail";
@@ -59,6 +67,9 @@ bool duplicateBreak_wxLogApiError(const wxString &msg, const HRESULT &hr, wxStri
 
 void argDirection_wxString_ToDouble(const wxString &str)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     // No warning is expected. Ensure both arguments are treated
     // as output by library configuration
     double value;
@@ -68,6 +79,9 @@ void argDirection_wxString_ToDouble(const wxString &str)
 
 void argDirection_wxString_ToCDouble(const wxString &str)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     // No warning is expected. Ensure both arguments are treated
     // as output by library configuration
     double value;
@@ -77,6 +91,9 @@ void argDirection_wxString_ToCDouble(const wxString &str)
 
 void argDirection_wxTextCtrl_GetSelection(const wxTextCtrl *const textCtrl)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     // No warning is expected. Ensure both arguments are treated
     // as output by library configuration
     long start;
@@ -87,24 +104,36 @@ void argDirection_wxTextCtrl_GetSelection(const wxTextCtrl *const textCtrl)
 
 void useRetval_wxString_MakeCapitalized(wxString &str)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     // No warning is expected for
     str.MakeCapitalized();
 }
 
 void useRetval_wxString_MakeLower(wxString &str)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     // No warning is expected for
     str.MakeLower();
 }
 
 void useRetval_wxString_MakeUpper(wxString &str)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     // No warning is expected for
     str.MakeUpper();
 }
 
 wxString containerOutOfBounds_wxArrayString(void)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     wxArrayString a;
     a.Add("42");
     a.Clear();
@@ -115,6 +144,9 @@ wxString containerOutOfBounds_wxArrayString(void)
 
 int containerOutOfBounds_wxArrayInt(void)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     wxArrayInt a;
     a.Add(42);
     a.Clear();
@@ -125,6 +157,9 @@ int containerOutOfBounds_wxArrayInt(void)
 
 void ignoredReturnValue_wxDC_GetSize(const wxDC &dc, wxCoord *width, wxCoord *height)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     // No warning is expected for
     dc.GetSize(width, height);
     // No warning is expected for
@@ -133,6 +168,9 @@ void ignoredReturnValue_wxDC_GetSize(const wxDC &dc, wxCoord *width, wxCoord *he
 
 void ignoredReturnValue_wxDC_GetSizeMM(const wxDC &dc, wxCoord *width, wxCoord *height)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     // No warning is expected for
     dc.GetSizeMM(width, height);
     // Now warning is expected for
@@ -141,12 +179,18 @@ void ignoredReturnValue_wxDC_GetSizeMM(const wxDC &dc, wxCoord *width, wxCoord *
 
 wxSizerItem* invalidFunctionArgBool_wxSizer_Add(wxSizer *sizer, wxWindow * window, const wxSizerFlags &flags)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     // No warning is expected for
     return sizer->Add(window,flags);
 }
 
 bool invalidFunctionArgBool_wxPGProperty_Hide(wxPGProperty *pg, bool hide, int flags)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     // cppcheck-suppress invalidFunctionArgBool
     (void)pg->Hide(hide, true);
     // No warning is expected for
@@ -155,12 +199,18 @@ bool invalidFunctionArgBool_wxPGProperty_Hide(wxPGProperty *pg, bool hide, int f
 
 wxTextCtrlHitTestResult nullPointer_wxTextCtrl_HitTest(const wxTextCtrl& txtCtrl, const wxPoint& pos)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     // no nullPointer-warning is expected
     return txtCtrl.HitTest(pos, NULL);
 }
 
 void validCode()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     wxString str = wxGetCwd();
     (void)str;
 
@@ -178,6 +228,9 @@ void validCode()
 #if wxUSE_GUI==1
 void validGuiCode()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
 #if wxUSE_SPINCTRL==1
     extern wxSpinCtrl spinCtrlInstance;
     spinCtrlInstance.SetBase(10);
@@ -188,6 +241,9 @@ void validGuiCode()
 
 void nullPointer(const wxString &str)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     // cppcheck-suppress nullPointer
     wxLogGeneric(wxLOG_Message, (char*)NULL);
     // cppcheck-suppress nullPointer
@@ -225,6 +281,9 @@ void nullPointer(const wxString &str)
 
 void nullPointer_wxSizer_Add(wxSizer &sizer, wxWindow *w)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     wxWindow * const ptr = 0;
     // @todo cppcheck-suppress nullPointer
     sizer.Add(ptr);
@@ -234,6 +293,9 @@ void nullPointer_wxSizer_Add(wxSizer &sizer, wxWindow *w)
 
 void uninitvar_wxSizer_Add(wxSizer &sizer, wxWindow *w,wxObject* userData)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     int uninit1, uninit2, uninit3;
     // cppcheck-suppress uninitvar
     sizer.Add(w,uninit1);
@@ -245,6 +307,9 @@ void uninitvar_wxSizer_Add(wxSizer &sizer, wxWindow *w,wxObject* userData)
 
 void ignoredReturnValue(const wxString &s)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     // cppcheck-suppress ignoredReturnValue
     wxGetCwd();
     // cppcheck-suppress ignoredReturnValue
@@ -257,6 +322,9 @@ void ignoredReturnValue(const wxString &s)
 
 void invalidFunctionArg(const wxString &str)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
 #if wxUSE_SPINCTRL==1
     extern wxSpinCtrl spinCtrlInstance;
     // cppcheck-suppress invalidFunctionArg
@@ -276,6 +344,9 @@ void invalidFunctionArg(const wxString &str)
 
 void uninitvar(wxWindow &w)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     wxLogLevel logLevelUninit;
     // cppcheck-suppress constVariable
     char cBufUninit[10];
@@ -293,6 +364,9 @@ void uninitvar(wxWindow &w)
 
 void uninitvar_wxStaticText(wxStaticText &s)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     // no warning
     s.Wrap(-1);
     int uninitInt;
@@ -302,6 +376,9 @@ void uninitvar_wxStaticText(wxStaticText &s)
 
 void uninitvar_wxString_NumberConversion(const wxString &str, const int numberBase)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     int uninitInteger1;
     int uninitInteger2;
     int uninitInteger3;
@@ -330,6 +407,9 @@ void uninitvar_wxString_NumberConversion(const wxString &str, const int numberBa
 
 void uninitvar_SetMenuBar(wxFrame * const framePtr, wxMenuBar * const menuBarPtr)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     wxMenuBar *menuBar;
     // cppcheck-suppress uninitvar
     framePtr->SetMenuBar(menuBar);
@@ -338,6 +418,9 @@ void uninitvar_SetMenuBar(wxFrame * const framePtr, wxMenuBar * const menuBarPtr
 
 void uninitvar_wxMenuBarAppend(wxMenuBar * const menuBarPtr, wxMenu * const menuPtr, const wxString &title)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     wxMenu *menu;
     // cppcheck-suppress uninitvar
     menuBarPtr->Append(menu, title);
@@ -346,6 +429,9 @@ void uninitvar_wxMenuBarAppend(wxMenuBar * const menuBarPtr, wxMenu * const menu
 
 void deprecatedFunctions_wxDataViewCustomRenderer(wxDataViewCustomRenderer &dataViewCustomRenderer, wxPoint cursor, wxRect cell, wxDataViewModel *model, const wxDataViewItem &item, unsigned int col)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     // cppcheck-suppress ActivateCalled
     dataViewCustomRenderer.Activate(cell, model, item, col);
     // cppcheck-suppress LeftClickCalled
@@ -359,6 +445,9 @@ void deprecatedFunctions(wxApp &a,
                          wxComboCtrl &comboCtrl,
                          wxChar * path)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
 #ifdef __WXOSX__
     // cppcheck-suppress MacOpenFileCalled
     a.MacOpenFile(s);
@@ -417,6 +506,9 @@ void deprecatedFunctions(wxApp &a,
 
 void wxString_test1(wxString s)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     for (int i = 0; i <= s.size(); ++i) {
         // cppcheck-suppress stlOutOfBounds
         s[i] = 'x';
@@ -425,6 +517,9 @@ void wxString_test1(wxString s)
 
 void wxString_test2()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     wxString s;
     // cppcheck-suppress containerOutOfBounds
     s[1] = 'a';

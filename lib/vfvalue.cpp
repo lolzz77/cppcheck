@@ -1,3 +1,5 @@
+#include <stdio.h>
+#include <pthread.h>
 /*
  * Cppcheck - A tool for static C/C++ code analysis
  * Copyright (C) 2007-2023 Cppcheck team.
@@ -34,6 +36,9 @@ namespace ValueFlow {
     }
 
     void Value::assumeCondition(const Token *tok) {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         condition = tok;
         errorPath.emplace_back(tok, "Assuming that condition '" + tok->expressionString() + "' is not redundant");
     }
@@ -154,6 +159,9 @@ namespace ValueFlow {
     }
 
     bool Value::sameToken(const Token *tok1, const Token *tok2) {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         if (tok1 == tok2)
             return true;
         if (!tok1)
@@ -192,6 +200,9 @@ namespace ValueFlow {
     }
 
     Value Value::unknown() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         Value v;
         v.valueType = ValueType::UNINIT;
         return v;

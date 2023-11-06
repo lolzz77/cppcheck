@@ -1,3 +1,5 @@
+#include <stdio.h>
+#include <pthread.h>
 /*
  * Cppcheck - A tool for static C/C++ code analysis
  * Copyright (C) 2007-2023 Cppcheck team.
@@ -93,6 +95,9 @@ ResultsTree::ResultsTree(QWidget * parent) :
 
 void ResultsTree::keyPressEvent(QKeyEvent *event)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (event->key() == Qt::Key_Enter || event->key() == Qt::Key_Return) {
         quickStartApplication(this->currentIndex());
     }
@@ -101,6 +106,9 @@ void ResultsTree::keyPressEvent(QKeyEvent *event)
 
 void ResultsTree::initialize(QSettings *settings, ApplicationList *list, ThreadHandler *checkThreadHandler)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     mSettings = settings;
     mApplications = list;
     mThread = checkThreadHandler;
@@ -110,6 +118,9 @@ void ResultsTree::initialize(QSettings *settings, ApplicationList *list, ThreadH
 
 QStandardItem *ResultsTree::createNormalItem(const QString &name)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     QStandardItem *item = new QStandardItem(name);
     item->setData(name, Qt::ToolTipRole);
     item->setEditable(false);
@@ -118,6 +129,9 @@ QStandardItem *ResultsTree::createNormalItem(const QString &name)
 
 QStandardItem *ResultsTree::createCheckboxItem(bool checked)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     QStandardItem *item = new QStandardItem;
     item->setCheckable(true);
     item->setCheckState(checked ? Qt::Checked : Qt::Unchecked);
@@ -127,6 +141,9 @@ QStandardItem *ResultsTree::createCheckboxItem(bool checked)
 
 QStandardItem *ResultsTree::createLineNumberItem(const QString &linenumber)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     QStandardItem *item = new QStandardItem();
     item->setData(QVariant(linenumber.toInt()), Qt::DisplayRole);
     item->setToolTip(linenumber);
@@ -137,6 +154,9 @@ QStandardItem *ResultsTree::createLineNumberItem(const QString &linenumber)
 
 bool ResultsTree::addErrorItem(const ErrorItem &item)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (item.errorPath.isEmpty()) {
         return false;
     }
@@ -259,6 +279,9 @@ QStandardItem *ResultsTree::addBacktraceFiles(QStandardItem *parent,
                                               const QString &icon,
                                               bool childOfMessage)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (!parent) {
         return nullptr;
     }
@@ -321,6 +344,9 @@ QStandardItem *ResultsTree::addBacktraceFiles(QStandardItem *parent,
 
 QString ResultsTree::severityToTranslatedString(Severity severity)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     switch (severity) {
     case Severity::style:
         return tr("style");
@@ -351,6 +377,9 @@ QString ResultsTree::severityToTranslatedString(Severity severity)
 
 QStandardItem *ResultsTree::findFileItem(const QString &name) const
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     // The first column contains the file name. In Windows we can get filenames
     // "header.h" and "Header.h" and must compare them as identical.
 
@@ -367,11 +396,17 @@ QStandardItem *ResultsTree::findFileItem(const QString &name) const
 
 void ResultsTree::clear()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     mModel.removeRows(0, mModel.rowCount());
 }
 
 void ResultsTree::clear(const QString &filename)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     const QString stripped = stripPath(filename, false);
 
     for (int i = 0; i < mModel.rowCount(); ++i) {
@@ -390,6 +425,9 @@ void ResultsTree::clear(const QString &filename)
 
 void ResultsTree::clearRecheckFile(const QString &filename)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     for (int i = 0; i < mModel.rowCount(); ++i) {
         const QStandardItem *fileItem = mModel.item(i, 0);
         if (!fileItem)
@@ -409,6 +447,9 @@ void ResultsTree::clearRecheckFile(const QString &filename)
 
 void ResultsTree::loadSettings()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     for (int i = 0; i < mModel.columnCount(); i++) {
         QString temp = QString(SETTINGS_RESULT_COLUMN_WIDTH).arg(i);
         setColumnWidth(i, qMax(20, mSettings->value(temp, 800 / mModel.columnCount()).toInt()));
@@ -424,6 +465,9 @@ void ResultsTree::loadSettings()
 
 void ResultsTree::saveSettings() const
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     for (int i = 0; i < mModel.columnCount(); i++) {
         QString temp = QString(SETTINGS_RESULT_COLUMN_WIDTH).arg(i);
         mSettings->setValue(temp, columnWidth(i));
@@ -432,6 +476,9 @@ void ResultsTree::saveSettings() const
 
 void ResultsTree::showResults(ShowTypes::ShowType type, bool show)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (type != ShowTypes::ShowNone && mShowSeverities.isShown(type) != show) {
         mShowSeverities.show(type, show);
         refreshTree();
@@ -440,24 +487,36 @@ void ResultsTree::showResults(ShowTypes::ShowType type, bool show)
 
 void ResultsTree::showCppcheckResults(bool show)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     mShowCppcheck = show;
     refreshTree();
 }
 
 void ResultsTree::showClangResults(bool show)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     mShowClang = show;
     refreshTree();
 }
 
 void ResultsTree::filterResults(const QString& filter)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     mFilter = filter;
     refreshTree();
 }
 
 void ResultsTree::showHiddenResults()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     //Clear the "hide" flag for each item
     mHiddenMessageId.clear();
     const int filecount = mModel.rowCount();
@@ -487,6 +546,9 @@ void ResultsTree::showHiddenResults()
 
 void ResultsTree::refreshTree()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     mVisibleErrors = false;
     //Get the amount of files in the tree
     const int filecount = mModel.rowCount();
@@ -562,6 +624,9 @@ void ResultsTree::refreshTree()
 
 QStandardItem *ResultsTree::ensureFileItem(const QString &fullpath, const QString &file0, bool hide)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     QString name = stripPath(fullpath, false);
     // Since item has path with native separators we must use path with
     // native separators to find it.
@@ -590,6 +655,9 @@ QStandardItem *ResultsTree::ensureFileItem(const QString &fullpath, const QStrin
 
 void ResultsTree::contextMenuEvent(QContextMenuEvent * e)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     QModelIndex index = indexAt(e->pos());
     if (index.isValid()) {
         bool multipleSelection = false;
@@ -722,6 +790,9 @@ void ResultsTree::contextMenuEvent(QContextMenuEvent * e)
 
 void ResultsTree::startApplication(const QStandardItem *target, int application)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     //If there are no applications specified, tell the user about it
     if (mApplications->getApplicationCount() == 0) {
         QMessageBox msg(QMessageBox::Critical,
@@ -835,6 +906,9 @@ void ResultsTree::startApplication(const QStandardItem *target, int application)
 
 QString ResultsTree::askFileDir(const QString &file)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     QString text = tr("Could not find file:") + '\n' + file + '\n';
     QString title;
     if (file.indexOf('/')) {
@@ -883,6 +957,9 @@ QString ResultsTree::askFileDir(const QString &file)
 
 void ResultsTree::copy()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (!mSelectionModel)
         return;
 
@@ -915,6 +992,9 @@ void ResultsTree::copy()
 
 void ResultsTree::hideResult()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (!mSelectionModel)
         return;
 
@@ -932,6 +1012,9 @@ void ResultsTree::hideResult()
 
 void ResultsTree::recheckSelectedFiles()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (!mSelectionModel)
         return;
 
@@ -969,6 +1052,9 @@ void ResultsTree::recheckSelectedFiles()
 
 void ResultsTree::hideAllIdResult()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (!mContextItem || !mContextItem->parent())
         return;
 
@@ -1014,6 +1100,9 @@ void ResultsTree::hideAllIdResult()
 
 void ResultsTree::suppressSelectedIds()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (!mSelectionModel)
         return;
 
@@ -1052,6 +1141,9 @@ void ResultsTree::suppressSelectedIds()
 
 void ResultsTree::suppressHash()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (!mSelectionModel)
         return;
 
@@ -1091,6 +1183,9 @@ void ResultsTree::suppressHash()
 
 void ResultsTree::openContainingFolder()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     QString filePath = getFilePath(mContextItem, true);
     if (!filePath.isEmpty()) {
         filePath = QFileInfo(filePath).absolutePath();
@@ -1100,6 +1195,9 @@ void ResultsTree::openContainingFolder()
 
 void ResultsTree::tagSelectedItems(const QString &tag)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (!mSelectionModel)
         return;
     bool isTagged = false;
@@ -1123,16 +1221,25 @@ void ResultsTree::tagSelectedItems(const QString &tag)
 
 void ResultsTree::context(int application)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     startApplication(mContextItem, application);
 }
 
 void ResultsTree::quickStartApplication(const QModelIndex &index)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     startApplication(mModel.itemFromIndex(index));
 }
 
 QString ResultsTree::getFilePath(const QStandardItem *target, bool fullPath)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (target) {
         // Make sure we are working with the first column
         if (target->column() != 0)
@@ -1156,6 +1263,9 @@ QString ResultsTree::getFilePath(const QStandardItem *target, bool fullPath)
 
 QString ResultsTree::severityToIcon(Severity severity)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     switch (severity) {
     case Severity::error:
         return ":images/dialog-error.png";
@@ -1176,6 +1286,9 @@ QString ResultsTree::severityToIcon(Severity severity)
 
 void ResultsTree::saveResults(Report *report) const
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     report->writeHeader();
 
     for (int i = 0; i < mModel.rowCount(); i++) {
@@ -1188,6 +1301,9 @@ void ResultsTree::saveResults(Report *report) const
 
 void ResultsTree::saveErrors(Report *report, const QStandardItem *fileItem) const
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (!fileItem) {
         return;
     }
@@ -1212,6 +1328,9 @@ void ResultsTree::saveErrors(Report *report, const QStandardItem *fileItem) cons
 
 static int indexOf(const QList<ErrorItem> &list, const ErrorItem &item)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     for (int i = 0; i < list.size(); i++) {
         if (ErrorItem::sameCID(item, list[i])) {
             return i;
@@ -1222,6 +1341,9 @@ static int indexOf(const QList<ErrorItem> &list, const ErrorItem &item)
 
 void ResultsTree::updateFromOldReport(const QString &filename)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     QList<ErrorItem> oldErrors;
     XmlReportV2 oldReport(filename);
     if (oldReport.open()) {
@@ -1265,6 +1387,9 @@ void ResultsTree::updateFromOldReport(const QString &filename)
 
 void ResultsTree::readErrorItem(const QStandardItem *error, ErrorItem *item) const
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     // Get error's user data
     QVariantMap data = error->data().toMap();
 
@@ -1308,6 +1433,9 @@ void ResultsTree::updateSettings(bool showFullPath,
                                  bool showErrorId,
                                  bool showInconclusive)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (mShowFullPath != showFullPath) {
         mShowFullPath = showFullPath;
         refreshFilePaths();
@@ -1322,17 +1450,26 @@ void ResultsTree::updateSettings(bool showFullPath,
 
 void ResultsTree::setCheckDirectory(const QString &dir)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     mCheckPath = dir;
 }
 
 
 QString ResultsTree::getCheckDirectory()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     return mCheckPath;
 }
 
 QString ResultsTree::stripPath(const QString &path, bool saving) const
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if ((!saving && mShowFullPath) || (saving && mSaveFullPath)) {
         return QString(path);
     }
@@ -1343,6 +1480,9 @@ QString ResultsTree::stripPath(const QString &path, bool saving) const
 
 void ResultsTree::refreshFilePaths(QStandardItem *item)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (!item) {
         return;
     }
@@ -1402,6 +1542,9 @@ void ResultsTree::refreshFilePaths(QStandardItem *item)
 
 void ResultsTree::refreshFilePaths()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     qDebug("Refreshing file paths");
 
     //Go through all file items (these are parent items that contain the errors)
@@ -1412,16 +1555,25 @@ void ResultsTree::refreshFilePaths()
 
 bool ResultsTree::hasVisibleResults() const
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     return mVisibleErrors;
 }
 
 bool ResultsTree::hasResults() const
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     return mModel.rowCount() > 0;
 }
 
 void ResultsTree::translate()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     QStringList labels;
     labels << tr("File") << tr("Severity") << tr("Line") << tr("Id") << tr("Inconclusive") << tr("Summary") << tr("Since date") << tr("Tag");
     mModel.setHorizontalHeaderLabels(labels);
@@ -1430,6 +1582,9 @@ void ResultsTree::translate()
 
 void ResultsTree::showIdColumn(bool show)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     mShowErrorId = show;
     if (show)
         showColumn(3);
@@ -1439,6 +1594,9 @@ void ResultsTree::showIdColumn(bool show)
 
 void ResultsTree::showInconclusiveColumn(bool show)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (show)
         showColumn(4);
     else
@@ -1447,6 +1605,9 @@ void ResultsTree::showInconclusiveColumn(bool show)
 
 void ResultsTree::currentChanged(const QModelIndex &current, const QModelIndex &previous)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     QTreeView::currentChanged(current, previous);
     emit treeSelectionChanged(current);
 }

@@ -1,3 +1,5 @@
+#include <stdio.h>
+#include <pthread.h>
 /*
  * Cppcheck - A tool for static C/C++ code analysis
  * Copyright (C) 2007-2023 Cppcheck team.
@@ -140,6 +142,9 @@ std::string PreprocessorHelper::getcode(Preprocessor &preprocessor, const std::s
 
 void PreprocessorHelper::preprocess(const char code[], std::vector<std::string> &files, Tokenizer& tokenizer)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     // Raw Tokens..
     std::istringstream istr(code);
     const simplecpp::TokenList tokens1(istr, files, files[0]);
@@ -155,11 +160,17 @@ void PreprocessorHelper::preprocess(const char code[], std::vector<std::string> 
 
 void PreprocessorHelper::preprocess(Preprocessor &preprocessor, const char code[], std::vector<std::string> &files, Tokenizer& tokenizer)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     preprocess(preprocessor, code, files, tokenizer, simplecpp::DUI());
 }
 
 void PreprocessorHelper::preprocess(Preprocessor &preprocessor, const char code[], std::vector<std::string> &files, Tokenizer& tokenizer, const simplecpp::DUI& dui)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     std::istringstream istr(code);
     const simplecpp::TokenList tokens1(istr, files, files[0]);
 

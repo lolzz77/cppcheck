@@ -1,3 +1,5 @@
+#include <stdio.h>
+#include <pthread.h>
 /*
  * Cppcheck - A tool for static C/C++ code analysis
  * Copyright (C) 2007-2023 Cppcheck team.
@@ -92,6 +94,9 @@ SymbolDatabase::SymbolDatabase(Tokenizer& tokenizer, const Settings& settings, E
 
 static const Token* skipScopeIdentifiers(const Token* tok)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (Token::Match(tok, ":: %name%"))
         tok = tok->next();
     while (Token::Match(tok, "%name% ::") ||
@@ -107,6 +112,9 @@ static const Token* skipScopeIdentifiers(const Token* tok)
 
 static bool isExecutableScope(const Token* tok)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (!Token::simpleMatch(tok, "{"))
         return false;
     const Token * tok2 = tok->link()->previous();
@@ -127,6 +135,9 @@ static bool isExecutableScope(const Token* tok)
 
 void SymbolDatabase::createSymbolDatabaseFindAllScopes()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     // create global scope
     scopeList.emplace_back(this, nullptr, nullptr);
 
@@ -750,6 +761,9 @@ void SymbolDatabase::createSymbolDatabaseFindAllScopes()
 
 void SymbolDatabase::createSymbolDatabaseClassInfo()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (mTokenizer.isC())
         return;
 
@@ -794,6 +808,9 @@ void SymbolDatabase::createSymbolDatabaseClassInfo()
 
 void SymbolDatabase::createSymbolDatabaseVariableInfo()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     // fill in variable info
     for (Scope& scope : scopeList) {
         // find variables
@@ -813,6 +830,9 @@ void SymbolDatabase::createSymbolDatabaseVariableInfo()
 
 void SymbolDatabase::createSymbolDatabaseCopyAndMoveConstructors()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     // fill in class and struct copy/move constructors
     for (Scope& scope : scopeList) {
         if (!scope.isClassOrStruct())
@@ -840,6 +860,9 @@ void SymbolDatabase::createSymbolDatabaseCopyAndMoveConstructors()
 
 void SymbolDatabase::createSymbolDatabaseFunctionScopes()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     // fill in function scopes
     for (const Scope & scope : scopeList) {
         if (scope.type == Scope::eFunction)
@@ -849,6 +872,9 @@ void SymbolDatabase::createSymbolDatabaseFunctionScopes()
 
 void SymbolDatabase::createSymbolDatabaseClassAndStructScopes()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     // fill in class and struct scopes
     for (const Scope& scope : scopeList) {
         if (scope.isClassOrStruct())
@@ -858,6 +884,9 @@ void SymbolDatabase::createSymbolDatabaseClassAndStructScopes()
 
 void SymbolDatabase::createSymbolDatabaseFunctionReturnTypes()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     // fill in function return types
     for (Scope& scope : scopeList) {
         std::list<Function>::iterator func;
@@ -880,6 +909,9 @@ void SymbolDatabase::createSymbolDatabaseFunctionReturnTypes()
 
 void SymbolDatabase::createSymbolDatabaseNeedInitialization()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (mTokenizer.isC()) {
         // For C code it is easy, as there are no constructors and no default values
         for (const Scope& scope : scopeList) {
@@ -981,6 +1013,9 @@ void SymbolDatabase::createSymbolDatabaseNeedInitialization()
 
 void SymbolDatabase::createSymbolDatabaseVariableSymbolTable()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     // create variable symbol table
     mVariableList.resize(mTokenizer.varIdCount() + 1);
     std::fill_n(mVariableList.begin(), mVariableList.size(), nullptr);
@@ -1046,6 +1081,9 @@ void SymbolDatabase::createSymbolDatabaseVariableSymbolTable()
 
 void SymbolDatabase::createSymbolDatabaseSetScopePointers()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     auto setScopePointers = [](const Scope &scope, const Token *bodyStart, const Token *bodyEnd) {
         assert(bodyStart);
         assert(bodyEnd);
@@ -1087,6 +1125,9 @@ void SymbolDatabase::createSymbolDatabaseSetScopePointers()
 
 void SymbolDatabase::createSymbolDatabaseSetFunctionPointers(bool firstPass)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (firstPass) {
         // Set function definition and declaration pointers
         for (const Scope& scope: scopeList) {
@@ -1163,6 +1204,9 @@ void SymbolDatabase::createSymbolDatabaseSetFunctionPointers(bool firstPass)
 
 void SymbolDatabase::createSymbolDatabaseSetTypePointers()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     std::unordered_set<std::string> typenames;
     for (const Type &t : typeList) {
         typenames.insert(t.name());
@@ -1184,6 +1228,9 @@ void SymbolDatabase::createSymbolDatabaseSetTypePointers()
 
 void SymbolDatabase::createSymbolDatabaseSetSmartPointerType()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     for (Scope &scope: scopeList) {
         for (Variable &var: scope.varlist) {
             if (var.valueType() && var.valueType()->smartPointerTypeToken && !var.valueType()->smartPointerType) {
@@ -1197,6 +1244,9 @@ void SymbolDatabase::createSymbolDatabaseSetSmartPointerType()
 
 void SymbolDatabase::fixVarId(VarIdMap & varIds, const Token * vartok, Token * membertok, const Variable * membervar)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     VarIdMap::iterator varId = varIds.find(vartok->varId());
     if (varId == varIds.end()) {
         MemberIdMap memberId;
@@ -1225,6 +1275,9 @@ static bool isContainerYieldElement(Library::Container::Yield yield);
 
 void SymbolDatabase::createSymbolDatabaseSetVariablePointers()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     VarIdMap varIds;
 
     auto setMemberVar = [&](const Variable* membervar, Token* membertok, const Token* vartok) -> void {
@@ -1360,6 +1413,9 @@ void SymbolDatabase::createSymbolDatabaseSetVariablePointers()
 
 void SymbolDatabase::createSymbolDatabaseEnums()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     // fill in enumerators in enum
     for (const Scope &scope : scopeList) {
         if (scope.type != Scope::eEnum)
@@ -1408,6 +1464,9 @@ void SymbolDatabase::createSymbolDatabaseEnums()
 
 void SymbolDatabase::createSymbolDatabaseIncompleteVars()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     // TODO: replace with Keywords::getX()
     static const std::unordered_set<std::string> cpp20keywords = {
         "alignas",
@@ -1534,6 +1593,9 @@ void SymbolDatabase::createSymbolDatabaseIncompleteVars()
 
 void SymbolDatabase::createSymbolDatabaseEscapeFunctions()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     for (const Scope& scope : scopeList) {
         if (scope.type != Scope::eFunction)
             continue;
@@ -1548,6 +1610,9 @@ void SymbolDatabase::createSymbolDatabaseEscapeFunctions()
 
 static bool isExpression(const Token* tok)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (!tok)
         return false;
     if (Token::simpleMatch(tok, "{") && tok->scope() && tok->scope()->bodyStart != tok &&
@@ -1578,6 +1643,9 @@ static std::string getIncompleteNameID(const Token* tok)
 
 void SymbolDatabase::createSymbolDatabaseExprIds()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     nonneg int base = 0;
     // Find highest varId
     for (const Variable *var : mVariableList) {
@@ -1704,6 +1772,9 @@ void SymbolDatabase::createSymbolDatabaseExprIds()
 
 void SymbolDatabase::setArrayDimensionsUsingValueFlow()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     // set all unknown array dimensions
     for (const Variable *var : mVariableList) {
         // check each array variable
@@ -1817,6 +1888,9 @@ SymbolDatabase::~SymbolDatabase()
 
 bool SymbolDatabase::isFunction(const Token *tok, const Scope* outerScope, const Token **funcStart, const Token **argStart, const Token** declEnd) const
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (tok->varId())
         return false;
 
@@ -2011,6 +2085,9 @@ bool SymbolDatabase::isFunction(const Token *tok, const Scope* outerScope, const
 
 void SymbolDatabase::validateExecutableScopes() const
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     const std::size_t functions = functionScopes.size();
     for (std::size_t i = 0; i < functions; ++i) {
         const Scope* const scope = functionScopes[i];
@@ -2030,6 +2107,9 @@ void SymbolDatabase::validateExecutableScopes() const
 namespace {
     const Function* getFunctionForArgumentvariable(const Variable * const var, const std::vector<const Scope *>& functionScopes)
     {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const std::size_t functions = functionScopes.size();
         for (std::size_t i = 0; i < functions; ++i) {
             const Scope* const scope = functionScopes[i];
@@ -2047,6 +2127,9 @@ namespace {
 
 void SymbolDatabase::validateVariables() const
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     for (std::vector<const Variable *>::const_iterator iter = mVariableList.cbegin(); iter!=mVariableList.cend(); ++iter) {
         const Variable * const var = *iter;
         if (var) {
@@ -2063,6 +2146,9 @@ void SymbolDatabase::validateVariables() const
 
 void SymbolDatabase::validate() const
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (mSettings.debugwarnings) {
         validateExecutableScopes();
     }
@@ -2072,11 +2158,17 @@ void SymbolDatabase::validate() const
 
 void SymbolDatabase::clangSetVariables(const std::vector<const Variable *> &variableList)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     mVariableList = variableList;
 }
 
 void SymbolDatabase::debugSymbolDatabase() const
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (!mSettings.debugnormal && !mSettings.debugwarnings)
         return;
     for (const Token* tok = mTokenizer.list.front(); tok != mTokenizer.list.back(); tok = tok->next()) {
@@ -2196,16 +2288,25 @@ Variable& Variable::operator=(const Variable &var)
 }
 
 bool Variable::isMember() const {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     return mScope && mScope->isClassOrStructOrUnion();
 }
 
 bool Variable::isPointerArray() const
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     return isArray() && nameToken() && nameToken()->previous() && (nameToken()->previous()->str() == "*");
 }
 
 bool Variable::isUnsigned() const
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     return mValueType ? (mValueType->sign == ValueType::Sign::UNSIGNED) : mTypeStartToken->isUnsigned();
 }
 
@@ -2222,6 +2323,9 @@ const Token * Variable::declEndToken() const
 
 void Variable::evaluate(const Settings* settings)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     // Is there initialization in variable declaration
     const Token *initTok = mNameToken ? mNameToken->next() : nullptr;
     while (Token::Match(initTok, "[|(")) {
@@ -2339,6 +2443,9 @@ void Variable::evaluate(const Settings* settings)
 
 void Variable::setValueType(const ValueType &valueType)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (valueType.type == ValueType::Type::UNKNOWN_TYPE) {
         const Token *declType = Token::findsimplematch(mTypeStartToken, "decltype (", mTypeEndToken);
         if (declType && !declType->next()->valueType())
@@ -2391,6 +2498,9 @@ const Type* Variable::iteratorType() const
 
 bool Variable::isStlStringViewType() const
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     return getFlag(fIsStlType) && valueType() && valueType()->container && valueType()->container->stdStringLike && valueType()->container->view;
 }
 
@@ -2408,6 +2518,9 @@ std::string Variable::getTypeName() const
 
 static bool isOperator(const Token *tokenDef)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (!tokenDef)
         return false;
     if (tokenDef->isOperatorKeyword())
@@ -2627,6 +2740,9 @@ static std::string qualifiedName(const Scope *scope)
 
 static bool usingNamespace(const Scope *scope, const Token *first, const Token *second, int &offset)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     // check if qualifications match first before checking if using is needed
     const Token *tok1 = first;
     const Token *tok2 = second;
@@ -2694,6 +2810,9 @@ static bool typesMatch(
     const Token **new_first,
     const Token **new_second)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     // get first type
     const Type* first_type = first_scope->check->findType(first_token, first_scope, /*lookOutside*/ true);
     if (first_type) {
@@ -2720,6 +2839,9 @@ static bool typesMatch(
 
 bool Function::argsMatch(const Scope *scope, const Token *first, const Token *second, const std::string &path, nonneg int path_length) const
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     const bool isCPP = scope->check->isCPP();
     if (!isCPP) // C does not support overloads
         return true;
@@ -2962,6 +3084,9 @@ bool Function::argsMatch(const Scope *scope, const Token *first, const Token *se
 
 static bool isUnknownType(const Token* start, const Token* end)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     while (Token::Match(start, "const|volatile"))
         start = start->next();
     start = skipScopeIdentifiers(start);
@@ -2975,6 +3100,9 @@ static bool isUnknownType(const Token* start, const Token* end)
 
 static const Token* getEnableIfReturnType(const Token* start)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (!start)
         return nullptr;
     for (const Token* tok = start->next(); precedes(tok, start->link()); tok = tok->next()) {
@@ -2991,6 +3119,9 @@ static const Token* getEnableIfReturnType(const Token* start)
 template<class Predicate>
 static bool checkReturns(const Function* function, bool unknown, bool emptyEnableIf, Predicate pred)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (!function)
         return false;
     if (function->type != Function::eFunction && function->type != Function::eOperatorEqual)
@@ -3036,6 +3167,9 @@ static bool checkReturns(const Function* function, bool unknown, bool emptyEnabl
 
 bool Function::returnsConst(const Function* function, bool unknown)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     return checkReturns(function, unknown, false, [](const Token* defStart, const Token* defEnd) {
         return Token::findsimplematch(defStart, "const", defEnd);
     });
@@ -3043,6 +3177,9 @@ bool Function::returnsConst(const Function* function, bool unknown)
 
 bool Function::returnsReference(const Function* function, bool unknown, bool includeRValueRef)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     return checkReturns(function, unknown, false, [includeRValueRef](const Token* /*defStart*/, const Token* defEnd) {
         return includeRValueRef ? Token::Match(defEnd->previous(), "&|&&") : Token::simpleMatch(defEnd->previous(), "&");
     });
@@ -3050,6 +3187,9 @@ bool Function::returnsReference(const Function* function, bool unknown, bool inc
 
 bool Function::returnsPointer(const Function* function, bool unknown)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     return checkReturns(function, unknown, false, [](const Token* /*defStart*/, const Token* defEnd) {
         return Token::simpleMatch(defEnd->previous(), "*");
     });
@@ -3057,6 +3197,9 @@ bool Function::returnsPointer(const Function* function, bool unknown)
 
 bool Function::returnsStandardType(const Function* function, bool unknown)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     return checkReturns(function, unknown, true, [](const Token* /*defStart*/, const Token* defEnd) {
         return defEnd->previous() && defEnd->previous()->isStandardType();
     });
@@ -3064,6 +3207,9 @@ bool Function::returnsStandardType(const Function* function, bool unknown)
 
 bool Function::returnsVoid(const Function* function, bool unknown)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     return checkReturns(function, unknown, true, [](const Token* /*defStart*/, const Token* defEnd) {
         return Token::simpleMatch(defEnd->previous(), "void");
     });
@@ -3110,6 +3256,9 @@ const Token * Function::constructorMemberInitialization() const
 
 bool Function::isSafe(const Settings *settings) const
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (settings->safeChecks.externalFunctions) {
         if (nestedIn->type == Scope::ScopeType::eNamespace && token->fileIndex() != 0)
             return true;
@@ -3132,6 +3281,9 @@ bool Function::isSafe(const Settings *settings) const
 
 Function* SymbolDatabase::addGlobalFunction(Scope*& scope, const Token*& tok, const Token *argStart, const Token* funcStart)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     Function* function = nullptr;
     // Lambda functions are always unique
     if (tok->str() != "[") {
@@ -3166,6 +3318,9 @@ Function* SymbolDatabase::addGlobalFunction(Scope*& scope, const Token*& tok, co
 
 Function* SymbolDatabase::addGlobalFunctionDecl(Scope*& scope, const Token *tok, const Token *argStart, const Token* funcStart)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     Function function(&mTokenizer, tok, scope, funcStart, argStart);
     scope->addFunction(std::move(function));
     return &scope->functionList.back();
@@ -3173,6 +3328,9 @@ Function* SymbolDatabase::addGlobalFunctionDecl(Scope*& scope, const Token *tok,
 
 void SymbolDatabase::addClassFunction(Scope **scope, const Token **tok, const Token *argStart)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     const bool destructor((*tok)->previous()->str() == "~");
     const bool has_const(argStart->link()->strAt(1) == "const");
     const bool lval(argStart->link()->strAt(has_const ? 2 : 1) == "&");
@@ -3341,6 +3499,9 @@ void SymbolDatabase::addClassFunction(Scope **scope, const Token **tok, const To
 
 void SymbolDatabase::addNewFunction(Scope **scope, const Token **tok)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     const Token *tok1 = *tok;
     scopeList.emplace_back(this, tok1, *scope);
     Scope *newScope = &scopeList.back();
@@ -3379,11 +3540,17 @@ void SymbolDatabase::addNewFunction(Scope **scope, const Token **tok)
 
 bool Type::isClassType() const
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     return classScope && classScope->type == Scope::ScopeType::eClass;
 }
 
 bool Type::isEnumType() const
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     //We explicitly check for "enum" because a forward declared enum doesn't get its own scope
     return (classDef && classDef->str() == "enum") ||
            (classScope && classScope->type == Scope::ScopeType::eEnum);
@@ -3391,11 +3558,17 @@ bool Type::isEnumType() const
 
 bool Type::isStructType() const
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     return classScope && classScope->type == Scope::ScopeType::eStruct;
 }
 
 bool Type::isUnionType() const
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     return classScope && classScope->type == Scope::ScopeType::eUnion;
 }
 
@@ -3509,6 +3682,9 @@ std::string Type::name() const
 
 void SymbolDatabase::debugMessage(const Token *tok, const std::string &type, const std::string &msg) const
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (tok && mSettings.debugwarnings && mErrorLogger) {
         const std::list<const Token*> locationList(1, tok);
         const ErrorMessage errmsg(locationList, &mTokenizer.list,
@@ -3522,6 +3698,9 @@ void SymbolDatabase::debugMessage(const Token *tok, const std::string &type, con
 
 const Function* Type::getFunction(const std::string& funcName) const
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (classScope) {
         const std::multimap<std::string, const Function *>::const_iterator it = classScope->functionMap.find(funcName);
 
@@ -3541,6 +3720,9 @@ const Function* Type::getFunction(const std::string& funcName) const
 
 bool Type::hasCircularDependencies(std::set<BaseInfo>* ancestors) const
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     std::set<BaseInfo> knownAncestors;
     if (!ancestors) {
         ancestors=&knownAncestors;
@@ -3562,6 +3744,9 @@ bool Type::hasCircularDependencies(std::set<BaseInfo>* ancestors) const
 
 bool Type::findDependency(const Type* ancestor) const
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     return this == ancestor || std::any_of(derivedFrom.cbegin(), derivedFrom.cend(), [&](const BaseInfo& d) {
         return d.type && (d.type == this || d.type->findDependency(ancestor));
     });
@@ -3569,6 +3754,9 @@ bool Type::findDependency(const Type* ancestor) const
 
 bool Type::isDerivedFrom(const std::string & ancestor) const
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     for (std::vector<BaseInfo>::const_iterator parent=derivedFrom.cbegin(); parent!=derivedFrom.cend(); ++parent) {
         if (parent->name == ancestor)
             return true;
@@ -3580,6 +3768,9 @@ bool Type::isDerivedFrom(const std::string & ancestor) const
 
 bool Variable::arrayDimensions(const Settings* settings, bool& isContainer)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     isContainer = false;
     const Library::Container* container = (mTypeStartToken && mTypeStartToken->isCpp()) ? settings->library.detectContainer(mTypeStartToken) : nullptr;
     if (container && container->arrayLike_indexOp && container->size_templateArgNo > 0) {
@@ -3751,6 +3942,9 @@ static std::string tokenType(const Token * tok)
 
 void SymbolDatabase::printVariable(const Variable *var, const char *indent) const
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     std::cout << indent << "mNameToken: " << tokenToString(var->nameToken(), mTokenizer) << std::endl;
     if (var->nameToken()) {
         std::cout << indent << "    declarationId: " << var->declarationId() << std::endl;
@@ -3821,6 +4015,9 @@ void SymbolDatabase::printVariable(const Variable *var, const char *indent) cons
 
 void SymbolDatabase::printOut(const char *title) const
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     std::cout << std::setiosflags(std::ios::boolalpha);
     if (title)
         std::cout << "\n### " << title << " ###\n";
@@ -4056,6 +4253,9 @@ void SymbolDatabase::printOut(const char *title) const
 
 void SymbolDatabase::printXml(std::ostream &out) const
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     std::string outs;
 
     std::set<const Variable *> variables;
@@ -4279,6 +4479,9 @@ void SymbolDatabase::printXml(std::ostream &out) const
 
 static const Type* findVariableTypeIncludingUsedNamespaces(const SymbolDatabase* symbolDatabase, const Scope* scope, const Token* typeTok)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     const Type* argType = symbolDatabase->findVariableType(scope, typeTok);
     if (argType)
         return argType;
@@ -4301,6 +4504,9 @@ static const Type* findVariableTypeIncludingUsedNamespaces(const SymbolDatabase*
 
 void Function::addArguments(const SymbolDatabase *symbolDatabase, const Scope *scope)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     // check for non-empty argument list "( ... )"
     const Token * start = arg ? arg : argDef;
     if (!Token::simpleMatch(start, "("))
@@ -4443,6 +4649,9 @@ void Function::addArguments(const SymbolDatabase *symbolDatabase, const Scope *s
 
 bool Function::isImplicitlyVirtual(bool defaultVal) const
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (hasVirtualSpecifier()) //If it has the virtual specifier it's definitely virtual
         return true;
     if (hasOverrideSpecifier()) //If it has the override specifier then it's either virtual or not going to compile
@@ -4490,6 +4699,9 @@ const Function *Function::getOverriddenFunction(bool *foundAllBaseClasses) const
 // prevent recursion if base is the same except for different template parameters
 static bool isDerivedFromItself(const std::string& thisName, const std::string& baseName)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (thisName.back() != '>')
         return false;
     const auto pos = thisName.find('<');
@@ -4624,6 +4836,9 @@ Scope::Scope(const SymbolDatabase *check_, const Token *classDef_, const Scope *
 
 AccessControl Scope::defaultAccess() const
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     switch (type) {
     case eGlobal:
         return AccessControl::Global;
@@ -4643,6 +4858,9 @@ AccessControl Scope::defaultAccess() const
 void Scope::addVariable(const Token *token_, const Token *start_, const Token *end_,
                         AccessControl access_, const Type *type_, const Scope *scope_, const Settings* settings)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     // keep possible size_t -> int truncation outside emplace_back() to have a single line
     // C4267 VC++ warning instead of several dozens lines
     const int varIndex = varlist.size();
@@ -4652,6 +4870,9 @@ void Scope::addVariable(const Token *token_, const Token *start_, const Token *e
 // Get variable list..
 void Scope::getVariableList(const Settings* settings)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (!bodyStartList.empty()) {
         for (const Token *bs: bodyStartList)
             getVariableList(settings, bs->next(), bs->link());
@@ -4668,6 +4889,9 @@ void Scope::getVariableList(const Settings* settings)
 
 void Scope::getVariableList(const Settings* settings, const Token* start, const Token* end)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     // Variable declared in condition: if (auto x = bar())
     if (Token::Match(classDef, "if|while ( %type%") && Token::simpleMatch(classDef->next()->astOperand2(), "=")) {
         checkVariable(classDef->tokAt(2), defaultAccess(), settings);
@@ -4872,6 +5096,9 @@ const Variable *Scope::getVariable(const std::string &varname) const
 
 static const Token* skipPointers(const Token* tok)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     while (Token::Match(tok, "*|&|&&") || (Token::Match(tok, "( [*&]") && Token::Match(tok->link()->next(), "(|["))) {
         tok = tok->next();
         if (tok->strAt(-1) == "(" && Token::Match(tok, "%type% ::"))
@@ -4889,6 +5116,9 @@ static const Token* skipPointers(const Token* tok)
 
 static const Token* skipPointersAndQualifiers(const Token* tok)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     tok = skipPointers(tok);
     while (Token::Match(tok, "const|static|volatile")) {
         tok = tok->next();
@@ -4900,6 +5130,9 @@ static const Token* skipPointersAndQualifiers(const Token* tok)
 
 bool Scope::isVariableDeclaration(const Token* const tok, const Token*& vartok, const Token*& typetok) const
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (!tok)
         return false;
 
@@ -5317,6 +5550,9 @@ const Type* SymbolDatabase::findVariableType(const Scope *start, const Token *ty
 }
 
 static bool hasEmptyCaptureList(const Token* tok) {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (!Token::simpleMatch(tok, "{"))
         return false;
     const Token* listTok = tok->astParent();
@@ -5327,6 +5563,9 @@ static bool hasEmptyCaptureList(const Token* tok) {
 
 bool Scope::hasInlineOrLambdaFunction() const
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     return std::any_of(nestedList.begin(), nestedList.end(), [&](const Scope* s) {
         // Inline function
         if (s->type == Scope::eUnconditional && Token::simpleMatch(s->bodyStart->previous(), ") {"))
@@ -5342,6 +5581,9 @@ bool Scope::hasInlineOrLambdaFunction() const
 
 void Scope::findFunctionInBase(const std::string & name, nonneg int args, std::vector<const Function *> & matches) const
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (isClassOrStruct() && definedType && !definedType->derivedFrom.empty()) {
         const std::vector<Type::BaseInfo> &derivedFrom = definedType->derivedFrom;
         for (const Type::BaseInfo & i : derivedFrom) {
@@ -5411,6 +5653,9 @@ std::vector<const Scope*> Scope::findAssociatedScopes() const
 
 static void checkVariableCallMatch(const Variable* callarg, const Variable* funcarg, size_t& same, size_t& fallback1, size_t& fallback2)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (callarg) {
         const ValueType::MatchResult res = ValueType::matchParameter(callarg->valueType(), callarg, funcarg);
         if (res == ValueType::MatchResult::SAME) {
@@ -5481,6 +5726,9 @@ static std::string getTypeString(const Token *typeToken)
 }
 
 static bool hasMatchingConstructor(const Scope* classScope, const ValueType* argType) {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (!classScope || !argType)
         return false;
     return std::any_of(classScope->functionList.cbegin(),
@@ -5978,6 +6226,9 @@ const Type* Scope::findType(const std::string & name) const
 
 Scope *Scope::findInNestedListRecursive(const std::string & name)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     auto it = std::find_if(nestedList.cbegin(), nestedList.cend(), [&](const Scope* s) {
         return s->className == name;
     });
@@ -6006,6 +6257,9 @@ const Function *Scope::getDestructor() const
 
 bool SymbolDatabase::isCPP() const
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     return mTokenizer.isCPP();
 }
 
@@ -6227,6 +6481,9 @@ const Scope * SymbolDatabase::findNamespace(const Token * tok, const Scope * sco
 
 Function * SymbolDatabase::findFunctionInScope(const Token *func, const Scope *ns, const std::string & path, nonneg int path_length)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     const Function * function = nullptr;
     const bool destructor = func->strAt(-1) == "~";
 
@@ -6261,6 +6518,9 @@ Function * SymbolDatabase::findFunctionInScope(const Token *func, const Scope *n
 
 bool SymbolDatabase::isReservedName(const std::string& iName) const
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (isCPP()) {
         static const auto& cpp_keywords = Keywords::getAll(Standards::cppstd_t::CPPLatest);
         return cpp_keywords.find(iName) != cpp_keywords.cend();
@@ -6292,6 +6552,9 @@ static const Token* parsedecl(const Token* type,
 
 void SymbolDatabase::setValueType(Token* tok, const Variable& var, SourceLocation loc)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     ValueType valuetype;
     if (mSettings.debugnormal || mSettings.debugwarnings)
         valuetype.setDebugPath(tok, loc);
@@ -6323,6 +6586,9 @@ static ValueType::Type getEnumType(const Scope* scope, const Platform& platform)
 
 void SymbolDatabase::setValueType(Token* tok, const Enumerator& enumerator, SourceLocation loc)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     ValueType valuetype;
     if (mSettings.debugnormal || mSettings.debugwarnings)
         valuetype.setDebugPath(tok, loc);
@@ -6354,6 +6620,9 @@ void SymbolDatabase::setValueType(Token* tok, const Enumerator& enumerator, Sour
 
 static void setAutoTokenProperties(Token * const autoTok)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     const ValueType *valuetype = autoTok->valueType();
     if (valuetype->isIntegral() || valuetype->isFloat())
         autoTok->isStandardType(true);
@@ -6361,17 +6630,26 @@ static void setAutoTokenProperties(Token * const autoTok)
 
 bool isContainerYieldElement(Library::Container::Yield yield)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     return yield == Library::Container::Yield::ITEM || yield == Library::Container::Yield::AT_INDEX ||
            yield == Library::Container::Yield::BUFFER || yield == Library::Container::Yield::BUFFER_NT;
 }
 
 static bool isContainerYieldPointer(Library::Container::Yield yield)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     return yield == Library::Container::Yield::BUFFER || yield == Library::Container::Yield::BUFFER_NT;
 }
 
 void SymbolDatabase::setValueType(Token* tok, const ValueType& valuetype, SourceLocation loc)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     ValueType* valuetypePtr = new ValueType(valuetype);
     if (mSettings.debugnormal || mSettings.debugwarnings)
         valuetypePtr->setDebugPath(tok, loc);
@@ -6869,6 +7147,9 @@ static const Token* parsedecl(const Token* type,
                               bool isCpp,
                               SourceLocation loc)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (settings.debugnormal || settings.debugwarnings)
         valuetype->setDebugPath(type, loc);
     const Token * const previousType = type;
@@ -7078,6 +7359,9 @@ static const Token* parsedecl(const Token* type,
 
 static const Scope *getClassScope(const Token *tok)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     return tok && tok->valueType() && tok->valueType()->typeScope && tok->valueType()->typeScope->isClassOrStruct() ?
            tok->valueType()->typeScope :
            nullptr;
@@ -7085,6 +7369,9 @@ static const Scope *getClassScope(const Token *tok)
 
 static const Function *getOperatorFunction(const Token * const tok)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     const std::string functionName("operator" + tok->str());
     std::multimap<std::string, const Function *>::const_iterator it;
 
@@ -7106,6 +7393,9 @@ static const Function *getOperatorFunction(const Token * const tok)
 }
 
 static const Function* getFunction(const Token* tok) {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (!tok)
         return nullptr;
     if (tok->function() && tok->function()->retDef)
@@ -7124,6 +7414,9 @@ static const Function* getFunction(const Token* tok) {
 
 void SymbolDatabase::setValueTypeInTokenList(bool reportDebugWarnings, Token *tokens)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (!tokens)
         tokens = const_cast<Tokenizer &>(mTokenizer).list.front();
 
@@ -7555,6 +7848,9 @@ void SymbolDatabase::setValueTypeInTokenList(bool reportDebugWarnings, Token *to
 
 ValueType ValueType::parseDecl(const Token *type, const Settings &settings)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     ValueType vt;
     parsedecl(type, &vt, settings.platform.defaultSign == 'u' ? Sign::UNSIGNED : Sign::SIGNED, settings, type->isCpp());
     return vt;
@@ -7585,6 +7881,9 @@ ValueType::Type ValueType::typeFromString(const std::string &typestr, bool longT
 
 bool ValueType::fromLibraryType(const std::string &typestr, const Settings &settings)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     const Library::PodType* podtype = settings.library.podtype(typestr);
     if (podtype && (podtype->sign == 's' || podtype->sign == 'u')) {
         if (podtype->size == 1)
@@ -7780,6 +8079,9 @@ std::string ValueType::dump() const
 
 bool ValueType::isConst(nonneg int indirect) const
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (indirect > pointer)
         return false;
     return constness & (1 << (pointer - indirect));
@@ -7824,6 +8126,9 @@ MathLib::bigint ValueType::typeSize(const Platform &platform, bool p) const
 
 bool ValueType::isTypeEqual(const ValueType* that) const
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (!that)
         return false;
     auto tie = [](const ValueType* vt) {
@@ -7896,6 +8201,9 @@ std::string ValueType::str() const
 
 void ValueType::setDebugPath(const Token* tok, SourceLocation ctx, SourceLocation local)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     std::string file = ctx.file_name();
     if (file.empty())
         return;

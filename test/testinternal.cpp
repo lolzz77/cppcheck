@@ -1,3 +1,5 @@
+#include <stdio.h>
+#include <pthread.h>
 /*
  * Cppcheck - A tool for static C/C++ code analysis
  * Copyright (C) 2007-2023 Cppcheck team.
@@ -33,6 +35,9 @@ private:
     Settings settings;
 
     void run() override {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         settings.addEnabled("internal");
 
         TEST_CASE(simplePatternInTokenMatch);
@@ -50,6 +55,9 @@ private:
 
 #define check(code) check_(code, __FILE__, __LINE__)
     void check_(const char code[], const char* file, int line) {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         // Clear the error buffer..
         errout.str("");
 
@@ -63,6 +71,9 @@ private:
     }
 
     void simplePatternInTokenMatch() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("void f() {\n"
               "    const Token *tok;\n"
               "    Token::Match(tok, \";\");\n"
@@ -89,6 +100,9 @@ private:
     }
 
     void complexPatternInTokenSimpleMatch() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("void f() {\n"
               "    const Token *tok;\n"
               "    Token::simpleMatch(tok, \"%type%\");\n"
@@ -121,6 +135,9 @@ private:
     }
 
     void simplePatternSquareBrackets() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("void f() {\n"
               "    const Token *tok;\n"
               "    Token::simpleMatch(tok, \"[\");\n"
@@ -159,6 +176,9 @@ private:
     }
 
     void simplePatternAlternatives() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("void f() {\n"
               "    const Token *tok;\n"
               "    Token::simpleMatch(tok, \"||\");\n"
@@ -191,6 +211,9 @@ private:
     }
 
     void missingPercentCharacter() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("void f() {\n"
               "    const Token *tok;\n"
               "    Token::Match(tok, \"%type%\");\n"
@@ -248,6 +271,9 @@ private:
     }
 
     void unknownPattern() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("void f() {\n"
               "    Token::Match(tok, \"%typ%\");\n"
               "}");
@@ -261,6 +287,9 @@ private:
     }
 
     void redundantNextPrevious() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("void f() {\n"
               "    return tok->next()->previous();\n"
               "}");
@@ -319,6 +348,9 @@ private:
     }
 
     void internalError() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         // Make sure cppcheck does not raise an internal error of Token::Match ( Ticket #3727 )
         check("class DELPHICLASS X;\n"
               "class Y {\n"
@@ -335,6 +367,9 @@ private:
     }
 
     void orInComplexPattern() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         check("void f() {\n"
               "    Token::Match(tok, \"||\");\n"
               "}");
@@ -367,6 +402,9 @@ private:
     }
 
     void extraWhitespace() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         // whitespace at the end
         check("void f() {\n"
               "    const Token *tok;\n"
@@ -411,6 +449,9 @@ private:
     }
 
     void checkRedundantTokCheck() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         // findsimplematch
         check("void f() {\n"
               "    const Token *tok;\n"

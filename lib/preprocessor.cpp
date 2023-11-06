@@ -1,3 +1,5 @@
+#include <stdio.h>
+#include <pthread.h>
 /*
  * Cppcheck - A tool for static C/C++ code analysis
  * Copyright (C) 2007-2023 Cppcheck team.
@@ -40,6 +42,9 @@
 
 static bool sameline(const simplecpp::Token *tok1, const simplecpp::Token *tok2)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     return tok1 && tok2 && tok1->location.sameline(tok2->location);
 }
 
@@ -85,6 +90,9 @@ namespace {
 
 static bool parseInlineSuppressionCommentToken(const simplecpp::Token *tok, std::list<Suppressions::Suppression> &inlineSuppressions, std::list<BadInlineSuppression> &bad)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     const std::string cppchecksuppress("cppcheck-suppress");
 
     const std::string &comment = tok->str();
@@ -652,6 +660,9 @@ std::set<std::string> Preprocessor::getConfigs(const simplecpp::TokenList &token
 
 void Preprocessor::preprocess(std::istream &istr, std::map<std::string, std::string> &result, const std::string &filename, const std::list<std::string> &includePaths)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     (void)includePaths;
 
     simplecpp::OutputList outputList;
@@ -669,6 +680,9 @@ void Preprocessor::preprocess(std::istream &istr, std::map<std::string, std::str
 
 void Preprocessor::preprocess(std::istream &srcCodeStream, std::string &processedFile, std::list<std::string> &resultConfigurations, const std::string &filename, const std::list<std::string> &includePaths)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     (void)includePaths;
 
     if (mFile0.empty())
@@ -686,6 +700,9 @@ void Preprocessor::preprocess(std::istream &srcCodeStream, std::string &processe
 
 static void splitcfg(const std::string &cfg, std::list<std::string> &defines, const std::string &defaultValue)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     for (std::string::size_type defineStartPos = 0U; defineStartPos < cfg.size();) {
         const std::string::size_type defineEndPos = cfg.find(';', defineStartPos);
         std::string def = (defineEndPos == std::string::npos) ? cfg.substr(defineStartPos) : cfg.substr(defineStartPos, defineEndPos - defineStartPos);
@@ -740,6 +757,9 @@ static simplecpp::DUI createDUI(const Settings &mSettings, const std::string &cf
 
 bool Preprocessor::hasErrors(const simplecpp::Output &output)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     switch (output.type) {
     case simplecpp::Output::ERROR:
     case simplecpp::Output::INCLUDE_NESTED_TOO_DEEPLY:
@@ -757,6 +777,9 @@ bool Preprocessor::hasErrors(const simplecpp::Output &output)
 
 bool Preprocessor::hasErrors(const simplecpp::OutputList &outputList)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     const auto it = std::find_if(outputList.cbegin(), outputList.cend(), [](const simplecpp::Output &output) {
         return hasErrors(output);
     });
@@ -765,6 +788,9 @@ bool Preprocessor::hasErrors(const simplecpp::OutputList &outputList)
 
 void Preprocessor::handleErrors(const simplecpp::OutputList& outputList, bool throwError)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     const bool showerror = (!mSettings.userDefines.empty() && !mSettings.force);
     reportOutput(outputList, showerror);
     if (throwError) {
@@ -779,6 +805,9 @@ void Preprocessor::handleErrors(const simplecpp::OutputList& outputList, bool th
 
 bool Preprocessor::loadFiles(const simplecpp::TokenList &rawtokens, std::vector<std::string> &files)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     const simplecpp::DUI dui = createDUI(mSettings, emptyString, files[0]);
 
     simplecpp::OutputList outputList;
@@ -789,6 +818,9 @@ bool Preprocessor::loadFiles(const simplecpp::TokenList &rawtokens, std::vector<
 
 void Preprocessor::removeComments()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     for (std::pair<const std::string, simplecpp::TokenList*>& tokenList : mTokenLists) {
         if (tokenList.second)
             tokenList.second->removeComments();
@@ -797,6 +829,9 @@ void Preprocessor::removeComments()
 
 void Preprocessor::setPlatformInfo(simplecpp::TokenList *tokens) const
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     tokens->sizeOfType["bool"]          = mSettings.platform.sizeof_bool;
     tokens->sizeOfType["short"]         = mSettings.platform.sizeof_short;
     tokens->sizeOfType["int"]           = mSettings.platform.sizeof_int;
@@ -863,6 +898,9 @@ std::string Preprocessor::getcode(const simplecpp::TokenList &tokens1, const std
 
 void Preprocessor::reportOutput(const simplecpp::OutputList &outputList, bool showerror)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     for (const simplecpp::Output &out : outputList) {
         switch (out.type) {
         case simplecpp::Output::ERROR:
@@ -893,6 +931,9 @@ void Preprocessor::reportOutput(const simplecpp::OutputList &outputList, bool sh
 
 void Preprocessor::error(const std::string &filename, unsigned int linenr, const std::string &msg)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     std::list<ErrorMessage::FileLocation> locationList;
     if (!filename.empty()) {
         std::string file = Path::fromNativeSeparators(filename);
@@ -913,6 +954,9 @@ void Preprocessor::error(const std::string &filename, unsigned int linenr, const
 // Report that include is missing
 void Preprocessor::missingInclude(const std::string &filename, unsigned int linenr, const std::string &header, HeaderTypes headerType)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (!mSettings.checks.isEnabled(Checks::missingInclude) || !mErrorLogger)
         return;
 
@@ -931,6 +975,9 @@ void Preprocessor::missingInclude(const std::string &filename, unsigned int line
 
 void Preprocessor::getErrorMessages(ErrorLogger *errorLogger, const Settings *settings)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     Settings settings2(*settings);
     Preprocessor preprocessor(settings2, errorLogger);
     preprocessor.missingInclude(emptyString, 1, emptyString, UserHeader);
@@ -940,6 +987,9 @@ void Preprocessor::getErrorMessages(ErrorLogger *errorLogger, const Settings *se
 
 void Preprocessor::dump(std::ostream &out) const
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     // Create a xml dump.
 
     out << "  <directivelist>" << std::endl;
@@ -1003,6 +1053,9 @@ std::size_t Preprocessor::calculateHash(const simplecpp::TokenList &tokens1, con
 
 void Preprocessor::simplifyPragmaAsm(simplecpp::TokenList *tokenList) const
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     Preprocessor::simplifyPragmaAsmPrivate(tokenList);
     for (const std::pair<const std::string, simplecpp::TokenList*>& list : mTokenLists) {
         Preprocessor::simplifyPragmaAsmPrivate(list.second);
@@ -1011,6 +1064,9 @@ void Preprocessor::simplifyPragmaAsm(simplecpp::TokenList *tokenList) const
 
 void Preprocessor::simplifyPragmaAsmPrivate(simplecpp::TokenList *tokenList)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     // assembler code..
     for (simplecpp::Token *tok = tokenList->front(); tok; tok = tok->next) {
         if (tok->op != '#')

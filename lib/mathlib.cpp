@@ -1,3 +1,5 @@
+#include <stdio.h>
+#include <pthread.h>
 /*
  * Cppcheck - A tool for static C/C++ code analysis
  * Copyright (C) 2007-2023 Cppcheck team.
@@ -440,6 +442,9 @@ MathLib::bigint MathLib::toBigNumber(const std::string & str)
 // in-place conversion of (sub)string to double. Requires no heap.
 static double myStod(const std::string& str, std::string::const_iterator from, std::string::const_iterator to, int base)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     double result = 0.;
     bool positivesign = true;
     std::string::const_iterator it;
@@ -476,6 +481,9 @@ static double myStod(const std::string& str, std::string::const_iterator from, s
 // Performance has been optimized WRT to heap activity, however the calculation part is not optimized.
 static double floatHexToDoubleNumber(const std::string& str)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     const std::size_t p = str.find_first_of("pP",3);
     const double factor1 = myStod(str, str.cbegin() + 2, str.cbegin()+p, 16);
     const bool suffix = (str.back() == 'f') || (str.back() == 'F') || (str.back() == 'l') || (str.back() == 'L');
@@ -534,11 +542,17 @@ template<> std::string MathLib::toString<double>(double value)
 
 bool MathLib::isFloat(const std::string &str)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     return isDecimalFloat(str) || isFloatHex(str);
 }
 
 bool MathLib::isDecimalFloat(const std::string &str)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (str.empty())
         return false;
     enum class State {
@@ -635,6 +649,9 @@ bool MathLib::isDecimalFloat(const std::string &str)
 
 bool MathLib::isNegative(const std::string &str)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (str.empty())
         return false;
     return (str[0] == '-');
@@ -642,6 +659,9 @@ bool MathLib::isNegative(const std::string &str)
 
 bool MathLib::isPositive(const std::string &str)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (str.empty())
         return false;
     return !MathLib::isNegative(str);
@@ -754,6 +774,9 @@ static bool isValidIntegerSuffixIt(std::string::const_iterator it, std::string::
 // cppcheck-suppress unusedFunction
 bool MathLib::isValidIntegerSuffix(const std::string& str, bool supportMicrosoftExtensions)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     return isValidIntegerSuffixIt(str.cbegin(), str.cend(), supportMicrosoftExtensions);
 }
 
@@ -770,6 +793,9 @@ bool MathLib::isValidIntegerSuffix(const std::string& str, bool supportMicrosoft
  **/
 bool MathLib::isOct(const std::string& str)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     enum class Status {
         START, OCTAL_PREFIX, DIGITS
     } state = Status::START;
@@ -805,6 +831,9 @@ bool MathLib::isOct(const std::string& str)
 
 bool MathLib::isIntHex(const std::string& str)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     enum class Status {
         START, HEX_0, HEX_X, DIGIT
     } state = Status::START;
@@ -846,6 +875,9 @@ bool MathLib::isIntHex(const std::string& str)
 
 bool MathLib::isFloatHex(const std::string& str)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     enum class Status {
         START, HEX_0, HEX_X, WHOLE_NUMBER_DIGIT, POINT, FRACTION, EXPONENT_P, EXPONENT_SIGN, EXPONENT_DIGITS, EXPONENT_SUFFIX
     } state = Status::START;
@@ -936,6 +968,9 @@ bool MathLib::isFloatHex(const std::string& str)
  **/
 bool MathLib::isBin(const std::string& str)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     enum class Status {
         START, GNU_BIN_PREFIX_0, GNU_BIN_PREFIX_B, DIGIT
     } state = Status::START;
@@ -977,6 +1012,9 @@ bool MathLib::isBin(const std::string& str)
 
 bool MathLib::isDec(const std::string & str)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     enum class Status {
         START, DIGIT
     } state = Status::START;
@@ -1006,6 +1044,9 @@ bool MathLib::isDec(const std::string & str)
 
 bool MathLib::isInt(const std::string & str)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     return isDec(str) || isIntHex(str) || isOct(str) || isBin(str);
 }
 
@@ -1208,6 +1249,9 @@ std::string MathLib::abs(const std::string &tok)
 
 bool MathLib::isEqual(const std::string &first, const std::string &second)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     // this conversion is needed for formatting
     // e.g. if first=0.1 and second=1.0E-1, the direct comparison of the strings would fail
     return toString(toDoubleNumber(first)) == toString(toDoubleNumber(second));
@@ -1215,29 +1259,44 @@ bool MathLib::isEqual(const std::string &first, const std::string &second)
 
 bool MathLib::isNotEqual(const std::string &first, const std::string &second)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     return !isEqual(first, second);
 }
 
 // cppcheck-suppress unusedFunction
 bool MathLib::isGreater(const std::string &first, const std::string &second)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     return toDoubleNumber(first) > toDoubleNumber(second);
 }
 
 // cppcheck-suppress unusedFunction
 bool MathLib::isGreaterEqual(const std::string &first, const std::string &second)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     return toDoubleNumber(first) >= toDoubleNumber(second);
 }
 
 // cppcheck-suppress unusedFunction
 bool MathLib::isLess(const std::string &first, const std::string &second)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     return toDoubleNumber(first) < toDoubleNumber(second);
 }
 
 bool MathLib::isLessEqual(const std::string &first, const std::string &second)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     return toDoubleNumber(first) <= toDoubleNumber(second);
 }
 
@@ -1252,6 +1311,9 @@ bool MathLib::isLessEqual(const std::string &first, const std::string &second)
  **/
 bool MathLib::isNullValue(const std::string &str)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (str.empty() || (!std::isdigit(static_cast<unsigned char>(str[0])) && (str[0] != '.' && str[0] != '-' && str[0] != '+')))
         return false; // Has to be a number
 
@@ -1271,11 +1333,17 @@ bool MathLib::isNullValue(const std::string &str)
 
 bool MathLib::isOctalDigit(char c)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     return (c >= '0' && c <= '7');
 }
 
 bool MathLib::isDigitSeparator(const std::string& iCode, std::string::size_type iPos)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (iPos == 0 || iPos >= iCode.size() || iCode[iPos] != '\'')
         return false;
     std::string::size_type i = iPos - 1;

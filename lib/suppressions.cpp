@@ -1,3 +1,5 @@
+#include <stdio.h>
+#include <pthread.h>
 /*
  * Cppcheck - A tool for static C/C++ code analysis
  * Copyright (C) 2007-2023 Cppcheck team.
@@ -54,6 +56,9 @@ Suppressions::ErrorMessage Suppressions::ErrorMessage::fromErrorMessage(const ::
 
 static bool isAcceptedErrorIdChar(char c)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     switch (c) {
     case '_':
     case '-':
@@ -406,6 +411,9 @@ std::string Suppressions::Suppression::getText() const
 
 bool Suppressions::isSuppressed(const Suppressions::ErrorMessage &errmsg, bool global)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     const bool unmatchedSuppression(errmsg.errorId == "unmatchedSuppression");
     bool returnValue = false;
     for (Suppression &s : mSuppressions) {
@@ -421,6 +429,9 @@ bool Suppressions::isSuppressed(const Suppressions::ErrorMessage &errmsg, bool g
 
 bool Suppressions::isSuppressed(const ::ErrorMessage &errmsg, const std::set<std::string>& macroNames)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (mSuppressions.empty())
         return false;
     return isSuppressed(Suppressions::ErrorMessage::fromErrorMessage(errmsg, macroNames));
@@ -428,6 +439,9 @@ bool Suppressions::isSuppressed(const ::ErrorMessage &errmsg, const std::set<std
 
 void Suppressions::dump(std::ostream & out) const
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     out << "  <suppressions>" << std::endl;
     for (const Suppression &suppression : mSuppressions) {
         out << "    <suppression";
@@ -488,6 +502,9 @@ const std::list<Suppressions::Suppression> &Suppressions::getSuppressions() cons
 }
 
 void Suppressions::markUnmatchedInlineSuppressionsAsChecked(const Tokenizer &tokenizer) {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     int currLineNr = -1;
     int currFileIdx = -1;
     for (const Token *tok = tokenizer.tokens(); tok; tok = tok->next()) {
@@ -513,6 +530,9 @@ void Suppressions::markUnmatchedInlineSuppressionsAsChecked(const Tokenizer &tok
 
 bool Suppressions::reportUnmatchedSuppressions(const std::list<Suppressions::Suppression> &unmatched, ErrorLogger &errorLogger)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     bool err = false;
     // Report unmatched suppressions
     for (const Suppressions::Suppression &s : unmatched) {

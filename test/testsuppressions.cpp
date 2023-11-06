@@ -1,3 +1,5 @@
+#include <stdio.h>
+#include <pthread.h>
 /*
  * Cppcheck - A tool for static C/C++ code analysis
  * Copyright (C) 2007-2023 Cppcheck team.
@@ -46,6 +48,9 @@ public:
 private:
 
     void run() override {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         TEST_CASE(suppressionsBadId1);
         TEST_CASE(suppressionsDosFormat);     // Ticket #1836
         TEST_CASE(suppressionsFileNameWithColon);    // Ticket #1919 - filename includes colon
@@ -87,6 +92,9 @@ private:
     }
 
     void suppressionsBadId1() const {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         Suppressions suppressions;
         std::istringstream s1("123");
         ASSERT_EQUALS("Failed to add suppression. Invalid id \"123\"", suppressions.parseFile(s1));
@@ -113,6 +121,9 @@ private:
     }
 
     void suppressionsDosFormat() const {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         Suppressions suppressions;
         std::istringstream s("abc\r\n"
                              "def\r\n");
@@ -122,6 +133,9 @@ private:
     }
 
     void suppressionsFileNameWithColon() const {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         Suppressions suppressions;
         std::istringstream s("errorid:c:\\foo.cpp\n"
                              "errorid:c:\\bar.cpp:12");
@@ -132,6 +146,9 @@ private:
     }
 
     void suppressionsGlob() const {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         // Check for syntax errors in glob
         {
             Suppressions suppressions;
@@ -171,6 +188,9 @@ private:
     }
 
     void suppressionsFileNameWithExtraPath() const {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         // Ticket #2797
         Suppressions suppressions;
         suppressions.addSuppressionLine("errorid:./a.c:123");
@@ -277,6 +297,9 @@ private:
 #endif
 
     void runChecks(unsigned int (TestSuppressions::*check)(const char[], const std::string &)) {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         // check to make sure the appropriate errors are present
         ASSERT_EQUALS(1, (this->*check)("void f() {\n"
                                         "    int a;\n"
@@ -793,20 +816,32 @@ private:
     }
 
     void suppressionsSettings() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         runChecks(&TestSuppressions::checkSuppression);
     }
 
     void suppressionsSettingsThreads() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         runChecks(&TestSuppressions::checkSuppressionThreads);
     }
 
 #if !defined(WIN32) && !defined(__MINGW32__) && !defined(__CYGWIN__)
     void suppressionsSettingsProcesses() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         runChecks(&TestSuppressions::checkSuppressionProcesses);
     }
 #endif
 
     void suppressionsMultiFile() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         std::map<std::string, std::string> files;
         files["abc.cpp"] = "void f() {\n"
                            "}\n";
@@ -821,6 +856,9 @@ private:
     }
 
     void suppressionsPathSeparator() const {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const Suppressions::Suppression s1("*", "test/foo/*");
         ASSERT_EQUALS(true, s1.isSuppressed(errorMessage("someid", "test/foo/bar.cpp", 142)));
 
@@ -913,6 +951,9 @@ private:
     }
 
     void inlinesuppress_symbolname() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         ASSERT_EQUALS(0, checkSuppression("void f() {\n"
                                           "    int a;\n"
                                           "    /* cppcheck-suppress uninitvar symbolName=a */\n"
@@ -931,6 +972,9 @@ private:
     }
 
     void inlinesuppress_comment() const {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         Suppressions::Suppression s;
         std::string errMsg;
         ASSERT_EQUALS(true, s.parseComment("// cppcheck-suppress abc ; some comment", &errMsg));
@@ -942,6 +986,9 @@ private:
     }
 
     void multi_inlinesuppress() const {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         std::vector<Suppressions::Suppression> suppressions;
         std::string errMsg;
 
@@ -1049,6 +1096,9 @@ private:
     }
 
     void multi_inlinesuppress_comment() const {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         std::vector<Suppressions::Suppression> suppressions;
         std::string errMsg;
 
@@ -1102,6 +1152,9 @@ private:
     }
 
     void suppressionWithRelativePaths() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         // Clear the error log
         errout.str("");
 
@@ -1164,6 +1217,9 @@ private:
     }
 
     void symbol() const {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         Suppressions::Suppression s;
         s.errorId = "foo";
         s.symbolName = "array*";
@@ -1187,10 +1243,16 @@ private:
     }
 
     void unusedFunction() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         ASSERT_EQUALS(0, checkSuppression("void f() {}", "unusedFunction"));
     }
 
     void suppressingSyntaxErrorAndExitCode() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         const char code[] = "fi if;";
 
         ASSERT_EQUALS(0, checkSuppression(code, "*:test.cpp"));
@@ -1219,6 +1281,9 @@ private:
     }
 
     void suppressLocal() const {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         Suppressions suppressions;
         std::istringstream s("errorid:test.cpp\n"
                              "errorid2");
@@ -1234,6 +1299,9 @@ private:
     }
 
     void suppressUnmatchedSuppressions() {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
         std::list<Suppressions::Suppression> suppressions;
 
         // No unmatched suppression

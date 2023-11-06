@@ -1,3 +1,5 @@
+#include <stdio.h>
+#include <pthread.h>
 /*
  * Cppcheck - A tool for static C/C++ code analysis
  * Copyright (C) 2007-2023 Cppcheck team.
@@ -34,6 +36,9 @@
 // Provide own translations for standard buttons. This (garbage) code is needed to enforce them to appear in .ts files even after "lupdate gui.pro"
 static UNUSED void unused()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     Q_UNUSED(QT_TRANSLATE_NOOP("QPlatformTheme", "OK"))
     Q_UNUSED(QT_TRANSLATE_NOOP("QPlatformTheme", "Cancel"))
     Q_UNUSED(QT_TRANSLATE_NOOP("QPlatformTheme", "Close"))
@@ -64,6 +69,9 @@ TranslationHandler::TranslationHandler(QObject *parent) :
 
 bool TranslationHandler::setLanguage(const QString &code)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     bool failure = false;
     QString error;
 
@@ -144,11 +152,17 @@ bool TranslationHandler::setLanguage(const QString &code)
 
 QString TranslationHandler::getCurrentLanguage() const
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     return mCurrentLanguage;
 }
 
 QString TranslationHandler::suggestLanguage() const
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     //Get language from system locale's name ie sv_SE or zh_CN
     QString language = QLocale::system().name();
     //qDebug()<<"Your language is"<<language;
@@ -166,6 +180,9 @@ QString TranslationHandler::suggestLanguage() const
 
 void TranslationHandler::addTranslation(const char *name, const char *filename)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     TranslationInfo info;
     info.mName = name;
     info.mFilename = filename;
@@ -176,6 +193,9 @@ void TranslationHandler::addTranslation(const char *name, const char *filename)
 
 int TranslationHandler::getLanguageIndexByCode(const QString &code) const
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     int index = -1;
     for (int i = 0; i < mTranslations.size(); i++) {
         if (mTranslations[i].mCode == code || mTranslations[i].mCode == code.left(2)) {

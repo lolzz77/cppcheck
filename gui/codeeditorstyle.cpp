@@ -1,3 +1,5 @@
+#include <stdio.h>
+#include <pthread.h>
 /*
  * Cppcheck - A tool for static C/C++ code analysis
  * Copyright (C) 2007-2023 Cppcheck team.
@@ -88,6 +90,9 @@ bool CodeEditorStyle::operator!=(const CodeEditorStyle& rhs) const
 
 CodeEditorStyle CodeEditorStyle::getSystemTheme()
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     CodeEditorStyle theStyle(defaultStyleLight);
     theStyle.mSystemTheme = true;
     return theStyle;
@@ -95,6 +100,9 @@ CodeEditorStyle CodeEditorStyle::getSystemTheme()
 
 CodeEditorStyle CodeEditorStyle::loadSettings(QSettings *settings)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     CodeEditorStyle theStyle(CodeEditorStyle::getSystemTheme());
     if (!settings)
         return theStyle;
@@ -174,6 +182,9 @@ CodeEditorStyle CodeEditorStyle::loadSettings(QSettings *settings)
 void CodeEditorStyle::saveSettings(QSettings *settings,
                                    const CodeEditorStyle& theStyle)
 {
+	printf("MEE %s\r\n", __FILE__);
+	printf(" \x1b[33m \t %s:%d \x1b[0m \r\n", __FUNCTION__, __LINE__);
+	printf("\t Thread ID: %lu\r\n\n", pthread_self());
     if (!settings)
         return;
 
